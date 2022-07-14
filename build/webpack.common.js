@@ -1,12 +1,12 @@
-const { resolve } = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const context = resolve(__dirname, "../src");
+const { resolve } = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const context = resolve(__dirname, '../src');
 
 module.exports = {
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
-      "@": context,
+      '@': context,
     },
   },
   context: context,
@@ -14,7 +14,7 @@ module.exports = {
     rules: [
       {
         test: [/\.[jt]sx?$/],
-        use: ["babel-loader"],
+        use: ['babel-loader'],
         exclude: /node_modules/,
       },
       {
@@ -27,6 +27,7 @@ module.exports = {
         test: [/\.scss$/i],
         use: [
           MiniCssExtractPlugin.loader,
+          'style-loader',
           'css-loader',
           'sass-loader',
         ],

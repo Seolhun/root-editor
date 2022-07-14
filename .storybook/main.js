@@ -1,5 +1,7 @@
 const { resolve } = require("path");
-const context = resolve(__dirname, "../src");
+
+const appRoot = resolve(__dirname, "../");
+const appSource = resolve(__dirname, "../src");
 
 module.exports = {
   stories: [
@@ -16,7 +18,7 @@ module.exports = {
   disabledPresets: ['@storybook/react/preset'],
   webpackFinal: async (config) => {
     Object.assign(config.resolve.alias, {
-      "@": context,
+      "@": appSource,
     })
     config.module.rules.push(
       {
@@ -29,15 +31,16 @@ module.exports = {
         use: [
           'postcss-loader'
         ],
-        include: resolve(__dirname, '../'),
+        include: appRoot,
       },
       {
-        test: [/\.scss$/i],
+        test: /\.s[ac]ss$/i,
         use: [
-          'css-loader',
-          'sass-loader',
+          "style-loader",
+          "css-loader",
+          "sass-loader",
         ],
-        include: resolve(__dirname, '../'),
+        include: appRoot,
       }
     )
     return config;

@@ -9,14 +9,14 @@ module.exports = merge(commonConfig, {
   mode: "production",
   entry: "./index.ts",
   output: {
-    filename: "root-ui.min.js",
+    filename: "app.min.js",
     path: resolve(__dirname, "../dist"),
     publicPath: "/",
   },
   devtool: "source-map",
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "root-ui.min.css",
+      filename: "app.min.css",
       chunkFilename: "[id].css",
     })
   ],
