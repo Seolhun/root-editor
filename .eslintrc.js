@@ -26,6 +26,7 @@ module.exports = {
   },
   rules: {
     // Custom
+    'max-len': 0,
     'no-var-requires': 0,
     'no-unused-vars': 0,
     // React
