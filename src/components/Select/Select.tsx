@@ -24,7 +24,7 @@ function Select({
     >
       {options.map((selectOptionProps, i) => (
         <SelectOption key={i} {...selectOptionProps}>
-          {selectOptionProps?.children || value}
+          {selectOptionProps?.children || selectOptionProps?.value}
         </SelectOption>
       ))}
     </select>
