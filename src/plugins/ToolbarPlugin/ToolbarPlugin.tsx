@@ -67,6 +67,13 @@ import LinkPreview from './components/LinkPreview';
 import TextInput from './components/TextInput';
 
 import { IS_APPLE } from './environments';
+import { Select } from '@/components';
+import {
+  CODE_LANGUAGE_OPTIONS,
+  FONT_FAMILY_OPTIONS,
+  FONT_SIZE_OPTIONS,
+} from './ToolbarPlugin.const';
+import { BlockTypeEnum } from '@/Editor.const';
 
 const supportedBlockTypes = new Set([
   'paragraph',
@@ -97,23 +104,6 @@ const blockTypeToBlockName = {
   paragraph: 'Normal',
   quote: 'Quote',
 };
-
-const CODE_LANGUAGE_OPTIONS: [string, string][] = [
-  ['', '- Select language -'],
-  ['c', 'C'],
-  ['clike', 'C-like'],
-  ['css', 'CSS'],
-  ['html', 'HTML'],
-  ['js', 'JavaScript'],
-  ['markdown', 'Markdown'],
-  ['objc', 'Objective-C'],
-  ['plain', 'Plain Text'],
-  ['py', 'Python'],
-  ['rust', 'Rust'],
-  ['sql', 'SQL'],
-  ['swift', 'Swift'],
-  ['xml', 'XML'],
-];
 
 const CODE_LANGUAGE_MAP = {
   javascript: 'js',
@@ -517,28 +507,6 @@ function Divider() {
   return <div className="divider" />;
 }
 
-function Select({
-  onChange,
-  className,
-  options,
-  value,
-}: {
-  className: string;
-  onChange: (event: { target: { value: string } }) => void;
-  options: [string, string][];
-  value: string;
-}) {
-  return (
-    <select className={className} onChange={onChange} value={value}>
-      {options.map(([option, text]) => (
-        <option key={option} value={option}>
-          {text}
-        </option>
-      ))}
-    </select>
-  );
-}
-
 function ToolbarPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = React.useState(editor);
@@ -743,6 +711,14 @@ function ToolbarPlugin(): JSX.Element {
     [activeEditor, selectedElementKey],
   );
 
+  const isBlockTypeOf = React.useCallback(
+    (targetBlockType: BlockTypeEnum) => {
+      return blockType === targetBlockType;
+    },
+    [blockType],
+  );
+
+  const isCodeBlock = isBlockTypeOf(BlockTypeEnum.Code);
   return (
     <div className="toolbar">
       <button
@@ -776,7 +752,7 @@ function ToolbarPlugin(): JSX.Element {
           <Divider />
         </>
       )}
-      {blockType === 'code' ? (
+      {isCodeBlock ? (
         <>
           <Select
             className="toolbar-item code-language"
@@ -792,14 +768,7 @@ function ToolbarPlugin(): JSX.Element {
             <Select
               className="toolbar-item font-family"
               onChange={onFontFamilySelect}
-              options={[
-                ['Arial', 'Arial'],
-                ['Courier New', 'Courier New'],
-                ['Georgia', 'Georgia'],
-                ['Times New Roman', 'Times New Roman'],
-                ['Trebuchet MS', 'Trebuchet MS'],
-                ['Verdana', 'Verdana'],
-              ]}
+              options={FONT_FAMILY_OPTIONS}
               value={fontFamily}
             />
             <i className="chevron-down inside" />
@@ -808,19 +777,7 @@ function ToolbarPlugin(): JSX.Element {
             <Select
               className="toolbar-item font-size"
               onChange={onFontSizeSelect}
-              options={[
-                ['10px', '10px'],
-                ['11px', '11px'],
-                ['12px', '12px'],
-                ['13px', '13px'],
-                ['14px', '14px'],
-                ['15px', '15px'],
-                ['16px', '16px'],
-                ['17px', '17px'],
-                ['18px', '18px'],
-                ['19px', '19px'],
-                ['20px', '20px'],
-              ]}
+              options={FONT_SIZE_OPTIONS}
               value={fontSize}
             />
             <i className="chevron-down inside" />
