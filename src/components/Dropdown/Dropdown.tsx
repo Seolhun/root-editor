@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import DropdownContextProvider from './Dropdown.Context';
 import { DropdownItemList } from './Dropdown.ItemList';
 
 export interface DropdownProps {
@@ -17,18 +18,17 @@ function Dropdown({
   buttonClassName,
   buttonIconClassName,
   children,
-  stopCloseOnClickSelf,
 }: DropdownProps): JSX.Element {
-  const dropDownRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const dropDownRef = React.useRef<HTMLDivElement>(null);
   const [isShowDropdown, setShowDropdown] = React.useState(false);
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setShowDropdown(false);
     if (buttonRef && buttonRef.current) {
       buttonRef.current.focus();
     }
-  };
+  }, []);
 
   React.useEffect(() => {
     const button = buttonRef.current;
@@ -37,25 +37,15 @@ function Dropdown({
     if (isShowDropdown && button !== null && dropDown !== null) {
       const { top, left } = button.getBoundingClientRect();
       dropDown.style.top = `${top + 40}px`;
-      dropDown.style.left = `${Math.min(
-        left,
-        window.innerWidth - dropDown.offsetWidth - 20,
-      )}px`;
+      dropDown.style.left = `${Math.min(left, window.innerWidth - dropDown.offsetWidth - 20)}px`;
     }
-  }, [dropDownRef, buttonRef, isShowDropdown]);
+  }, [isShowDropdown]);
 
   React.useEffect(() => {
     const button = buttonRef.current;
     if (button !== null && isShowDropdown) {
       const handle = (event: MouseEvent) => {
         const { target } = event;
-        if (stopCloseOnClickSelf) {
-          if (
-            dropDownRef.current &&
-            dropDownRef.current.contains(target as Node)
-          )
-            return;
-        }
         if (!button.contains(target as Node)) {
           setShowDropdown(false);
         }
@@ -66,35 +56,35 @@ function Dropdown({
       };
     }
     return undefined;
-  }, [dropDownRef, buttonRef, isShowDropdown, stopCloseOnClickSelf]);
+  }, [isShowDropdown]);
 
   const showDropdown = React.useCallback(() => {
-    setShowDropdown(!showDropdown);
+    setShowDropdown((prevIsShow) => !prevIsShow);
   }, []);
 
   return (
     <>
       <button
+        ref={buttonRef}
         type="button"
         aria-label={buttonAriaLabel || buttonLabel}
         className={buttonClassName}
         onClick={showDropdown}
-        ref={buttonRef}
       >
         {buttonIconClassName && <span className={buttonIconClassName} />}
-        {buttonLabel && (
-          <span className="text dropdown-button-text">{buttonLabel}</span>
-        )}
+        {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
         <i className="chevron-down" />
       </button>
 
-      {isShowDropdown &&
-        createPortal(
-          <DropdownItemList dropDownRef={dropDownRef} onClose={handleClose}>
-            {children}
-          </DropdownItemList>,
-          document.body,
-        )}
+      <DropdownContextProvider>
+        {isShowDropdown &&
+          createPortal(
+            <DropdownItemList ref={dropDownRef} onClose={handleClose}>
+              {children}
+            </DropdownItemList>,
+            document.body,
+          )}
+      </DropdownContextProvider>
     </>
   );
 }

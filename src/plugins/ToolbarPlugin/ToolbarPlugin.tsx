@@ -30,27 +30,15 @@ import {
   $patchStyleText,
   $selectAll,
 } from '@lexical/selection';
-import {
-  $getNearestBlockElementAncestorOrThrow,
-  $getNearestNodeOfType,
-  mergeRegister,
-} from '@lexical/utils';
+import { $getNearestBlockElementAncestorOrThrow, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 
 import { Select, Dropdown, DropdownItem, Divider } from '@/components';
 import { getSelectedNode } from '@/utils';
 import { BlockTypeEnum } from '@/Editor.const';
 import useModal from './components/useModal';
 import { IS_APPLE } from './environments';
-import {
-  BlockFormatDropdown,
-  FloatingLinkEditor,
-  InsertTableDialog,
-} from './components';
-import {
-  CODE_LANGUAGE_OPTIONS,
-  FONT_FAMILY_OPTIONS,
-  FONT_SIZE_OPTIONS,
-} from './ToolbarPlugin.const';
+import { BlockFormatDropdown, FloatingLinkEditor, InsertTableDialog } from './components';
+import { CODE_LANGUAGE_OPTIONS, FONT_FAMILY_OPTIONS, FONT_SIZE_OPTIONS } from './ToolbarPlugin.const';
 
 const supportedBlockTypes = new Set([
   BlockTypeEnum.Bullet,
@@ -84,8 +72,7 @@ function ToolbarPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = React.useState(editor);
   const [blockType, setBlockType] = React.useState(BlockTypeEnum.Paragraph);
-  const [selectedElementKey, setSelectedElementKey] =
-    React.useState<string>('');
+  const [selectedElementKey, setSelectedElementKey] = React.useState<string>('');
   const [fontSize, setFontSize] = React.useState<string>('15px');
   const [fontColor, setFontColor] = React.useState<string>('#000');
   const [bgColor, setBgColor] = React.useState<string>('#fff');
@@ -108,10 +95,7 @@ function ToolbarPlugin(): JSX.Element {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       const anchorNode = selection.anchor.getNode();
-      const element =
-        anchorNode.getKey() === 'root'
-          ? anchorNode
-          : anchorNode.getTopLevelElementOrThrow();
+      const element = anchorNode.getKey() === 'root' ? anchorNode : anchorNode.getTopLevelElementOrThrow();
       const elementKey = element.getKey();
       const elementDOM = activeEditor.getElementByKey(elementKey);
 
@@ -137,45 +121,24 @@ function ToolbarPlugin(): JSX.Element {
       if (elementDOM !== null) {
         setSelectedElementKey(elementKey);
         if ($isListNode(element)) {
-          const parentList = $getNearestNodeOfType<ListNode>(
-            anchorNode,
-            ListNode,
-          );
-          const type = parentList
-            ? parentList.getListType()
-            : element.getListType();
+          const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
+          const type = parentList ? parentList.getListType() : element.getListType();
           setBlockType(type);
         } else {
-          const type = $isHeadingNode(element)
-            ? element.getTag()
-            : element.getType();
+          const type = $isHeadingNode(element) ? element.getTag() : element.getType();
           setBlockType(type as BlockTypeEnum);
           if ($isCodeNode(element)) {
             const language = element.getLanguage();
-            setCodeLanguage(
-              language ? CODE_LANGUAGE_MAP[language] || language : '',
-            );
+            setCodeLanguage(language ? CODE_LANGUAGE_MAP[language] || language : '');
             return;
           }
         }
       }
       // Handle buttons
-      setFontSize(
-        $getSelectionStyleValueForProperty(selection, 'font-size', '15px'),
-      );
-      setFontColor(
-        $getSelectionStyleValueForProperty(selection, 'color', '#000'),
-      );
-      setBgColor(
-        $getSelectionStyleValueForProperty(
-          selection,
-          'background-color',
-          '#fff',
-        ),
-      );
-      setFontFamily(
-        $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial'),
-      );
+      setFontSize($getSelectionStyleValueForProperty(selection, 'font-size', '15px'));
+      setFontColor($getSelectionStyleValueForProperty(selection, 'color', '#000'));
+      setBgColor($getSelectionStyleValueForProperty(selection, 'background-color', '#fff'));
+      setFontFamily($getSelectionStyleValueForProperty(selection, 'font-family', 'Arial'));
     }
   }, [activeEditor]);
 
@@ -363,9 +326,7 @@ function ToolbarPlugin(): JSX.Element {
             }}
             className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
             title={IS_APPLE ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
-            aria-label={`Format text as bold. Shortcut: ${
-              IS_APPLE ? '⌘B' : 'Ctrl+B'
-            }`}
+            aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? '⌘B' : 'Ctrl+B'}`}
           >
             <i className="format bold" />
           </button>
@@ -376,9 +337,7 @@ function ToolbarPlugin(): JSX.Element {
             }}
             className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
             title={IS_APPLE ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
-            aria-label={`Format text as italics. Shortcut: ${
-              IS_APPLE ? '⌘I' : 'Ctrl+I'
-            }`}
+            aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? '⌘I' : 'Ctrl+I'}`}
           >
             <i className="format italic" />
           </button>
@@ -389,9 +348,7 @@ function ToolbarPlugin(): JSX.Element {
             }}
             className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
             title={IS_APPLE ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
-            aria-label={`Format text to underlined. Shortcut: ${
-              IS_APPLE ? '⌘U' : 'Ctrl+U'
-            }`}
+            aria-label={`Format text to underlined. Shortcut: ${IS_APPLE ? '⌘U' : 'Ctrl+U'}`}
           >
             <i className="format underline" />
           </button>
@@ -415,11 +372,7 @@ function ToolbarPlugin(): JSX.Element {
           >
             <i className="format link" />
           </button>
-          {isLink &&
-            createPortal(
-              <FloatingLinkEditor editor={activeEditor} />,
-              document.body,
-            )}
+          {isLink && createPortal(<FloatingLinkEditor editor={activeEditor} />, document.body)}
           <Dropdown
             buttonClassName="toolbar-item spaced"
             buttonLabel=""
@@ -428,10 +381,7 @@ function ToolbarPlugin(): JSX.Element {
           >
             <DropdownItem
               onClick={() => {
-                activeEditor.dispatchCommand(
-                  FORMAT_TEXT_COMMAND,
-                  'strikethrough',
-                );
+                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
               }}
               className={`item ${dropDownActiveClass(isStrikethrough)}`}
               title="Strikethrough"
@@ -453,10 +403,7 @@ function ToolbarPlugin(): JSX.Element {
             </DropdownItem>
             <DropdownItem
               onClick={() => {
-                activeEditor.dispatchCommand(
-                  FORMAT_TEXT_COMMAND,
-                  'superscript',
-                );
+                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript');
               }}
               className={`item ${dropDownActiveClass(isSuperscript)}`}
               title="Superscript"
@@ -484,10 +431,7 @@ function ToolbarPlugin(): JSX.Element {
           >
             <DropdownItem
               onClick={() => {
-                activeEditor.dispatchCommand(
-                  INSERT_HORIZONTAL_RULE_COMMAND,
-                  undefined,
-                );
+                activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
               }}
               className="item"
             >
@@ -497,10 +441,7 @@ function ToolbarPlugin(): JSX.Element {
             <DropdownItem
               onClick={() => {
                 showModal('Insert Table', (onClose) => (
-                  <InsertTableDialog
-                    activeEditor={activeEditor}
-                    onClose={onClose}
-                  />
+                  <InsertTableDialog activeEditor={activeEditor} onClose={onClose} />
                 ));
               }}
               className="item"

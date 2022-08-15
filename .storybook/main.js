@@ -1,7 +1,6 @@
-const { resolve } = require("path");
-
-const appRoot = resolve(__dirname, "../");
-const appSource = resolve(__dirname, "../src");
+const { resolve } = require('path');
+const appRoot = resolve(__dirname, '../');
+const context = resolve(__dirname, '../src');
 
 module.exports = {
   stories: [
@@ -18,31 +17,26 @@ module.exports = {
   ],
   disabledPresets: ['@storybook/react/preset'],
   webpackFinal: async (config) => {
-    Object.assign(config.resolve.alias, {
-      "@": appSource,
-    })
+    config.resolve.alias = {
+      '@': context,
+    }
+    config.context = context;
     config.module.rules.push(
       {
         test: [/\.[jt]sx?$/],
-        use: ["babel-loader"],
+        use: ['babel-loader'],
         exclude: /node_modules/,
-      },
-      {
-        test: [/\.css$/i],
-        use: [
-          'postcss-loader'
-        ],
-        include: appRoot,
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader",
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
         ],
         include: appRoot,
-      }
+      },
     )
     return config;
   },

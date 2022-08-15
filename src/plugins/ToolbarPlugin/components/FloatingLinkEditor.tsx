@@ -1,17 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import type {
-  GridSelection,
-  LexicalEditor,
-  NodeSelection,
-  RangeSelection,
-} from 'lexical';
-import {
-  $getSelection,
-  $isRangeSelection,
-  COMMAND_PRIORITY_LOW,
-  SELECTION_CHANGE_COMMAND,
-} from 'lexical';
+import type { GridSelection, LexicalEditor, NodeSelection, RangeSelection } from 'lexical';
+import { $getSelection, $isRangeSelection, COMMAND_PRIORITY_LOW, SELECTION_CHANGE_COMMAND } from 'lexical';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { mergeRegister } from '@lexical/utils';
 
@@ -27,9 +17,7 @@ function FloatingLinkEditor({ editor }: FloatingLinkEditorProps): JSX.Element {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [linkUrl, setLinkUrl] = React.useState('');
   const [isEditMode, setEditMode] = React.useState(false);
-  const [lastSelection, setLastSelection] = React.useState<
-    RangeSelection | NodeSelection | GridSelection | null
-  >(null);
+  const [lastSelection, setLastSelection] = React.useState<RangeSelection | NodeSelection | GridSelection | null>(null);
 
   const updateLinkEditor = React.useCallback(() => {
     const selection = $getSelection();

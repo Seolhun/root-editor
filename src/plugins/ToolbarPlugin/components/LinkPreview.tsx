@@ -28,9 +28,7 @@ function useSuspenseRequest(url: string) {
   }
 
   if (!cached) {
-    cached = PREVIEW_CACHE[url] = fetch(
-      `/api/link-preview?url=${encodeURI(url)}`,
-    )
+    cached = PREVIEW_CACHE[url] = fetch(`/api/link-preview?url=${encodeURI(url)}`)
       .then((response) => response.json())
       .then((preview) => {
         PREVIEW_CACHE[url] = preview;
@@ -56,22 +54,12 @@ function LinkPreviewContent({ url }: LinkPreviewContentProps) {
     <div className="LinkPreview__container">
       {preview.img && (
         <div className="LinkPreview__imageWrapper">
-          <img
-            src={preview.img}
-            alt={preview.title}
-            className="LinkPreview__image"
-          />
+          <img src={preview.img} alt={preview.title} className="LinkPreview__image" />
         </div>
       )}
-      {preview.domain && (
-        <div className="LinkPreview__domain">{preview.domain}</div>
-      )}
-      {preview.title && (
-        <div className="LinkPreview__title">{preview.title}</div>
-      )}
-      {preview.description && (
-        <div className="LinkPreview__description">{preview.description}</div>
-      )}
+      {preview.domain && <div className="LinkPreview__domain">{preview.domain}</div>}
+      {preview.title && <div className="LinkPreview__title">{preview.title}</div>}
+      {preview.description && <div className="LinkPreview__description">{preview.description}</div>}
     </div>
   );
 }

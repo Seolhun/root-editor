@@ -7,11 +7,12 @@ export const theme: EditorThemeClasses = {
   paragraph: 'editor-paragraph',
   quote: 'editor-quote',
   heading: {
-    h1: 'editor-heading-h1',
-    h2: 'editor-heading-h2',
-    h3: 'editor-heading-h3',
-    h4: 'editor-heading-h4',
-    h5: 'editor-heading-h5',
+    h1: 'Root__Editor-h1',
+    h2: 'Root__Editor-h2',
+    h3: 'Root__Editor-h3',
+    h4: 'Root__Editor-h4',
+    h5: 'Root__Editor-h5',
+    h6: 'Root__Editor-h6',
   },
   list: {
     nested: {
