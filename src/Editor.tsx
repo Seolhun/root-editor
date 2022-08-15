@@ -33,6 +33,9 @@ import {
 } from './plugins';
 import { theme } from './Editor.theme';
 
+import './assets/tailwind.scss';
+import './assets/index.scss';
+
 export interface EditorProps {
   /**
    * @default Save

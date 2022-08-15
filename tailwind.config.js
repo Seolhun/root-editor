@@ -1,4 +1,6 @@
 const colors = require('tailwindcss/colors');
+const plugin = require('tailwindcss/plugin');
+
 
 const { NegativeMargins } = require('./tailwind-config/margin');
 const { MinHeight } = require('./tailwind-config/minHeight');
@@ -25,23 +27,24 @@ module.exports = {
    */
   content: [
     './src/components/**/*.{ts,tsx,js,jsx}',
+    './src/plugins/**/*.{ts,tsx,js,jsx}',
   ],
   /**
    * string literal을 같이 사용한 경우 tailwind가 class를 인식하지 못해서 purge 되는 현상이 발생합니다.
    */
   safelist: [
-    {
-      pattern: /w-.*/,
-      variants: ['xs', 'sm', 'md', 'lg', 'xl'],
-    },
-    {
-      pattern: /bg-.*/,
-      variants: ['hover'],
-    },
-    {
-      pattern: /text-.*/,
-      variants: ['hover'],
-    },
+    // {
+    //   pattern: /w-.*/,
+    //   variants: ['xs', 'sm', 'md', 'lg', 'xl'],
+    // },
+    // {
+    //   pattern: /bg-.*/,
+    //   variants: ['hover'],
+    // },
+    // {
+    //   pattern: /text-.*/,
+    //   variants: ['hover'],
+    // },
   ],
   /**
    * @name Extends
@@ -156,5 +159,17 @@ module.exports = {
       transitionProperty: ['hover', 'focus'],
     }
   },
-  plugins: []
+  // https://tailwindcss.com/docs/plugins#adding-base-styles
+  plugins: [
+    plugin(function({ addBase, theme }) {
+      addBase({
+        'h1': { fontSize: theme('fontSize.3xl') },
+        'h2': { fontSize: theme('fontSize.2xl') },
+        'h3': { fontSize: theme('fontSize.1xl') },
+        'h4': { fontSize: theme('fontSize.lg') },
+        'h5': { fontSize: theme('fontSize.base') },
+        'h6': { fontSize: theme('fontSize.sm') },
+      })
+    })
+  ]
 }
