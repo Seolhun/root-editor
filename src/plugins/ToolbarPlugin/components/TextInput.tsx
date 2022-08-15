@@ -1,33 +1,21 @@
 import React from 'react';
+import classNames from 'classnames';
 
-type Props = Readonly<{
-  'data-test-id'?: string;
+interface ToolbarTextInputProps {
   label: string;
-  onChange: (val: string) => void;
-  placeholder?: string;
-  value: string;
-}>;
+}
 
-export default function TextInput({
-  label,
-  value,
-  onChange,
-  placeholder = '',
-  'data-test-id': dataTestId,
-}: Props): JSX.Element {
+type HtmlProps = React.HTMLAttributes<HTMLInputElement>;
+function ToolbarTextInput({ label, id, className, ...rests }: ToolbarTextInputProps & HtmlProps): JSX.Element {
   return (
-    <div className="Input__wrapper">
-      <label className="Input__label">{label}</label>
-      <input
-        type="text"
-        className="Input__input"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
-        data-test-id={dataTestId}
-      />
+    <div className="ToolbarTextInput__Wrapper">
+      <label htmlFor={id} className="ToolbarTextInput__Label">
+        {label}
+      </label>
+      <input {...rests} id={id} type="text" className={classNames('ToolbarTextInput__Input', className)} />
     </div>
   );
 }
+
+export { ToolbarTextInput };
+export default ToolbarTextInput;
