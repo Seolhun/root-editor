@@ -7,20 +7,11 @@ type BaseEquationEditorProps = {
   setEquation: (string) => void;
 };
 
-function InlineEquationEditor({
-  equation,
-  onChange,
-  inputRef,
-}: EquationEditorImplProps): JSX.Element {
+function InlineEquationEditor({ equation, onChange, inputRef }: EquationEditorImplProps): JSX.Element {
   return (
     <span className="EquationEditor_inputBackground">
       <span className="EquationEditor_dollarSign">$</span>
-      <input
-        className="EquationEditor_inlineEditor"
-        value={equation}
-        onChange={onChange}
-        ref={inputRef}
-      />
+      <input className="EquationEditor_inlineEditor" value={equation} onChange={onChange} ref={inputRef} />
       <span className="EquationEditor_dollarSign">$</span>
     </span>
   );
@@ -32,31 +23,17 @@ type BlockEquationEditorImplProps = {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-function BlockEquationEditor({
-  equation,
-  onChange,
-  inputRef,
-}: BlockEquationEditorImplProps): JSX.Element {
+function BlockEquationEditor({ equation, onChange, inputRef }: BlockEquationEditorImplProps): JSX.Element {
   return (
     <div className="EquationEditor_inputBackground">
       <span className="EquationEditor_dollarSign">{'$$\n'}</span>
-      <textarea
-        className="EquationEditor_blockEditor"
-        value={equation}
-        onChange={onChange}
-        ref={inputRef}
-      />
+      <textarea className="EquationEditor_blockEditor" value={equation} onChange={onChange} ref={inputRef} />
       <span className="EquationEditor_dollarSign">{'\n$$'}</span>
     </div>
   );
 }
 
-function EquationEditor({
-  equation,
-  setEquation,
-  inline,
-  inputRef,
-}: BaseEquationEditorProps): JSX.Element {
+function EquationEditor({ equation, setEquation, inline, inputRef }: BaseEquationEditorProps): JSX.Element {
   const onChange = (event) => {
     setEquation(event.target.value);
   };
@@ -68,15 +45,9 @@ function EquationEditor({
   };
 
   return inline ? (
-    <InlineEquationEditor
-      {...props}
-      inputRef={inputRef as React.RefObject<HTMLInputElement>}
-    />
+    <InlineEquationEditor {...props} inputRef={inputRef as React.RefObject<HTMLInputElement>} />
   ) : (
-    <BlockEquationEditor
-      {...props}
-      inputRef={inputRef as React.RefObject<HTMLTextAreaElement>}
-    />
+    <BlockEquationEditor {...props} inputRef={inputRef as React.RefObject<HTMLTextAreaElement>} />
   );
 }
 

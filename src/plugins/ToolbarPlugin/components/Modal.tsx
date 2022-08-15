@@ -29,17 +29,12 @@ function PortalImpl({
     };
     const clickOutsideHandler = (event: MouseEvent) => {
       const { target } = event;
-      if (
-        modalRef.current !== null &&
-        !modalRef.current?.contains(target as Node) &&
-        closeOnClickOutside
-      ) {
+      if (modalRef.current !== null && !modalRef.current?.contains(target as Node) && closeOnClickOutside) {
         onClose();
       }
     };
     if (modalRef.current !== null) {
-      modalOverlayElement = modalRef.current
-        ?.parentElement as HTMLDivElement | null;
+      modalOverlayElement = modalRef.current?.parentElement as HTMLDivElement | null;
       if (modalOverlayElement !== null) {
         modalOverlayElement?.addEventListener('click', clickOutsideHandler);
       }
@@ -59,12 +54,7 @@ function PortalImpl({
     <div className="Modal__overlay" role="dialog">
       <div className="Modal__modal" tabIndex={-1} ref={modalRef}>
         <h2 className="Modal__title">{title}</h2>
-        <button
-          className="Modal__closeButton"
-          aria-label="Close modal"
-          type="button"
-          onClick={onClose}
-        >
+        <button className="Modal__closeButton" aria-label="Close modal" type="button" onClick={onClose}>
           X
         </button>
         <div className="Modal__content">{children}</div>
@@ -85,11 +75,7 @@ function Modal({
   title: string;
 }): JSX.Element {
   return createPortal(
-    <PortalImpl
-      onClose={onClose}
-      title={title}
-      closeOnClickOutside={closeOnClickOutside}
-    >
+    <PortalImpl onClose={onClose} title={title} closeOnClickOutside={closeOnClickOutside}>
       {children}
     </PortalImpl>,
     document.body,

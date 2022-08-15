@@ -1,20 +1,17 @@
+import React from 'react';
 import katex from 'katex';
-import React, { useEffect, useRef } from 'react';
 
-export default function KatexRenderer({
-  equation,
-  inline,
-  onClick,
-}: Readonly<{
+export interface KatexRenderProps {
   equation: string;
   inline: boolean;
-  onClick: () => void;
-}>): JSX.Element {
-  const katexElementRef = useRef(null);
+  onClick: (e: React.MouseEvent<HTMLSpanElement>) => void;
+}
 
-  useEffect(() => {
+function KatexRenderer({ equation, inline, onClick }: KatexRenderProps): JSX.Element {
+  const katexElementRef = React.useRef(null);
+
+  React.useEffect(() => {
     const katexElement = katexElementRef.current;
-
     if (katexElement !== null) {
       katex.render(equation, katexElement, {
         displayMode: !inline, // true === block display //
@@ -33,13 +30,11 @@ export default function KatexRenderer({
     // without having a physical space.
     <>
       <span className="spacer"> </span>
-      <span
-        role="button"
-        tabIndex={-1}
-        onClick={onClick}
-        ref={katexElementRef}
-      />
+      <span role="button" tabIndex={-1} onClick={onClick} ref={katexElementRef} />
       <span className="spacer"> </span>
     </>
   );
 }
+
+export { KatexRenderer };
+export default KatexRenderer;

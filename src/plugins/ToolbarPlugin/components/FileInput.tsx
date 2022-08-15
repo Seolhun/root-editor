@@ -7,12 +7,7 @@ type Props = Readonly<{
   onChange: (files: FileList | null) => void;
 }>;
 
-function FileInput({
-  accept,
-  label,
-  onChange,
-  'data-test-id': dataTestId,
-}: Props): JSX.Element {
+function FileInput({ accept, label, onChange, 'data-test-id': dataTestId }: Props): JSX.Element {
   return (
     <div className="Input__wrapper">
       <label htmlFor="file" className="Input__label">

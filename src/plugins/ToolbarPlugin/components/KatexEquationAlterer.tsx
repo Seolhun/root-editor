@@ -1,25 +1,22 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
-import Button from './Button';
-import KatexRenderer from './KatexRenderer';
+import { ToolbarButton } from './ToolbarButton';
+import { KatexRenderer } from './KatexRenderer';
 
 type Props = {
   initialEquation?: string;
   onConfirm: (string, boolean) => void;
 };
 
-function KatexEquationAlterer({
-  onConfirm,
-  initialEquation = '',
-}: Props): JSX.Element {
-  const [equation, setEquation] = useState<string>(initialEquation);
-  const [inline, setInline] = useState<boolean>(true);
+function KatexEquationAlterer({ onConfirm, initialEquation = '' }: Props): JSX.Element {
+  const [equation, setEquation] = React.useState<string>(initialEquation);
+  const [inline, setInline] = React.useState<boolean>(true);
 
-  const onClick = useCallback(() => {
+  const onClick = React.useCallback(() => {
     onConfirm(equation, inline);
   }, [onConfirm, equation, inline]);
 
-  const onCheckboxChange = useCallback(() => {
+  const onCheckboxChange = React.useCallback(() => {
     setInline(!inline);
   }, [setInline, inline]);
 
@@ -51,14 +48,10 @@ function KatexEquationAlterer({
       </div>
       <div className="KatexEquationAlterer_defaultRow">Visualization </div>
       <div className="KatexEquationAlterer_centerRow">
-        <KatexRenderer
-          equation={equation}
-          inline={false}
-          onClick={() => null}
-        />
+        <KatexRenderer equation={equation} inline={false} onClick={() => null} />
       </div>
       <div className="KatexEquationAlterer_dialogActions">
-        <Button onClick={onClick}>Confirm</Button>
+        <ToolbarButton onClick={onClick}>Confirm</ToolbarButton>
       </div>
     </>
   );
