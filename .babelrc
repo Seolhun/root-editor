@@ -4,12 +4,5 @@
     "@babel/preset-react",
     "@babel/preset-typescript"
   ],
-  "plugins": [],
-  "env": {
-    "production": {
-      "presets": [
-        "minify"
-      ]
-    }
-  }
+  "plugins": []
 }

@@ -74,8 +74,8 @@ function ToolbarPlugin(): JSX.Element {
   const [blockType, setBlockType] = React.useState(BlockTypeEnum.Paragraph);
   const [selectedElementKey, setSelectedElementKey] = React.useState<string>('');
   const [fontSize, setFontSize] = React.useState<string>('15px');
-  const [fontColor, setFontColor] = React.useState<string>('#000');
-  const [bgColor, setBgColor] = React.useState<string>('#fff');
+  const [, setFontColor] = React.useState<string>('#000');
+  const [, setBgColor] = React.useState<string>('#fff');
   const [fontFamily, setFontFamily] = React.useState<string>('Arial');
   const [isLink, setIsLink] = React.useState(false);
   const [isBold, setIsBold] = React.useState(false);

@@ -1,4 +1,4 @@
-# root-ui
+# root-lexical
 
 Root UI with tailwind
 

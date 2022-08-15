@@ -43,8 +43,6 @@
     /* Debugging Options */
     "listEmittedFiles": false, // 컴파일된 결과 파일들 이름을 터미널에 출력
     "listFiles": false, // 컴파일된 파일들 이름을 터미널에 출력
-    "noEmit": true,
-    "noEmitOnError": false, // noEmit 될 경우 에러
     "pretty": true, // 에러 메시지를 예쁘게 설정
     "sourceMap": false,
     "traceResolution": false, // 모듈 검색에 대한 로그메세지 출력 여부
