@@ -14,7 +14,7 @@ function Button({ children, className, title, disabled, ...rests }: ButtonProps)
       className={classNames(
         'Root__Button',
         {
-          'Root__Button--disabled': disabled,
+          'Root__Button-disabled': disabled,
         },
         className,
       )}

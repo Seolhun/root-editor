@@ -29,4 +29,72 @@
     display: inline-block;
     pointer-events: none;
   }
+
+  &__Heading {
+    color: rgb(5, 5, 5);
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 0;
+  }
+
+  &-h1 {
+    font-size: 24px;
+    color: rgb(5, 5, 5);
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 0;
+  }
+
+  &-h2 {
+    font-size: 15px;
+    color: rgb(5, 5, 5);
+    font-weight: 700;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+    text-transform: uppercase;
+  }
+
+  &-h3 {
+    font-size: 15px;
+    color: rgb(5, 5, 5);
+    font-weight: 700;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+    text-transform: uppercase;
+  }
+
+  &-h4 {
+    font-size: 15px;
+    color: rgb(5, 5, 5);
+    font-weight: 700;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+    text-transform: uppercase;
+  }
+
+  &-h5 {
+    font-size: 15px;
+    color: rgb(5, 5, 5);
+    font-weight: 700;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+    text-transform: uppercase;
+  }
+
+  &-h6 {
+    font-size: 15px;
+    color: rgb(5, 5, 5);
+    font-weight: 700;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+    text-transform: uppercase;
+  }
 }
+

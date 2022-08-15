@@ -2,7 +2,7 @@ import React from 'react';
 import { $getRoot, $getSelection, EditorState } from 'lexical';
 import { InitialEditorStateType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import classNames from 'classnames';
-// Plugins
+
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { AutoScrollPlugin } from '@lexical/react/LexicalAutoScrollPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
@@ -10,17 +10,16 @@ import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { LinkNode, AutoLinkNode } from '@lexical/link';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListNode, ListItemNode } from '@lexical/list';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
-import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
-// Nodes
 import { TableNode, TableCellNode, TableRowNode } from '@lexical/table';
-import { LinkNode, AutoLinkNode } from '@lexical/link';
-import { ListNode, ListItemNode } from '@lexical/list';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import {
   AutoLinkPlugin,
   CodeHighlightPlugin,
@@ -29,8 +28,9 @@ import {
   ListMaxIndentLevelPlugin,
   ToolbarPlugin,
   TreeViewPlugin,
+  ContentEditable,
+  Placeholder,
 } from './plugins';
-import { ContentEditable, Placeholder } from './components';
 import { theme } from './Editor.theme';
 
 export interface EditorProps {
