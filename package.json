@@ -1,12 +1,12 @@
 {
   "license": "MIT",
-  "name": "root-ui",
+  "name": "root-editor",
   "version": "0.1.0",
   "private": true,
   "main": "dist/root-ui.min.js",
   "scripts": {
     "tailwind:build": "postcss public/tailwind.css -o dist/tailwind.css",
-    "prebuild": "rimraf dist/* && npm run tailwind:build",
+    "prebuild": "rimraf dist/*",
     "build": "webpack --config=build/webpack.prod.js",
     "start": "node express.js",
     "start:dev": "webpack serve --config=build/webpack.dev.js",
@@ -15,14 +15,12 @@
     "lint": "eslint --ext .js,.ts,.tsx,.jsx ./",
     "lint:fix": "eslint --ext .js,.ts,.tsx,.jsx ./ --fix",
     "prettier": "prettier --write '**/*.{ts,tsx,js,jsx}'",
-    "prestorybook": "npm run tailwind:build",
     "storybook": "start-storybook -p 6006",
-    "prestorybook:build": "npm run tailwind:build",
     "storybook:build": "build-storybook -o docs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://Seolhun@github.com:Seolhun/root-ui.git"
+    "url": "git+https://Seolhun@github.com:Seolhun/root-editor.git"
   },
   "keywords": [
     "react",
@@ -40,7 +38,7 @@
   },
   "dependencies": {
     "@lexical/code": "^0.3.5",
-    "@lexical/link": "^0.3.5",
+    "@lexical/link": "^0.3.11",
     "@lexical/list": "^0.3.5",
     "@lexical/react": "^0.3.5",
     "@lexical/rich-text": "^0.3.5",
@@ -48,10 +46,10 @@
     "@lexical/table": "^0.3.5",
     "@lexical/utils": "^0.3.5",
     "classnames": "^2.3.1",
+    "katex": "^0.16.0",
     "lexical": "^0.3.5",
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -59,12 +57,12 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
     "@mdx-js/react": "^2.1.2",
-    "@storybook/addon-actions": "^6.5.9",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/addon-links": "^6.5.9",
-    "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
-    "@storybook/react": "^6.5.9",
+    "@storybook/addon-actions": "^6.5.10",
+    "@storybook/addon-essentials": "^6.5.10",
+    "@storybook/addon-links": "^6.5.10",
+    "@storybook/builder-webpack5": "^6.5.10",
+    "@storybook/manager-webpack5": "^6.5.10",
+    "@storybook/react": "^6.5.10",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.1",
@@ -73,7 +71,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.33.0",
     "autoprefixer": "^10.4.7",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.2.5",
     "babel-preset-minify": "^0.5.2",
     "core-js": "^3.23.4",
     "css-loader": "^6.7.1",
@@ -87,6 +85,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^4.5.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.0.6",
@@ -102,6 +101,7 @@
     "sass": "^1.53.0",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
+    "tailwindcss": "^3.1.8",
     "terser-webpack-plugin": "^5.1.4",
     "ts-essentials": "^7.0.1",
     "ts-jest": "^27.0.5",
