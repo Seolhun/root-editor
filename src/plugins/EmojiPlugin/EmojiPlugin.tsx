@@ -19,10 +19,7 @@ function emojiTransform(node: TextNode) {
 
 function useEmojis(editor: LexicalEditor) {
   React.useEffect(() => {
-    const removeTransform = editor.registerNodeTransform(
-      TextNode,
-      emojiTransform,
-    );
+    const removeTransform = editor.registerNodeTransform(TextNode, emojiTransform);
     return () => {
       removeTransform();
     };

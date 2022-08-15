@@ -16,9 +16,7 @@ export function positionEditorElement(
       if (rootElementRect.left > left) {
         editor.style.left = `${rect.left + window.pageXOffset}px`;
       } else if (left + editor.offsetWidth > rootElementRect.right) {
-        editor.style.left = `${
-          rect.right + window.pageXOffset - editor.offsetWidth
-        }px`;
+        editor.style.left = `${rect.right + window.pageXOffset - editor.offsetWidth}px`;
       }
     }
   }

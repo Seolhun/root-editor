@@ -17,14 +17,9 @@ export interface ListMaxIndentLevelPluginProps {
 function getElementNodesInSelection(selection) {
   const nodesInSelection = selection.getNodes();
   if (nodesInSelection.length === 0) {
-    return new Set([
-      selection.anchor.getNode().getParentOrThrow(),
-      selection.focus.getNode().getParentOrThrow(),
-    ]);
+    return new Set([selection.anchor.getNode().getParentOrThrow(), selection.focus.getNode().getParentOrThrow()]);
   }
-  return new Set(
-    nodesInSelection.map((n) => ($isElementNode(n) ? n : n.getParentOrThrow())),
-  );
+  return new Set(nodesInSelection.map((n) => ($isElementNode(n) ? n : n.getParentOrThrow())));
 }
 
 function isIndentPermitted(maxDepth) {
@@ -41,9 +36,7 @@ function isIndentPermitted(maxDepth) {
     } else if ($isListItemNode(elementNode)) {
       const parent = elementNode.getParent();
       if (!$isListNode(parent)) {
-        throw new Error(
-          'ListMaxIndentLevelPlugin: A ListItemNode must have a ListNode for a parent.',
-        );
+        throw new Error('ListMaxIndentLevelPlugin: A ListItemNode must have a ListNode for a parent.');
       }
       totalDepth = Math.max($getListDepth(parent) + 1, totalDepth);
     }
@@ -51,9 +44,7 @@ function isIndentPermitted(maxDepth) {
   return totalDepth <= maxDepth;
 }
 
-function ListMaxIndentLevelPlugin({
-  maxDepth,
-}: ListMaxIndentLevelPluginProps): JSX.Element | null {
+function ListMaxIndentLevelPlugin({ maxDepth }: ListMaxIndentLevelPluginProps): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
 
   React.useEffect(() => {
