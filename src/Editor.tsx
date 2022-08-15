@@ -4,41 +4,37 @@ import {
   InitialEditorStateType,
   LexicalComposer,
 } from '@lexical/react/LexicalComposer';
+import classNames from 'classnames';
 // Plugins
-import { AutoFocusPlugin as LexicalAutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { AutoScrollPlugin as LexicalAutoScrollPlugin } from '@lexical/react/LexicalAutoScrollPlugin';
-import { CheckListPlugin as LexicalCheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
-import { ClearEditorPlugin as LexicalClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
-import { HistoryPlugin as LexicalHistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { ListPlugin as LexicalListPlugin } from '@lexical/react/LexicalListPlugin';
-import { OnChangePlugin as LexicalOnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { RichTextPlugin as LexicalRichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { TablePlugin as LexicalTablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { AutoScrollPlugin } from '@lexical/react/LexicalAutoScrollPlugin';
+import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
+import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
+import { CodeHighlightNode, CodeNode } from '@lexical/code';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { TRANSFORMERS } from '@lexical/markdown';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 // Nodes
+import { TableNode, TableCellNode, TableRowNode } from '@lexical/table';
+import { LinkNode, AutoLinkNode } from '@lexical/link';
+import { ListNode, ListItemNode } from '@lexical/list';
 import {
-  TableNode as LexicalTableNode,
-  TableCellNode as LexicalTableCellNode,
-  TableRowNode as LexicalTableRowNode,
-} from '@lexical/table';
-import {
-  LinkNode as LexicalLinkNode,
-  AutoLinkNode as LexicalAutoLinkNode,
-} from '@lexical/link';
-import {
-  ListNode as LexicalListNode,
-  ListItemNode as LexicalListItemNode,
-} from '@lexical/list';
-
-import {
-  EmojiNode,
-  EmojiPlugin,
   AutoLinkPlugin,
   CodeHighlightPlugin,
+  EmojiNode,
+  EmojiPlugin,
+  ListMaxIndentLevelPlugin,
   ToolbarPlugin,
+  TreeViewPlugin,
 } from './plugins';
 import { ContentEditable, Placeholder } from './components';
 import { theme } from './Editor.theme';
-import classNames from 'classnames';
 
 export interface EditorProps {
   /**
@@ -112,38 +108,62 @@ const Editor = ({
           theme,
           onError,
           nodes: [
-            LexicalAutoLinkNode,
-            LexicalLinkNode,
-            LexicalListNode,
-            LexicalListItemNode,
-            LexicalTableCellNode,
-            LexicalTableNode,
-            LexicalTableRowNode,
+            AutoLinkNode,
+            LinkNode,
+            ListNode,
+            ListItemNode,
+            TableCellNode,
+            TableNode,
+            TableRowNode,
+            HeadingNode,
+            ListNode,
+            ListItemNode,
+            QuoteNode,
+            CodeNode,
+            CodeHighlightNode,
+            TableNode,
+            TableCellNode,
+            TableRowNode,
+            AutoLinkNode,
+            LinkNode,
             // Custom Nodes
             EmojiNode,
           ],
         }}
       >
-        <LexicalAutoFocusPlugin />
-        <LexicalAutoScrollPlugin scrollRef={editorScrollRef} />
-        <LexicalCheckListPlugin />
-        <LexicalClearEditorPlugin />
-        <LexicalHistoryPlugin />
-        <LexicalListPlugin />
-        <LexicalOnChangePlugin onChange={onChange} />
-        <LexicalTablePlugin />
+        <div className="editor-container">
+          <ToolbarPlugin />
+          <div className="editor-inner">
+            <RichTextPlugin
+              initialEditorState={initialEditorState}
+              contentEditable={<ContentEditable />}
+              placeholder={<Placeholder>{placeholder}</Placeholder>}
+            />
 
-        {/* Custom Plugins */}
-        <AutoLinkPlugin />
-        <CodeHighlightPlugin />
-        <EmojiPlugin />
+            <AutoFocusPlugin />
+            <AutoFocusPlugin />
+            <AutoLinkPlugin />
+            <AutoScrollPlugin scrollRef={editorScrollRef} />
+            <CheckListPlugin />
+            <ClearEditorPlugin />
+            <CodeHighlightPlugin />
+            <HistoryPlugin />
+            <HistoryPlugin />
+            <LinkPlugin />
+            <ListPlugin />
+            <ListPlugin />
+            <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+            <OnChangePlugin onChange={onChange} />
+            <TablePlugin />
 
-        <ToolbarPlugin />
-        <LexicalRichTextPlugin
-          initialEditorState={initialEditorState}
-          contentEditable={<ContentEditable />}
-          placeholder={<Placeholder>{placeholder}</Placeholder>}
-        />
+            {/* Custom Plugins */}
+            <AutoLinkPlugin />
+            <CodeHighlightPlugin />
+            <EmojiPlugin />
+            <ListMaxIndentLevelPlugin maxDepth={7} />
+            <TreeViewPlugin />
+          </div>
+        </div>
       </LexicalComposer>
     </div>
   );

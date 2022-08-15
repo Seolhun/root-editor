@@ -3,18 +3,18 @@ import classNames from 'classnames';
 
 import SelectOption, { SelectOptionProps } from './Select.Option';
 
-export interface SelectProps {
+type ElementProps = React.SelectHTMLAttributes<HTMLSelectElement>;
+export interface SelectProps extends ElementProps {
   options: SelectOptionProps[];
 }
 
-type ElementProps = React.SelectHTMLAttributes<HTMLSelectElement>;
 function Select({
   onChange,
   className,
   options,
   value,
   ...rests
-}: SelectProps & ElementProps): JSX.Element {
+}: SelectProps): JSX.Element {
   return (
     <select
       {...rests}

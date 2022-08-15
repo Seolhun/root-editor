@@ -8,6 +8,7 @@ module.exports = {
     '../src/**/*.stories.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
+  staticDirs: ['../public'],
   core: {
     builder: 'webpack5',
   },
