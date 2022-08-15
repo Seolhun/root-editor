@@ -1,9 +1,6 @@
 import React from 'react';
 import { $getRoot, $getSelection, EditorState } from 'lexical';
-import {
-  InitialEditorStateType,
-  LexicalComposer,
-} from '@lexical/react/LexicalComposer';
+import { InitialEditorStateType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import classNames from 'classnames';
 // Plugins
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';

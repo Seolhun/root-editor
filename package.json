@@ -1,6 +1,6 @@
 {
   "license": "MIT",
-  "name": "root-ui",
+  "name": "root-editor",
   "version": "0.1.0",
   "private": true,
   "main": "dist/root-ui.min.js",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://Seolhun@github.com:Seolhun/root-ui.git"
+    "url": "git+https://Seolhun@github.com:Seolhun/root-editor.git"
   },
   "keywords": [
     "react",
