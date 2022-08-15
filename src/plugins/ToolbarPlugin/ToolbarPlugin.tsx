@@ -1,13 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import type {
-  GridSelection,
-  LexicalEditor,
-  NodeSelection,
-  RangeSelection,
-} from 'lexical';
 import {
-  $createParagraphNode,
   $getNodeByKey,
   $getSelection,
   $isRangeSelection,
@@ -15,95 +8,64 @@ import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   COMMAND_PRIORITY_CRITICAL,
-  COMMAND_PRIORITY_LOW,
-  ElementNode,
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   INDENT_CONTENT_COMMAND,
   OUTDENT_CONTENT_COMMAND,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
-  TextNode,
   UNDO_COMMAND,
 } from 'lexical';
 import { createPortal } from 'react-dom';
-import { $createCodeNode, $isCodeNode } from '@lexical/code';
+import { $isCodeNode } from '@lexical/code';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import {
-  $isListNode,
-  INSERT_CHECK_LIST_COMMAND,
-  INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND,
-  ListNode,
-  REMOVE_LIST_COMMAND,
-} from '@lexical/list';
+import { $isListNode, ListNode } from '@lexical/list';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
 import { INSERT_HORIZONTAL_RULE_COMMAND } from '@lexical/react/LexicalHorizontalRuleNode';
-import {
-  $createHeadingNode,
-  $createQuoteNode,
-  $isHeadingNode,
-} from '@lexical/rich-text';
+import { $isHeadingNode } from '@lexical/rich-text';
 import {
   $getSelectionStyleValueForProperty,
-  $isAtNodeEnd,
   $isParentElementRTL,
   $patchStyleText,
   $selectAll,
-  $wrapLeafNodesInElements,
 } from '@lexical/selection';
-import { INSERT_TABLE_COMMAND } from '@lexical/table';
 import {
   $getNearestBlockElementAncestorOrThrow,
   $getNearestNodeOfType,
   mergeRegister,
 } from '@lexical/utils';
 
-import { Dropdown, DropdownItem } from './components/dropdown';
+import { Select, Dropdown, DropdownItem, Divider } from '@/components';
+import { getSelectedNode } from '@/utils';
+import { BlockTypeEnum } from '@/Editor.const';
 import useModal from './components/useModal';
-import Button from './components/Button';
-import LinkPreview from './components/LinkPreview';
-import TextInput from './components/TextInput';
-
 import { IS_APPLE } from './environments';
-import { Select } from '@/components';
+import {
+  BlockFormatDropdown,
+  FloatingLinkEditor,
+  InsertTableDialog,
+} from './components';
 import {
   CODE_LANGUAGE_OPTIONS,
   FONT_FAMILY_OPTIONS,
   FONT_SIZE_OPTIONS,
 } from './ToolbarPlugin.const';
-import { BlockTypeEnum } from '@/Editor.const';
 
 const supportedBlockTypes = new Set([
-  'paragraph',
-  'quote',
-  'code',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'bullet',
-  'number',
-  'check',
+  BlockTypeEnum.Bullet,
+  BlockTypeEnum.Check,
+  BlockTypeEnum.Code,
+  BlockTypeEnum.H1,
+  BlockTypeEnum.H2,
+  BlockTypeEnum.H3,
+  BlockTypeEnum.H4,
+  BlockTypeEnum.H5,
+  BlockTypeEnum.H6,
+  BlockTypeEnum.Number,
+  BlockTypeEnum.Paragraph,
+  BlockTypeEnum.Quote,
 ]);
-
-const blockTypeToBlockName = {
-  bullet: 'Bulleted List',
-  check: 'Check List',
-  code: 'Code Block',
-  h1: 'Heading 1',
-  h2: 'Heading 2',
-  h3: 'Heading 3',
-  h4: 'Heading 4',
-  h5: 'Heading 5',
-  h6: 'Heading 6',
-  number: 'Numbered List',
-  paragraph: 'Normal',
-  quote: 'Quote',
-};
 
 const CODE_LANGUAGE_MAP = {
   javascript: 'js',
@@ -113,404 +75,15 @@ const CODE_LANGUAGE_MAP = {
   text: 'plain',
 };
 
-function getSelectedNode(selection: RangeSelection): TextNode | ElementNode {
-  const { anchor } = selection;
-  const { focus } = selection;
-  const anchorNode = selection.anchor.getNode();
-  const focusNode = selection.focus.getNode();
-  if (anchorNode === focusNode) {
-    return anchorNode;
-  }
-  const isBackward = selection.isBackward();
-  if (isBackward) {
-    return $isAtNodeEnd(focus) ? anchorNode : focusNode;
-  }
-  return $isAtNodeEnd(anchor) ? focusNode : anchorNode;
-}
-
-function positionEditorElement(
-  editor: HTMLElement,
-  rect: ClientRect | null,
-  rootElement: HTMLElement | null,
-): void {
-  if (rect === null) {
-    editor.style.opacity = '0';
-    editor.style.top = '-1000px';
-    editor.style.left = '-1000px';
-  } else {
-    editor.style.opacity = '1';
-    editor.style.top = `${rect.top + rect.height + window.pageYOffset + 10}px`;
-    const left = rect.left - editor.offsetWidth / 2 + rect.width / 2;
-    if (rootElement) {
-      const rootElementRect = rootElement.getBoundingClientRect();
-      if (rootElementRect.left > left) {
-        editor.style.left = `${rect.left + window.pageXOffset}px`;
-      } else if (left + editor.offsetWidth > rootElementRect.right) {
-        editor.style.left = `${
-          rect.right + window.pageXOffset - editor.offsetWidth
-        }px`;
-      }
-    }
-  }
-}
-
-function FloatingLinkEditor({ editor }: { editor: LexicalEditor }) {
-  const editorRef = React.useRef<HTMLDivElement | null>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const [linkUrl, setLinkUrl] = React.useState('');
-  const [isEditMode, setEditMode] = React.useState(false);
-  const [lastSelection, setLastSelection] = React.useState<
-    RangeSelection | NodeSelection | GridSelection | null
-  >(null);
-
-  const updateLinkEditor = React.useCallback(() => {
-    const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
-      const node = getSelectedNode(selection);
-      const parent = node.getParent();
-      if ($isLinkNode(parent)) {
-        setLinkUrl(parent.getURL());
-      } else if ($isLinkNode(node)) {
-        setLinkUrl(node.getURL());
-      } else {
-        setLinkUrl('');
-      }
-    }
-    const editorElem = editorRef.current;
-    const nativeSelection = window.getSelection();
-    const { activeElement } = document;
-
-    if (editorElem === null) {
-      return;
-    }
-
-    const rootElement = editor.getRootElement();
-    if (
-      selection !== null &&
-      nativeSelection &&
-      !nativeSelection.isCollapsed &&
-      rootElement !== null &&
-      rootElement.contains(nativeSelection.anchorNode)
-    ) {
-      const domRange = nativeSelection?.getRangeAt(0);
-      let rect;
-      if (nativeSelection?.anchorNode === rootElement) {
-        let inner = rootElement;
-        while (inner.firstElementChild != null) {
-          inner = inner.firstElementChild as HTMLElement;
-        }
-        rect = inner.getBoundingClientRect();
-      } else {
-        rect = domRange.getBoundingClientRect();
-      }
-
-      positionEditorElement(editorElem, rect, rootElement);
-      setLastSelection(selection);
-    } else if (!activeElement || activeElement.className !== 'link-input') {
-      positionEditorElement(editorElem, null, rootElement);
-      setLastSelection(null);
-      setEditMode(false);
-      setLinkUrl('');
-    }
-  }, [editor]);
-
-  React.useEffect(() => {
-    const onResize = () => {
-      editor.getEditorState().read(() => {
-        updateLinkEditor();
-      });
-    };
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      window.removeEventListener('resize', onResize);
-    };
-  }, [editor, updateLinkEditor]);
-
-  React.useEffect(() => {
-    return mergeRegister(
-      editor.registerUpdateListener(({ editorState }) => {
-        editorState.read(() => {
-          updateLinkEditor();
-        });
-      }),
-
-      editor.registerCommand(
-        SELECTION_CHANGE_COMMAND,
-        () => {
-          updateLinkEditor();
-          return true;
-        },
-        COMMAND_PRIORITY_LOW,
-      ),
-    );
-  }, [editor, updateLinkEditor]);
-
-  React.useEffect(() => {
-    editor.getEditorState().read(() => {
-      updateLinkEditor();
-    });
-  }, [editor, updateLinkEditor]);
-
-  React.useEffect(() => {
-    if (isEditMode && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isEditMode]);
-
-  return (
-    <div ref={editorRef} className="link-editor">
-      {isEditMode ? (
-        <input
-          ref={inputRef}
-          className="link-input"
-          value={linkUrl}
-          onChange={(event) => {
-            setLinkUrl(event.target.value);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              if (lastSelection !== null) {
-                if (linkUrl !== '') {
-                  editor.dispatchCommand(TOGGLE_LINK_COMMAND, linkUrl);
-                }
-                setEditMode(false);
-              }
-            } else if (event.key === 'Escape') {
-              event.preventDefault();
-              setEditMode(false);
-            }
-          }}
-        />
-      ) : (
-        <>
-          <div className="link-input">
-            <a href={linkUrl} target="_blank" rel="noopener noreferrer">
-              {linkUrl}
-            </a>
-            <div
-              className="link-edit"
-              role="button"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                setEditMode(true);
-              }}
-            />
-          </div>
-          <LinkPreview url={linkUrl} />
-        </>
-      )}
-    </div>
-  );
-}
-
-function InsertTableDialog({
-  activeEditor,
-  onClose,
-}: {
-  activeEditor: LexicalEditor;
-  onClose: () => void;
-}) {
-  const [rows, setRows] = React.useState('5');
-  const [columns, setColumns] = React.useState('5');
-
-  const onClick = () => {
-    activeEditor.dispatchCommand(INSERT_TABLE_COMMAND, { columns, rows });
-    onClose();
-  };
-
-  return (
-    <>
-      <TextInput label="No of rows" onChange={setRows} value={rows} />
-      <TextInput label="No of columns" onChange={setColumns} value={columns} />
-      <div
-        className="ToolbarPlugin__dialogActions"
-        data-test-id="table-model-confirm-insert"
-      >
-        <Button onClick={onClick}>Confirm</Button>
-      </div>
-    </>
-  );
-}
-
 function dropDownActiveClass(active: boolean) {
   if (active) return 'active dropdown-item-active';
   return '';
 }
 
-function BlockFormatDropdown({
-  editor,
-  blockType,
-}: {
-  blockType: string;
-  editor: LexicalEditor;
-}) {
-  const formatParagraph = () => {
-    if (blockType !== 'paragraph') {
-      editor.update(() => {
-        const selection = $getSelection();
-
-        if ($isRangeSelection(selection)) {
-          $wrapLeafNodesInElements(selection, () => $createParagraphNode());
-        }
-      });
-    }
-  };
-
-  const formatHeading = (headingSize) => {
-    if (blockType !== headingSize) {
-      editor.update(() => {
-        const selection = $getSelection();
-
-        if ($isRangeSelection(selection)) {
-          $wrapLeafNodesInElements(selection, () =>
-            $createHeadingNode(headingSize),
-          );
-        }
-      });
-    }
-  };
-
-  const formatBulletList = () => {
-    if (blockType !== 'bullet') {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-    } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-    }
-  };
-
-  const formatCheckList = () => {
-    if (blockType !== 'check') {
-      editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
-    } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-    }
-  };
-
-  const formatNumberedList = () => {
-    if (blockType !== 'number') {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-    } else {
-      editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-    }
-  };
-
-  const formatQuote = () => {
-    if (blockType !== 'quote') {
-      editor.update(() => {
-        const selection = $getSelection();
-
-        if ($isRangeSelection(selection)) {
-          $wrapLeafNodesInElements(selection, () => $createQuoteNode());
-        }
-      });
-    }
-  };
-
-  const formatCode = () => {
-    if (blockType !== 'code') {
-      editor.update(() => {
-        const selection = $getSelection();
-
-        if ($isRangeSelection(selection)) {
-          if (selection.isCollapsed()) {
-            $wrapLeafNodesInElements(selection, () => $createCodeNode());
-          } else {
-            const textContent = selection.getTextContent();
-            const codeNode = $createCodeNode();
-            selection.removeText();
-            selection.insertNodes([codeNode]);
-            selection.insertRawText(textContent);
-          }
-        }
-      });
-    }
-  };
-
-  return (
-    <Dropdown
-      buttonClassName="toolbar-item block-controls"
-      buttonIconClassName={`icon block-type ${blockType}`}
-      buttonLabel={blockTypeToBlockName[blockType]}
-      buttonAriaLabel="Formatting options for text style"
-    >
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'paragraph')}`}
-        onClick={formatParagraph}
-      >
-        <i className="icon paragraph" />
-        <span className="text">Normal</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'h1')}`}
-        onClick={() => formatHeading('h1')}
-      >
-        <i className="icon h1" />
-        <span className="text">Heading 1</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'h2')}`}
-        onClick={() => formatHeading('h2')}
-      >
-        <i className="icon h2" />
-        <span className="text">Heading 2</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'h3')}`}
-        onClick={() => formatHeading('h3')}
-      >
-        <i className="icon h3" />
-        <span className="text">Heading 3</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'bullet')}`}
-        onClick={formatBulletList}
-      >
-        <i className="icon bullet-list" />
-        <span className="text">Bullet List</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'number')}`}
-        onClick={formatNumberedList}
-      >
-        <i className="icon numbered-list" />
-        <span className="text">Numbered List</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'check')}`}
-        onClick={formatCheckList}
-      >
-        <i className="icon check-list" />
-        <span className="text">Check List</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'quote')}`}
-        onClick={formatQuote}
-      >
-        <i className="icon quote" />
-        <span className="text">Quote</span>
-      </DropdownItem>
-      <DropdownItem
-        className={`item ${dropDownActiveClass(blockType === 'code')}`}
-        onClick={formatCode}
-      >
-        <i className="icon code" />
-        <span className="text">Code Block</span>
-      </DropdownItem>
-    </Dropdown>
-  );
-}
-
-function Divider() {
-  return <div className="divider" />;
-}
-
 function ToolbarPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = React.useState(editor);
-  const [blockType, setBlockType] = React.useState('paragraph');
+  const [blockType, setBlockType] = React.useState(BlockTypeEnum.Paragraph);
   const [selectedElementKey, setSelectedElementKey] =
     React.useState<string>('');
   const [fontSize, setFontSize] = React.useState<string>('15px');
@@ -576,7 +149,7 @@ function ToolbarPlugin(): JSX.Element {
           const type = $isHeadingNode(element)
             ? element.getTag()
             : element.getType();
-          setBlockType(type);
+          setBlockType(type as BlockTypeEnum);
           if ($isCodeNode(element)) {
             const language = element.getLanguage();
             setCodeLanguage(
