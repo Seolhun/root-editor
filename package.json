@@ -41,7 +41,7 @@
     "@lexical/link": "^0.3.5",
     "@lexical/list": "^0.3.5",
     "@lexical/react": "^0.3.5",
-    "@lexical/rich-text": "^0.3.5",
+    "@lexical/rich-text": "^0.3.11",
     "@lexical/selection": "^0.3.5",
     "@lexical/table": "^0.3.5",
     "@lexical/utils": "^0.3.5",
