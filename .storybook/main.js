@@ -1,5 +1,4 @@
 const { resolve } = require('path');
-const appRoot = resolve(__dirname, '../');
 const context = resolve(__dirname, '../src');
 
 module.exports = {
@@ -7,15 +6,18 @@ module.exports = {
     '../src/**/*.stories.mdx',
     '../src/**/*.stories.@(js|jsx|ts|tsx)'
   ],
-  staticDirs: ['../public'],
   core: {
     builder: 'webpack5',
   },
+  staticDirs: ['../public'],
+  features: {
+    previewMdx2: true, // 👈 MDX 2 enabled here
+  },
   addons: [
     '@storybook/addon-links',
+    '@storybook/addon-docs',
     '@storybook/addon-essentials',
   ],
-  disabledPresets: ['@storybook/react/preset'],
   webpackFinal: async (config) => {
     config.resolve.alias = {
       '@': context,
@@ -35,7 +37,6 @@ module.exports = {
           'postcss-loader',
           'sass-loader',
         ],
-        include: appRoot,
       },
     )
     return config;
