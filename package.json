@@ -44,7 +44,7 @@
     "@lexical/rich-text": "^0.3.5",
     "@lexical/selection": "^0.3.5",
     "@lexical/table": "^0.3.5",
-    "@lexical/utils": "^0.3.5",
+    "@lexical/utils": "^0.3.11",
     "classnames": "^2.3.1",
     "katex": "^0.16.0",
     "lexical": "^0.3.5",
