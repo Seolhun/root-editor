@@ -3,8 +3,9 @@ import { $getRoot, $getSelection, EditorState } from 'lexical';
 import { InitialEditorStateType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import classNames from 'classnames';
 
+// Official Plugins
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { AutoScrollPlugin } from '@lexical/react/LexicalAutoScrollPlugin';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import { CodeHighlightNode, CodeNode } from '@lexical/code';
@@ -20,6 +21,11 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TRANSFORMERS } from '@lexical/markdown';
 import { TableNode, TableCellNode, TableRowNode } from '@lexical/table';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+
+// Custom Plugins
+import { TableContextProvider } from './plugins/TablePlugin/TablePlugin';
+import { TableCellResizerPlugin } from './plugins/TablePlugin/TableCellResizer';
+import { TableCellActionMenuPlugin } from './plugins/TablePlugin/TableCellActionMenuPlugin';
 import {
   AutoLinkPlugin,
   CodeHighlightPlugin,
@@ -35,6 +41,9 @@ import { theme } from './Editor.theme';
 
 import './assets/tailwind.scss';
 import './assets/index.scss';
+
+type ElementType = HTMLDivElement;
+type ElementProps = React.HTMLAttributes<ElementType>;
 
 export interface EditorProps {
   /**
@@ -87,87 +96,112 @@ function onError(error) {
   console.error(error);
 }
 
-type HtmlElementProps = React.HTMLAttributes<HTMLDivElement>;
-const Editor = ({
-  submitButtonLabel,
-  onSubmit,
-  onSnapshot,
-  snapshotTimeout,
-  placeholder = 'Write something you want',
-  initialEditorState,
-  // HtmlProps
-  className,
-  ...rests
-}: EditorProps & HtmlElementProps): JSX.Element => {
-  const editorScrollRef = React.useRef<HTMLDivElement>(null);
-  return (
-    <div className={classNames('Root__Editor__Wrapper', className)} {...rests}>
-      <LexicalComposer
-        initialConfig={{
-          namespace: 'Editor',
-          theme,
-          onError,
-          nodes: [
-            AutoLinkNode,
-            LinkNode,
-            ListNode,
-            ListItemNode,
-            TableCellNode,
-            TableNode,
-            TableRowNode,
-            HeadingNode,
-            ListNode,
-            ListItemNode,
-            QuoteNode,
-            CodeNode,
-            CodeHighlightNode,
-            TableNode,
-            TableCellNode,
-            TableRowNode,
-            AutoLinkNode,
-            LinkNode,
-            // Custom Nodes
-            EmojiNode,
-          ],
-        }}
-      >
-        <div className="editor-container">
-          <ToolbarPlugin />
-          <div className="editor-inner">
-            <RichTextPlugin
-              initialEditorState={initialEditorState}
-              contentEditable={<ContentEditable />}
-              placeholder={<Placeholder>{placeholder}</Placeholder>}
-            />
-
-            <AutoFocusPlugin />
-            <AutoFocusPlugin />
-            <AutoLinkPlugin />
-            <AutoScrollPlugin scrollRef={editorScrollRef} />
-            <CheckListPlugin />
-            <ClearEditorPlugin />
-            <CodeHighlightPlugin />
-            <HistoryPlugin />
-            <HistoryPlugin />
-            <LinkPlugin />
-            <ListPlugin />
-            <ListPlugin />
-            <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-            <OnChangePlugin onChange={onChange} />
-            <TablePlugin />
-
-            {/* Custom Plugins */}
-            <AutoLinkPlugin />
-            <CodeHighlightPlugin />
-            <EmojiPlugin />
-            <ListMaxIndentLevelPlugin maxDepth={7} />
-            <TreeViewPlugin />
-          </div>
-        </div>
-      </LexicalComposer>
-    </div>
-  );
+const initialConfig = {
+  namespace: 'Editor',
+  theme,
+  onError,
+  nodes: [
+    AutoLinkNode,
+    LinkNode,
+    ListNode,
+    ListItemNode,
+    TableCellNode,
+    TableNode,
+    TableRowNode,
+    HeadingNode,
+    ListNode,
+    ListItemNode,
+    QuoteNode,
+    CodeNode,
+    CodeHighlightNode,
+    TableNode,
+    TableCellNode,
+    TableRowNode,
+    AutoLinkNode,
+    LinkNode,
+    // Custom Nodes
+    EmojiNode,
+  ],
 };
+
+const Editor = React.forwardRef<ElementType, EditorProps & ElementProps>(
+  (
+    {
+      submitButtonLabel,
+      onSubmit,
+      onSnapshot,
+      snapshotTimeout,
+      placeholder = 'Write something you want',
+      initialEditorState,
+      // HtmlProps
+      className,
+      ...rests
+    },
+    ref,
+  ): JSX.Element => {
+    const [floatingAnchorElem, setFloatingAnchorElem] = React.useState(null);
+
+    const onRef = (_floatingAnchorElem) => {
+      if (_floatingAnchorElem !== null) {
+        setFloatingAnchorElem(_floatingAnchorElem);
+      }
+    };
+
+    return (
+      <div {...rests} className={classNames('Root__Editor__Wrapper', className)} ref={ref}>
+        <LexicalComposer initialConfig={initialConfig}>
+          <TableContextProvider>
+            <div className="editor-container">
+              <ToolbarPlugin />
+              <div className="editor-inner">
+                <RichTextPlugin
+                  contentEditable={
+                    <div ref={onRef}>
+                      <ContentEditable />
+                    </div>
+                  }
+                  placeholder={<Placeholder>{placeholder}</Placeholder>}
+                  ErrorBoundary={LexicalErrorBoundary}
+                />
+                <AutoFocusPlugin />
+                <AutoFocusPlugin />
+                <AutoLinkPlugin />
+                <CheckListPlugin />
+                <ClearEditorPlugin />
+                <CodeHighlightPlugin />
+                <HistoryPlugin />
+                <HistoryPlugin />
+                <LinkPlugin />
+                <ListPlugin />
+                <ListPlugin />
+                <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+                <OnChangePlugin onChange={onChange} />
+
+                {/* Table */}
+                <TablePlugin />
+                <TableCellResizerPlugin />
+
+                {/* Custom Plugins */}
+                <AutoLinkPlugin />
+                <CodeHighlightPlugin />
+                <EmojiPlugin />
+                <ListMaxIndentLevelPlugin maxDepth={7} />
+                <TreeViewPlugin />
+              </div>
+            </div>
+            <div className="editor-footer">
+              {floatingAnchorElem && (
+                <>
+                  <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} />
+                </>
+              )}
+            </div>
+          </TableContextProvider>
+        </LexicalComposer>
+      </div>
+    );
+  },
+);
 
 export { Editor };
 export default Editor;
