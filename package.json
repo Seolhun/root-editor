@@ -37,7 +37,7 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@lexical/code": "^0.7.5",
+    "@lexical/code": "^0.15.0",
     "@lexical/link": "^0.7.5",
     "@lexical/list": "^0.7.5",
     "@lexical/react": "^0.7.5",
