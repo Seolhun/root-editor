@@ -32,9 +32,9 @@ import {
 } from '@lexical/selection';
 import { $getNearestBlockElementAncestorOrThrow, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 
-import { Select, Dropdown, DropdownItem, Divider } from '@/components';
-import { getSelectedNode } from '@/utils';
-import { BlockTypeEnum } from '@/Editor.const';
+import { Select, Dropdown, DropdownItem, Divider } from '~/components';
+import { getSelectedNode } from '~/utils';
+import { BlockTypeEnum } from '~/Editor.const';
 import useModal from './components/useModal';
 import { IS_APPLE } from './environments';
 import { BlockFormatDropdown, FloatingLinkEditor, InsertTableDialog } from './components';

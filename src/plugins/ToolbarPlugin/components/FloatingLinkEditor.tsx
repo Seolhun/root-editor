@@ -5,7 +5,7 @@ import { $getSelection, $isRangeSelection, COMMAND_PRIORITY_LOW, SELECTION_CHANG
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { mergeRegister } from '@lexical/utils';
 
-import { getSelectedNode, positionEditorElement } from '@/utils';
+import { getSelectedNode, positionEditorElement } from '~/utils';
 import LinkPreview from './LinkPreview';
 
 export interface FloatingLinkEditorProps {

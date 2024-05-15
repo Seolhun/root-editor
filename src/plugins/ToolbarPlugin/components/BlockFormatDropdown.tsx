@@ -11,8 +11,8 @@ import {
 import { $createHeadingNode, $createQuoteNode, HeadingTagType } from '@lexical/rich-text';
 import { $wrapLeafNodesInElements } from '@lexical/selection';
 
-import { Dropdown, DropdownItem } from '@/components';
-import { BlockTypeEnum, BlockTypeToBlockNameEnum } from '@/Editor.const';
+import { Dropdown, DropdownItem } from '~/components';
+import { BlockTypeEnum, BlockTypeToBlockNameEnum } from '~/Editor.const';
 
 export interface BlockFormatDropdownProps {
   blockType: string;

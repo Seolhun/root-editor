@@ -31,7 +31,6 @@
     "noImplicitAny": false,
     "noImplicitReturns": true, // 함수의 모든 경로가 값을 반환하지 않으면 에러 발생
     "noImplicitThis": true,
-    "noStrictGenericChecks": true, // 함수에서 generic의 엄격한 검사 해제 여부
     "noUnusedLocals": true, // 사용안된 지역변수에 대한 오류 보고 여부
     "noUnusedParameters": true, // 사용안된 파라미터에 대한 오류 보고 여부
     "strict": true,
@@ -48,7 +47,7 @@
     "traceResolution": false, // 모듈 검색에 대한 로그메세지 출력 여부
     "baseUrl": ".",
     "paths": {
-      "@/*": [
+      "~/*": [
         "./src/*"
       ]
     },

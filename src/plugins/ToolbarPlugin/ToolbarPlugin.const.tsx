@@ -1,4 +1,4 @@
-import { SelectOptionProps } from '@/components';
+import { SelectOptionProps } from '~/components';
 
 export const CODE_LANGUAGE_OPTIONS: SelectOptionProps[] = [
   {

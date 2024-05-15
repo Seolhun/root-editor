@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { FormItem, FormLabel, Input, InputProps } from '@/components';
+import { FormItem, FormLabel, Input, InputProps } from '~/components';
 
 type TextFieldProps = InputProps;
 

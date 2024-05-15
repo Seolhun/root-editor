@@ -2,14 +2,14 @@ import React from 'react';
 import type { LexicalEditor } from 'lexical';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
 
-import { TextField, Button } from '@/components';
+import { TextField, Button } from '~/components';
 
 export interface InsertTableDialogProps {
   activeEditor: LexicalEditor;
   onClose: () => void;
 }
 
-function InsertTableDialog({ activeEditor, onClose }: InsertTableDialogProps): JSX.Element {
+export function InsertTableDialog({ activeEditor, onClose }: InsertTableDialogProps): JSX.Element {
   const [rows, setRows] = React.useState('5');
   const [columns, setColumns] = React.useState('5');
 
@@ -40,6 +40,3 @@ function InsertTableDialog({ activeEditor, onClose }: InsertTableDialogProps): J
     </>
   );
 }
-
-export { InsertTableDialog };
-export default InsertTableDialog;
