@@ -33,7 +33,7 @@ dependencies:
     specifier: ^2.3.1
     version: 2.5.1
   katex:
-    specifier: ^0.16.0
+    specifier: ^0.16.10
     version: 0.16.10
   lexical:
     specifier: ^0.7.5

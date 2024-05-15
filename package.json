@@ -46,7 +46,7 @@
     "@lexical/table": "^0.7.5",
     "@lexical/utils": "^0.7.5",
     "classnames": "^2.3.1",
-    "katex": "^0.16.0",
+    "katex": "^0.16.10",
     "lexical": "^0.7.5",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
