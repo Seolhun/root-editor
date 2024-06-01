@@ -1,5 +1,18 @@
 /* eslint-disable no-param-reassign */
-import React from 'react';
+import { $isCodeNode } from '@lexical/code';
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { $isListNode, ListNode } from '@lexical/list';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
+import { INSERT_HORIZONTAL_RULE_COMMAND } from '@lexical/react/LexicalHorizontalRuleNode';
+import { $isHeadingNode } from '@lexical/rich-text';
+import {
+  $getSelectionStyleValueForProperty,
+  $isParentElementRTL,
+  $patchStyleText,
+  $selectAll,
+} from '@lexical/selection';
+import { $getNearestBlockElementAncestorOrThrow, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 import {
   $getNodeByKey,
   $getSelection,
@@ -16,29 +29,17 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
+import React from 'react';
 import { createPortal } from 'react-dom';
-import { $isCodeNode } from '@lexical/code';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { $isListNode, ListNode } from '@lexical/list';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
-import { INSERT_HORIZONTAL_RULE_COMMAND } from '@lexical/react/LexicalHorizontalRuleNode';
-import { $isHeadingNode } from '@lexical/rich-text';
-import {
-  $getSelectionStyleValueForProperty,
-  $isParentElementRTL,
-  $patchStyleText,
-  $selectAll,
-} from '@lexical/selection';
-import { $getNearestBlockElementAncestorOrThrow, $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 
-import { Select, Dropdown, DropdownItem, Divider } from '~/components';
-import { getSelectedNode } from '~/utils';
 import { BlockTypeEnum } from '~/Editor.const';
+import { Divider, Dropdown, DropdownItem, Select } from '~/components';
+import { getSelectedNode } from '~/utils';
+
+import { CODE_LANGUAGE_OPTIONS, FONT_FAMILY_OPTIONS, FONT_SIZE_OPTIONS } from './ToolbarPlugin.const';
+import { BlockFormatDropdown, FloatingLinkEditor, InsertTableDialog } from './components';
 import useModal from './components/useModal';
 import { IS_APPLE } from './environments';
-import { BlockFormatDropdown, FloatingLinkEditor, InsertTableDialog } from './components';
-import { CODE_LANGUAGE_OPTIONS, FONT_FAMILY_OPTIONS, FONT_SIZE_OPTIONS } from './ToolbarPlugin.const';
 
 const supportedBlockTypes = new Set([
   BlockTypeEnum.Bullet,
@@ -258,26 +259,26 @@ function ToolbarPlugin(): JSX.Element {
   return (
     <div className="toolbar">
       <button
-        type="button"
-        disabled={!canUndo}
         onClick={() => {
           activeEditor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
-        title={IS_APPLE ? 'Undo (⌘Z)' : 'Undo (Ctrl+Z)'}
-        className="toolbar-item spaced"
         aria-label="Undo"
+        className="toolbar-item spaced"
+        disabled={!canUndo}
+        title={IS_APPLE ? 'Undo (⌘Z)' : 'Undo (Ctrl+Z)'}
+        type="button"
       >
         <i className="format undo" />
       </button>
       <button
-        type="button"
-        disabled={!canRedo}
         onClick={() => {
           activeEditor.dispatchCommand(REDO_COMMAND, undefined);
         }}
-        title={IS_APPLE ? 'Redo (⌘Y)' : 'Undo (Ctrl+Y)'}
-        className="toolbar-item"
         aria-label="Redo"
+        className="toolbar-item"
+        disabled={!canRedo}
+        title={IS_APPLE ? 'Redo (⌘Y)' : 'Undo (Ctrl+Y)'}
+        type="button"
       >
         <i className="format redo" />
       </button>
@@ -320,72 +321,72 @@ function ToolbarPlugin(): JSX.Element {
           </>
           <Divider />
           <button
-            type="button"
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
             }}
+            aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? '⌘B' : 'Ctrl+B'}`}
             className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
             title={IS_APPLE ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
-            aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? '⌘B' : 'Ctrl+B'}`}
+            type="button"
           >
             <i className="format bold" />
           </button>
           <button
-            type="button"
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
             }}
+            aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? '⌘I' : 'Ctrl+I'}`}
             className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
             title={IS_APPLE ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
-            aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? '⌘I' : 'Ctrl+I'}`}
+            type="button"
           >
             <i className="format italic" />
           </button>
           <button
-            type="button"
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
             }}
+            aria-label={`Format text to underlined. Shortcut: ${IS_APPLE ? '⌘U' : 'Ctrl+U'}`}
             className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
             title={IS_APPLE ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
-            aria-label={`Format text to underlined. Shortcut: ${IS_APPLE ? '⌘U' : 'Ctrl+U'}`}
+            type="button"
           >
             <i className="format underline" />
           </button>
           <button
-            type="button"
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
             }}
+            aria-label="Insert code block"
             className={`toolbar-item spaced ${isCode ? 'active' : ''}`}
             title="Insert code block"
-            aria-label="Insert code block"
+            type="button"
           >
             <i className="format code" />
           </button>
           <button
-            type="button"
-            onClick={insertLink}
-            className={`toolbar-item spaced ${isLink ? 'active' : ''}`}
             aria-label="Insert link"
+            className={`toolbar-item spaced ${isLink ? 'active' : ''}`}
+            onClick={insertLink}
             title="Insert link"
+            type="button"
           >
             <i className="format link" />
           </button>
           {isLink && createPortal(<FloatingLinkEditor editor={activeEditor} />, document.body)}
           <Dropdown
-            buttonClassName="toolbar-item spaced"
-            buttonLabel=""
             buttonAriaLabel="Formatting options for additional text styles"
+            buttonClassName="toolbar-item spaced"
             buttonIconClassName="icon dropdown-more"
+            buttonLabel=""
           >
             <DropdownItem
               onClick={() => {
                 activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
               }}
+              aria-label="Format text with a strikethrough"
               className={`item ${dropDownActiveClass(isStrikethrough)}`}
               title="Strikethrough"
-              aria-label="Format text with a strikethrough"
             >
               <i className="icon strikethrough" />
               <span className="text">Strikethrough</span>
@@ -394,9 +395,9 @@ function ToolbarPlugin(): JSX.Element {
               onClick={() => {
                 activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript');
               }}
+              aria-label="Format text with a subscript"
               className={`item ${dropDownActiveClass(isSubscript)}`}
               title="Subscript"
-              aria-label="Format text with a subscript"
             >
               <i className="icon subscript" />
               <span className="text">Subscript</span>
@@ -405,18 +406,18 @@ function ToolbarPlugin(): JSX.Element {
               onClick={() => {
                 activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript');
               }}
+              aria-label="Format text with a superscript"
               className={`item ${dropDownActiveClass(isSuperscript)}`}
               title="Superscript"
-              aria-label="Format text with a superscript"
             >
               <i className="icon superscript" />
               <span className="text">Superscript</span>
             </DropdownItem>
             <DropdownItem
-              onClick={clearFormatting}
-              className="item"
-              title="Clear text formatting"
               aria-label="Clear all text formatting"
+              className="item"
+              onClick={clearFormatting}
+              title="Clear text formatting"
             >
               <i className="icon clear" />
               <span className="text">Clear Formatting</span>
@@ -424,10 +425,10 @@ function ToolbarPlugin(): JSX.Element {
           </Dropdown>
           <Divider />
           <Dropdown
-            buttonClassName="toolbar-item spaced"
-            buttonLabel="Insert"
             buttonAriaLabel="Insert specialized editor node"
+            buttonClassName="toolbar-item spaced"
             buttonIconClassName="icon plus"
+            buttonLabel="Insert"
           >
             <DropdownItem
               onClick={() => {
@@ -454,10 +455,10 @@ function ToolbarPlugin(): JSX.Element {
       )}
       <Divider />
       <Dropdown
-        buttonLabel="Align"
-        buttonIconClassName="icon left-align"
-        buttonClassName="toolbar-item spaced alignment"
         buttonAriaLabel="Formatting options for text alignment"
+        buttonClassName="toolbar-item spaced alignment"
+        buttonIconClassName="icon left-align"
+        buttonLabel="Align"
       >
         <DropdownItem
           onClick={() => {

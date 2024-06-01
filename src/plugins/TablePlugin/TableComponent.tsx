@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { createPortal } from 'react-dom';
 import type { EditorState, RangeSelection, TextFormatType } from 'lexical';
+
 import {
   $generateJSONFromSelectedNodes,
   $generateNodesFromSerializedNodes,
@@ -40,8 +39,9 @@ import {
   NodeKey,
   PASTE_COMMAND,
 } from 'lexical';
+import * as React from 'react';
+import { createPortal } from 'react-dom';
 
-import { CellContext } from './TablePlugin';
 import {
   $isTableNode,
   Cell,
@@ -54,6 +54,7 @@ import {
   Rows,
   TableNode,
 } from './TableNode';
+import { CellContext } from './TablePlugin';
 
 type SortOptions = { type: 'ascending' | 'descending'; x: number };
 
@@ -160,7 +161,7 @@ function isPaste(keyCode: number, shiftKey: boolean, metaKey: boolean, ctrlKey: 
 }
 
 function getCellID(domElement: HTMLElement): null | string {
-  let node: null | HTMLElement = domElement;
+  let node: HTMLElement | null = domElement;
   while (node !== null) {
     const possibleID = node.getAttribute('data-id');
     if (possibleID != null) {
@@ -172,7 +173,7 @@ function getCellID(domElement: HTMLElement): null | string {
 }
 
 function getTableCellWidth(domElement: HTMLElement): number {
-  let node: null | HTMLElement = domElement;
+  let node: HTMLElement | null = domElement;
   while (node !== null) {
     if (node.nodeName === 'TH' || node.nodeName === 'TD') {
       return node.getBoundingClientRect().width;
@@ -186,7 +187,7 @@ function $updateCells(
   rows: Rows,
   ids: Array<string>,
   cellCoordMap: Map<string, [number, number]>,
-  cellEditor: null | LexicalEditor,
+  cellEditor: LexicalEditor | null,
   updateTableNode: (fn2: (tableNode: TableNode) => void) => void,
   fn: () => void,
 ): void {
@@ -229,7 +230,7 @@ function getSelectedRect(
   startID: string,
   endID: string,
   cellCoordMap: Map<string, [number, number]>,
-): null | { startX: number; endX: number; startY: number; endY: number } {
+): { endX: number; endY: number; startX: number; startY: number } | null {
   const startCoords = cellCoordMap.get(startID);
   const endCoords = cellCoordMap.get(endID);
   if (startCoords === undefined || endCoords === undefined) {
@@ -258,7 +259,7 @@ function getSelectedIDs(
   if (rect === null) {
     return [];
   }
-  const { startX, endY, endX, startY } = rect;
+  const { endX, endY, startX, startY } = rect;
   const ids: string[] = [];
 
   for (let x = startX; x <= endX; x++) {
@@ -269,8 +270,8 @@ function getSelectedIDs(
   return ids;
 }
 
-function extractCellsFromRows(rows: Rows, rect: { startX: number; endX: number; startY: number; endY: number }): Rows {
-  const { startX, endY, endX, startY } = rect;
+function extractCellsFromRows(rows: Rows, rect: { endX: number; endY: number; startX: number; startY: number }): Rows {
+  const { endX, endY, startX, startY } = rect;
   const newRows: Rows = [];
 
   for (let y = startY; y <= endY; y++) {
@@ -296,8 +297,8 @@ function TableCellEditor({ cellEditor }: { cellEditor: LexicalEditor }) {
   return (
     <LexicalNestedComposer
       initialEditor={cellEditor}
-      initialTheme={cellEditorConfig.theme}
       initialNodes={cellEditorConfig.nodes}
+      initialTheme={cellEditorConfig.theme}
       skipCollabChecks={true}
     >
       {cellEditorPlugins}
@@ -305,7 +306,7 @@ function TableCellEditor({ cellEditor }: { cellEditor: LexicalEditor }) {
   );
 }
 
-function getCell(rows: Rows, cellID: string, cellCoordMap: Map<string, [number, number]>): null | Cell {
+function getCell(rows: Rows, cellID: string, cellCoordMap: Map<string, [number, number]>): Cell | null {
   const coords = cellCoordMap.get(cellID);
   if (coords === undefined) {
     return null;
@@ -317,26 +318,26 @@ function getCell(rows: Rows, cellID: string, cellCoordMap: Map<string, [number, 
 
 function TableActionMenu({
   cell,
-  rows,
   cellCoordMap,
   menuElem,
-  updateCellsByID,
   onClose,
-  updateTableNode,
+  rows,
   setSortingOptions,
   sortingOptions,
+  updateCellsByID,
+  updateTableNode,
 }: {
   cell: Cell;
-  menuElem: HTMLElement;
-  updateCellsByID: (ids: Array<string>, fn: () => void) => void;
-  onClose: () => void;
-  updateTableNode: (fn2: (tableNode: TableNode) => void) => void;
   cellCoordMap: Map<string, [number, number]>;
+  menuElem: HTMLElement;
+  onClose: () => void;
   rows: Rows;
   setSortingOptions: (options: null | SortOptions) => void;
   sortingOptions: null | SortOptions;
+  updateCellsByID: (ids: Array<string>, fn: () => void) => void;
+  updateTableNode: (fn2: (tableNode: TableNode) => void) => void;
 }) {
-  const dropDownRef = React.useRef<null | HTMLDivElement>(null);
+  const dropDownRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     const dropdownElem = dropDownRef.current;
@@ -367,23 +368,22 @@ function TableActionMenu({
 
   return (
     <div
-      className="dropdown"
-      ref={dropDownRef}
-      onPointerMove={(e) => {
+      onClick={(e) => {
         e.stopPropagation();
       }}
       onPointerDown={(e) => {
         e.stopPropagation();
       }}
+      onPointerMove={(e) => {
+        e.stopPropagation();
+      }}
       onPointerUp={(e) => {
         e.stopPropagation();
       }}
-      onClick={(e) => {
-        e.stopPropagation();
-      }}
+      className="dropdown"
+      ref={dropDownRef}
     >
       <button
-        className="item"
         onClick={() => {
           updateTableNode((tableNode) => {
             $addUpdateTag('history-push');
@@ -391,11 +391,11 @@ function TableActionMenu({
           });
           onClose();
         }}
+        className="item"
       >
         <span className="text">{cell.type === 'normal' ? 'Make header' : 'Remove header'}</span>
       </button>
       <button
-        className="item"
         onClick={() => {
           updateCellsByID([cell.id], () => {
             const root = $getRoot();
@@ -404,6 +404,7 @@ function TableActionMenu({
           });
           onClose();
         }}
+        className="item"
       >
         <span className="text">Clear cell</span>
       </button>
@@ -412,33 +413,33 @@ function TableActionMenu({
         <>
           {sortingOptions !== null && sortingOptions.x === x && (
             <button
-              className="item"
               onClick={() => {
                 setSortingOptions(null);
                 onClose();
               }}
+              className="item"
             >
               <span className="text">Remove sorting</span>
             </button>
           )}
           {(sortingOptions === null || sortingOptions.x !== x || sortingOptions.type === 'descending') && (
             <button
-              className="item"
               onClick={() => {
                 setSortingOptions({ type: 'ascending', x });
                 onClose();
               }}
+              className="item"
             >
               <span className="text">Sort ascending</span>
             </button>
           )}
           {(sortingOptions === null || sortingOptions.x !== x || sortingOptions.type === 'ascending') && (
             <button
-              className="item"
               onClick={() => {
                 setSortingOptions({ type: 'descending', x });
                 onClose();
               }}
+              className="item"
             >
               <span className="text">Sort descending</span>
             </button>
@@ -447,7 +448,6 @@ function TableActionMenu({
         </>
       )}
       <button
-        className="item"
         onClick={() => {
           updateTableNode((tableNode) => {
             $addUpdateTag('history-push');
@@ -455,11 +455,11 @@ function TableActionMenu({
           });
           onClose();
         }}
+        className="item"
       >
         <span className="text">Insert row above</span>
       </button>
       <button
-        className="item"
         onClick={() => {
           updateTableNode((tableNode) => {
             $addUpdateTag('history-push');
@@ -467,12 +467,12 @@ function TableActionMenu({
           });
           onClose();
         }}
+        className="item"
       >
         <span className="text">Insert row below</span>
       </button>
       <hr />
       <button
-        className="item"
         onClick={() => {
           updateTableNode((tableNode) => {
             $addUpdateTag('history-push');
@@ -480,11 +480,11 @@ function TableActionMenu({
           });
           onClose();
         }}
+        className="item"
       >
         <span className="text">Insert column left</span>
       </button>
       <button
-        className="item"
         onClick={() => {
           updateTableNode((tableNode) => {
             $addUpdateTag('history-push');
@@ -492,13 +492,13 @@ function TableActionMenu({
           });
           onClose();
         }}
+        className="item"
       >
         <span className="text">Insert column right</span>
       </button>
       <hr />
       {rows[0].cells.length !== 1 && (
         <button
-          className="item"
           onClick={() => {
             updateTableNode((tableNode) => {
               $addUpdateTag('history-push');
@@ -506,13 +506,13 @@ function TableActionMenu({
             });
             onClose();
           }}
+          className="item"
         >
           <span className="text">Delete column</span>
         </button>
       )}
       {rows.length !== 1 && (
         <button
-          className="item"
           onClick={() => {
             updateTableNode((tableNode) => {
               $addUpdateTag('history-push');
@@ -520,12 +520,12 @@ function TableActionMenu({
             });
             onClose();
           }}
+          className="item"
         >
           <span className="text">Delete row</span>
         </button>
       )}
       <button
-        className="item"
         onClick={() => {
           updateTableNode((tableNode) => {
             $addUpdateTag('history-push');
@@ -534,6 +534,7 @@ function TableActionMenu({
           });
           onClose();
         }}
+        className="item"
       >
         <span className="text">Delete table</span>
       </button>
@@ -546,27 +547,27 @@ function TableCell({
   cellCoordMap,
   cellEditor,
   isEditing,
-  isSelected,
   isPrimarySelected,
-  theme,
-  updateCellsByID,
-  updateTableNode,
+  isSelected,
   rows,
   setSortingOptions,
   sortingOptions,
+  theme,
+  updateCellsByID,
+  updateTableNode,
 }: {
   cell: Cell;
-  isEditing: boolean;
-  isSelected: boolean;
-  isPrimarySelected: boolean;
-  theme: EditorThemeClasses;
-  cellEditor: LexicalEditor;
-  updateCellsByID: (ids: Array<string>, fn: () => void) => void;
-  updateTableNode: (fn2: (tableNode: TableNode) => void) => void;
   cellCoordMap: Map<string, [number, number]>;
+  cellEditor: LexicalEditor;
+  isEditing: boolean;
+  isPrimarySelected: boolean;
+  isSelected: boolean;
   rows: Rows;
   setSortingOptions: (options: null | SortOptions) => void;
   sortingOptions: null | SortOptions;
+  theme: EditorThemeClasses;
+  updateCellsByID: (ids: Array<string>, fn: () => void) => void;
+  updateTableNode: (fn2: (tableNode: TableNode) => void) => void;
 }) {
   const [showMenu, setShowMenu] = React.useState(false);
   const menuRootRef = React.useRef(null);
@@ -590,8 +591,8 @@ function TableCell({
         isSelected ? theme.tableCellSelected : ''
       }`}
       data-id={cell.id}
-      tabIndex={-1}
       style={{ width: cellWidth !== null ? cellWidth : undefined }}
+      tabIndex={-1}
     >
       {isPrimarySelected && (
         <div className={`${theme.tableCellPrimarySelected} ${isEditing ? theme.tableCellEditing : ''}`} />
@@ -601,13 +602,13 @@ function TableCell({
       ) : (
         <>
           <div
-            style={{ position: 'relative', zIndex: 3 }}
             dangerouslySetInnerHTML={{
               __html:
                 editorStateJSON === ''
                   ? createEmptyParagraphHTML(theme)
                   : generateHTMLFromJSON(editorStateJSON, cellEditor),
             }}
+            style={{ position: 'relative', zIndex: 3 }}
           />
           <div className={theme.tableCellResizer} data-table-resize="true" />
         </>
@@ -615,11 +616,11 @@ function TableCell({
       {isPrimarySelected && !isEditing && (
         <div className={theme.tableCellActionButtonContainer} ref={menuRootRef}>
           <button
-            className={theme.tableCellActionButton}
             onClick={(e) => {
               setShowMenu(!showMenu);
               e.stopPropagation();
             }}
+            className={theme.tableCellActionButton}
           >
             <i className="chevron-down" />
           </button>
@@ -630,14 +631,14 @@ function TableCell({
         createPortal(
           <TableActionMenu
             cell={cell}
-            menuElem={menuElem}
-            updateCellsByID={updateCellsByID}
-            onClose={() => setShowMenu(false)}
-            updateTableNode={updateTableNode}
             cellCoordMap={cellCoordMap}
+            menuElem={menuElem}
+            onClose={() => setShowMenu(false)}
             rows={rows}
             setSortingOptions={setSortingOptions}
             sortingOptions={sortingOptions}
+            updateCellsByID={updateCellsByID}
+            updateTableNode={updateTableNode}
           />,
           document.body,
         )}
@@ -654,14 +655,14 @@ interface TableComponentProps {
 
 export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponentProps): JSX.Element | null {
   const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
-  const resizeMeasureRef = React.useRef<{ size: number; point: number }>({
+  const resizeMeasureRef = React.useRef<{ point: number; size: number }>({
     point: 0,
     size: 0,
   });
   const [sortingOptions, setSortingOptions] = React.useState<null | SortOptions>(null);
   const addRowsRef = React.useRef(null);
-  const lastCellIDRef = React.useRef<string | null>(null);
-  const tableResizerRulerRef = React.useRef<null | HTMLDivElement>(null);
+  const lastCellIDRef = React.useRef<null | string>(null);
+  const tableResizerRulerRef = React.useRef<HTMLDivElement | null>(null);
   const { cellEditorConfig } = React.useContext(CellContext);
   const [isEditing, setIsEditing] = React.useState(false);
   const [showAddColumns, setShowAddColumns] = React.useState(false);
@@ -669,7 +670,7 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
   const [editor] = useLexicalComposerContext();
   const mouseDownRef = React.useRef(false);
   const [resizingID, setResizingID] = React.useState<null | string>(null);
-  const tableRef = React.useRef<null | HTMLTableElement>(null);
+  const tableRef = React.useRef<HTMLTableElement | null>(null);
   const cellCoordMap = React.useMemo(() => {
     const map = new Map();
 
@@ -706,7 +707,7 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
     return _rows;
   }, [rawRows, sortingOptions]);
   const [primarySelectedCellID, setPrimarySelectedCellID] = React.useState<null | string>(null);
-  const cellEditor = React.useMemo<null | LexicalEditor>(() => {
+  const cellEditor = React.useMemo<LexicalEditor | null>(() => {
     if (cellEditorConfig === null) {
       return null;
     }
@@ -858,7 +859,7 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
       if (resizingID !== null) {
         const tableResizerRulerElem = tableResizerRulerRef.current;
         if (tableResizerRulerElem !== null) {
-          const { size, point } = resizeMeasureRef.current;
+          const { point, size } = resizeMeasureRef.current;
           const diff = event.clientX - point;
           const newWidth = size + diff;
           let x = event.clientX - tableRect.x;
@@ -875,7 +876,7 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
       }
       if (!isEditing) {
         const { clientX, clientY } = event;
-        const { width, x, y, height } = tableRect;
+        const { height, width, x, y } = tableRect;
         const isOnRightEdge = clientX > x + width * 0.9 && clientX < x + width + 40 && !mouseDownRef.current;
         setShowAddColumns(isOnRightEdge);
         const isOnBottomEdge =
@@ -903,7 +904,7 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
 
     const handlePointerUp = (event: PointerEvent) => {
       if (resizingID !== null) {
-        const { size, point } = resizeMeasureRef.current;
+        const { point, size } = resizeMeasureRef.current;
         const diff = event.clientX - point;
         let newWidth = size + diff;
         if (newWidth < 10) {
@@ -1089,20 +1090,20 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
       }
     };
 
-    const getTypeFromObject = async (clipboardData: DataTransfer | ClipboardItem, type: string): Promise<string> => {
+    const getTypeFromObject = async (clipboardData: ClipboardItem | DataTransfer, type: string): Promise<string> => {
       try {
         return clipboardData instanceof DataTransfer
           ? clipboardData.getData(type)
           : clipboardData instanceof ClipboardItem
-          ? await (await clipboardData.getType(type)).text()
-          : '';
+            ? await (await clipboardData.getType(type)).text()
+            : '';
       } catch {
         return '';
       }
     };
 
     const pasteContent = async (event: ClipboardEvent) => {
-      let clipboardData: null | DataTransfer | ClipboardItem =
+      let clipboardData: ClipboardItem | DataTransfer | null =
         (event instanceof InputEvent ? null : event.clipboardData) || null;
 
       if (primarySelectedCellID !== null && cellEditor !== null) {
@@ -1336,8 +1337,8 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
             const isBackward = event.shiftKey;
             const [x, y] = cellCoordMap.get(primarySelectedCellID) as [number, number];
             event.preventDefault();
-            let nextX: number | null = null;
-            let nextY: number | null = null;
+            let nextX: null | number = null;
+            let nextY: null | number = null;
             if (x === 0 && isBackward) {
               if (y !== 0) {
                 nextY = y - 1;
@@ -1535,24 +1536,24 @@ export function TableComponent({ nodeKey, rows: rawRows, theme }: TableComponent
       <table className={`${theme.table} ${isSelected ? theme.tableSelected : ''}`} ref={tableRef} tabIndex={-1}>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.id} className={theme.tableRow}>
+            <tr className={theme.tableRow} key={row.id}>
               {row.cells.map((cell) => {
                 const { id } = cell;
                 return (
                   <TableCell
-                    key={id}
                     cell={cell}
-                    theme={theme}
-                    isSelected={selectedCellSet.has(id)}
-                    isPrimarySelected={primarySelectedCellID === id}
-                    isEditing={isEditing}
-                    sortingOptions={sortingOptions}
-                    cellEditor={cellEditor}
-                    updateCellsByID={updateCellsByID}
-                    updateTableNode={updateTableNode}
                     cellCoordMap={cellCoordMap}
+                    cellEditor={cellEditor}
+                    isEditing={isEditing}
+                    isPrimarySelected={primarySelectedCellID === id}
+                    isSelected={selectedCellSet.has(id)}
+                    key={id}
                     rows={rows}
                     setSortingOptions={setSortingOptions}
+                    sortingOptions={sortingOptions}
+                    theme={theme}
+                    updateCellsByID={updateCellsByID}
+                    updateTableNode={updateTableNode}
                   />
                 );
               })}

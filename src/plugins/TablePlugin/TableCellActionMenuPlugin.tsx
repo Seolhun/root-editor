@@ -22,17 +22,17 @@ import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type TableCellActionMenuProps = Readonly<{
-  contextRef: { current: null | HTMLElement };
+  contextRef: { current: HTMLElement | null };
   onClose: () => void;
   setIsMenuOpen: (isOpen: boolean) => void;
   tableCellNode: TableCellNode;
 }>;
 
 function TableActionMenu({
-  onClose,
-  tableCellNode: _tableCellNode,
-  setIsMenuOpen,
   contextRef,
+  onClose,
+  setIsMenuOpen,
+  tableCellNode: _tableCellNode,
 }: TableCellActionMenuProps) {
   const [editor] = useLexicalComposerContext();
   const dropDownRef = useRef<HTMLDivElement | null>(null);
@@ -284,11 +284,11 @@ function TableActionMenu({
 
   return createPortal(
     <div
-      className="dropdown"
-      ref={dropDownRef}
       onClick={(e) => {
         e.stopPropagation();
       }}
+      className="dropdown"
+      ref={dropDownRef}
     >
       <button className="item" onClick={() => insertTableRowAtSelection(false)}>
         <span className="text">Insert {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`} above</span>
@@ -344,7 +344,7 @@ function TableCellActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement 
   const menuRootRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const [tableCellNode, setTableMenuCellNode] = useState<TableCellNode | null>(null);
+  const [tableCellNode, setTableMenuCellNode] = useState<null | TableCellNode>(null);
 
   const moveMenu = useCallback(() => {
     const menu = menuButtonRef.current;
@@ -430,11 +430,11 @@ function TableCellActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement 
       {tableCellNode != null && (
         <>
           <button
-            className="table-cell-action-button chevron-down"
             onClick={(e) => {
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);
             }}
+            className="table-cell-action-button chevron-down"
             ref={menuRootRef}
           >
             <i className="chevron-down" />
@@ -442,8 +442,8 @@ function TableCellActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement 
           {isMenuOpen && (
             <TableActionMenu
               contextRef={menuRootRef}
-              setIsMenuOpen={setIsMenuOpen}
               onClose={() => setIsMenuOpen(false)}
+              setIsMenuOpen={setIsMenuOpen}
               tableCellNode={tableCellNode}
             />
           )}

@@ -3,15 +3,15 @@ import React from 'react';
 type BaseEquationEditorProps = {
   equation: string;
   inline: boolean;
-  inputRef: { current: null | HTMLInputElement | HTMLTextAreaElement };
+  inputRef: { current: HTMLInputElement | HTMLTextAreaElement | null };
   setEquation: (string) => void;
 };
 
-function InlineEquationEditor({ equation, onChange, inputRef }: EquationEditorImplProps): JSX.Element {
+function InlineEquationEditor({ equation, inputRef, onChange }: EquationEditorImplProps): JSX.Element {
   return (
     <span className="EquationEditor_inputBackground">
       <span className="EquationEditor_dollarSign">$</span>
-      <input className="EquationEditor_inlineEditor" value={equation} onChange={onChange} ref={inputRef} />
+      <input className="EquationEditor_inlineEditor" onChange={onChange} ref={inputRef} value={equation} />
       <span className="EquationEditor_dollarSign">$</span>
     </span>
   );
@@ -19,21 +19,21 @@ function InlineEquationEditor({ equation, onChange, inputRef }: EquationEditorIm
 
 type BlockEquationEditorImplProps = {
   equation: string;
-  inputRef: { current: null | HTMLTextAreaElement };
+  inputRef: { current: HTMLTextAreaElement | null };
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-function BlockEquationEditor({ equation, onChange, inputRef }: BlockEquationEditorImplProps): JSX.Element {
+function BlockEquationEditor({ equation, inputRef, onChange }: BlockEquationEditorImplProps): JSX.Element {
   return (
     <div className="EquationEditor_inputBackground">
       <span className="EquationEditor_dollarSign">{'$$\n'}</span>
-      <textarea className="EquationEditor_blockEditor" value={equation} onChange={onChange} ref={inputRef} />
+      <textarea className="EquationEditor_blockEditor" onChange={onChange} ref={inputRef} value={equation} />
       <span className="EquationEditor_dollarSign">{'\n$$'}</span>
     </div>
   );
 }
 
-function EquationEditor({ equation, setEquation, inline, inputRef }: BaseEquationEditorProps): JSX.Element {
+function EquationEditor({ equation, inline, inputRef, setEquation }: BaseEquationEditorProps): JSX.Element {
   const onChange = (event) => {
     setEquation(event.target.value);
   };
@@ -53,7 +53,7 @@ function EquationEditor({ equation, setEquation, inline, inputRef }: BaseEquatio
 
 type EquationEditorImplProps = {
   equation: string;
-  inputRef: { current: null | HTMLInputElement };
+  inputRef: { current: HTMLInputElement | null };
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 

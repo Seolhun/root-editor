@@ -1,60 +1,54 @@
-import React from 'react';
-import { $getRoot, $getSelection, EditorState } from 'lexical';
-import { InitialEditorStateType, LexicalComposer } from '@lexical/react/LexicalComposer';
-import clsx from 'clsx';
-
+import { CodeHighlightNode, CodeNode } from '@lexical/code';
+import { AutoLinkNode, LinkNode } from '@lexical/link';
+import { ListItemNode, ListNode } from '@lexical/list';
+import { TRANSFORMERS } from '@lexical/markdown';
 // Official Plugins
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
-import { CodeHighlightNode, CodeNode } from '@lexical/code';
-import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { InitialEditorStateType, LexicalComposer } from '@lexical/react/LexicalComposer';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LinkNode, AutoLinkNode } from '@lexical/link';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { ListNode, ListItemNode } from '@lexical/list';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { TRANSFORMERS } from '@lexical/markdown';
-import { TableNode, TableCellNode, TableRowNode } from '@lexical/table';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+import clsx from 'clsx';
+import { $getRoot, $getSelection, EditorState } from 'lexical';
+import React from 'react';
 
-// Custom Plugins
-import { TableContextProvider } from './plugins/TablePlugin/TablePlugin';
-import { TableCellResizerPlugin } from './plugins/TablePlugin/TableCellResizer';
-import { TableCellActionMenuPlugin } from './plugins/TablePlugin/TableCellActionMenuPlugin';
+import { theme } from './Editor.theme';
 import {
   AutoLinkPlugin,
   CodeHighlightPlugin,
+  ContentEditable,
   EmojiNode,
   EmojiPlugin,
   ListMaxIndentLevelPlugin,
+  Placeholder,
   ToolbarPlugin,
   TreeViewPlugin,
-  ContentEditable,
-  Placeholder,
 } from './plugins';
-import { theme } from './Editor.theme';
+import { TableCellActionMenuPlugin } from './plugins/TablePlugin/TableCellActionMenuPlugin';
+import { TableCellResizerPlugin } from './plugins/TablePlugin/TableCellResizer';
+// Custom Plugins
+import { TableContextProvider } from './plugins/TablePlugin/TablePlugin';
 
-import './assets/tailwind.scss';
 import './assets/index.scss';
+import './assets/tailwind.scss';
 
 type ElementType = HTMLDivElement;
 type ElementProps = React.HTMLAttributes<ElementType>;
 
 export interface EditorProps {
   /**
-   * @default Save
+   * Initial editor state
    */
-  submitButtonLabel?: React.ReactNode;
-
-  /**
-   * onSubmit
-   */
-  onSubmit?: () => void;
+  initialEditorState?: InitialEditorStateType;
 
   /**
    * 자동 저장
@@ -62,9 +56,9 @@ export interface EditorProps {
   onSnapshot?: () => void;
 
   /**
-   * 자동저장 timeout ms
+   * onSubmit
    */
-  snapshotTimeout?: number;
+  onSubmit?: () => void;
 
   /**
    * Character Limit
@@ -72,9 +66,14 @@ export interface EditorProps {
   placeholder?: string;
 
   /**
-   * Initial editor state
+   * 자동저장 timeout ms
    */
-  initialEditorState?: InitialEditorStateType;
+  snapshotTimeout?: number;
+
+  /**
+   * @default Save
+   */
+  submitButtonLabel?: React.ReactNode;
 }
 
 // When the editor changes, you can get notified via the
@@ -98,8 +97,6 @@ function onError(error) {
 
 const initialConfig = {
   namespace: 'Editor',
-  theme,
-  onError,
   nodes: [
     AutoLinkNode,
     LinkNode,
@@ -122,19 +119,21 @@ const initialConfig = {
     // Custom Nodes
     EmojiNode,
   ],
+  onError,
+  theme,
 };
 
 const Editor = React.forwardRef<ElementType, EditorProps & ElementProps>(
   (
     {
-      submitButtonLabel,
-      onSubmit,
-      onSnapshot,
-      snapshotTimeout,
-      placeholder = 'Write something you want',
-      initialEditorState,
       // HtmlProps
       className,
+      initialEditorState,
+      onSnapshot,
+      onSubmit,
+      placeholder = 'Write something you want',
+      snapshotTimeout,
+      submitButtonLabel,
       ...rests
     },
     ref,
@@ -160,8 +159,8 @@ const Editor = React.forwardRef<ElementType, EditorProps & ElementProps>(
                       <ContentEditable />
                     </div>
                   }
-                  placeholder={<Placeholder>{placeholder}</Placeholder>}
                   ErrorBoundary={LexicalErrorBoundary}
+                  placeholder={<Placeholder>{placeholder}</Placeholder>}
                 />
                 <AutoFocusPlugin />
                 <AutoFocusPlugin />

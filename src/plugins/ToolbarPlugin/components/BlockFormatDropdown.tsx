@@ -1,6 +1,5 @@
-import React from 'react';
 import type { LexicalEditor } from 'lexical';
-import { $createParagraphNode, $getSelection, $isRangeSelection } from 'lexical';
+
 import { $createCodeNode } from '@lexical/code';
 import {
   INSERT_CHECK_LIST_COMMAND,
@@ -10,9 +9,11 @@ import {
 } from '@lexical/list';
 import { $createHeadingNode, $createQuoteNode, HeadingTagType } from '@lexical/rich-text';
 import { $wrapLeafNodesInElements } from '@lexical/selection';
+import { $createParagraphNode, $getSelection, $isRangeSelection } from 'lexical';
+import React from 'react';
 
-import { Dropdown, DropdownItem } from '~/components';
 import { BlockTypeEnum, BlockTypeToBlockNameEnum } from '~/Editor.const';
+import { Dropdown, DropdownItem } from '~/components';
 
 export interface BlockFormatDropdownProps {
   blockType: string;
@@ -26,7 +27,7 @@ function isDropDownActiveClass(active: boolean) {
 
 const HeadingSizes: HeadingTagType[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
-function BlockFormatDropdown({ editor, blockType }: BlockFormatDropdownProps): JSX.Element {
+function BlockFormatDropdown({ blockType, editor }: BlockFormatDropdownProps): JSX.Element {
   const formatParagraph = React.useCallback(() => {
     if (blockType !== BlockTypeEnum.Paragraph) {
       editor.update(() => {
@@ -110,10 +111,10 @@ function BlockFormatDropdown({ editor, blockType }: BlockFormatDropdownProps): J
 
   return (
     <Dropdown
+      buttonAriaLabel="Formatting options for text style"
       buttonClassName="toolbar-item block-controls"
       buttonIconClassName={`icon block-type ${blockType}`}
       buttonLabel={BlockTypeToBlockNameEnum[blockType]}
-      buttonAriaLabel="Formatting options for text style"
     >
       <DropdownItem className={`item ${isDropDownActiveClass(blockType === 'paragraph')}`} onClick={formatParagraph}>
         <i className="icon paragraph" />
@@ -122,8 +123,8 @@ function BlockFormatDropdown({ editor, blockType }: BlockFormatDropdownProps): J
       <>
         {HeadingSizes.map((headingSize) => (
           <DropdownItem
-            key={headingSize}
             className={`item ${isDropDownActiveClass(blockType === headingSize)}`}
+            key={headingSize}
             onClick={() => formatHeading(headingSize)}
           >
             <i className="icon h1" />

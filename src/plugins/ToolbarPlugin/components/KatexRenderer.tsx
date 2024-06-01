@@ -1,5 +1,5 @@
-import React from 'react';
 import katex from 'katex';
+import React from 'react';
 
 export interface KatexRenderProps {
   equation: string;
@@ -30,7 +30,7 @@ function KatexRenderer({ equation, inline, onClick }: KatexRenderProps): JSX.Ele
     // without having a physical space.
     <>
       <span className="spacer"> </span>
-      <span role="button" tabIndex={-1} onClick={onClick} ref={katexElementRef} />
+      <span onClick={onClick} ref={katexElementRef} role="button" tabIndex={-1} />
       <span className="spacer"> </span>
     </>
   );

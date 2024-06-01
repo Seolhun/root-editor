@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 
 export default function Switch({
+  id,
   checked,
   onClick,
   text,
-  id,
 }: Readonly<{
   checked: boolean;
   id?: string;
@@ -15,7 +15,7 @@ export default function Switch({
   return (
     <div className="switch" id={id}>
       <label htmlFor={buttonId}>{text}</label>
-      <button role="switch" aria-checked={checked} id={buttonId} onClick={onClick}>
+      <button aria-checked={checked} id={buttonId} onClick={onClick} role="switch">
         <span />
       </button>
     </div>

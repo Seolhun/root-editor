@@ -1,7 +1,6 @@
-import * as React from 'react';
 import type { Cell } from '@lexical/table';
-import { createPortal } from 'react-dom';
 import type { LexicalEditor } from 'lexical';
+
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $getTableColumnIndexFromTableCellNode,
@@ -18,6 +17,8 @@ import {
   DEPRECATED_$isGridSelection,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
+import * as React from 'react';
+import { createPortal } from 'react-dom';
 
 import './TablePlugin.css';
 
@@ -26,7 +27,7 @@ type MousePosition = {
   y: number;
 };
 
-type MouseDraggingDirection = 'right' | 'bottom';
+type MouseDraggingDirection = 'bottom' | 'right';
 
 const MIN_ROW_HEIGHT = 33;
 const MIN_COLUMN_WIDTH = 50;
@@ -251,7 +252,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 
   const getResizers = React.useCallback(() => {
     if (activeCell) {
-      const { height, width, top, left } = activeCell.elem.getBoundingClientRect();
+      const { height, left, top, width } = activeCell.elem.getBoundingClientRect();
 
       const styles = {
         bottom: {
@@ -309,15 +310,15 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
         <>
           <div
             className="TableCellResizer__resizer TableCellResizer__ui"
-            style={resizerStyles.right || undefined}
             onMouseDown={toggleResize('right')}
             onMouseUp={toggleResize('right')}
+            style={resizerStyles.right || undefined}
           />
           <div
             className="TableCellResizer__resizer TableCellResizer__ui"
-            style={resizerStyles.bottom || undefined}
             onMouseDown={toggleResize('bottom')}
             onMouseUp={toggleResize('bottom')}
+            style={resizerStyles.bottom || undefined}
           />
         </>
       )}

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $createNodeSelection,
@@ -15,6 +14,7 @@ import {
   LexicalEditor,
   LexicalNode,
 } from 'lexical';
+import * as React from 'react';
 
 import { $createTableNodeWithDimensions, TableNode } from './TableNode';
 
@@ -30,14 +30,14 @@ export default function invariant(cond?: boolean, message?: string, ...args: str
 
 export type InsertTableCommandPayload = Readonly<{
   columns: string;
-  rows: string;
   includeHeaders?: boolean;
+  rows: string;
 }>;
 
 export type CellContextShape = {
-  cellEditorConfig: null | CellEditorConfig;
-  cellEditorPlugins: null | JSX.Element | Array<JSX.Element>;
-  set: (cellEditorConfig: null | CellEditorConfig, cellEditorPlugins: null | JSX.Element | Array<JSX.Element>) => void;
+  cellEditorConfig: CellEditorConfig | null;
+  cellEditorPlugins: Array<JSX.Element> | JSX.Element | null;
+  set: (cellEditorConfig: CellEditorConfig | null, cellEditorPlugins: Array<JSX.Element> | JSX.Element | null) => void;
 };
 
 export type CellEditorConfig = Readonly<{
@@ -58,8 +58,8 @@ export interface TableContextProviderProps {
 
 export function TableContextProvider({ children }: TableContextProviderProps) {
   const [contextValue, setContextValue] = React.useState<{
-    cellEditorConfig: null | CellEditorConfig;
-    cellEditorPlugins: null | JSX.Element | Array<JSX.Element>;
+    cellEditorConfig: CellEditorConfig | null;
+    cellEditorPlugins: Array<JSX.Element> | JSX.Element | null;
   }>({
     cellEditorConfig: null,
     cellEditorPlugins: null,
@@ -83,7 +83,7 @@ export function TablePlugin({
   children,
 }: {
   cellEditorConfig: CellEditorConfig;
-  children: JSX.Element | Array<JSX.Element>;
+  children: Array<JSX.Element> | JSX.Element;
 }): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   const cellContext = React.useContext(CellContext);
@@ -97,7 +97,7 @@ export function TablePlugin({
 
     return editor.registerCommand<InsertTableCommandPayload>(
       INSERT_TABLE_COMMAND,
-      ({ columns, rows, includeHeaders }) => {
+      ({ columns, includeHeaders, rows }) => {
         const selection = $getSelection();
 
         if (!$isRangeSelection(selection)) {

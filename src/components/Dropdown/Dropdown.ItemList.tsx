@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useDropdownContext } from './Dropdown.Context';
 
 export interface DropdownItemListProps {
@@ -61,7 +62,7 @@ const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemListProps>
     }, [items, highlightedItem]);
 
     return (
-      <div ref={ref} role="menubar" className="dropdown" onKeyDown={handleKeyDown} tabIndex={0}>
+      <div className="dropdown" onKeyDown={handleKeyDown} ref={ref} role="menubar" tabIndex={0}>
         {children}
       </div>
     );

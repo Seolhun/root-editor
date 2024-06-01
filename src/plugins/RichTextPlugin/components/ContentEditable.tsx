@@ -1,6 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
 import { ContentEditable as LexicalContentEditable } from '@lexical/react/LexicalContentEditable';
+import clsx from 'clsx';
+import React from 'react';
 
 export type ContentEditableProps = React.HTMLAttributes<HTMLDivElement>;
 

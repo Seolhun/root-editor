@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+
 import DropdownContextProvider from './Dropdown.Context';
 import { DropdownItemList } from './Dropdown.ItemList';
 
@@ -8,15 +9,15 @@ export interface DropdownProps {
   buttonClassName: string;
   buttonIconClassName?: string;
   buttonLabel?: string;
-  children: JSX.Element | string | (JSX.Element | string)[];
+  children: (JSX.Element | string)[] | JSX.Element | string;
   stopCloseOnClickSelf?: boolean;
 }
 
 function Dropdown({
-  buttonLabel,
   buttonAriaLabel,
   buttonClassName,
   buttonIconClassName,
+  buttonLabel,
   children,
 }: DropdownProps): JSX.Element {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
@@ -35,7 +36,7 @@ function Dropdown({
     const dropDown = dropDownRef.current;
 
     if (isShowDropdown && button !== null && dropDown !== null) {
-      const { top, left } = button.getBoundingClientRect();
+      const { left, top } = button.getBoundingClientRect();
       dropDown.style.top = `${top + 40}px`;
       dropDown.style.left = `${Math.min(left, window.innerWidth - dropDown.offsetWidth - 20)}px`;
     }
@@ -65,11 +66,11 @@ function Dropdown({
   return (
     <>
       <button
-        ref={buttonRef}
-        type="button"
         aria-label={buttonAriaLabel || buttonLabel}
         className={buttonClassName}
         onClick={showDropdown}
+        ref={buttonRef}
+        type="button"
       >
         {buttonIconClassName && <span className={buttonIconClassName} />}
         {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
@@ -79,7 +80,7 @@ function Dropdown({
       <DropdownContextProvider>
         {isShowDropdown &&
           createPortal(
-            <DropdownItemList ref={dropDownRef} onClose={handleClose}>
+            <DropdownItemList onClose={handleClose} ref={dropDownRef}>
               {children}
             </DropdownItemList>,
             document.body,

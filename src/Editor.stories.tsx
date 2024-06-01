@@ -3,8 +3,8 @@ import React from 'react';
 import { Editor, EditorProps } from './Editor';
 
 export default {
-  title: 'RootEditor',
   component: Editor,
+  title: 'RootEditor',
 };
 
 const Editors: React.FC<EditorProps> = ({ ...rests }) => {

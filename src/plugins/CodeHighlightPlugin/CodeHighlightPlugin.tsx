@@ -1,7 +1,7 @@
-import React from 'react';
-import { LexicalEditor } from 'lexical';
 import { registerCodeHighlighting } from '@lexical/code';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { LexicalEditor } from 'lexical';
+import React from 'react';
 
 function useCodeHighlight(editor: LexicalEditor) {
   React.useEffect(() => {

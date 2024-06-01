@@ -2,12 +2,12 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 
 function PortalImpl({
-  onClose,
   children,
-  title,
   closeOnClickOutside,
+  onClose,
+  title,
 }: {
-  children: JSX.Element | string | (JSX.Element | string)[];
+  children: (JSX.Element | string)[] | JSX.Element | string;
   closeOnClickOutside: boolean;
   onClose: () => void;
   title: string;
@@ -52,9 +52,9 @@ function PortalImpl({
 
   return (
     <div className="Modal__overlay" role="dialog">
-      <div className="Modal__modal" tabIndex={-1} ref={modalRef}>
+      <div className="Modal__modal" ref={modalRef} tabIndex={-1}>
         <h2 className="Modal__title">{title}</h2>
-        <button className="Modal__closeButton" aria-label="Close modal" type="button" onClick={onClose}>
+        <button aria-label="Close modal" className="Modal__closeButton" onClick={onClose} type="button">
           X
         </button>
         <div className="Modal__content">{children}</div>
@@ -64,18 +64,18 @@ function PortalImpl({
 }
 
 function Modal({
-  onClose,
   children,
-  title,
   closeOnClickOutside = false,
+  onClose,
+  title,
 }: {
-  children: JSX.Element | string | (JSX.Element | string)[];
+  children: (JSX.Element | string)[] | JSX.Element | string;
   closeOnClickOutside?: boolean;
   onClose: () => void;
   title: string;
 }): JSX.Element {
   return createPortal(
-    <PortalImpl onClose={onClose} title={title} closeOnClickOutside={closeOnClickOutside}>
+    <PortalImpl closeOnClickOutside={closeOnClickOutside} onClose={onClose} title={title}>
       {children}
     </PortalImpl>,
     document.body,

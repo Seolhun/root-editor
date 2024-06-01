@@ -1,37 +1,6 @@
 import { EditorThemeClasses } from 'lexical';
 
 export const theme: EditorThemeClasses = {
-  ltr: 'ltr',
-  rtl: 'rtl',
-  placeholder: 'editor-placeholder',
-  paragraph: 'editor-paragraph',
-  quote: 'editor-quote',
-  heading: {
-    h1: 'Root__Editor-h1',
-    h2: 'Root__Editor-h2',
-    h3: 'Root__Editor-h3',
-    h4: 'Root__Editor-h4',
-    h5: 'Root__Editor-h5',
-    h6: 'Root__Editor-h6',
-  },
-  list: {
-    nested: {
-      listitem: 'editor-nested-listitem',
-    },
-    ol: 'editor-list-ol',
-    ul: 'editor-list-ul',
-    listitem: 'editor-listitem',
-  },
-  image: 'editor-image',
-  link: 'editor-link',
-  text: {
-    bold: 'editor-text-bold',
-    italic: 'editor-text-italic',
-    underline: 'editor-text-underline',
-    strikethrough: 'editor-text-strikethrough',
-    underlineStrikethrough: 'editor-text-underlineStrikethrough',
-    code: 'editor-text-code',
-  },
   code: 'editor-code',
   codeHighlight: {
     atrule: 'editor-tokenAttr',
@@ -64,6 +33,37 @@ export const theme: EditorThemeClasses = {
     tag: 'editor-tokenProperty',
     url: 'editor-tokenOperator',
     variable: 'editor-tokenVariable',
+  },
+  heading: {
+    h1: 'Root__Editor-h1',
+    h2: 'Root__Editor-h2',
+    h3: 'Root__Editor-h3',
+    h4: 'Root__Editor-h4',
+    h5: 'Root__Editor-h5',
+    h6: 'Root__Editor-h6',
+  },
+  image: 'editor-image',
+  link: 'editor-link',
+  list: {
+    listitem: 'editor-listitem',
+    nested: {
+      listitem: 'editor-nested-listitem',
+    },
+    ol: 'editor-list-ol',
+    ul: 'editor-list-ul',
+  },
+  ltr: 'ltr',
+  paragraph: 'editor-paragraph',
+  placeholder: 'editor-placeholder',
+  quote: 'editor-quote',
+  rtl: 'rtl',
+  text: {
+    bold: 'editor-text-bold',
+    code: 'editor-text-code',
+    italic: 'editor-text-italic',
+    strikethrough: 'editor-text-strikethrough',
+    underline: 'editor-text-underline',
+    underlineStrikethrough: 'editor-text-underlineStrikethrough',
   },
 };
 

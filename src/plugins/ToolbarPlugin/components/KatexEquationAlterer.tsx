@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Button } from '~/components';
+
 import { KatexRenderer } from './KatexRenderer';
 
 type KatexEquationAltererProps = {
@@ -7,7 +9,7 @@ type KatexEquationAltererProps = {
   onConfirm: (string, boolean) => void;
 };
 
-function KatexEquationAlterer({ onConfirm, initialEquation = '' }: KatexEquationAltererProps): JSX.Element {
+function KatexEquationAlterer({ initialEquation = '', onConfirm }: KatexEquationAltererProps): JSX.Element {
   const [equation, setEquation] = React.useState<string>(initialEquation);
   const [inline, setInline] = React.useState<boolean>(true);
 
@@ -23,7 +25,7 @@ function KatexEquationAlterer({ onConfirm, initialEquation = '' }: KatexEquation
     <>
       <div className="KatexEquationAlterer_defaultRow">
         Inline
-        <input type="checkbox" checked={inline} onChange={onCheckboxChange} />
+        <input checked={inline} onChange={onCheckboxChange} type="checkbox" />
       </div>
       <div className="KatexEquationAlterer_defaultRow">Equation </div>
       <div className="KatexEquationAlterer_centerRow">
@@ -32,16 +34,16 @@ function KatexEquationAlterer({ onConfirm, initialEquation = '' }: KatexEquation
             onChange={(event) => {
               setEquation(event.target.value);
             }}
-            value={equation}
             className="KatexEquationAlterer_textArea"
+            value={equation}
           />
         ) : (
           <textarea
             onChange={(event) => {
               setEquation(event.target.value);
             }}
-            value={equation}
             className="KatexEquationAlterer_textArea"
+            value={equation}
           />
         )}
       </div>

@@ -8,11 +8,11 @@ export type UseModalReturns = [
 ];
 
 function useModal(): UseModalReturns {
-  const [modalContent, setModalContent] = React.useState<null | {
+  const [modalContent, setModalContent] = React.useState<{
     closeOnClickOutside: boolean;
     content: JSX.Element;
     title: string;
-  }>(null);
+  } | null>(null);
 
   const onClose = React.useCallback(() => {
     setModalContent(null);
@@ -22,9 +22,9 @@ function useModal(): UseModalReturns {
     if (modalContent === null) {
       return null;
     }
-    const { title, content, closeOnClickOutside } = modalContent;
+    const { closeOnClickOutside, content, title } = modalContent;
     return (
-      <Modal onClose={onClose} title={title} closeOnClickOutside={closeOnClickOutside}>
+      <Modal closeOnClickOutside={closeOnClickOutside} onClose={onClose} title={title}>
         {content}
       </Modal>
     );

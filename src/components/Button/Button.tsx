@@ -1,12 +1,11 @@
-import React from 'react';
-
 import clsx from 'clsx';
+import React from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
 }
 
-function Button({ children, className, title, disabled, ...rests }: ButtonProps) {
+function Button({ className, children, disabled, title, ...rests }: ButtonProps) {
   return (
     <button
       type="button"
@@ -18,8 +17,8 @@ function Button({ children, className, title, disabled, ...rests }: ButtonProps)
         },
         className,
       )}
-      title={title}
       aria-label={title}
+      title={title}
     >
       {children}
     </button>

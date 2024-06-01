@@ -5,17 +5,17 @@ import { NodeKey, TextNode } from 'lexical';
 export class EmojiNode extends TextNode {
   __className;
 
-  static getType() {
-    return 'emoji';
+  constructor(className: string, text: string, key?: NodeKey) {
+    super(text, key);
+    this.__className = className;
   }
 
   static clone(node) {
     return new EmojiNode(node.__className, node.__text, node.__key);
   }
 
-  constructor(className: string, text: string, key?: NodeKey) {
-    super(text, key);
-    this.__className = className;
+  static getType() {
+    return 'emoji';
   }
 
   createDOM(config) {

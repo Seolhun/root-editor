@@ -2,15 +2,15 @@ export enum BlockTypeEnum {
   Bullet = 'bullet',
   Check = 'check',
   Code = 'code',
-  Number = 'number',
-  Paragraph = 'paragraph',
-  Quote = 'quote',
   H1 = 'h1',
   H2 = 'h2',
   H3 = 'h3',
   H4 = 'h4',
   H5 = 'h5',
   H6 = 'h6',
+  Number = 'number',
+  Paragraph = 'paragraph',
+  Quote = 'quote',
 }
 
 export enum BlockTypeToBlockNameEnum {

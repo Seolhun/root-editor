@@ -1,14 +1,13 @@
-import React from 'react';
-
 import { $getListDepth, $isListItemNode, $isListNode } from '@lexical/list';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $getSelection,
   $isElementNode,
   $isRangeSelection,
-  INDENT_CONTENT_COMMAND,
   COMMAND_PRIORITY_HIGH,
+  INDENT_CONTENT_COMMAND,
 } from 'lexical';
+import React from 'react';
 
 export interface ListMaxIndentLevelPluginProps {
   maxDepth: number;

@@ -1,8 +1,9 @@
-import React from 'react';
 import type { LexicalEditor } from 'lexical';
-import { INSERT_TABLE_COMMAND } from '@lexical/table';
 
-import { TextField, Button } from '~/components';
+import { INSERT_TABLE_COMMAND } from '@lexical/table';
+import React from 'react';
+
+import { Button, TextField } from '~/components';
 
 export interface InsertTableDialogProps {
   activeEditor: LexicalEditor;

@@ -9,7 +9,7 @@ export interface DropdownItemProps {
   title?: string;
 }
 
-function DropdownItem({ children, className, onClick, title }: DropdownItemProps): JSX.Element {
+function DropdownItem({ className, children, onClick, title }: DropdownItemProps): JSX.Element {
   const ref = React.useRef<HTMLButtonElement>(null);
 
   const { registerItem } = useDropdownContext();
@@ -21,7 +21,7 @@ function DropdownItem({ children, className, onClick, title }: DropdownItemProps
   }, [ref, registerItem]);
 
   return (
-    <button type="button" className={className} onClick={onClick} ref={ref} title={title}>
+    <button className={className} onClick={onClick} ref={ref} title={title} type="button">
       {children}
     </button>
   );

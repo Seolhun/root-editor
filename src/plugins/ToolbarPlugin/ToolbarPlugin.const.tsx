@@ -2,56 +2,56 @@ import { SelectOptionProps } from '~/components';
 
 export const CODE_LANGUAGE_OPTIONS: SelectOptionProps[] = [
   {
-    value: '',
     children: '- Select language -',
+    value: '',
   },
   {
-    value: 'clike',
     children: 'C-like',
+    value: 'clike',
   },
   {
-    value: 'css',
     children: 'CSS',
+    value: 'css',
   },
   {
-    value: 'html',
     children: 'HTML',
+    value: 'html',
   },
   {
-    value: 'js',
     children: 'JavaScript',
+    value: 'js',
   },
   {
-    value: 'markdown',
     children: 'Markdown',
+    value: 'markdown',
   },
   {
-    value: 'objc',
     children: 'Objective-C',
+    value: 'objc',
   },
   {
-    value: 'plain',
     children: 'Plain Text',
+    value: 'plain',
   },
   {
-    value: 'py',
     children: 'Python',
+    value: 'py',
   },
   {
-    value: 'rust',
     children: 'Rust',
+    value: 'rust',
   },
   {
-    value: 'sql',
     children: 'SQL',
+    value: 'sql',
   },
   {
-    value: 'swift',
     children: 'Swift',
+    value: 'swift',
   },
   {
-    value: 'xml',
     children: 'XML',
+    value: 'xml',
   },
 ];
 

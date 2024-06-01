@@ -1,6 +1,6 @@
-import React from 'react';
-import { TextNode, LexicalEditor } from 'lexical';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { LexicalEditor, TextNode } from 'lexical';
+import React from 'react';
 
 import { $createEmojiNode } from './EmojiNode';
 

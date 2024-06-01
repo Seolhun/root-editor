@@ -54,7 +54,7 @@ function LinkPreviewContent({ url }: LinkPreviewContentProps) {
     <div className="LinkPreview__container">
       {preview.img && (
         <div className="LinkPreview__imageWrapper">
-          <img src={preview.img} alt={preview.title} className="LinkPreview__image" />
+          <img alt={preview.title} className="LinkPreview__image" src={preview.img} />
         </div>
       )}
       {preview.domain && <div className="LinkPreview__domain">{preview.domain}</div>}
@@ -79,9 +79,9 @@ function LinkPreview({ url }: LinkPreviewProps) {
     <React.Suspense
       fallback={
         <>
-          <Glimmer style={{ height: '80px' }} index={0} />
-          <Glimmer style={{ width: '60%' }} index={1} />
-          <Glimmer style={{ width: '80%' }} index={2} />
+          <Glimmer index={0} style={{ height: '80px' }} />
+          <Glimmer index={1} style={{ width: '60%' }} />
+          <Glimmer index={2} style={{ width: '80%' }} />
         </>
       }
     >
