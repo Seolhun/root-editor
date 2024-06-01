@@ -2,8 +2,8 @@ import { $isAtNodeEnd } from '@lexical/selection';
 import { ElementNode, RangeSelection, TextNode } from 'lexical';
 
 export function getSelectedNode(selection: RangeSelection): ElementNode | TextNode {
-  const { anchor } = selection;
-  const { focus } = selection;
+  const anchor = selection.anchor;
+  const focus = selection.focus;
   const anchorNode = selection.anchor.getNode();
   const focusNode = selection.focus.getNode();
   if (anchorNode === focusNode) {
@@ -12,6 +12,7 @@ export function getSelectedNode(selection: RangeSelection): ElementNode | TextNo
   const isBackward = selection.isBackward();
   if (isBackward) {
     return $isAtNodeEnd(focus) ? anchorNode : focusNode;
+  } else {
+    return $isAtNodeEnd(anchor) ? anchorNode : focusNode;
   }
-  return $isAtNodeEnd(anchor) ? focusNode : anchorNode;
 }
