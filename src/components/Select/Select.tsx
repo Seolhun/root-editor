@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import SelectOption, { SelectOptionProps } from './Select.Option';
 
@@ -10,7 +10,7 @@ export interface SelectProps extends ElementProps {
 
 function Select({ onChange, className, options, value, ...rests }: SelectProps): JSX.Element {
   return (
-    <select {...rests} className={classNames('Root__Editor__Select', className)} onChange={onChange} value={value}>
+    <select {...rests} className={clsx('Root__Editor__Select', className)} onChange={onChange} value={value}>
       {options.map((selectOptionProps, i) => (
         <SelectOption key={i} {...selectOptionProps}>
           {selectOptionProps?.children || selectOptionProps?.value}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
@@ -11,7 +11,7 @@ function Button({ children, className, title, disabled, ...rests }: ButtonProps)
     <button
       type="button"
       {...rests}
-      className={classNames(
+      className={clsx(
         'Root__Button',
         {
           'Root__Button-disabled': disabled,

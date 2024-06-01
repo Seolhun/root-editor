@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { FormItem, FormLabel, Input, InputProps } from '~/components';
 
@@ -11,7 +11,7 @@ function TextField({ children, id, className, ...rests }: TextFieldProps): JSX.E
       <FormLabel htmlFor={id} className="TextField__Label">
         {children}
       </FormLabel>
-      <Input {...rests} id={id} type="text" className={classNames('TextField__Input', className)} />
+      <Input {...rests} id={id} type="text" className={clsx('TextField__Input', className)} />
     </FormItem>
   );
 }

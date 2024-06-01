@@ -1,7 +1,7 @@
 import React from 'react';
 import { $getRoot, $getSelection, EditorState } from 'lexical';
 import { InitialEditorStateType, LexicalComposer } from '@lexical/react/LexicalComposer';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 // Official Plugins
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
@@ -148,7 +148,7 @@ const Editor = React.forwardRef<ElementType, EditorProps & ElementProps>(
     };
 
     return (
-      <div {...rests} className={classNames('Root__Editor__Wrapper', className)} ref={ref}>
+      <div {...rests} className={clsx('Root__Editor__Wrapper', className)} ref={ref}>
         <LexicalComposer initialConfig={initialConfig}>
           <TableContextProvider>
             <div className="editor-container">

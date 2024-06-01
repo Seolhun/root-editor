@@ -6,7 +6,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
-      '@': context,
+      '~': context,
     },
   },
   context: context,

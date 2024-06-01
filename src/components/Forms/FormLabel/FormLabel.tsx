@@ -1,11 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 export type FormLabelProps = React.LabelHTMLAttributes<HTMLLabelElement>;
 
 function FormLabel({ children, className, ...rests }: FormLabelProps): JSX.Element {
   return (
-    <label {...rests} className={classNames('Root__FormLabel', className)}>
+    <label {...rests} className={clsx('Root__FormLabel', className)}>
       {children}
     </label>
   );

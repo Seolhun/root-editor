@@ -1,11 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 export type FormItemProps = React.HTMLAttributes<HTMLDivElement>;
 
 function FormItem({ children, className, ...rests }: FormItemProps): JSX.Element {
   return (
-    <div {...rests} className={classNames('Root__FormItem', className)}>
+    <div {...rests} className={clsx('Root__FormItem', className)}>
       {children}
     </div>
   );
