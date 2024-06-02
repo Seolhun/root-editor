@@ -24,8 +24,8 @@ import * as React from 'react';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 import { Button } from '~/ui/Button';
 
-import landscapeImage from '../../images/landscape.jpg';
-import yellowFlowerImage from '../../images/yellow-flower.jpg';
+import landscapeImage from '../../assets/landscape.jpg';
+import yellowFlowerImage from '../../assets/yellow-flower.jpg';
 import { $createImageNode, $isImageNode, ImageNode, ImagePayload } from '../../nodes/ImageNode';
 import { DialogActions, DialogButtonsList } from '../../ui/Dialog';
 import FileInput from '../../ui/FileInput';

@@ -27,13 +27,13 @@ import {
   KEY_ESCAPE_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 
+import brokenImage from '../assets/image-broken.svg';
 import { createWebsocketProvider } from '../collaboration';
 import { useSettings } from '../context/SettingsContext';
 import { useSharedHistoryContext } from '../context/SharedHistoryContext';
-import brokenImage from '../images/image-broken.svg';
 import EmojisPlugin from '../plugins/EmojisPlugin';
 import KeywordsPlugin from '../plugins/KeywordsPlugin';
 import LinkPlugin from '../plugins/LinkPlugin';
