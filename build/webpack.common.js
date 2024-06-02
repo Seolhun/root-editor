@@ -33,7 +33,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader'
+        ],
       },
       {
         test: /\.svg$/i,
@@ -59,6 +62,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new DefinePlugin({
       __DEV__: JSON.stringify(true),
     }),

@@ -22,7 +22,7 @@ export default {
    * @param {import('webpack').Configuration} config
    */
   webpackFinal: async (config) => {
-    return merge(commonConfig, config, {
+    return merge(config, commonConfig, {
 
     });
   },
