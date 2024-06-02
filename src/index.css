@@ -219,19 +219,19 @@ pre::-webkit-scrollbar-thumb {
 }
 
 #options-button::after {
-  background-image: url(assets/icons/gear.svg);
+  background-image: url(../public/icons/gear.svg);
 }
 
 #test-recorder-button::after {
-  background-image: url(assets/icons/journal-code.svg);
+  background-image: url(../public/icons/journal-code.svg);
 }
 
 #paste-log-button::after {
-  background-image: url(assets/icons/clipboard.svg);
+  background-image: url(../public/icons/clipboard.svg);
 }
 
 #docs-button::after {
-  background-image: url(assets/icons/file-earmark-text.svg);
+  background-image: url(../public/icons/file-earmark-text.svg);
 }
 
 #test-recorder-button-snapshot {
@@ -239,15 +239,15 @@ pre::-webkit-scrollbar-thumb {
 }
 
 #test-recorder-button-snapshot::after {
-  background-image: url(assets/icons/camera.svg);
+  background-image: url(../public/icons/camera.svg);
 }
 
 #test-recorder-button-copy::after {
-  background-image: url(assets/icons/clipboard.svg);
+  background-image: url(../public/icons/clipboard.svg);
 }
 
 #test-recorder-button-download::after {
-  background-image: url(assets/icons/download.svg);
+  background-image: url(../public/icons/download.svg);
 }
 
 .typeahead-popover {
@@ -359,81 +359,81 @@ pre::-webkit-scrollbar-thumb {
 }
 
 i.palette {
-  background-image: url(assets/icons/palette.svg);
+  background-image: url(../public/icons/palette.svg);
 }
 
 i.bucket {
-  background-image: url(assets/icons/paint-bucket.svg);
+  background-image: url(../public/icons/paint-bucket.svg);
 }
 
 i.bold {
-  background-image: url(assets/icons/type-bold.svg);
+  background-image: url(../public/icons/type-bold.svg);
 }
 
 i.italic {
-  background-image: url(assets/icons/type-italic.svg);
+  background-image: url(../public/icons/type-italic.svg);
 }
 
 i.clear {
-  background-image: url(assets/icons/trash.svg);
+  background-image: url(../public/icons/trash.svg);
 }
 
 i.code {
-  background-image: url(assets/icons/code.svg);
+  background-image: url(../public/icons/code.svg);
 }
 
 i.underline {
-  background-image: url(assets/icons/type-underline.svg);
+  background-image: url(../public/icons/type-underline.svg);
 }
 
 i.strikethrough {
-  background-image: url(assets/icons/type-strikethrough.svg);
+  background-image: url(../public/icons/type-strikethrough.svg);
 }
 
 i.subscript {
-  background-image: url(assets/icons/type-subscript.svg);
+  background-image: url(../public/icons/type-subscript.svg);
 }
 
 i.superscript {
-  background-image: url(assets/icons/type-superscript.svg);
+  background-image: url(../public/icons/type-superscript.svg);
 }
 
 i.link {
-  background-image: url(assets/icons/link.svg);
+  background-image: url(../public/icons/link.svg);
 }
 
 i.horizontal-rule {
-  background-image: url(assets/icons/horizontal-rule.svg);
+  background-image: url(../public/icons/horizontal-rule.svg);
 }
 
 .icon.plus {
-  background-image: url(assets/icons/plus.svg);
+  background-image: url(../public/icons/plus.svg);
 }
 
 .icon.caret-right {
-  background-image: url(assets/icons/caret-right-fill.svg);
+  background-image: url(../public/icons/caret-right-fill.svg);
 }
 
 .icon.dropdown-more {
-  background-image: url(assets/icons/dropdown-more.svg);
+  background-image: url(../public/icons/dropdown-more.svg);
 }
 
 .icon.font-color {
-  background-image: url(assets/icons/font-color.svg);
+  background-image: url(../public/icons/font-color.svg);
 }
 
 .icon.font-family {
-  background-image: url(assets/icons/font-family.svg);
+  background-image: url(../public/icons/font-family.svg);
 }
 
 .icon.bg-color {
-  background-image: url(assets/icons/bg-color.svg);
+  background-image: url(../public/icons/bg-color.svg);
 }
 
 .icon.table {
   background-color: #6c757d;
-  mask-image: url(assets/icons/table.svg);
-  -webkit-mask-image: url(assets/icons/table.svg);
+  mask-image: url(../public/icons/table.svg);
+  -webkit-mask-image: url(../public/icons/table.svg);
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   mask-size: contain;
@@ -441,132 +441,132 @@ i.horizontal-rule {
 }
 
 i.image {
-  background-image: url(assets/icons/file-image.svg);
+  background-image: url(../public/icons/file-image.svg);
 }
 
 i.table {
-  background-image: url(assets/icons/table.svg);
+  background-image: url(../public/icons/table.svg);
 }
 
 i.close {
-  background-image: url(assets/icons/close.svg);
+  background-image: url(../public/icons/close.svg);
 }
 
 i.figma {
-  background-image: url(assets/icons/figma.svg);
+  background-image: url(../public/icons/figma.svg);
 }
 
 i.poll {
-  background-image: url(assets/icons/card-checklist.svg);
+  background-image: url(../public/icons/card-checklist.svg);
 }
 
 i.columns {
-  background-image: url(assets/icons/3-columns.svg);
+  background-image: url(../public/icons/3-columns.svg);
 }
 
 i.tweet {
-  background-image: url(assets/icons/tweet.svg);
+  background-image: url(../public/icons/tweet.svg);
 }
 
 i.youtube {
-  background-image: url(assets/icons/youtube.svg);
+  background-image: url(../public/icons/youtube.svg);
 }
 
 .icon.left-align,
 i.left-align {
-  background-image: url(assets/icons/text-left.svg);
+  background-image: url(../public/icons/text-left.svg);
 }
 
 .icon.center-align,
 i.center-align {
-  background-image: url(assets/icons/text-center.svg);
+  background-image: url(../public/icons/text-center.svg);
 }
 
 .icon.right-align,
 i.right-align {
-  background-image: url(assets/icons/text-right.svg);
+  background-image: url(../public/icons/text-right.svg);
 }
 
 .icon.justify-align,
 i.justify-align {
-  background-image: url(assets/icons/justify.svg);
+  background-image: url(../public/icons/justify.svg);
 }
 
 i.indent {
-  background-image: url(assets/icons/indent.svg);
+  background-image: url(../public/icons/indent.svg);
 }
 
 i.markdown {
-  background-image: url(assets/icons/markdown.svg);
+  background-image: url(../public/icons/markdown.svg);
 }
 
 i.outdent {
-  background-image: url(assets/icons/outdent.svg);
+  background-image: url(../public/icons/outdent.svg);
 }
 
 i.undo {
-  background-image: url(assets/icons/arrow-counterclockwise.svg);
+  background-image: url(../public/icons/arrow-counterclockwise.svg);
 }
 
 i.redo {
-  background-image: url(assets/icons/arrow-clockwise.svg);
+  background-image: url(../public/icons/arrow-clockwise.svg);
 }
 
 i.sticky {
-  background-image: url(assets/icons/sticky.svg);
+  background-image: url(../public/icons/sticky.svg);
 }
 
 i.mic {
-  background-image: url(assets/icons/mic.svg);
+  background-image: url(../public/icons/mic.svg);
 }
 
 i.import {
-  background-image: url(assets/icons/upload.svg);
+  background-image: url(../public/icons/upload.svg);
 }
 
 i.export {
-  background-image: url(assets/icons/download.svg);
+  background-image: url(../public/icons/download.svg);
 }
 
 i.share {
-  background-image: url(assets/icons/send.svg);
+  background-image: url(../public/icons/send.svg);
 }
 
 i.diagram-2 {
-  background-image: url(assets/icons/diagram-2.svg);
+  background-image: url(../public/icons/diagram-2.svg);
 }
 
 i.user {
-  background-image: url(assets/icons/user.svg);
+  background-image: url(../public/icons/user.svg);
 }
 
 i.equation {
-  background-image: url(assets/icons/plus-slash-minus.svg);
+  background-image: url(../public/icons/plus-slash-minus.svg);
 }
 
 i.gif {
-  background-image: url(assets/icons/filetype-gif.svg);
+  background-image: url(../public/icons/filetype-gif.svg);
 }
 
 i.copy {
-  background-image: url(assets/icons/copy.svg);
+  background-image: url(../public/icons/copy.svg);
 }
 
 i.success {
-  background-image: url(assets/icons/success.svg);
+  background-image: url(../public/icons/success.svg);
 }
 
 i.prettier {
-  background-image: url(assets/icons/prettier.svg);
+  background-image: url(../public/icons/prettier.svg);
 }
 
 i.prettier-error {
-  background-image: url(assets/icons/prettier-error.svg);
+  background-image: url(../public/icons/prettier-error.svg);
 }
 
 i.page-break,
 .icon.page-break {
-  background-image: url(assets/icons/scissors.svg);
+  background-image: url(../public/icons/scissors.svg);
 }
 
 .link-editor .button.active,
@@ -611,7 +611,7 @@ i.page-break,
 }
 
 .link-editor div.link-edit {
-  background-image: url(assets/icons/pencil-fill.svg);
+  background-image: url(../public/icons/pencil-fill.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -625,7 +625,7 @@ i.page-break,
 }
 
 .link-editor div.link-trash {
-  background-image: url(assets/icons/trash.svg);
+  background-image: url(../public/icons/trash.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -639,7 +639,7 @@ i.page-break,
 }
 
 .link-editor div.link-cancel {
-  background-image: url(assets/icons/close.svg);
+  background-image: url(../public/icons/close.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -654,7 +654,7 @@ i.page-break,
 }
 
 .link-editor div.link-confirm {
-  background-image: url(assets/icons/success-alt.svg);
+  background-image: url(../public/icons/success-alt.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -812,54 +812,54 @@ i.page-break,
 }
 
 .icon.paragraph {
-  background-image: url(assets/icons/text-paragraph.svg);
+  background-image: url(../public/icons/text-paragraph.svg);
 }
 
 .icon.h1 {
-  background-image: url(assets/icons/type-h1.svg);
+  background-image: url(../public/icons/type-h1.svg);
 }
 
 .icon.h2 {
-  background-image: url(assets/icons/type-h2.svg);
+  background-image: url(../public/icons/type-h2.svg);
 }
 
 .icon.h3 {
-  background-image: url(assets/icons/type-h3.svg);
+  background-image: url(../public/icons/type-h3.svg);
 }
 
 .icon.h4 {
-  background-image: url(assets/icons/type-h4.svg);
+  background-image: url(../public/icons/type-h4.svg);
 }
 
 .icon.h5 {
-  background-image: url(assets/icons/type-h5.svg);
+  background-image: url(../public/icons/type-h5.svg);
 }
 
 .icon.h6 {
-  background-image: url(assets/icons/type-h6.svg);
+  background-image: url(../public/icons/type-h6.svg);
 }
 
 .icon.bullet-list,
 .icon.bullet {
-  background-image: url(assets/icons/list-ul.svg);
+  background-image: url(../public/icons/list-ul.svg);
 }
 
 .icon.check-list,
 .icon.check {
-  background-image: url(assets/icons/square-check.svg);
+  background-image: url(../public/icons/square-check.svg);
 }
 
 .icon.numbered-list,
 .icon.number {
-  background-image: url(assets/icons/list-ol.svg);
+  background-image: url(../public/icons/list-ol.svg);
 }
 
 .icon.quote {
-  background-image: url(assets/icons/chat-square-quote.svg);
+  background-image: url(../public/icons/chat-square-quote.svg);
 }
 
 .icon.code {
-  background-image: url(assets/icons/code.svg);
+  background-image: url(../public/icons/code.svg);
 }
 
 .switches {
@@ -1017,7 +1017,7 @@ i.page-break,
 .editor-shell .editor-image .image-edit-button {
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
-  background-image: url(/assets/icons/pencil-fill.svg);
+  background-image: url(../public/icons/pencil-fill.svg);
   background-size: 16px;
   background-position: center;
   background-repeat: no-repeat;
@@ -1190,19 +1190,19 @@ i.page-break,
 }
 
 .emoji.happysmile {
-  background-image: url(assets/emoji/1F642.png);
+  background-image: url(../public/emoji/1F642.png);
 }
 
 .emoji.veryhappysmile {
-  background-image: url(assets/emoji/1F600.png);
+  background-image: url(../public/emoji/1F600.png);
 }
 
 .emoji.unhappysmile {
-  background-image: url(assets/emoji/1F641.png);
+  background-image: url(../public/emoji/1F641.png);
 }
 
 .emoji.heart {
-  background-image: url(assets/emoji/2764.png);
+  background-image: url(../public/emoji/2764.png);
 }
 
 .keyword {
@@ -1232,51 +1232,51 @@ i.page-break,
 }
 
 .actions i.indent {
-  background-image: url(assets/icons/indent.svg);
+  background-image: url(../public/icons/indent.svg);
 }
 
 .actions i.outdent {
-  background-image: url(assets/icons/outdent.svg);
+  background-image: url(../public/icons/outdent.svg);
 }
 
 .actions i.lock {
-  background-image: url(assets/icons/lock-fill.svg);
+  background-image: url(../public/icons/lock-fill.svg);
 }
 
 .actions i.image {
-  background-image: url(assets/icons/file-image.svg);
+  background-image: url(../public/icons/file-image.svg);
 }
 
 .actions i.table {
-  background-image: url(assets/icons/table.svg);
+  background-image: url(../public/icons/table.svg);
 }
 
 .actions i.unlock {
-  background-image: url(assets/icons/lock.svg);
+  background-image: url(../public/icons/lock.svg);
 }
 
 .actions i.left-align {
-  background-image: url(assets/icons/text-left.svg);
+  background-image: url(../public/icons/text-left.svg);
 }
 
 .actions i.center-align {
-  background-image: url(assets/icons/text-center.svg);
+  background-image: url(../public/icons/text-center.svg);
 }
 
 .actions i.right-align {
-  background-image: url(assets/icons/text-right.svg);
+  background-image: url(../public/icons/text-right.svg);
 }
 
 .actions i.justify-align {
-  background-image: url(assets/icons/justify.svg);
+  background-image: url(../public/icons/justify.svg);
 }
 
 .actions i.disconnect {
-  background-image: url(assets/icons/plug.svg);
+  background-image: url(../public/icons/plug.svg);
 }
 
 .actions i.connect {
-  background-image: url(assets/icons/plug-fill.svg);
+  background-image: url(../public/icons/plug-fill.svg);
 }
 
 .table-cell-action-button-container {
@@ -1305,7 +1305,7 @@ i.chevron-down {
   display: inline-block;
   height: 8px;
   width: 8px;
-  background-image: url(assets/icons/chevron-down.svg);
+  background-image: url(../public/icons/chevron-down.svg);
 }
 
 .action-button {
