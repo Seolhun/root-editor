@@ -23,7 +23,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # environment: staging
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 

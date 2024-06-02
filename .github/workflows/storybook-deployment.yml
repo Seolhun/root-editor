@@ -9,9 +9,8 @@ on:
 jobs:
   deploy-storybook:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
       - name: Checkout
