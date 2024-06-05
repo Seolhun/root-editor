@@ -1,3 +1,7 @@
-import { Settings } from './Editor.settings';
+import { EditorState, LexicalEditor } from 'lexical';
 
-export type EditorPlaceholderRenderer = (settings: Settings) => string;
+import { EditorSettings } from './Editor.settings';
+
+export type EditorPlaceholderRenderer = (settings: EditorSettings) => string;
+
+export type EditorOnChangeFn = (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => void;
