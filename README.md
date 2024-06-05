@@ -1,10 +1,23 @@
-# root-lexical
+# root-editor
 
-Root UI with tailwind
+[![Publish Artifacts at Github Packages](https://github.com/Seolhun/root-editor/actions/workflows/tag-publish.yml/badge.svg?branch=main)](https://github.com/Seolhun/root-editor/actions/workflows/tag-publish.yml)
 
-- Atomics
-- Combinations
-- Forms
+RootEditor with lexical and tailwind
+
+## Requirements
+
+### nvm
+
+```bash
+brew install nvm
+nvm use
+```
+
+### pnpm
+
+```bash
+npm install -g pnpm
+```
 
 ---
 
@@ -13,36 +26,36 @@ Root UI with tailwind
 ### Dev (with Storybook)
 
 ```bash
-npm run storybook
+pnpm run storybook
 ```
 
 ### Build (with Storybook)
 
 ```bash
-npm run storybook:build
+pnpm run storybook:build
 ```
 
 ### Production
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ### Test
 
 ```bash
-npm run test
+pnpm run test
 ```
 
 #### Lint
 
 ```bash
-npm run lint
-npm run lint:fix
+pnpm run lint
+pnpm run lint:fix
 ```
 
 #### Prettier
 
 ```bash
-npm run prettier
+pnpm run prettier
 ```
