@@ -1,7 +1,7 @@
 import { CAN_USE_BEFORE_INPUT } from '@lexical/utils';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { INITIAL_SETTINGS } from './appSettings';
+import { INITIAL_SETTINGS } from './Editor.settings';
 import { useSettings } from './context/SettingsContext';
 import Switch from './ui/Switch';
 

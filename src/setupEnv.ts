@@ -1,4 +1,4 @@
-import { EditorSettings, INITIAL_SETTINGS } from './appSettings';
+import { EditorSettings, INITIAL_SETTINGS } from './Editor.settings';
 
 // Export a function so this is not tree-shaken,
 // but evaluate it immediately so it executes before

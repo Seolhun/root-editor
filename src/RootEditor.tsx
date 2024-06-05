@@ -2,9 +2,9 @@ import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalCompos
 import * as React from 'react';
 
 import { Editor } from './Editor';
+import { EditorSettings } from './Editor.settings';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
-import { EditorSettings } from './appSettings';
 import { FlashMessageContext } from './context/FlashMessageContext';
 import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';

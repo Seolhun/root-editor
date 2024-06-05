@@ -19,7 +19,7 @@ import * as React from 'react';
 
 import { Button } from '~/ui/Button';
 
-import { INITIAL_SETTINGS } from '../../appSettings';
+import { INITIAL_SETTINGS } from '../../Editor.settings';
 import useFlashMessage from '../../hooks/useFlashMessage';
 import useModal from '../../hooks/useModal';
 import { docFromHash, docToHash } from '../../utils/docSerialization';
