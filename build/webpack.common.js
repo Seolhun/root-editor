@@ -20,6 +20,7 @@ module.exports = {
       {
         test: [/\.[jt]sx?$/],
         use: ['babel-loader'],
+        babelrc: true,
         exclude: /node_modules/,
       },
       {
