@@ -14,12 +14,12 @@ import {
   CLEAR_HISTORY_COMMAND,
   COMMAND_PRIORITY_EDITOR,
 } from 'lexical';
-import { useCallback, useEffect, useState } from 'react';
 import * as React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+import { useSettings } from '~/context/SettingsContext';
 import { Button } from '~/ui/Button';
 
-import { INITIAL_SETTINGS } from '../../Editor.settings';
 import useFlashMessage from '../../hooks/useFlashMessage';
 import useModal from '../../hooks/useModal';
 import { docFromHash, docToHash } from '../../utils/docSerialization';
@@ -77,13 +77,7 @@ async function shareDoc(doc: SerializedDocument): Promise<void> {
   await window.navigator.clipboard.writeText(newUrl);
 }
 
-export default function ActionsPlugin({
-  isRichText,
-  shouldPreserveNewLinesInMarkdown,
-}: {
-  isRichText: boolean;
-  shouldPreserveNewLinesInMarkdown: boolean;
-}): JSX.Element {
+export default function ActionsPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const [isSpeechToText, setIsSpeechToText] = useState(false);
@@ -92,8 +86,11 @@ export default function ActionsPlugin({
   const [modal, showModal] = useModal();
   const showFlashMessage = useFlashMessage();
   const { isCollabActive } = useCollaborationContext();
+  const { settings } = useSettings();
+  const { isCollaborative } = settings;
+
   useEffect(() => {
-    if (INITIAL_SETTINGS.isCollaborative) {
+    if (isCollaborative) {
       return;
     }
     docFromHash(window.location.hash).then((doc) => {
@@ -102,7 +99,8 @@ export default function ActionsPlugin({
         editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined);
       }
     });
-  }, [editor]);
+  }, [editor, isCollaborative]);
+
   useEffect(() => {
     return mergeRegister(
       editor.registerEditableListener((editable) => {
@@ -211,7 +209,7 @@ export default function ActionsPlugin({
         }
         aria-label="Share RootEditor link to current editor state"
         className="action-button share"
-        disabled={isCollabActive || INITIAL_SETTINGS.isCollaborative}
+        disabled={isCollabActive || isCollaborative}
         title="Share"
       >
         <i className="share" />

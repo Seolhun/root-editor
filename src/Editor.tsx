@@ -88,7 +88,6 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
     isCollaborative,
     isMaxLength,
     isRichText,
-    shouldPreserveNewLinesInMarkdown,
     shouldUseLexicalContextMenu,
     showTableOfContents,
     showTreeView,
@@ -232,7 +231,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
         {isAutocomplete && <AutocompletePlugin />}
         <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
         {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
-        <ActionsPlugin isRichText={isRichText} shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown} />
+        <ActionsPlugin />
       </div>
       {showTreeView && <TreeViewPlugin />}
     </>

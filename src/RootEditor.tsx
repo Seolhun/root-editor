@@ -12,6 +12,7 @@ import { FlashMessageContext } from './context/FlashMessageContext';
 import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
+import { I18nProvider, i18nProviderProps } from './context/i18n';
 import DocsPlugin from './plugins/DocsPlugin';
 import PasteLogPlugin from './plugins/PasteLogPlugin';
 import { TableContext } from './plugins/TablePlugin';
@@ -33,13 +34,21 @@ export interface RootEditorProps extends BaseRootEditorProps {
    */
   initialSettings?: Partial<EditorSettings>;
   /**
+   * @default 'en'
+   */
+  language?: i18nProviderProps['language'];
+  /**
    * Callback that is called when the editor state changes.
    */
   onChangeEditorState?: (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => void;
+  /**
+   * Resources for the i18n messages.
+   */
+  resources?: i18nProviderProps['resources'];
 }
 
 export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
-  ({ className, initialSettings, onChangeEditorState, ...others }, ref) => {
+  ({ className, initialSettings, language = 'en', onChangeEditorState, resources, ...others }, ref) => {
     const initialConfig: InitialConfigType = {
       namespace: 'RootEditor',
       nodes: [...RootEditorNodes],
@@ -52,10 +61,12 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
     return (
       <section className={clsx('RootEditor', className)} ref={ref}>
         <LexicalComposer initialConfig={initialConfig}>
-          <SettingsProvider initialSettings={initialSettings}>
-            <BaseRootEditor {...others} />
-            {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
-          </SettingsProvider>
+          <I18nProvider language={language} resources={resources}>
+            <SettingsProvider initialSettings={initialSettings}>
+              <BaseRootEditor {...others} />
+              {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
+            </SettingsProvider>
+          </I18nProvider>
         </LexicalComposer>
       </section>
     );
