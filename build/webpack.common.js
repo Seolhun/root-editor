@@ -19,8 +19,15 @@ module.exports = {
     rules: [
       {
         test: [/\.[jt]sx?$/],
-        use: ['babel-loader'],
-        babelrc: true,
+        /**
+         * @see https://github.com/babel/babel-loader
+         */
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: true,
+          },
+        },
         exclude: /node_modules/,
       },
       {
