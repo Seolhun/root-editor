@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Editor } from './Editor';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
+import { EditorSettings } from './appSettings';
 import { FlashMessageContext } from './context/FlashMessageContext';
 import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
@@ -20,59 +21,57 @@ import './index.css';
 type ElementType = HTMLElement;
 type ElementProps = React.HTMLAttributes<ElementType>;
 
-export interface BaseRootEditorProps {
+export interface RootEditorProps {
   /**
-   * Whether to enable debug mode.
+   * Initial settings for the editor.
    */
-  debug?: boolean;
+  initialSettings?: Partial<EditorSettings>;
 }
 
-export const BaseRootEditor = React.forwardRef<ElementType, ElementProps & BaseRootEditorProps>(
-  ({ debug, ...others }, ref) => {
-    const {
-      settings: { measureTypingPerf },
-    } = useSettings();
-
-    const initialConfig: InitialConfigType = {
-      namespace: 'RootEditor',
-      nodes: [...RootEditorNodes],
-      onError: (error: Error) => {
-        throw error;
-      },
-      theme: rootEditorTheme,
-    };
-
+export const RootEditor = React.forwardRef<ElementType, ElementProps & RootEditorProps>(
+  ({ initialSettings, ...others }, ref) => {
     return (
-      <section ref={ref} {...others}>
-        <LexicalComposer initialConfig={initialConfig}>
-          <FlashMessageContext>
-            <SharedHistoryContext>
-              <TableContext>
-                <SharedAutocompleteContext>
-                  <div className="editor-shell">
-                    <Editor />
-                  </div>
-                  <Settings />
-                  {debug ? <DocsPlugin /> : null}
-                  {debug ? <PasteLogPlugin /> : null}
-                  {debug ? <TestRecorderPlugin /> : null}
-                  {measureTypingPerf ? <TypingPerfPlugin /> : null}
-                </SharedAutocompleteContext>
-              </TableContext>
-            </SharedHistoryContext>
-          </FlashMessageContext>
-        </LexicalComposer>
-      </section>
+      <SettingsProvider initialSettings={initialSettings}>
+        <BaseRootEditor ref={ref} {...others} />
+      </SettingsProvider>
     );
   },
 );
 
-export interface RootEditorProps extends BaseRootEditorProps {}
+export const BaseRootEditor = React.forwardRef<ElementType, ElementProps>(({ ...others }, ref) => {
+  const {
+    settings: { debug, measureTypingPerf },
+  } = useSettings();
 
-export const RootEditor = React.forwardRef<ElementType, ElementProps & RootEditorProps>(({ debug, ...others }, ref) => {
+  const initialConfig: InitialConfigType = {
+    namespace: 'RootEditor',
+    nodes: [...RootEditorNodes],
+    onError: (error: Error) => {
+      throw error;
+    },
+    theme: rootEditorTheme,
+  };
+
   return (
-    <SettingsProvider>
-      <BaseRootEditor debug={debug} ref={ref} {...others} />
-    </SettingsProvider>
+    <section ref={ref} {...others}>
+      <LexicalComposer initialConfig={initialConfig}>
+        <FlashMessageContext>
+          <SharedHistoryContext>
+            <TableContext>
+              <SharedAutocompleteContext>
+                <div className="editor-shell">
+                  <Editor />
+                </div>
+                <Settings />
+                {debug ? <DocsPlugin /> : null}
+                {debug ? <PasteLogPlugin /> : null}
+                {debug ? <TestRecorderPlugin /> : null}
+                {measureTypingPerf ? <TypingPerfPlugin /> : null}
+              </SharedAutocompleteContext>
+            </TableContext>
+          </SharedHistoryContext>
+        </FlashMessageContext>
+      </LexicalComposer>
+    </section>
   );
 });

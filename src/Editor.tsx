@@ -21,6 +21,7 @@ import * as React from 'react';
 import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 
+import { EditorPlaceholderRenderer } from './Editor.types';
 import { useSettings } from './context/SettingsContext';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
 import ActionsPlugin from './plugins/ActionsPlugin';
@@ -65,35 +66,37 @@ import YouTubePlugin from './plugins/YouTubePlugin';
 import ContentEditable from './ui/ContentEditable';
 import Placeholder from './ui/Placeholder';
 
-const skipCollaborationInit =
-  // @ts-expect-error
-  window.parent != null && window.parent.frames.right === window;
+export interface EditorProps {
+  /**
+   * Maximum length of the editor.
+   */
+  maxLength?: number;
+  /**
+   * Placeholder text to show when the editor is empty.
+   */
+  placeholder?: EditorPlaceholderRenderer;
+}
 
-export function Editor(): JSX.Element {
+export function Editor({ maxLength, placeholder }: EditorProps) {
+  const skipCollaborationInitRef = React.useRef<boolean>();
   const { historyState } = useSharedHistoryContext();
+  const { settings } = useSettings();
   const {
-    settings: {
-      isAutocomplete,
-      isCharLimit,
-      isCharLimitUtf8,
-      isCollaborative,
-      isMaxLength,
-      isRichText,
-      shouldPreserveNewLinesInMarkdown,
-      shouldUseLexicalContextMenu,
-      showTableOfContents,
-      showTreeView,
-      tableCellBackgroundColor,
-      tableCellMerge,
-    },
-  } = useSettings();
+    isAutocomplete,
+    isCharLimit,
+    isCharLimitUtf8,
+    isCollaborative,
+    isMaxLength,
+    isRichText,
+    shouldPreserveNewLinesInMarkdown,
+    shouldUseLexicalContextMenu,
+    showTableOfContents,
+    showTreeView,
+    tableCellBackgroundColor,
+    tableCellMerge,
+  } = settings;
+
   const isEditable = useLexicalEditable();
-  const text = isCollaborative
-    ? 'Enter some collaborative rich text...'
-    : isRichText
-      ? 'Enter some rich text...'
-      : 'Enter some plain text...';
-  const placeholder = <Placeholder>{text}</Placeholder>;
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
@@ -107,19 +110,25 @@ export function Editor(): JSX.Element {
   useEffect(() => {
     const updateViewPortWidth = () => {
       const isNextSmallWidthViewport = CAN_USE_DOM && window.matchMedia('(max-width: 1025px)').matches;
-
       if (isNextSmallWidthViewport !== isSmallWidthViewport) {
         setIsSmallWidthViewport(isNextSmallWidthViewport);
       }
     };
     updateViewPortWidth();
     window.addEventListener('resize', updateViewPortWidth);
-
     return () => {
       window.removeEventListener('resize', updateViewPortWidth);
     };
   }, [isSmallWidthViewport]);
 
+  useEffect(() => {
+    // @ts-ignore
+    const skipCollaborationInit = window.parent != null && window.parent.frames.right === window;
+    skipCollaborationInitRef.current = true;
+  }, []);
+
+  const hasMaxLength = maxLength != null;
+  const PlaceholderMessage = <Placeholder>{placeholder?.(settings)}</Placeholder>;
   return (
     <>
       {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />}
@@ -129,7 +138,7 @@ export function Editor(): JSX.Element {
           'tree-view': showTreeView,
         })}
       >
-        {isMaxLength && <MaxLengthPlugin maxLength={30} />}
+        {isMaxLength && hasMaxLength && <MaxLengthPlugin maxLength={maxLength} />}
         <DragDropPaste />
         <AutoFocusPlugin />
         <ClearEditorPlugin />
@@ -149,7 +158,7 @@ export function Editor(): JSX.Element {
               <CollaborationPlugin
                 id="main"
                 providerFactory={createWebsocketProvider}
-                shouldBootstrap={!skipCollaborationInit}
+                shouldBootstrap={!skipCollaborationInitRef.current}
               />
             ) : (
               <HistoryPlugin externalHistoryState={historyState} />
@@ -163,7 +172,7 @@ export function Editor(): JSX.Element {
                 </div>
               }
               ErrorBoundary={LexicalErrorBoundary}
-              placeholder={placeholder}
+              placeholder={PlaceholderMessage}
             />
             <MarkdownShortcutPlugin />
             <CodeHighlightPlugin />
@@ -210,13 +219,13 @@ export function Editor(): JSX.Element {
             <PlainTextPlugin
               contentEditable={<ContentEditable />}
               ErrorBoundary={LexicalErrorBoundary}
-              placeholder={placeholder}
+              placeholder={PlaceholderMessage}
             />
             <HistoryPlugin externalHistoryState={historyState} />
           </>
         )}
-        {(isCharLimit || isCharLimitUtf8) && (
-          <CharacterLimitPlugin charset={isCharLimit ? 'UTF-16' : 'UTF-8'} maxLength={5} />
+        {(isCharLimit || isCharLimitUtf8) && hasMaxLength && (
+          <CharacterLimitPlugin charset={isCharLimit ? 'UTF-16' : 'UTF-8'} maxLength={maxLength} />
         )}
         {isAutocomplete && <AutocompletePlugin />}
         <div>{showTableOfContents && <TableOfContentsPlugin />}</div>

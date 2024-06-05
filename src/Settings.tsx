@@ -6,31 +6,35 @@ import { useSettings } from './context/SettingsContext';
 import Switch from './ui/Switch';
 
 export function Settings(): JSX.Element {
-  const windowLocation = window.location;
+  const { setOption, settings } = useSettings();
   const {
-    setOption,
-    settings: {
-      debug,
-      disableBeforeInput,
-      isAutocomplete,
-      isCharLimit,
-      isCharLimitUtf8,
-      isCollaborative,
-      isMaxLength,
-      isRichText,
-      measureTypingPerf,
-      shouldPreserveNewLinesInMarkdown,
-      shouldUseLexicalContextMenu,
-      showNestedEditorTreeView,
-      showTableOfContents,
-      showTreeView,
-    },
-  } = useSettings();
+    debug,
+    disableBeforeInput,
+    isAutocomplete,
+    isCharLimit,
+    isCharLimitUtf8,
+    isCollaborative,
+    isMaxLength,
+    isRichText,
+    measureTypingPerf,
+    shouldPreserveNewLinesInMarkdown,
+    shouldUseLexicalContextMenu,
+    showNestedEditorTreeView,
+    showTableOfContents,
+    showTreeView,
+  } = settings;
+
+  /**
+   * TODO: We should support SSR/CSR. so, we should use `window` object in a proper way.
+   */
+  const windowLocation = window.location;
+
   useEffect(() => {
     if (INITIAL_SETTINGS.disableBeforeInput && CAN_USE_BEFORE_INPUT) {
       console.error(`Legacy events are enabled (disableBeforeInput) but CAN_USE_BEFORE_INPUT is true`);
     }
   }, []);
+
   const [showSettings, setShowSettings] = useState(false);
   const [isSplitScreen, search] = useMemo(() => {
     const parentWindow = window.parent;
