@@ -2,10 +2,7 @@ name: Release Drafter
 
 on:
   push:
-    tags:
-      - 'v*'
-    paths-ignore:
-      - '**/*.md'
+    branches: [main]
 
 jobs:
   update_release_draft:
