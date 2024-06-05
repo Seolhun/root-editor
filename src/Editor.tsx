@@ -127,9 +127,10 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
     skipCollaborationInitRef.current = true;
   }, []);
 
-  const hasMaxLength = maxLength != null;
+  const hasMaxLength = maxLength != null && maxLength > 0;
   const canUseFloatingAnchor = floatingAnchorElem && !isSmallWidthViewport;
   const PlaceholderMessage = <Placeholder>{placeholder?.(settings)}</Placeholder>;
+
   return (
     <>
       {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />}

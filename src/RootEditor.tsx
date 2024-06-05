@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { EditorState, LexicalEditor } from 'lexical';
 import * as React from 'react';
 
-import { Editor } from './Editor';
+import { Editor, EditorProps } from './Editor';
 import { EditorSettings } from './Editor.settings';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
@@ -23,7 +23,7 @@ import './index.css';
 
 type ElementType = HTMLElement;
 
-export interface RootEditorProps {
+export interface RootEditorProps extends BaseRootEditorProps {
   /**
    * Additional class name for the root editor.
    */
@@ -39,7 +39,7 @@ export interface RootEditorProps {
 }
 
 export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
-  ({ className, initialSettings, onChangeEditorState }, ref) => {
+  ({ className, initialSettings, onChangeEditorState, ...others }, ref) => {
     const initialConfig: InitialConfigType = {
       namespace: 'RootEditor',
       nodes: [...RootEditorNodes],
@@ -53,7 +53,7 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
       <section className={clsx('RootEditor', className)} ref={ref}>
         <LexicalComposer initialConfig={initialConfig}>
           <SettingsProvider initialSettings={initialSettings}>
-            <BaseRootEditor />
+            <BaseRootEditor {...others} />
             {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
           </SettingsProvider>
         </LexicalComposer>
@@ -62,7 +62,9 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
   },
 );
 
-export const BaseRootEditor = () => {
+export interface BaseRootEditorProps extends EditorProps {}
+
+export const BaseRootEditor = ({ ...others }: BaseRootEditorProps) => {
   const { settings } = useSettings();
   const { debug, measureTypingPerf } = settings;
 
@@ -72,7 +74,7 @@ export const BaseRootEditor = () => {
         <TableContext>
           <SharedAutocompleteContext>
             <div className="editor-shell">
-              <Editor />
+              <Editor {...others} />
             </div>
             <Settings />
             {debug ? <DocsPlugin /> : null}

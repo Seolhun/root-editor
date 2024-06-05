@@ -14,7 +14,6 @@ export function Settings(): JSX.Element {
     isCharLimit,
     isCharLimitUtf8,
     isCollaborative,
-    isMaxLength,
     isRichText,
     measureTypingPerf,
     shouldPreserveNewLinesInMarkdown,
@@ -100,7 +99,6 @@ export function Settings(): JSX.Element {
             onClick={() => setOption('isCharLimitUtf8', !isCharLimitUtf8)}
             text="Char Limit (UTF-8)"
           />
-          <Switch checked={isMaxLength} onClick={() => setOption('isMaxLength', !isMaxLength)} text="Max Length" />
           <Switch
             checked={isAutocomplete}
             onClick={() => setOption('isAutocomplete', !isAutocomplete)}
