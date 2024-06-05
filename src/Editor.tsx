@@ -101,9 +101,9 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
   const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
 
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
+  const onFloatingAnchorRef = (element: HTMLDivElement) => {
+    if (element !== null) {
+      setFloatingAnchorElem(element);
     }
   };
 
@@ -128,6 +128,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
   }, []);
 
   const hasMaxLength = maxLength != null;
+  const canUseFloatingAnchor = floatingAnchorElem && !isSmallWidthViewport;
   const PlaceholderMessage = <Placeholder>{placeholder?.(settings)}</Placeholder>;
   return (
     <>
@@ -166,7 +167,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
             <RichTextPlugin
               contentEditable={
                 <div className="editor-scroller">
-                  <div className="editor" ref={onRef}>
+                  <div className="editor" ref={onFloatingAnchorRef}>
                     <ContentEditable />
                   </div>
                 </div>
@@ -197,7 +198,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
             <CollapsiblePlugin />
             <PageBreakPlugin />
             <LayoutPlugin />
-            {floatingAnchorElem && !isSmallWidthViewport && (
+            {canUseFloatingAnchor && (
               <>
                 <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
                 <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />

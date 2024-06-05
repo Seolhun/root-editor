@@ -380,11 +380,13 @@ function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement, i
   );
 }
 
-export default function DraggableBlockPlugin({
-  anchorElem = document.body,
-}: {
+export interface DraggableBlockPluginProps {
   anchorElem?: HTMLElement;
-}): JSX.Element {
+}
+
+function DraggableBlockPlugin({ anchorElem = document.body }: DraggableBlockPluginProps): JSX.Element {
   const [editor] = useLexicalComposerContext();
   return useDraggableBlockMenu(editor, anchorElem, editor._editable);
 }
+
+export default DraggableBlockPlugin;
