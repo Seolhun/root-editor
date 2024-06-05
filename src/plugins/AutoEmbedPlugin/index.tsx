@@ -20,7 +20,7 @@ import { INSERT_FIGMA_COMMAND } from '../FigmaPlugin';
 import { INSERT_TWEET_COMMAND } from '../TwitterPlugin';
 import { INSERT_YOUTUBE_COMMAND } from '../YouTubePlugin';
 
-interface PlaygroundEmbedConfig extends EmbedConfig {
+interface RootEditorEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
   contentName: string;
 
@@ -37,7 +37,7 @@ interface PlaygroundEmbedConfig extends EmbedConfig {
   keywords: Array<string>;
 }
 
-export const YoutubeEmbedConfig: PlaygroundEmbedConfig = {
+export const YoutubeEmbedConfig: RootEditorEmbedConfig = {
   type: 'youtube-video',
 
   contentName: 'Youtube Video',
@@ -70,7 +70,7 @@ export const YoutubeEmbedConfig: PlaygroundEmbedConfig = {
   },
 };
 
-export const TwitterEmbedConfig: PlaygroundEmbedConfig = {
+export const TwitterEmbedConfig: RootEditorEmbedConfig = {
   type: 'tweet',
 
   // e.g. Tweet or Google Map.
@@ -104,7 +104,7 @@ export const TwitterEmbedConfig: PlaygroundEmbedConfig = {
   },
 };
 
-export const FigmaEmbedConfig: PlaygroundEmbedConfig = {
+export const FigmaEmbedConfig: RootEditorEmbedConfig = {
   type: 'figma',
 
   contentName: 'Figma Document',
@@ -213,7 +213,7 @@ export function AutoEmbedDialog({
   embedConfig,
   onClose,
 }: {
-  embedConfig: PlaygroundEmbedConfig;
+  embedConfig: RootEditorEmbedConfig;
   onClose: () => void;
 }): JSX.Element {
   const [text, setText] = useState('');
@@ -270,13 +270,13 @@ export function AutoEmbedDialog({
 export default function AutoEmbedPlugin(): JSX.Element {
   const [modal, showModal] = useModal();
 
-  const openEmbedModal = (embedConfig: PlaygroundEmbedConfig) => {
+  const openEmbedModal = (embedConfig: RootEditorEmbedConfig) => {
     showModal(`Embed ${embedConfig.contentName}`, (onClose) => (
       <AutoEmbedDialog embedConfig={embedConfig} onClose={onClose} />
     ));
   };
 
-  const getMenuOptions = (activeEmbedConfig: PlaygroundEmbedConfig, embedFn: () => void, dismissFn: () => void) => {
+  const getMenuOptions = (activeEmbedConfig: RootEditorEmbedConfig, embedFn: () => void, dismissFn: () => void) => {
     return [
       new AutoEmbedOption('Dismiss', {
         onSelect: dismissFn,
@@ -290,7 +290,7 @@ export default function AutoEmbedPlugin(): JSX.Element {
   return (
     <>
       {modal}
-      <LexicalAutoEmbedPlugin<PlaygroundEmbedConfig>
+      <LexicalAutoEmbedPlugin<RootEditorEmbedConfig>
         menuRenderFn={(anchorElementRef, { options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) =>
           anchorElementRef.current
             ? ReactDOM.createPortal(

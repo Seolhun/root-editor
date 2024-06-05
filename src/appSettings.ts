@@ -1,14 +1,10 @@
-const hostName = window.location.hostname;
-export const isDevPlayground: boolean =
-  hostName !== 'playground.lexical.dev' && hostName !== 'lexical-playground.vercel.app';
-
 export const DEFAULT_SETTINGS = {
+  debug: false,
   disableBeforeInput: false,
-  emptyEditor: isDevPlayground,
   isAutocomplete: false,
-  isCharLimit: false,
+  isCharLimit: true,
   isCharLimitUtf8: false,
-  isCollab: false,
+  isCollaborative: false,
   isMaxLength: false,
   isRichText: true,
   measureTypingPerf: false,
@@ -16,6 +12,9 @@ export const DEFAULT_SETTINGS = {
   shouldUseLexicalContextMenu: false,
   showNestedEditorTreeView: false,
   showTableOfContents: false,
+  /**
+   * Which Editor value tree debug view to show
+   */
   showTreeView: true,
   tableCellBackgroundColor: true,
   tableCellMerge: true,

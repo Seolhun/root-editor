@@ -1,6 +1,5 @@
-const { resolve } = require('path');
 const { merge } = require("webpack-merge");
-const commonConfig = require("../build/webpack.common");
+const webpackDevConfig = require("../build/webpack.dev");
 
 export default {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -22,9 +21,8 @@ export default {
    * @param {import('webpack').Configuration} config
    */
   webpackFinal: async (config) => {
-    return merge(config, commonConfig, {
-
-    });
+    const nextConfig = merge(config, webpackDevConfig);
+    return nextConfig;
   },
 
   framework: {

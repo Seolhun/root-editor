@@ -1,11 +1,11 @@
 import type { EditorThemeClasses } from 'lexical';
 
-import baseTheme from './PlaygroundEditorTheme';
+import { rootEditorTheme } from './RootEditorTheme';
 
 import './StickyEditorTheme.css';
 
 const theme: EditorThemeClasses = {
-  ...baseTheme,
+  ...rootEditorTheme,
   paragraph: 'StickyEditorTheme__paragraph',
 };
 

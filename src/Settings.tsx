@@ -1,20 +1,21 @@
 import { CAN_USE_BEFORE_INPUT } from '@lexical/utils';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { INITIAL_SETTINGS, isDevPlayground } from './appSettings';
+import { INITIAL_SETTINGS } from './appSettings';
 import { useSettings } from './context/SettingsContext';
 import Switch from './ui/Switch';
 
-export default function Settings(): JSX.Element {
+export function Settings(): JSX.Element {
   const windowLocation = window.location;
   const {
     setOption,
     settings: {
+      debug,
       disableBeforeInput,
       isAutocomplete,
       isCharLimit,
       isCharLimitUtf8,
-      isCollab,
+      isCollaborative,
       isMaxLength,
       isRichText,
       measureTypingPerf,
@@ -47,17 +48,17 @@ export default function Settings(): JSX.Element {
       />
       {showSettings ? (
         <div className="switches">
-          {isRichText && isDevPlayground && (
+          {isRichText && debug && (
             <Switch
               onClick={() => {
-                setOption('isCollab', !isCollab);
+                setOption('isCollaborative', !isCollaborative);
                 window.location.reload();
               }}
-              checked={isCollab}
+              checked={isCollaborative}
               text="Collaboration"
             />
           )}
-          {isDevPlayground && (
+          {debug && (
             <Switch
               onClick={() => {
                 if (isSplitScreen) {
@@ -84,7 +85,7 @@ export default function Settings(): JSX.Element {
           <Switch
             onClick={() => {
               setOption('isRichText', !isRichText);
-              setOption('isCollab', false);
+              setOption('isCollaborative', false);
             }}
             checked={isRichText}
             text="Rich Text"

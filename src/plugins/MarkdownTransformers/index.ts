@@ -155,7 +155,7 @@ export const TABLE: ElementTransformer = {
       for (const cell of row.getChildren()) {
         // It's TableCellNode so it's just to make flow happy
         if ($isTableCellNode(cell)) {
-          rowOutput.push($convertToMarkdownString(PLAYGROUND_TRANSFORMERS, cell).replace(/\n/g, '\\n'));
+          rowOutput.push($convertToMarkdownString(ROOT_EDITOR_TRANSFORMERS, cell).replace(/\n/g, '\\n'));
           if (cell.__headerState === TableCellHeaderStates.ROW) {
             isHeaderRow = true;
           }
@@ -267,7 +267,7 @@ function getTableColumnsSize(table: TableNode) {
 const $createTableCell = (textContent: string): TableCellNode => {
   textContent = textContent.replace(/\\n/g, '\n');
   const cell = $createTableCellNode(TableCellHeaderStates.NO_STATUS);
-  $convertFromMarkdownString(textContent, PLAYGROUND_TRANSFORMERS, cell);
+  $convertFromMarkdownString(textContent, ROOT_EDITOR_TRANSFORMERS, cell);
   return cell;
 };
 
@@ -279,7 +279,7 @@ const mapToTableCells = (textContent: string): Array<TableCellNode> | null => {
   return match[1].split('|').map((text) => $createTableCell(text));
 };
 
-export const PLAYGROUND_TRANSFORMERS: Array<Transformer> = [
+export const ROOT_EDITOR_TRANSFORMERS: Array<Transformer> = [
   TABLE,
   HR,
   IMAGE,

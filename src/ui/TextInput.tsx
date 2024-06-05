@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import './Input.css';
 
-type Props = Readonly<{
+type TextInputProps = Readonly<{
   'data-test-id'?: string;
   label: string;
   onChange: (val: string) => void;
@@ -19,7 +19,7 @@ export default function TextInput({
   onChange,
   placeholder = '',
   value,
-}: Props): JSX.Element {
+}: TextInputProps): JSX.Element {
   return (
     <div className="Input__wrapper">
       <label className="Input__label">{label}</label>

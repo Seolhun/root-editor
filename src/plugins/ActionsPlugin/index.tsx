@@ -30,7 +30,7 @@ import {
   SerializedDocument,
   serializedDocumentFromEditorState,
 } from '../FilePlugin';
-import { PLAYGROUND_TRANSFORMERS } from '../MarkdownTransformers';
+import { ROOT_EDITOR_TRANSFORMERS } from '../MarkdownTransformers';
 import { SPEECH_TO_TEXT_COMMAND, SUPPORT_SPEECH_RECOGNITION } from '../SpeechToTextPlugin';
 
 async function sendEditorState(editor: LexicalEditor): Promise<void> {
@@ -93,11 +93,11 @@ export default function ActionsPlugin({
   const showFlashMessage = useFlashMessage();
   const { isCollabActive } = useCollaborationContext();
   useEffect(() => {
-    if (INITIAL_SETTINGS.isCollab) {
+    if (INITIAL_SETTINGS.isCollaborative) {
       return;
     }
     docFromHash(window.location.hash).then((doc) => {
-      if (doc && doc.source === 'Playground') {
+      if (doc && doc.source === 'RootEditor') {
         editor.setEditorState(editorStateFromSerializedDocument(editor, doc));
         editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined);
       }
@@ -150,10 +150,10 @@ export default function ActionsPlugin({
       const root = $getRoot();
       const firstChild = root.getFirstChild();
       if ($isCodeNode(firstChild) && firstChild.getLanguage() === 'markdown') {
-        $convertFromMarkdownString(firstChild.getTextContent(), PLAYGROUND_TRANSFORMERS);
+        $convertFromMarkdownString(firstChild.getTextContent(), ROOT_EDITOR_TRANSFORMERS);
       } else {
         const markdown = $convertToMarkdownString(
-          PLAYGROUND_TRANSFORMERS,
+          ROOT_EDITOR_TRANSFORMERS,
           undefined, //node
         );
         root.clear().append($createCodeNode('markdown').append($createTextNode(markdown)));
@@ -188,8 +188,8 @@ export default function ActionsPlugin({
       <button
         onClick={() =>
           exportFile(editor, {
-            fileName: `Playground ${new Date().toISOString()}`,
-            source: 'Playground',
+            fileName: `RootEditor ${new Date().toISOString()}`,
+            source: 'RootEditor',
           })
         }
         aria-label="Export editor state to JSON"
@@ -202,16 +202,16 @@ export default function ActionsPlugin({
         onClick={() =>
           shareDoc(
             serializedDocumentFromEditorState(editor.getEditorState(), {
-              source: 'Playground',
+              source: 'RootEditor',
             }),
           ).then(
             () => showFlashMessage('URL copied to clipboard'),
             () => showFlashMessage('URL could not be copied to clipboard'),
           )
         }
-        aria-label="Share Playground link to current editor state"
+        aria-label="Share RootEditor link to current editor state"
         className="action-button share"
-        disabled={isCollabActive || INITIAL_SETTINGS.isCollab}
+        disabled={isCollabActive || INITIAL_SETTINGS.isCollaborative}
         title="Share"
       >
         <i className="share" />

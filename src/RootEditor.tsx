@@ -2,54 +2,77 @@ import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalCompos
 import * as React from 'react';
 
 import { Editor } from './Editor';
-import Settings from './Settings';
-import { isDevPlayground } from './appSettings';
+import { RootEditorNodes } from './RootEditor.Nodes';
+import { Settings } from './Settings';
 import { FlashMessageContext } from './context/FlashMessageContext';
-import { useSettings } from './context/SettingsContext';
+import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
-import PlaygroundNodes from './nodes/PlaygroundNodes';
 import DocsPlugin from './plugins/DocsPlugin';
 import PasteLogPlugin from './plugins/PasteLogPlugin';
 import { TableContext } from './plugins/TablePlugin';
 import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
-import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
+import { rootEditorTheme } from './themes/RootEditorTheme';
 
 import './index.css';
 
-export function RootEditor() {
-  const {
-    settings: { measureTypingPerf },
-  } = useSettings();
+type ElementType = HTMLElement;
+type ElementProps = React.HTMLAttributes<ElementType>;
 
-  const initialConfig: InitialConfigType = {
-    namespace: 'Playground',
-    nodes: [...PlaygroundNodes],
-    onError: (error: Error) => {
-      throw error;
-    },
-    theme: PlaygroundEditorTheme,
-  };
-
-  return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <FlashMessageContext>
-        <SharedHistoryContext>
-          <TableContext>
-            <SharedAutocompleteContext>
-              <div className="editor-shell">
-                <Editor />
-              </div>
-              <Settings />
-              {isDevPlayground ? <DocsPlugin /> : null}
-              {isDevPlayground ? <PasteLogPlugin /> : null}
-              {isDevPlayground ? <TestRecorderPlugin /> : null}
-              {measureTypingPerf ? <TypingPerfPlugin /> : null}
-            </SharedAutocompleteContext>
-          </TableContext>
-        </SharedHistoryContext>
-      </FlashMessageContext>
-    </LexicalComposer>
-  );
+export interface BaseRootEditorProps {
+  /**
+   * Whether to enable debug mode.
+   */
+  debug?: boolean;
 }
+
+export const BaseRootEditor = React.forwardRef<ElementType, ElementProps & BaseRootEditorProps>(
+  ({ debug, ...others }, ref) => {
+    const {
+      settings: { measureTypingPerf },
+    } = useSettings();
+
+    const initialConfig: InitialConfigType = {
+      namespace: 'RootEditor',
+      nodes: [...RootEditorNodes],
+      onError: (error: Error) => {
+        throw error;
+      },
+      theme: rootEditorTheme,
+    };
+
+    return (
+      <section ref={ref} {...others}>
+        <LexicalComposer initialConfig={initialConfig}>
+          <FlashMessageContext>
+            <SharedHistoryContext>
+              <TableContext>
+                <SharedAutocompleteContext>
+                  <div className="editor-shell">
+                    <Editor />
+                  </div>
+                  <Settings />
+                  {debug ? <DocsPlugin /> : null}
+                  {debug ? <PasteLogPlugin /> : null}
+                  {debug ? <TestRecorderPlugin /> : null}
+                  {measureTypingPerf ? <TypingPerfPlugin /> : null}
+                </SharedAutocompleteContext>
+              </TableContext>
+            </SharedHistoryContext>
+          </FlashMessageContext>
+        </LexicalComposer>
+      </section>
+    );
+  },
+);
+
+export interface RootEditorProps extends BaseRootEditorProps {}
+
+export const RootEditor = React.forwardRef<ElementType, ElementProps & RootEditorProps>(({ debug, ...others }, ref) => {
+  return (
+    <SettingsProvider>
+      <BaseRootEditor debug={debug} ref={ref} {...others} />
+    </SettingsProvider>
+  );
+});

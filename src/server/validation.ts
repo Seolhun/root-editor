@@ -4,7 +4,7 @@ import * as http from 'http';
 import { $getRoot, $isElementNode, LexicalNode } from 'lexical';
 import * as url from 'url';
 
-import PlaygroundNodes from '../nodes/PlaygroundNodes';
+import { RootEditorNodes } from '../RootEditor.Nodes';
 
 const hostname = 'localhost';
 const port = 1235;
@@ -15,7 +15,7 @@ global.__DEV__ = true;
 
 const editor = createHeadlessEditor({
   namespace: 'validation',
-  nodes: [...PlaygroundNodes],
+  nodes: [...RootEditorNodes],
   onError: (error) => {
     console.error(error);
   },

@@ -614,7 +614,7 @@ function CommentsPanel({
 function useCollabAuthorName(): string {
   const collabContext = useCollaborationContext();
   const { name, yjsDocMap } = collabContext;
-  return yjsDocMap.has('comments') ? name : 'Playground User';
+  return yjsDocMap.has('comments') ? name : 'RootEditor User';
 }
 
 export default function CommentPlugin({

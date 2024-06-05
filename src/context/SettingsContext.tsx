@@ -5,19 +5,19 @@ import type { SettingName } from '../appSettings';
 
 import { DEFAULT_SETTINGS, INITIAL_SETTINGS } from '../appSettings';
 
-type SettingsContextShape = {
+type SettingsContextValues = {
   setOption: (name: SettingName, value: boolean) => void;
   settings: Record<SettingName, boolean>;
 };
 
-const Context: React.Context<SettingsContextShape> = createContext({
+export const SettingsContext: React.Context<SettingsContextValues> = createContext({
   setOption: (name: SettingName, value: boolean) => {
     return;
   },
   settings: INITIAL_SETTINGS,
 });
 
-export const SettingsContext = ({ children }: { children: ReactNode }): JSX.Element => {
+export const SettingsProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
 
   const setOption = useCallback((setting: SettingName, value: boolean) => {
@@ -32,11 +32,11 @@ export const SettingsContext = ({ children }: { children: ReactNode }): JSX.Elem
     return { setOption, settings };
   }, [setOption, settings]);
 
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
+  return <SettingsContext.Provider value={contextValue}>{children}</SettingsContext.Provider>;
 };
 
-export const useSettings = (): SettingsContextShape => {
-  return useContext(Context);
+export const useSettings = (): SettingsContextValues => {
+  return useContext(SettingsContext);
 };
 
 function setURLParam(param: SettingName, value: boolean | null) {

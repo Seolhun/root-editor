@@ -14,8 +14,9 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import useLexicalEditable from '@lexical/react/useLexicalEditable';
-import * as React from 'react';
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import * as React from 'react';
 
 import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
@@ -75,7 +76,7 @@ export function Editor(): JSX.Element {
       isAutocomplete,
       isCharLimit,
       isCharLimitUtf8,
-      isCollab,
+      isCollaborative,
       isMaxLength,
       isRichText,
       shouldPreserveNewLinesInMarkdown,
@@ -87,7 +88,7 @@ export function Editor(): JSX.Element {
     },
   } = useSettings();
   const isEditable = useLexicalEditable();
-  const text = isCollab
+  const text = isCollaborative
     ? 'Enter some collaborative rich text...'
     : isRichText
       ? 'Enter some rich text...'
@@ -122,7 +123,12 @@ export function Editor(): JSX.Element {
   return (
     <>
       {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />}
-      <div className={`editor-container ${showTreeView ? 'tree-view' : ''} ${!isRichText ? 'plain-text' : ''}`}>
+      <div
+        className={clsx('editor-container', {
+          'plain-text': !isRichText,
+          'tree-view': showTreeView,
+        })}
+      >
         {isMaxLength && <MaxLengthPlugin maxLength={30} />}
         <DragDropPaste />
         <AutoFocusPlugin />
@@ -130,17 +136,16 @@ export function Editor(): JSX.Element {
         <ComponentPickerPlugin />
         <EmojiPickerPlugin />
         <AutoEmbedPlugin />
-
         <MentionsPlugin />
         <EmojisPlugin />
         <HashtagPlugin />
         <KeywordsPlugin />
         <SpeechToTextPlugin />
         <AutoLinkPlugin />
-        <CommentPlugin providerFactory={isCollab ? createWebsocketProvider : undefined} />
+        <CommentPlugin providerFactory={isCollaborative ? createWebsocketProvider : undefined} />
         {isRichText ? (
           <>
-            {isCollab ? (
+            {isCollaborative ? (
               <CollaborationPlugin
                 id="main"
                 providerFactory={createWebsocketProvider}
