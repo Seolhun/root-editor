@@ -68,7 +68,4 @@ module.exports = {
       __DEV__: JSON.stringify(true),
     }),
   ],
-  performance: {
-    hints: false,
-  },
 };

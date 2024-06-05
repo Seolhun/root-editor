@@ -7,9 +7,9 @@ const commonConfig = require("./webpack.common");
 
 module.exports = merge(commonConfig, {
   mode: "production",
-  entry: "./src/index.ts",
+  entry: "./index.ts",
   output: {
-    filename: "app.min.js",
+    filename: "index.min.js",
     path: resolve(__dirname, "../dist"),
     publicPath: "/",
   },
@@ -30,14 +30,13 @@ module.exports = merge(commonConfig, {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "app.min.css",
+      filename: "index.min.css",
       chunkFilename: "[id].css",
     })
   ],
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin(),
       new CssMinimizerPlugin(),
     ],
   },

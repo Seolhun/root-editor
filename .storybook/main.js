@@ -1,5 +1,5 @@
 const { merge } = require("webpack-merge");
-const webpackDevConfig = require("../build/webpack.dev");
+const webpackDevConfig = require("../build/webpack.common");
 
 export default {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
