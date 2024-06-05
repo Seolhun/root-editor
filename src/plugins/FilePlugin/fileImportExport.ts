@@ -47,8 +47,8 @@ export function editorStateFromSerializedDocument(
   editor: LexicalEditor,
   maybeStringifiedDocument: SerializedDocument | string,
 ): EditorState {
-  const json =
-    typeof maybeStringifiedDocument === 'string' ? JSON.parse(maybeStringifiedDocument) : maybeStringifiedDocument;
+  const isDocumentString = typeof maybeStringifiedDocument === 'string';
+  const json = isDocumentString ? JSON.parse(maybeStringifiedDocument) : maybeStringifiedDocument;
   return editor.parseEditorState(json.editorState);
 }
 

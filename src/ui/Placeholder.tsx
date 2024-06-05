@@ -1,8 +1,16 @@
-import { ReactNode } from 'react';
 import * as React from 'react';
 
 import './Placeholder.css';
 
-export default function Placeholder({ className, children }: { children: ReactNode; className?: string }): JSX.Element {
-  return <div className={className || 'Placeholder__root'}>{children}</div>;
-}
+type ElementType = HTMLDivElement;
+type ElementProps = React.HTMLAttributes<ElementType>;
+
+const Placeholder = React.forwardRef<ElementType, ElementProps>(({ className, children, ...others }, ref) => {
+  return (
+    <div {...others} className={className || 'Placeholder__root'} ref={ref}>
+      {children}
+    </div>
+  );
+});
+
+export default Placeholder;

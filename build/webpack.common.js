@@ -19,7 +19,15 @@ module.exports = {
     rules: [
       {
         test: [/\.[jt]sx?$/],
-        use: ['babel-loader'],
+        /**
+         * @see https://github.com/babel/babel-loader
+         */
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: true,
+          },
+        },
         exclude: /node_modules/,
       },
       {
@@ -60,7 +68,4 @@ module.exports = {
       __DEV__: JSON.stringify(true),
     }),
   ],
-  performance: {
-    hints: false,
-  },
 };

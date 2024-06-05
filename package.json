@@ -3,11 +3,26 @@
   "name": "root-editor",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/root-ui.min.js",
+  "types": "dist/legacy/index.d.ts",
+  "main": "dist/legacy/index.cjs",
+  "module": "dist/legacy/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/modern/index.d.ts",
+        "default": "./dist/modern/index.js"
+      },
+      "require": {
+        "types": "./dist/modern/index.d.cts",
+        "default": "./dist/modern/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "tailwind:build": "postcss public/tailwind.css -o dist/tailwind.css",
     "prebuild": "rimraf dist/*",
-    "build": "webpack --config=build/webpack.prod.js",
+    "build": "tsup",
     "start": "node express.js",
     "start:dev": "webpack serve --config=build/webpack.dev.js",
     "dev": "node build/dev-server.js",
@@ -84,6 +99,7 @@
     "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
+    "@types/lodash-es": "^4.17.12",
     "@types/react": "^16.14.14",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
@@ -93,6 +109,7 @@
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "csstype": "^3.1.0",
+    "esbuild-plugin-svgr": "^2.1.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-eslint-plugin": "^5.1.1",
@@ -102,6 +119,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.0",
     "identity-obj-proxy": "^3.0.0",
+    "jsdom": "^24.1.0",
     "mini-css-extract-plugin": "^2.9.0",
     "node-sass": "^9.0.0",
     "postcss": "^8.4.38",
@@ -118,13 +136,12 @@
     "storybook": "^8.1.5",
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.1.8",
-    "terser-webpack-plugin": "^5.3.10",
     "ts-essentials": "^7.0.1",
+    "tsup": "^8.1.0",
     "typescript": "^5.3.3",
     "vitest": "^1.6.0",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
     "webpack-merge": "^5.10.0"
   }
 }

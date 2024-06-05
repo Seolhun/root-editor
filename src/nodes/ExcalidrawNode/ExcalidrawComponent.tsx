@@ -18,10 +18,10 @@ import * as React from 'react';
 
 import type { ExcalidrawInitialElements } from './ExcalidrawModal';
 
-import { $isExcalidrawNode } from '.';
 import ImageResizer from '../../ui/ImageResizer';
 import ExcalidrawImage from './ExcalidrawImage';
 import ExcalidrawModal from './ExcalidrawModal';
+import { $isExcalidrawNode } from './index';
 
 export default function ExcalidrawComponent({ data, nodeKey }: { data: string; nodeKey: NodeKey }): JSX.Element {
   const [editor] = useLexicalComposerContext();

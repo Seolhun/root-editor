@@ -1,4 +1,4 @@
-import { INITIAL_SETTINGS, Settings } from './appSettings';
+import { EditorSettings, INITIAL_SETTINGS } from './Editor.settings';
 
 // Export a function so this is not tree-shaken,
 // but evaluate it immediately so it executes before
@@ -11,7 +11,7 @@ export default (() => {
     if (urlSearchParams.has(param)) {
       try {
         const value = JSON.parse(urlSearchParams.get(param) ?? 'true');
-        INITIAL_SETTINGS[param as keyof Settings] = Boolean(value);
+        INITIAL_SETTINGS[param as keyof EditorSettings] = Boolean(value);
       } catch (error) {
         console.warn(`Unable to parse query parameter "${param}"`);
       }

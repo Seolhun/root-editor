@@ -1,36 +1,39 @@
 import { CAN_USE_BEFORE_INPUT } from '@lexical/utils';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { INITIAL_SETTINGS } from './appSettings';
+import { INITIAL_SETTINGS } from './Editor.settings';
 import { useSettings } from './context/SettingsContext';
 import Switch from './ui/Switch';
 
 export function Settings(): JSX.Element {
-  const windowLocation = window.location;
+  const { setOption, settings } = useSettings();
   const {
-    setOption,
-    settings: {
-      debug,
-      disableBeforeInput,
-      isAutocomplete,
-      isCharLimit,
-      isCharLimitUtf8,
-      isCollaborative,
-      isMaxLength,
-      isRichText,
-      measureTypingPerf,
-      shouldPreserveNewLinesInMarkdown,
-      shouldUseLexicalContextMenu,
-      showNestedEditorTreeView,
-      showTableOfContents,
-      showTreeView,
-    },
-  } = useSettings();
+    debug,
+    disableBeforeInput,
+    isAutocomplete,
+    isCharLimit,
+    isCharLimitUtf8,
+    isCollaborative,
+    isRichText,
+    measureTypingPerf,
+    shouldPreserveNewLinesInMarkdown,
+    shouldUseLexicalContextMenu,
+    showNestedEditorTreeView,
+    showTableOfContents,
+    showTreeView,
+  } = settings;
+
+  /**
+   * TODO: We should support SSR/CSR. so, we should use `window` object in a proper way.
+   */
+  const windowLocation = window.location;
+
   useEffect(() => {
     if (INITIAL_SETTINGS.disableBeforeInput && CAN_USE_BEFORE_INPUT) {
       console.error(`Legacy events are enabled (disableBeforeInput) but CAN_USE_BEFORE_INPUT is true`);
     }
   }, []);
+
   const [showSettings, setShowSettings] = useState(false);
   const [isSplitScreen, search] = useMemo(() => {
     const parentWindow = window.parent;
@@ -96,7 +99,6 @@ export function Settings(): JSX.Element {
             onClick={() => setOption('isCharLimitUtf8', !isCharLimitUtf8)}
             text="Char Limit (UTF-8)"
           />
-          <Switch checked={isMaxLength} onClick={() => setOption('isMaxLength', !isMaxLength)} text="Max Length" />
           <Switch
             checked={isAutocomplete}
             onClick={() => setOption('isAutocomplete', !isAutocomplete)}

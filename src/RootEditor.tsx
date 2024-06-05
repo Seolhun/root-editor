@@ -1,13 +1,18 @@
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import clsx from 'clsx';
+import { EditorState, LexicalEditor } from 'lexical';
 import * as React from 'react';
 
-import { Editor } from './Editor';
+import { Editor, EditorProps } from './Editor';
+import { EditorSettings } from './Editor.settings';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
 import { FlashMessageContext } from './context/FlashMessageContext';
 import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
+import { I18nProvider, i18nProviderProps } from './context/i18n';
 import DocsPlugin from './plugins/DocsPlugin';
 import PasteLogPlugin from './plugins/PasteLogPlugin';
 import { TableContext } from './plugins/TablePlugin';
@@ -18,21 +23,42 @@ import { rootEditorTheme } from './themes/RootEditorTheme';
 import './index.css';
 
 type ElementType = HTMLElement;
-type ElementProps = React.HTMLAttributes<ElementType>;
 
-export interface BaseRootEditorProps {
+export interface RootEditorProps extends BaseRootEditorProps {
   /**
-   * Whether to enable debug mode.
+   * Additional class name for the root editor.
    */
-  debug?: boolean;
+  className?: string;
+  /**
+   * Initial configuration for the lexical composer.
+   */
+  initialConfigType?: Pick<
+    Partial<InitialConfigType>,
+    'editable' | 'editorState' | 'html' | 'nodes' | 'onError' | 'theme'
+  >;
+  /**
+   * Initial settings for the editor.
+   */
+  initialSettings?: Partial<EditorSettings>;
+  /**
+   * @default 'en'
+   */
+  language?: i18nProviderProps['language'];
+  /**
+   * Callback that is called when the editor state changes.
+   */
+  onChangeEditorState?: (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => void;
+  /**
+   * Resources for the i18n messages.
+   */
+  resources?: i18nProviderProps['resources'];
 }
 
-export const BaseRootEditor = React.forwardRef<ElementType, ElementProps & BaseRootEditorProps>(
-  ({ debug, ...others }, ref) => {
-    const {
-      settings: { measureTypingPerf },
-    } = useSettings();
-
+export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
+  (
+    { className, initialConfigType, initialSettings, language = 'en', onChangeEditorState, resources, ...others },
+    ref,
+  ) => {
     const initialConfig: InitialConfigType = {
       namespace: 'RootEditor',
       nodes: [...RootEditorNodes],
@@ -40,39 +66,46 @@ export const BaseRootEditor = React.forwardRef<ElementType, ElementProps & BaseR
         throw error;
       },
       theme: rootEditorTheme,
+      ...initialConfigType,
     };
 
     return (
-      <section ref={ref} {...others}>
+      <section className={clsx('RootEditor', className)} ref={ref}>
         <LexicalComposer initialConfig={initialConfig}>
-          <FlashMessageContext>
-            <SharedHistoryContext>
-              <TableContext>
-                <SharedAutocompleteContext>
-                  <div className="editor-shell">
-                    <Editor />
-                  </div>
-                  <Settings />
-                  {debug ? <DocsPlugin /> : null}
-                  {debug ? <PasteLogPlugin /> : null}
-                  {debug ? <TestRecorderPlugin /> : null}
-                  {measureTypingPerf ? <TypingPerfPlugin /> : null}
-                </SharedAutocompleteContext>
-              </TableContext>
-            </SharedHistoryContext>
-          </FlashMessageContext>
+          <I18nProvider language={language} resources={resources}>
+            <SettingsProvider initialSettings={initialSettings}>
+              <BaseRootEditor {...others} />
+              {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
+            </SettingsProvider>
+          </I18nProvider>
         </LexicalComposer>
       </section>
     );
   },
 );
 
-export interface RootEditorProps extends BaseRootEditorProps {}
+export interface BaseRootEditorProps extends EditorProps {}
 
-export const RootEditor = React.forwardRef<ElementType, ElementProps & RootEditorProps>(({ debug, ...others }, ref) => {
+export const BaseRootEditor = ({ ...others }: BaseRootEditorProps) => {
+  const { settings } = useSettings();
+  const { debug, measureTypingPerf } = settings;
+
   return (
-    <SettingsProvider>
-      <BaseRootEditor debug={debug} ref={ref} {...others} />
-    </SettingsProvider>
+    <FlashMessageContext>
+      <SharedHistoryContext>
+        <TableContext>
+          <SharedAutocompleteContext>
+            <div className="editor-shell">
+              <Editor {...others} />
+            </div>
+            <Settings />
+            {debug ? <DocsPlugin /> : null}
+            {debug ? <PasteLogPlugin /> : null}
+            {debug ? <TestRecorderPlugin /> : null}
+            {measureTypingPerf ? <TypingPerfPlugin /> : null}
+          </SharedAutocompleteContext>
+        </TableContext>
+      </SharedHistoryContext>
+    </FlashMessageContext>
   );
-});
+};

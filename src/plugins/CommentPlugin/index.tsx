@@ -75,7 +75,6 @@ function AddCommentBox({
 
   useEffect(() => {
     window.addEventListener('resize', updatePosition);
-
     return () => {
       window.removeEventListener('resize', updatePosition);
     };
