@@ -30,6 +30,13 @@ export interface RootEditorProps extends BaseRootEditorProps {
    */
   className?: string;
   /**
+   * Initial configuration for the lexical composer.
+   */
+  initialConfigType?: Pick<
+    Partial<InitialConfigType>,
+    'editable' | 'editorState' | 'html' | 'nodes' | 'onError' | 'theme'
+  >;
+  /**
    * Initial settings for the editor.
    */
   initialSettings?: Partial<EditorSettings>;
@@ -48,7 +55,10 @@ export interface RootEditorProps extends BaseRootEditorProps {
 }
 
 export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
-  ({ className, initialSettings, language = 'en', onChangeEditorState, resources, ...others }, ref) => {
+  (
+    { className, initialConfigType, initialSettings, language = 'en', onChangeEditorState, resources, ...others },
+    ref,
+  ) => {
     const initialConfig: InitialConfigType = {
       namespace: 'RootEditor',
       nodes: [...RootEditorNodes],
@@ -56,6 +66,7 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
         throw error;
       },
       theme: rootEditorTheme,
+      ...initialConfigType,
     };
 
     return (
