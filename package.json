@@ -1,5 +1,6 @@
 {
   "license": "MIT",
+  "private": true,
   "name": "root-editor",
   "version": "0.1.0",
   "types": "dist/legacy/index.d.ts",
@@ -31,7 +32,8 @@
     "type:check": "tsc --noEmit",
     "prettier": "prettier --write '**/*.{ts,tsx,js,jsx}'",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build -o docs"
+    "storybook:build": "storybook build -o docs",
+    "publish": "pnpm publish"
   },
   "repository": {
     "type": "git",

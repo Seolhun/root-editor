@@ -9,8 +9,6 @@ on:
 jobs:
   deploy-storybook:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
     steps:
       - name: Checkout
@@ -21,6 +19,8 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm i
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Build Storybook
         run: pnpm run storybook:build

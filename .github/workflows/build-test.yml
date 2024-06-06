@@ -35,6 +35,8 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm i
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Lint
         if: ${{ always() }}
