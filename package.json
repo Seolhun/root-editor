@@ -1,6 +1,6 @@
 {
   "license": "MIT",
-  "name": "root-editor",
+  "name": "@seolhun/root-editor",
   "version": "0.1.1",
   "types": "dist/legacy/index.d.ts",
   "main": "dist/legacy/index.cjs",
@@ -17,6 +17,10 @@
       }
     },
     "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com/@seolhun"
   },
   "scripts": {
     "tailwind:build": "postcss public/tailwind.css -o dist/tailwind.css",
