@@ -1,7 +1,6 @@
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import clsx from 'clsx';
-import { EditorState, LexicalEditor } from 'lexical';
 import * as React from 'react';
 
 import { Editor, EditorProps } from './Editor';
