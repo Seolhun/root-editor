@@ -1,5 +1,11 @@
 # root-editor
 
+## 0.1.4
+
+### Patch Changes
+
+- chore: add public directory in packages.json
+
 ## 0.1.3
 
 ### Patch Changes
