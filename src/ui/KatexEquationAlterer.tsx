@@ -6,7 +6,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Button } from '../ui/Button';
 import KatexRenderer from './KatexRenderer';
 
-import './KatexEquationAlterer.css';
+import './KatexEquationAlterer.scss';
 
 type Props = {
   initialEquation?: string;

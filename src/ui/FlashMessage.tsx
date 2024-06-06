@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 
 import { useClientReady } from '~/hooks/useClientReady';
 
-import './FlashMessage.css';
+import './FlashMessage.scss';
 
 export interface FlashMessageProps {
   children: React.ReactNode;

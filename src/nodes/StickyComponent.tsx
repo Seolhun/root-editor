@@ -21,7 +21,7 @@ import ContentEditable from '../ui/ContentEditable';
 import Placeholder from '../ui/Placeholder';
 import { $isStickyNode } from './StickyNode';
 
-import './StickyNode.css';
+import './StickyNode.scss';
 
 type Positioning = {
   isDragging: boolean;

@@ -1,6 +1,6 @@
 import type { EditorThemeClasses } from 'lexical';
 
-import './RootEditorTheme.css';
+import './RootEditorTheme.scss';
 
 export const rootEditorTheme: EditorThemeClasses = {
   autocomplete: 'RootEditorTheme__autocomplete',

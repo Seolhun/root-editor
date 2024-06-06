@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import joinClasses from '../utils/joinClasses';
 
-import './Button.css';
+import './Button.scss';
 
 export function Button({
   className,

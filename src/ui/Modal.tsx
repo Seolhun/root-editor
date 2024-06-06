@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 
 import { useClientReady } from '~/hooks/useClientReady';
 
-import './Modal.css';
+import './Modal.scss';
 
 function PortalImpl({
   children,

@@ -20,7 +20,7 @@ import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 import { rootEditorTheme } from './themes/RootEditorTheme';
 
-import './index.css';
+import './RootEditor.scss';
 
 type ElementType = HTMLElement;
 
@@ -70,7 +70,7 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
     };
 
     return (
-      <section className={clsx('RootEditor', className)} ref={ref}>
+      <section className={clsx('__RootEditor__', className)} ref={ref}>
         <LexicalComposer initialConfig={initialConfig}>
           <I18nProvider language={language} resources={resources}>
             <SettingsProvider initialSettings={initialSettings}>

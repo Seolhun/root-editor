@@ -37,7 +37,7 @@ import FileInput from '../../ui/FileInput';
 import Select from '../../ui/Select';
 import TextInput from '../../ui/TextInput';
 
-import '../../nodes/InlineImageNode.css';
+import '../../nodes/InlineImageNode.scss';
 
 export type InsertInlineImagePayload = Readonly<InlineImagePayload>;
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './Input.css';
+import './Input.scss';
 
 type Props = Readonly<{
   accept?: string;

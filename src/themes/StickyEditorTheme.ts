@@ -2,7 +2,7 @@ import type { EditorThemeClasses } from 'lexical';
 
 import { rootEditorTheme } from './RootEditorTheme';
 
-import './StickyEditorTheme.css';
+import './StickyEditorTheme.scss';
 
 const theme: EditorThemeClasses = {
   ...rootEditorTheme,

@@ -3,7 +3,7 @@ import type { Ref, RefObject } from 'react';
 import { ChangeEvent, forwardRef } from 'react';
 import * as React from 'react';
 
-import './EquationEditor.css';
+import './EquationEditor.scss';
 
 type BaseEquationEditorProps = {
   equation: string;

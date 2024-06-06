@@ -30,7 +30,7 @@ import {
 } from './CollapsibleContentNode';
 import { $createCollapsibleTitleNode, $isCollapsibleTitleNode, CollapsibleTitleNode } from './CollapsibleTitleNode';
 
-import './Collapsible.css';
+import './Collapsible.scss';
 
 export const INSERT_COLLAPSIBLE_COMMAND = createCommand<void>();
 export const TOGGLE_COLLAPSIBLE_COMMAND = createCommand<NodeKey>();

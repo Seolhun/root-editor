@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import TextInput from './TextInput';
 
-import './ColorPicker.css';
+import './ColorPicker.scss';
 
 let skipAddingToHistoryStack = false;
 

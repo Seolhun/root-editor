@@ -44,7 +44,7 @@ import ImageResizer from '../ui/ImageResizer';
 import Placeholder from '../ui/Placeholder';
 import { $isImageNode } from './ImageNode';
 
-import './ImageNode.css';
+import './ImageNode.scss';
 
 const imageCache = new Set();
 

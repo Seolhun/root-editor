@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './Placeholder.css';
+import './Placeholder.scss';
 
 type ElementType = HTMLDivElement;
 type ElementProps = React.HTMLAttributes<ElementType>;

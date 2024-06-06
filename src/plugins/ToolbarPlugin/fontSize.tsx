@@ -2,7 +2,7 @@ import { $patchStyleText } from '@lexical/selection';
 import { $getSelection, LexicalEditor } from 'lexical';
 import * as React from 'react';
 
-import './fontSize.css';
+import './fontSize.scss';
 
 const MIN_ALLOWED_FONT_SIZE = 8;
 const MAX_ALLOWED_FONT_SIZE = 72;

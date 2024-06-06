@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import './Select.css';
+import './Select.scss';
 
 type SelectIntrinsicProps = JSX.IntrinsicElements['select'];
 interface SelectProps extends SelectIntrinsicProps {

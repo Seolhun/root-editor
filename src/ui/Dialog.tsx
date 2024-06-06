@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import * as React from 'react';
 
-import './Dialog.css';
+import './Dialog.scss';
 
 type Props = Readonly<{
   children: ReactNode;

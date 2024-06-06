@@ -14,7 +14,7 @@ import { useClientReady } from '~/hooks/useClientReady';
 import { Button } from '../../ui/Button';
 import { Modal } from '../../ui/Modal';
 
-import './ExcalidrawModal.css';
+import './ExcalidrawModal.scss';
 
 export type ExcalidrawInitialElements = ExcalidrawInitialDataState['elements'];
 

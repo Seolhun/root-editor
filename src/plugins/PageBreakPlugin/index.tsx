@@ -3,7 +3,7 @@ import { $insertNodeToNearestRoot, mergeRegister } from '@lexical/utils';
 import { $getSelection, $isRangeSelection, COMMAND_PRIORITY_EDITOR, createCommand, LexicalCommand } from 'lexical';
 import { useEffect } from 'react';
 
-import { $createPageBreakNode, PageBreakNode } from '../../nodes/PageBreakNode';
+import { $createPageBreakNode, PageBreakNode } from '../../nodes/PageBreakNode/PageBreakNode';
 
 export const INSERT_PAGE_BREAK: LexicalCommand<undefined> = createCommand();
 

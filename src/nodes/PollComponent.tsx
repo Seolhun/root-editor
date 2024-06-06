@@ -22,7 +22,7 @@ import { Button } from '../ui/Button';
 import joinClasses from '../utils/joinClasses';
 import { $isPollNode, createPollOption } from './PollNode';
 
-import './PollNode.css';
+import './PollNode.scss';
 
 function getTotalVotes(options: Options): number {
   return options.reduce((totalVotes, next) => {

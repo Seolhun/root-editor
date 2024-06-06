@@ -36,7 +36,7 @@ import Select from '../ui/Select';
 import TextInput from '../ui/TextInput';
 import { $isInlineImageNode, InlineImageNode } from './InlineImageNode';
 
-import './InlineImageNode.css';
+import './InlineImageNode.scss';
 
 const imageCache = new Set();
 
