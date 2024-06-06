@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@0/schema",
+  "changelog": "@changesets/cli/changelog",
+  "baseBranch": "main",
+  "access": "restricted"
+}
