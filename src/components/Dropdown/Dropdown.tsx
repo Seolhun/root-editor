@@ -1,6 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import DropdownContextProvider from './Dropdown.Context';
@@ -16,6 +17,7 @@ export interface DropdownProps {
 }
 
 function Dropdown({ buttonAriaLabel, buttonClassName, buttonIconClassName, buttonLabel, children }: DropdownProps) {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const dropDownRef = React.useRef<HTMLDivElement>(null);
@@ -84,7 +86,7 @@ function Dropdown({ buttonAriaLabel, buttonClassName, buttonIconClassName, butto
             <DropdownItemList onClose={handleClose} ref={dropDownRef}>
               {children}
             </DropdownItemList>,
-            document.body,
+            floatingElement,
           )}
       </DropdownContextProvider>
     </>

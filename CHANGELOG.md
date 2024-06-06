@@ -1,5 +1,11 @@
 # root-editor
 
+## 0.1.5
+
+### Patch Changes
+
+- refactor: change css to scss to give global scope and document.body to floatingAreaElement
+
 ## 0.1.4
 
 ### Patch Changes

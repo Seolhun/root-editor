@@ -18,6 +18,7 @@ import * as React from 'react';
 import { MouseEventHandler, ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import './TableCellResizer.scss';
@@ -368,6 +369,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 }
 
 export default function TableCellResizerPlugin(): null | ReactPortal {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const [editor] = useLexicalComposerContext();
   const isEditable = useLexicalEditable();
@@ -379,5 +381,5 @@ export default function TableCellResizerPlugin(): null | ReactPortal {
     return null;
   }
 
-  return createPortal(<TableCellResizer editor={editor} />, document.body);
+  return createPortal(<TableCellResizer editor={editor} />, floatingElement);
 }

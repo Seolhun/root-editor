@@ -18,6 +18,7 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import { getSelectedNode } from '../../utils/getSelectedNode';
@@ -270,6 +271,7 @@ function useFloatingLinkEditorToolbar(
   setIsLinkEditMode: Dispatch<boolean>,
   anchorElem?: HTMLElement,
 ): JSX.Element | null {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -339,11 +341,11 @@ function useFloatingLinkEditorToolbar(
     );
   }, [editor]);
 
-  if (!isClientReady) {
+  const rootElement = anchorElem || floatingElement;
+  if (!isClientReady || !rootElement) {
     return null;
   }
 
-  const rootElement = anchorElem || document.body;
   return createPortal(
     <FloatingLinkEditor
       anchorElem={rootElement}
