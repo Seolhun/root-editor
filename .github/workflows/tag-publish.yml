@@ -24,4 +24,4 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - run: pnpm publish
+      - run: pnpm publish --access restricted
