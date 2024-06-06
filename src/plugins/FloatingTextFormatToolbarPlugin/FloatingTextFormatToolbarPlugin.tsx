@@ -16,6 +16,7 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import { getDOMRangeRect } from '../../utils/getDOMRangeRect';
@@ -272,6 +273,7 @@ function useFloatingTextFormatToolbar(
   setIsLinkEditMode: Dispatch<boolean>,
   anchorElem?: HTMLElement,
 ) {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const [isText, setIsText] = useState(false);
   const [isLink, setIsLink] = useState(false);
@@ -361,11 +363,12 @@ function useFloatingTextFormatToolbar(
   if (!isText) {
     return null;
   }
-  if (!isClientReady) {
+
+  const rootElement = anchorElem || floatingElement;
+  if (!isClientReady || !rootElement) {
     return null;
   }
 
-  const rootElement = anchorElem || document.body;
   return createPortal(
     <TextFormatFloatingToolbar
       anchorElem={rootElement}

@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "name": "@seolhun/root-editor",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "types": "dist/legacy/index.d.ts",
   "main": "dist/legacy/index.cjs",
   "module": "dist/legacy/index.js",
@@ -33,7 +33,7 @@
   "scripts": {
     "tailwind:build": "postcss public/tailwind.css -o dist/tailwind.css",
     "prebuild": "rimraf dist/*",
-    "build": "pnpm run build:css && pnpm run concat:css && tsup",
+    "build": "tsup",
     "start": "node express.js",
     "start:dev": "webpack serve --config=build/webpack.dev.js",
     "dev": "node build/dev-server.js",

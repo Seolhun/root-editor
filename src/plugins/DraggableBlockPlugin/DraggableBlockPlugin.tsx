@@ -15,6 +15,7 @@ import * as React from 'react';
 import { DragEvent as ReactDragEvent, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import { isHTMLElement } from '../../utils/guard';
@@ -231,6 +232,7 @@ function hideTargetLine(targetLineElem: HTMLElement | null) {
 }
 
 function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement | undefined, isEditable: boolean) {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const scrollerElem = anchorElem?.parentElement;
 
@@ -382,7 +384,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement | 
     return null;
   }
 
-  const rootElement = anchorElem || document.body;
+  const rootElement = anchorElem || floatingElement;
   return createPortal(
     <>
       <div

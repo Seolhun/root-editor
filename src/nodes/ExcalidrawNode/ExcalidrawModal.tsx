@@ -9,6 +9,7 @@ import * as React from 'react';
 import { ReactPortal, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import { Button } from '../../ui/Button';
@@ -71,6 +72,7 @@ export default function ExcalidrawModal({
   onDelete,
   onSave,
 }: Props): null | ReactPortal {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const excaliDrawModelRef = useRef<HTMLDivElement | null>(null);
   const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();
@@ -235,6 +237,6 @@ export default function ExcalidrawModal({
         </div>
       </div>
     </div>,
-    document.body,
+    floatingElement,
   );
 }

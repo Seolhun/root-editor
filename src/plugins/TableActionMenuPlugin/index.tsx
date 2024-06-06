@@ -36,6 +36,7 @@ import * as React from 'react';
 import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import invariant from '~/shared/invariant';
@@ -155,6 +156,7 @@ function TableActionMenu({
   showColorPickerModal,
   tableCellNode: _tableCellNode,
 }: TableCellActionMenuProps) {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const [editor] = useLexicalComposerContext();
   const dropDownRef = useRef<HTMLDivElement | null>(null);
@@ -586,7 +588,7 @@ function TableActionMenu({
         </span>
       </button>
     </div>,
-    document.body,
+    floatingElement,
   );
 }
 
@@ -728,14 +730,15 @@ export default function TableActionMenuPlugin({
   anchorElem,
   cellMerge = false,
 }: TableActionMenuPluginProps): null | ReactPortal {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const isEditable = useLexicalEditable();
 
-  if (!isClientReady) {
+  const rootElement = anchorElem || floatingElement;
+  if (!isClientReady || !rootElement) {
     return null;
   }
 
-  const rootElement = anchorElem || document.body;
   return createPortal(
     isEditable ? <TableCellActionMenuContainer anchorElem={rootElement} cellMerge={cellMerge} /> : null,
     rootElement,

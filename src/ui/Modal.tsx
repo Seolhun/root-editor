@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import './Modal.scss';
@@ -77,6 +78,7 @@ export interface ModalProps {
 }
 
 export function Modal({ children, closeOnClickOutside = false, onClose, title }: ModalProps) {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   if (!isClientReady) {
     return null;
@@ -86,6 +88,6 @@ export function Modal({ children, closeOnClickOutside = false, onClose, title }:
     <PortalImpl closeOnClickOutside={closeOnClickOutside} onClose={onClose} title={title}>
       {children}
     </PortalImpl>,
-    document.body,
+    floatingElement,
   );
 }

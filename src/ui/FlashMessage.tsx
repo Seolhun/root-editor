@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import './FlashMessage.scss';
@@ -10,7 +11,9 @@ export interface FlashMessageProps {
 }
 
 export default function FlashMessage({ children }: FlashMessageProps) {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
+
   if (!isClientReady) {
     return null;
   }
@@ -21,6 +24,6 @@ export default function FlashMessage({ children }: FlashMessageProps) {
         {children}
       </p>
     </div>,
-    document.body,
+    floatingElement,
   );
 }

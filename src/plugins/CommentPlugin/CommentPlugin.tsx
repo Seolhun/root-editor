@@ -38,6 +38,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import useLayoutEffect from '~/shared/useLayoutEffect';
@@ -623,6 +624,7 @@ export interface CommentPluginProps {
 
 export default function CommentPlugin({ providerFactory }: CommentPluginProps) {
   const isClientReady = useClientReady();
+  const { floatingElement } = useFloatingAreaContext();
   const collabContext = useCollaborationContext();
   const [editor] = useLexicalComposerContext();
   const commentStore = useMemo(() => new CommentStore(editor), [editor]);
@@ -853,14 +855,14 @@ export default function CommentPlugin({ providerFactory }: CommentPluginProps) {
       {showCommentInput &&
         createPortal(
           <CommentInputBox cancelAddComment={cancelAddComment} editor={editor} submitAddComment={submitAddComment} />,
-          document.body,
+          floatingElement,
         )}
       {activeAnchorKey !== null &&
         activeAnchorKey !== undefined &&
         !showCommentInput &&
         createPortal(
           <AddCommentBox anchorKey={activeAnchorKey} editor={editor} onAddComment={onAddComment} />,
-          document.body,
+          floatingElement,
         )}
       {createPortal(
         <Button
@@ -870,7 +872,7 @@ export default function CommentPlugin({ providerFactory }: CommentPluginProps) {
         >
           <i className="comments" />
         </Button>,
-        document.body,
+        floatingElement,
       )}
       {showComments &&
         createPortal(
@@ -881,7 +883,7 @@ export default function CommentPlugin({ providerFactory }: CommentPluginProps) {
             markNodeMap={markNodeMap}
             submitAddComment={submitAddComment}
           />,
-          document.body,
+          floatingElement,
         )}
     </>
   );

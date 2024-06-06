@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 type DropDownContextType = {
@@ -141,6 +142,7 @@ export default function DropDown({
   disabled = false,
   stopCloseOnClickSelf,
 }: DropDownProps) {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const dropDownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -233,7 +235,7 @@ export default function DropDown({
           <DropDownItems dropDownRef={dropDownRef} onClose={handleClose}>
             {children}
           </DropDownItems>,
-          document.body,
+          floatingElement,
         )}
     </>
   );

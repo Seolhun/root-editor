@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import { CopyButton } from './components/CopyButton';
@@ -151,11 +152,13 @@ export interface CodeActionMenuPluginProps {
 }
 
 export default function CodeActionMenuPlugin({ anchorElem }: CodeActionMenuPluginProps): null | React.ReactPortal {
+  const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
-  if (!isClientReady) {
+
+  const rootElement = anchorElem || floatingElement;
+  if (!isClientReady || !rootElement) {
     return null;
   }
 
-  const rootElement = anchorElem || document.body;
   return createPortal(<CodeActionMenuContainer anchorElem={rootElement} />, rootElement);
 }

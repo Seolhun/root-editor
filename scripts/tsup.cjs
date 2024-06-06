@@ -9,19 +9,11 @@ const modernTarget = ['chrome91', 'firefox90', 'edge91', 'safari15', 'ios15', 'o
 const legacyTarget = ['chrome60', 'firefox60', 'edge18', 'safari14', 'ios14', 'opera68'];
 
 /**
- * @param {Object} opts - Options for building configurations.
- * @param {string[]} opts.entry - The entry array.
- * @param {string[]} opts.noExternal - The noExternal array.
- * @param {string[]} opts.external - The external array.
- * @param {boolean} opts.clean - Clean the output directory.
- * @param {import('tsup').Options['esbuildOptions']} opts.esbuildOptions - esbuild options.
- * @param {import('tsup').Options['esbuildPlugins']} opts.esbuildPlugins - esbuild plugins.
- * @param {import('tsup').Options['loader']} opts.loader - Loader options.
+ * @param {import('tsup').Options} opts - Options for building configurations.
  * @returns {import('tsup').Options}
  */
 export function modernConfig(opts) {
   return {
-    ...(opts || {}),
     clean: opts.clean || true,
     dts: true,
     entry: opts.entry || ['src/index.ts'],
@@ -35,15 +27,12 @@ export function modernConfig(opts) {
     target: modernTarget,
     treeshake: true,
     tsconfig: 'tsconfig.build.json',
+    ...(opts || {}),
   };
 }
 
 /**
- * @param {Object} opts - Options for building configurations.
- * @param {string[]} opts.entry - The entry array.
- * @param {string[]} opts.noExternal - The noExternal array.
- * @param {string[]} opts.external - The external array.
- * @param {boolean} opts.clean - Clean the output directory.
+ * @param {import('tsup').Options} opts - Options for building configurations.
  * @returns {import('tsup').Options}
  */
 export function legacyConfig(opts) {

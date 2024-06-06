@@ -15,6 +15,18 @@ const Direction = {
   west: 1 << 2,
 };
 
+export interface ImageResizerProps {
+  buttonRef: React.RefObject<HTMLButtonElement>;
+  captionsEnabled: boolean;
+  editor: LexicalEditor;
+  imageRef: React.RefObject<HTMLElement>;
+  maxWidth?: number;
+  onResizeEnd: (width: 'inherit' | number, height: 'inherit' | number) => void;
+  onResizeStart: () => void;
+  setShowCaption: (show: boolean) => void;
+  showCaption: boolean;
+}
+
 export default function ImageResizer({
   buttonRef,
   captionsEnabled,
@@ -25,17 +37,7 @@ export default function ImageResizer({
   onResizeStart,
   setShowCaption,
   showCaption,
-}: {
-  buttonRef: { current: HTMLButtonElement | null };
-  captionsEnabled: boolean;
-  editor: LexicalEditor;
-  imageRef: { current: HTMLElement | null };
-  maxWidth?: number;
-  onResizeEnd: (width: 'inherit' | number, height: 'inherit' | number) => void;
-  onResizeStart: () => void;
-  setShowCaption: (show: boolean) => void;
-  showCaption: boolean;
-}): JSX.Element {
+}: ImageResizerProps): JSX.Element {
   const controlWrapperRef = useRef<HTMLDivElement>(null);
   const userSelect = useRef({
     priority: '',
