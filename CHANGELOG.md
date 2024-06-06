@@ -1,5 +1,11 @@
 # root-editor
 
+## 0.1.3
+
+### Patch Changes
+
+- refactor: update css bundling process to exports one files correctly
+
 ## 0.1.2
 
 ### Patch Changes
