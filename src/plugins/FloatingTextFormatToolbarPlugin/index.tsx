@@ -16,6 +16,8 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import { getDOMRangeRect } from '../../utils/getDOMRangeRect';
 import { getSelectedNode } from '../../utils/getSelectedNode';
 import { setFloatingElemPosition } from '../../utils/setFloatingElemPosition';
@@ -267,9 +269,10 @@ function TextFormatFloatingToolbar({
 
 function useFloatingTextFormatToolbar(
   editor: LexicalEditor,
-  anchorElem: HTMLElement,
   setIsLinkEditMode: Dispatch<boolean>,
-): JSX.Element | null {
+  anchorElem?: HTMLElement,
+) {
+  const isClientReady = useClientReady();
   const [isText, setIsText] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -358,10 +361,14 @@ function useFloatingTextFormatToolbar(
   if (!isText) {
     return null;
   }
+  if (!isClientReady) {
+    return null;
+  }
 
+  const rootElement = anchorElem || document.body;
   return createPortal(
     <TextFormatFloatingToolbar
-      anchorElem={anchorElem}
+      anchorElem={rootElement}
       editor={editor}
       isBold={isBold}
       isCode={isCode}
@@ -373,17 +380,19 @@ function useFloatingTextFormatToolbar(
       isUnderline={isUnderline}
       setIsLinkEditMode={setIsLinkEditMode}
     />,
-    anchorElem,
+    rootElement,
   );
 }
 
-export default function FloatingTextFormatToolbarPlugin({
-  anchorElem = document.body,
-  setIsLinkEditMode,
-}: {
+export interface FloatingTextFormatToolbarPluginProps {
   anchorElem?: HTMLElement;
   setIsLinkEditMode: Dispatch<boolean>;
-}): JSX.Element | null {
+}
+
+export default function FloatingTextFormatToolbarPlugin({
+  anchorElem,
+  setIsLinkEditMode,
+}: FloatingTextFormatToolbarPluginProps) {
   const [editor] = useLexicalComposerContext();
-  return useFloatingTextFormatToolbar(editor, anchorElem, setIsLinkEditMode);
+  return useFloatingTextFormatToolbar(editor, setIsLinkEditMode, anchorElem);
 }

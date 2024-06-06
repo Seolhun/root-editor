@@ -15,8 +15,10 @@ import {
 import { calculateZoomLevel } from '@lexical/utils';
 import { $getNearestNodeFromDOMNode } from 'lexical';
 import * as React from 'react';
-import { MouseEventHandler, ReactPortal, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { MouseEventHandler, ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+
+import { useClientReady } from '~/hooks/useClientReady';
 
 import './index.css';
 
@@ -366,11 +368,16 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
 }
 
 export default function TableCellResizerPlugin(): null | ReactPortal {
+  const isClientReady = useClientReady();
   const [editor] = useLexicalComposerContext();
   const isEditable = useLexicalEditable();
 
-  return useMemo(
-    () => (isEditable ? createPortal(<TableCellResizer editor={editor} />, document.body) : null),
-    [editor, isEditable],
-  );
+  if (!isEditable) {
+    return null;
+  }
+  if (!isClientReady) {
+    return null;
+  }
+
+  return createPortal(<TableCellResizer editor={editor} />, document.body);
 }

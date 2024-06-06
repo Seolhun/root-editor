@@ -36,6 +36,7 @@ import * as React from 'react';
 import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import invariant from '~/shared/invariant';
 import ColorPicker from '~/ui/ColorPicker';
@@ -154,6 +155,7 @@ function TableActionMenu({
   showColorPickerModal,
   tableCellNode: _tableCellNode,
 }: TableCellActionMenuProps) {
+  const isClientReady = useClientReady();
   const [editor] = useLexicalComposerContext();
   const dropDownRef = useRef<HTMLDivElement | null>(null);
   const [tableCellNode, updateTableCellNode] = useState(_tableCellNode);
@@ -480,6 +482,10 @@ function TableActionMenu({
     }
   }
 
+  if (!isClientReady) {
+    return null;
+  }
+
   return createPortal(
     <div
       onClick={(e) => {
@@ -713,16 +719,25 @@ function TableCellActionMenuContainer({
   );
 }
 
-export default function TableActionMenuPlugin({
-  anchorElem = document.body,
-  cellMerge = false,
-}: {
+export interface TableActionMenuPluginProps {
   anchorElem?: HTMLElement;
   cellMerge?: boolean;
-}): null | ReactPortal {
+}
+
+export default function TableActionMenuPlugin({
+  anchorElem,
+  cellMerge = false,
+}: TableActionMenuPluginProps): null | ReactPortal {
+  const isClientReady = useClientReady();
   const isEditable = useLexicalEditable();
+
+  if (!isClientReady) {
+    return null;
+  }
+
+  const rootElement = anchorElem || document.body;
   return createPortal(
-    isEditable ? <TableCellActionMenuContainer anchorElem={anchorElem} cellMerge={cellMerge} /> : null,
-    anchorElem,
+    isEditable ? <TableCellActionMenuContainer anchorElem={rootElement} cellMerge={cellMerge} /> : null,
+    rootElement,
   );
 }

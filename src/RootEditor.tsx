@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import { Editor, EditorProps } from './Editor';
 import { EditorSettings } from './Editor.settings';
+import { EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
 import { FlashMessageContext } from './context/FlashMessageContext';
@@ -47,7 +48,7 @@ export interface RootEditorProps extends BaseRootEditorProps {
   /**
    * Callback that is called when the editor state changes.
    */
-  onChangeEditorState?: (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => void;
+  onChangeEditorState?: EditorOnChangeFn;
   /**
    * Resources for the i18n messages.
    */

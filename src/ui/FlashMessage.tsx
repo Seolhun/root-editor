@@ -1,13 +1,20 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import './FlashMessage.css';
 
 export interface FlashMessageProps {
   children: React.ReactNode;
 }
 
-export default function FlashMessage({ children }: FlashMessageProps): JSX.Element {
+export default function FlashMessage({ children }: FlashMessageProps) {
+  const isClientReady = useClientReady();
+  if (!isClientReady) {
+    return null;
+  }
+
   return createPortal(
     <div className="FlashMessage__overlay" role="dialog">
       <p className="FlashMessage__alert" role="alert">

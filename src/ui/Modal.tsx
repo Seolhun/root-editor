@@ -2,6 +2,8 @@ import * as React from 'react';
 import { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import './Modal.css';
 
 function PortalImpl({
@@ -67,17 +69,19 @@ function PortalImpl({
   );
 }
 
-export function Modal({
-  children,
-  closeOnClickOutside = false,
-  onClose,
-  title,
-}: {
+export interface ModalProps {
   children: ReactNode;
   closeOnClickOutside?: boolean;
   onClose: () => void;
   title: string;
-}): JSX.Element {
+}
+
+export function Modal({ children, closeOnClickOutside = false, onClose, title }: ModalProps) {
+  const isClientReady = useClientReady();
+  if (!isClientReady) {
+    return null;
+  }
+
   return createPortal(
     <PortalImpl closeOnClickOutside={closeOnClickOutside} onClose={onClose} title={title}>
       {children}

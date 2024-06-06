@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import { CopyButton } from './components/CopyButton';
 import { canBePrettier, PrettierButton } from './components/PrettierButton';
 import { useDebounce } from './utils';
@@ -144,10 +146,16 @@ function getMouseInfo(event: MouseEvent): {
   }
 }
 
-export default function CodeActionMenuPlugin({
-  anchorElem = document.body,
-}: {
+export interface CodeActionMenuPluginProps {
   anchorElem?: HTMLElement;
-}): null | React.ReactPortal {
-  return createPortal(<CodeActionMenuContainer anchorElem={anchorElem} />, anchorElem);
+}
+
+export default function CodeActionMenuPlugin({ anchorElem }: CodeActionMenuPluginProps): null | React.ReactPortal {
+  const isClientReady = useClientReady();
+  if (!isClientReady) {
+    return null;
+  }
+
+  const rootElement = anchorElem || document.body;
+  return createPortal(<CodeActionMenuContainer anchorElem={rootElement} />, rootElement);
 }

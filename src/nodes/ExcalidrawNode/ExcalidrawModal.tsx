@@ -9,6 +9,8 @@ import * as React from 'react';
 import { ReactPortal, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import { Button } from '../../ui/Button';
 import { Modal } from '../../ui/Modal';
 
@@ -69,6 +71,7 @@ export default function ExcalidrawModal({
   onDelete,
   onSave,
 }: Props): null | ReactPortal {
+  const isClientReady = useClientReady();
   const excaliDrawModelRef = useRef<HTMLDivElement | null>(null);
   const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();
   const [discardModalOpen, setDiscardModalOpen] = useState(false);
@@ -202,6 +205,10 @@ export default function ExcalidrawModal({
     setElements(els);
     setFiles(fls);
   };
+
+  if (!isClientReady) {
+    return null;
+  }
 
   return createPortal(
     <div className="ExcalidrawModal__overlay" role="dialog">

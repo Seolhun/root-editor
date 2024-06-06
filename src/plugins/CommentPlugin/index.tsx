@@ -38,6 +38,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
+import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import useLayoutEffect from '~/shared/useLayoutEffect';
 import CommentEditorTheme from '~/themes/CommentEditorTheme';
@@ -616,11 +617,12 @@ function useCollabAuthorName(): string {
   return yjsDocMap.has('comments') ? name : 'RootEditor User';
 }
 
-export default function CommentPlugin({
-  providerFactory,
-}: {
+export interface CommentPluginProps {
   providerFactory?: (id: string, yjsDocMap: Map<string, Doc>) => Provider;
-}): JSX.Element {
+}
+
+export default function CommentPlugin({ providerFactory }: CommentPluginProps) {
+  const isClientReady = useClientReady();
   const collabContext = useCollaborationContext();
   const [editor] = useLexicalComposerContext();
   const commentStore = useMemo(() => new CommentStore(editor), [editor]);
@@ -841,6 +843,10 @@ export default function CommentPlugin({
   const onAddComment = () => {
     editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
   };
+
+  if (!isClientReady) {
+    return null;
+  }
 
   return (
     <>

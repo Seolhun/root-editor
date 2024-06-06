@@ -2,6 +2,8 @@ import * as React from 'react';
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 type DropDownContextType = {
   registerItem: (ref: React.RefObject<HTMLButtonElement>) => void;
 };
@@ -120,6 +122,16 @@ function DropDownItems({
   );
 }
 
+export interface DropDownProps {
+  buttonAriaLabel?: string;
+  buttonClassName: string;
+  buttonIconClassName?: string;
+  buttonLabel?: string;
+  children: React.ReactNode;
+  disabled?: boolean;
+  stopCloseOnClickSelf?: boolean;
+}
+
 export default function DropDown({
   buttonAriaLabel,
   buttonClassName,
@@ -128,15 +140,8 @@ export default function DropDown({
   children,
   disabled = false,
   stopCloseOnClickSelf,
-}: {
-  buttonAriaLabel?: string;
-  buttonClassName: string;
-  buttonIconClassName?: string;
-  buttonLabel?: string;
-  children: ReactNode;
-  disabled?: boolean;
-  stopCloseOnClickSelf?: boolean;
-}): JSX.Element {
+}: DropDownProps) {
+  const isClientReady = useClientReady();
   const dropDownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -199,11 +204,14 @@ export default function DropDown({
     };
 
     document.addEventListener('scroll', handleButtonPositionUpdate);
-
     return () => {
       document.removeEventListener('scroll', handleButtonPositionUpdate);
     };
   }, [buttonRef, dropDownRef, showDropDown]);
+
+  if (!isClientReady) {
+    return null;
+  }
 
   return (
     <>

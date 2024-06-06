@@ -18,6 +18,8 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import { getSelectedNode } from '../../utils/getSelectedNode';
 import { setFloatingElemPositionForLinkEditor } from '../../utils/setFloatingElemPositionForLinkEditor';
 import { sanitizeUrl } from '../../utils/url';
@@ -264,10 +266,11 @@ function FloatingLinkEditor({
 
 function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
-  anchorElem: HTMLElement,
   isLinkEditMode: boolean,
   setIsLinkEditMode: Dispatch<boolean>,
+  anchorElem?: HTMLElement,
 ): JSX.Element | null {
+  const isClientReady = useClientReady();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
 
@@ -336,28 +339,35 @@ function useFloatingLinkEditorToolbar(
     );
   }, [editor]);
 
+  if (!isClientReady) {
+    return null;
+  }
+
+  const rootElement = anchorElem || document.body;
   return createPortal(
     <FloatingLinkEditor
-      anchorElem={anchorElem}
+      anchorElem={rootElement}
       editor={activeEditor}
       isLink={isLink}
       isLinkEditMode={isLinkEditMode}
       setIsLink={setIsLink}
       setIsLinkEditMode={setIsLinkEditMode}
     />,
-    anchorElem,
+    rootElement,
   );
 }
 
-export default function FloatingLinkEditorPlugin({
-  anchorElem = document.body,
-  isLinkEditMode,
-  setIsLinkEditMode,
-}: {
+export interface FloatingLinkEditorToolbarProps {
   anchorElem?: HTMLElement;
   isLinkEditMode: boolean;
   setIsLinkEditMode: Dispatch<boolean>;
-}): JSX.Element | null {
+}
+
+export default function FloatingLinkEditorPlugin({
+  anchorElem,
+  isLinkEditMode,
+  setIsLinkEditMode,
+}: FloatingLinkEditorToolbarProps): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
-  return useFloatingLinkEditorToolbar(editor, anchorElem, isLinkEditMode, setIsLinkEditMode);
+  return useFloatingLinkEditorToolbar(editor, isLinkEditMode, setIsLinkEditMode, anchorElem);
 }

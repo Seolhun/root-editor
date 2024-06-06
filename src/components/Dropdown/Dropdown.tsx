@@ -1,6 +1,8 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import DropdownContextProvider from './Dropdown.Context';
 import { DropdownItemList } from './Dropdown.ItemList';
 
@@ -13,13 +15,8 @@ export interface DropdownProps {
   stopCloseOnClickSelf?: boolean;
 }
 
-function Dropdown({
-  buttonAriaLabel,
-  buttonClassName,
-  buttonIconClassName,
-  buttonLabel,
-  children,
-}: DropdownProps): JSX.Element {
+function Dropdown({ buttonAriaLabel, buttonClassName, buttonIconClassName, buttonLabel, children }: DropdownProps) {
+  const isClientReady = useClientReady();
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const dropDownRef = React.useRef<HTMLDivElement>(null);
   const [isShowDropdown, setShowDropdown] = React.useState(false);
@@ -62,6 +59,10 @@ function Dropdown({
   const showDropdown = React.useCallback(() => {
     setShowDropdown((prevIsShow) => !prevIsShow);
   }, []);
+
+  if (!isClientReady) {
+    return null;
+  }
 
   return (
     <>

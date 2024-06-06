@@ -15,6 +15,8 @@ import * as React from 'react';
 import { DragEvent as ReactDragEvent, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useClientReady } from '~/hooks/useClientReady';
+
 import { isHTMLElement } from '../../utils/guard';
 import { Point } from '../../utils/point';
 import { Rect } from '../../utils/rect';
@@ -65,11 +67,15 @@ function getCollapsedMargins(elem: HTMLElement): {
 }
 
 function getBlockElement(
-  anchorElem: HTMLElement,
   editor: LexicalEditor,
   event: MouseEvent,
+  anchorElem?: HTMLElement,
   useEdgeAsDefault = false,
 ): HTMLElement | null {
+  if (!anchorElem) {
+    return null;
+  }
+
   const anchorElementRect = anchorElem.getBoundingClientRect();
   const topLevelNodeKeys = getTopLevelNodeKeys(editor);
 
@@ -152,8 +158,12 @@ function isOnMenu(element: HTMLElement): boolean {
   return !!element.closest(`.${DRAGGABLE_BLOCK_MENU_CLASSNAME}`);
 }
 
-function setMenuPosition(targetElem: HTMLElement | null, floatingElem: HTMLElement, anchorElem: HTMLElement) {
-  if (!targetElem) {
+function setMenuPosition(
+  targetElem: HTMLElement | null,
+  floatingElem: HTMLElement,
+  anchorElem: HTMLElement | undefined,
+) {
+  if (!targetElem || !anchorElem) {
     floatingElem.style.opacity = '0';
     floatingElem.style.transform = 'translate(-10000px, -10000px)';
     return;
@@ -189,8 +199,12 @@ function setTargetLine(
   targetLineElem: HTMLElement,
   targetBlockElem: HTMLElement,
   mouseY: number,
-  anchorElem: HTMLElement,
+  anchorElem?: HTMLElement,
 ) {
+  if (!anchorElem) {
+    return;
+  }
+
   const { height: targetBlockElemHeight, top: targetBlockElemTop } = targetBlockElem.getBoundingClientRect();
   const { top: anchorTop, width: anchorWidth } = anchorElem.getBoundingClientRect();
   const { marginBottom, marginTop } = getCollapsedMargins(targetBlockElem);
@@ -216,8 +230,9 @@ function hideTargetLine(targetLineElem: HTMLElement | null) {
   }
 }
 
-function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement, isEditable: boolean): JSX.Element {
-  const scrollerElem = anchorElem.parentElement;
+function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement | undefined, isEditable: boolean) {
+  const isClientReady = useClientReady();
+  const scrollerElem = anchorElem?.parentElement;
 
   const menuRef = useRef<HTMLDivElement>(null);
   const targetLineRef = useRef<HTMLDivElement>(null);
@@ -236,7 +251,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement, i
         return;
       }
 
-      const _draggableBlockElem = getBlockElement(anchorElem, editor, event);
+      const _draggableBlockElem = getBlockElement(editor, event, anchorElem);
 
       setDraggableBlockElem(_draggableBlockElem);
     }
@@ -273,7 +288,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement, i
       if (!isHTMLElement(target)) {
         return false;
       }
-      const targetBlockElem = getBlockElement(anchorElem, editor, event, true);
+      const targetBlockElem = getBlockElement(editor, event, anchorElem, true);
       const targetLineElem = targetLineRef.current;
       if (targetBlockElem === null || targetLineElem === null) {
         return false;
@@ -301,7 +316,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement, i
       if (!isHTMLElement(target)) {
         return false;
       }
-      const targetBlockElem = getBlockElement(anchorElem, editor, event, true);
+      const targetBlockElem = getBlockElement(editor, event, anchorElem, true);
       if (!targetBlockElem) {
         return false;
       }
@@ -363,6 +378,11 @@ function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement, i
     hideTargetLine(targetLineRef.current);
   }
 
+  if (!isClientReady) {
+    return null;
+  }
+
+  const rootElement = anchorElem || document.body;
   return createPortal(
     <>
       <div
@@ -376,7 +396,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, anchorElem: HTMLElement, i
       </div>
       <div className="draggable-block-target-line" ref={targetLineRef} />
     </>,
-    anchorElem,
+    rootElement,
   );
 }
 
@@ -384,8 +404,9 @@ export interface DraggableBlockPluginProps {
   anchorElem?: HTMLElement;
 }
 
-function DraggableBlockPlugin({ anchorElem = document.body }: DraggableBlockPluginProps): JSX.Element {
+function DraggableBlockPlugin({ anchorElem }: DraggableBlockPluginProps) {
   const [editor] = useLexicalComposerContext();
+
   return useDraggableBlockMenu(editor, anchorElem, editor._editable);
 }
 

@@ -23,7 +23,7 @@ import ExcalidrawImage from './ExcalidrawImage';
 import ExcalidrawModal from './ExcalidrawModal';
 import { $isExcalidrawNode } from './index';
 
-export default function ExcalidrawComponent({ data, nodeKey }: { data: string; nodeKey: NodeKey }): JSX.Element {
+export default function ExcalidrawComponent({ data, nodeKey }: { data: string; nodeKey: NodeKey }) {
   const [editor] = useLexicalComposerContext();
   const [isModalOpen, setModalOpen] = useState<boolean>(data === '[]' && editor.isEditable());
   const imageContainerRef = useRef<HTMLImageElement | null>(null);
