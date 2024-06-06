@@ -1,0 +1,46 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      [
+        main,
+        develop,
+        /^release/.*$/,
+        /^feature/.*$/,
+        /^bugfix/.*$/,
+        /^hotfix/.*$/,
+        /^support/.*$/,
+      ]
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - "**/*.md"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js & pnpm
+        uses: ./.github/actions/node-pnpm-setup
+
+      - name: Install Dependencies
+        run: pnpm i
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Lint
+        if: ${{ always() }}
+        run: pnpm run lint
+
+      - name: Test
+        if: ${{ always() }}
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build
