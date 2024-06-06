@@ -16,7 +16,8 @@
         "default": "./dist/modern/index.cjs"
       }
     },
-    "./dist/index.css": "./dist/index.css",
+    "./modern/index.css": "./dist/modern/index.css",
+    "./legacy/index.css": "./dist/legacy/index.css",
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -31,8 +32,6 @@
   ],
   "scripts": {
     "tailwind:build": "postcss public/tailwind.css -o dist/tailwind.css",
-    "build:css": "postcss ./src/**/*.css --dir ./dist/css",
-    "concat:css": "cat ./dist/css/*.css > ./dist/index.css",
     "prebuild": "rimraf dist/*",
     "build": "pnpm run build:css && pnpm run concat:css && tsup",
     "start": "node express.js",
