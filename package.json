@@ -2,10 +2,6 @@
   "license": "MIT",
   "name": "root-editor",
   "version": "0.1.0",
-  "publishConfig": {
-    "access": "restricted",
-    "registry": "https://npm.pkg.github.com"
-  },
   "types": "dist/legacy/index.d.ts",
   "main": "dist/legacy/index.cjs",
   "module": "dist/legacy/index.js",
