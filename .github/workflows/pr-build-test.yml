@@ -1,26 +1,17 @@
-name: Continuous Integration
+name: PR Test & Report
 
 on:
   pull_request:
-    branches:
-      [
-        main,
-        develop,
-        /^release/.*$/,
-        /^feature/.*$/,
-        /^bugfix/.*$/,
-        /^hotfix/.*$/,
-        /^support/.*$/,
-      ]
+    branches: [main, develop, /^release\/.*$/, /^feature\/.*$/, /^bugfix\/.*$/, /^hotfix\/.*$/, /^support\/.*$/]
     types: [opened, synchronize, reopened]
     paths-ignore:
-      - "**/*.md"
+      - '**/*.md'
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
 
     steps:
       - name: Checkout
@@ -29,10 +20,8 @@ jobs:
       - name: Setup Node.js & pnpm
         uses: ./.github/actions/node-pnpm-setup
 
-      - name: Install Dependencies
+      - name: Install Packages
         run: pnpm i
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Lint
         if: ${{ always() }}
@@ -41,6 +30,9 @@ jobs:
       - name: Test
         if: ${{ always() }}
         run: pnpm run test
+
+      - name: Build Storybook
+        run: pnpm run build:storybook
 
       - name: Build
         run: pnpm run build
