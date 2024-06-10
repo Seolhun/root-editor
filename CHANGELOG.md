@@ -1,5 +1,11 @@
 # root-editor
 
+## 0.1.6-alpha.1
+
+### Patch Changes
+
+- refactor: change the button type to button
+
 ## 0.1.6-alpha.0
 
 ### Patch Changes

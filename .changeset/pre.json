@@ -5,6 +5,7 @@
     "@seolhun/root-editor": "0.1.5"
   },
   "changesets": [
-    "cyan-hairs-dress"
+    "cyan-hairs-dress",
+    "many-plums-leave"
   ]
 }
