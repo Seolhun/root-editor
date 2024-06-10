@@ -371,6 +371,7 @@ ${steps.map(formatStep).join(`\n`)}
       id="test-recorder-button"
       onClick={() => toggleEditorSelection(getCurrentEditor())}
       title={isRecording ? 'Disable test recorder' : 'Enable test recorder'}
+      type="button"
     />
   );
   const output = isRecording ? (
@@ -381,18 +382,21 @@ ${steps.map(formatStep).join(`\n`)}
           id="test-recorder-button-snapshot"
           onClick={onSnapshotClick}
           title="Insert snapshot"
+          type="button"
         />
         <button
           className="test-recorder-button"
           id="test-recorder-button-copy"
           onClick={onCopyClick}
           title="Copy to clipboard"
+          type="button"
         />
         <button
           className="test-recorder-button"
           id="test-recorder-button-download"
           onClick={onDownloadClick}
           title="Download as a file"
+          type="button"
         />
       </div>
       <pre id="test-recorder" ref={preRef}>

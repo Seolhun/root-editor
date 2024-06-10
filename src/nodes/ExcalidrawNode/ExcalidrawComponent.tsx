@@ -166,7 +166,7 @@ export default function ExcalidrawComponent({ data, nodeKey }: { data: string; n
         onDelete={deleteNode}
       />
       {elements.length > 0 && (
-        <button className={`excalidraw-button ${isSelected ? 'selected' : ''}`} ref={buttonRef}>
+        <button className={`excalidraw-button ${isSelected ? 'selected' : ''}`} ref={buttonRef} type="button">
           <ExcalidrawImage
             appState={appState}
             className="image"

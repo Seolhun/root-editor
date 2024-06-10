@@ -1,0 +1,11 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@seolhun/root-editor": "0.1.5"
+  },
+  "changesets": [
+    "cyan-hairs-dress",
+    "many-plums-leave"
+  ]
+}

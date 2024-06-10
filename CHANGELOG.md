@@ -1,5 +1,17 @@
 # root-editor
 
+## 0.1.6-alpha.1
+
+### Patch Changes
+
+- refactor: change the button type to button
+
+## 0.1.6-alpha.0
+
+### Patch Changes
+
+- chore: add editor types
+
 ## 0.1.5
 
 ### Patch Changes

@@ -111,6 +111,7 @@ export default function ColorPicker({ color, onChange }: Readonly<ColorPickerPro
             className={basicColor === selfColor.hex ? ' active' : ''}
             key={basicColor}
             style={{ backgroundColor: basicColor }}
+            type="button"
           />
         ))}
       </div>

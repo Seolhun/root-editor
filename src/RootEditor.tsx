@@ -4,8 +4,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { Editor, EditorProps } from './Editor';
-import { EditorSettings } from './Editor.settings';
-import { EditorOnChangeFn } from './Editor.types';
+import { EditorInitialConfigType, EditorInitialSettings, EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
 import { FlashMessageContext } from './context/FlashMessageContext';
@@ -33,14 +32,11 @@ export interface RootEditorProps extends BaseRootEditorProps {
   /**
    * Initial configuration for the lexical composer.
    */
-  initialConfigType?: Pick<
-    Partial<InitialConfigType>,
-    'editable' | 'editorState' | 'html' | 'nodes' | 'onError' | 'theme'
-  >;
+  initialConfigType?: EditorInitialConfigType;
   /**
    * Initial settings for the editor.
    */
-  initialSettings?: Partial<EditorSettings>;
+  initialSettings?: EditorInitialSettings;
   /**
    * @default 'en'
    */
