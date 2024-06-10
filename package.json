@@ -22,7 +22,7 @@
   },
   "publishConfig": {
     "access": "restricted",
-    "registry": "https://npm.pkg.github.com/@seolhun"
+    "registry": "https://npm.pkg.github.com"
   },
   "files": [
     "dist",
@@ -73,6 +73,7 @@
     "@lexical/file": "0.15.0",
     "@lexical/hashtag": "0.15.0",
     "@lexical/headless": "^0.15.0",
+    "@lexical/html": "^0.16.0",
     "@lexical/link": "0.15.0",
     "@lexical/list": "0.15.0",
     "@lexical/mark": "0.15.0",
