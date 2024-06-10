@@ -57,7 +57,7 @@
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
-    "@mdx-js/react": "^2.1.2",
+    "@mdx-js/react": "^3.0.1",
     "@storybook/addon-actions": "^6.5.10",
     "@storybook/addon-docs": "^6.5.10",
     "@storybook/addon-essentials": "^6.5.10",
