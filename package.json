@@ -62,7 +62,7 @@
     "@storybook/addon-docs": "^6.5.10",
     "@storybook/addon-essentials": "^6.5.10",
     "@storybook/addon-links": "^6.5.10",
-    "@storybook/builder-webpack5": "^6.5.10",
+    "@storybook/builder-webpack5": "^8.1.6",
     "@storybook/manager-webpack5": "^6.5.10",
     "@storybook/mdx2-csf": "^0.0.3",
     "@storybook/react": "^6.5.10",
