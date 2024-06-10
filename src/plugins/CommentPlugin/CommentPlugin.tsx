@@ -88,7 +88,7 @@ function AddCommentBox({
 
   return (
     <div className="CommentPlugin_AddCommentBox" ref={boxRef}>
-      <button className="CommentPlugin_AddCommentBox_button" onClick={onAddComment}>
+      <button className="CommentPlugin_AddCommentBox_button" onClick={onAddComment} type="button">
         <i className="icon add-comment" />
       </button>
     </div>

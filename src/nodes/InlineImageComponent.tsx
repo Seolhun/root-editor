@@ -315,6 +315,7 @@ export default function InlineImageComponent({
             }}
             className="image-edit-button"
             ref={buttonRef}
+            type="button"
           >
             Edit
           </button>

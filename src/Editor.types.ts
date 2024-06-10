@@ -1,4 +1,4 @@
-import { InitialConfigType } from '@lexical/react/LexicalComposer';
+import { InitialConfigType, InitialEditorStateType } from '@lexical/react/LexicalComposer';
 import { EditorState, LexicalEditor, SerializedEditorState } from 'lexical';
 
 import { EditorSettings } from './Editor.settings';
@@ -13,5 +13,7 @@ export type EditorInitialConfigType = Pick<
   Partial<InitialConfigType>,
   'editable' | 'editorState' | 'html' | 'nodes' | 'onError' | 'theme'
 >;
+
+export type InitialEditorState = InitialEditorStateType;
 
 export type EditorInitialSettings = Partial<EditorSettings>;

@@ -171,6 +171,7 @@ export default function ActionsPlugin(): JSX.Element {
           aria-label={`${isSpeechToText ? 'Enable' : 'Disable'} speech to text`}
           className={'action-button action-button-mic ' + (isSpeechToText ? 'active' : '')}
           title="Speech To Text"
+          type="button"
         >
           <i className="mic" />
         </button>
@@ -180,6 +181,7 @@ export default function ActionsPlugin(): JSX.Element {
         className="action-button import"
         onClick={() => importFile(editor)}
         title="Import"
+        type="button"
       >
         <i className="import" />
       </button>
@@ -193,6 +195,7 @@ export default function ActionsPlugin(): JSX.Element {
         aria-label="Export editor state to JSON"
         className="action-button export"
         title="Export"
+        type="button"
       >
         <i className="export" />
       </button>
@@ -211,6 +214,7 @@ export default function ActionsPlugin(): JSX.Element {
         className="action-button share"
         disabled={isCollabActive || isCollaborative}
         title="Share"
+        type="button"
       >
         <i className="share" />
       </button>
@@ -222,6 +226,7 @@ export default function ActionsPlugin(): JSX.Element {
         className="action-button clear"
         disabled={isEditorEmpty}
         title="Clear"
+        type="button"
       >
         <i className="clear" />
       </button>
@@ -236,6 +241,7 @@ export default function ActionsPlugin(): JSX.Element {
         aria-label={`${!isEditable ? 'Unlock' : 'Lock'} read-only mode`}
         className={`action-button ${!isEditable ? 'unlock' : 'lock'}`}
         title="Read-Only Mode"
+        type="button"
       >
         <i className={!isEditable ? 'unlock' : 'lock'} />
       </button>
@@ -244,6 +250,7 @@ export default function ActionsPlugin(): JSX.Element {
         className="action-button"
         onClick={handleMarkdownToggle}
         title="Convert From Markdown"
+        type="button"
       >
         <i className="markdown" />
       </button>
@@ -255,6 +262,7 @@ export default function ActionsPlugin(): JSX.Element {
           aria-label={`${connected ? 'Disconnect from' : 'Connect to'} a collaborative editing server`}
           className="action-button connect"
           title={`${connected ? 'Disconnect' : 'Connect'} Collaborative Editing`}
+          type="button"
         >
           <i className={connected ? 'disconnect' : 'connect'} />
         </button>

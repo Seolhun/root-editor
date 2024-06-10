@@ -214,6 +214,7 @@ export default function ImageResizer({
           }}
           className="image-caption-button"
           ref={buttonRef}
+          type="button"
         >
           Add Caption
         </button>
