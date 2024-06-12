@@ -133,6 +133,7 @@ export function PrettierButton({ editor, getCodeDOMNode, lang }: Props) {
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        type="button"
       >
         {syntaxError ? <i className="format prettier-error" /> : <i className="format prettier" />}
       </button>

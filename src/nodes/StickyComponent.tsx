@@ -202,10 +202,16 @@ export default function StickyComponent({
         }}
         className={`sticky-note ${color}`}
       >
-        <button aria-label="Delete sticky note" className="delete" onClick={handleDelete} title="Delete">
+        <button aria-label="Delete sticky note" className="delete" onClick={handleDelete} title="Delete" type="button">
           X
         </button>
-        <button aria-label="Change sticky note color" className="color" onClick={handleColorChange} title="Color">
+        <button
+          aria-label="Change sticky note color"
+          className="color"
+          onClick={handleColorChange}
+          title="Color"
+          type="button"
+        >
           <i className="bucket" />
         </button>
         <LexicalNestedComposer initialEditor={caption} initialTheme={StickyEditorTheme}>

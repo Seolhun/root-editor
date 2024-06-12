@@ -105,6 +105,7 @@ function PollOptionComponent({
         aria-label="Remove"
         className={joinClasses('PollNode__optionDelete', options.length < 3 && 'PollNode__optionDeleteDisabled')}
         disabled={options.length < 3}
+        type="button"
       />
     </div>
   );

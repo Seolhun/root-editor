@@ -29,6 +29,7 @@ export function Button({
       disabled={disabled}
       onClick={onClick}
       title={title}
+      type="button"
       {...(dataTestId && { 'data-test-id': dataTestId })}
     >
       {children}

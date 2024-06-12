@@ -24,14 +24,14 @@ import { CAN_USE_DOM } from '~/shared/canUseDOM';
 import { EditorPlaceholderRenderer } from './Editor.types';
 import { useSettings } from './context/SettingsContext';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
-import ActionsPlugin from './plugins/ActionsPlugin';
+// import ActionsPlugin from './plugins/ActionsPlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 import AutocompletePlugin from './plugins/AutocompletePlugin';
 import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
 import CollapsiblePlugin from './plugins/CollapsiblePlugin';
-import CommentPlugin from './plugins/CommentPlugin';
+// import CommentPlugin from './plugins/CommentPlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 import ContextMenuPlugin from './plugins/ContextMenuPlugin';
 import DragDropPaste from './plugins/DragDropPastePlugin';
@@ -152,7 +152,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
         <KeywordsPlugin />
         <SpeechToTextPlugin />
         <AutoLinkPlugin />
-        <CommentPlugin providerFactory={isCollaborative ? createWebsocketProvider : undefined} />
+        {/* <CommentPlugin providerFactory={isCollaborative ? createWebsocketProvider : undefined} /> */}
         {isRichText ? (
           <>
             {isCollaborative ? (
@@ -231,7 +231,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
         {isAutocomplete && <AutocompletePlugin />}
         <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
         {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
-        <ActionsPlugin />
+        {/* <ActionsPlugin /> */}
       </div>
       {showTreeView && <TreeViewPlugin />}
     </>
