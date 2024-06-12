@@ -1,5 +1,11 @@
 # root-editor
 
+## 0.1.6-alpha.2
+
+### Patch Changes
+
+- feat: add readonly editor features
+
 ## 0.1.6-alpha.1
 
 ### Patch Changes

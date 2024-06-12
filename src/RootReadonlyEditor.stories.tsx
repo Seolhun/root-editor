@@ -2,22 +2,21 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import * as React from 'react';
 
-import { EditorOnChangeFn } from './Editor.types';
-import { RootEditor } from './RootEditor';
+import { RootReadonlyEditor } from './RootReadonlyEditor';
 import { dummyContent } from './stories';
 
-const meta: Meta<typeof RootEditor> = {
-  component: RootEditor,
-  title: 'RootEditor',
+const meta: Meta<typeof RootReadonlyEditor> = {
+  component: RootReadonlyEditor,
+  title: 'RootReadonlyEditor',
 };
 
 export default meta;
-type Story = StoryObj<typeof RootEditor>;
+type Story = StoryObj<typeof RootReadonlyEditor>;
 
 export const Default: Story = {
   render: () => {
     return (
-      <RootEditor
+      <RootReadonlyEditor
         initialConfigType={{
           editorState: JSON.stringify(dummyContent),
         }}
@@ -29,7 +28,7 @@ export const Default: Story = {
 export const WidthMaxLength: Story = {
   render: () => {
     return (
-      <RootEditor
+      <RootReadonlyEditor
         initialConfigType={{
           editorState: JSON.stringify(dummyContent),
         }}
@@ -41,15 +40,11 @@ export const WidthMaxLength: Story = {
 
 export const WithInitialConfigType: Story = {
   render: () => {
-    const onChangeEditorState: EditorOnChangeFn = (editorState) => {
-      console.debug(JSON.stringify(editorState.toJSON(), null, 2));
-    };
     return (
-      <RootEditor
+      <RootReadonlyEditor
         initialConfigType={{
           editorState: JSON.stringify(dummyContent),
         }}
-        onChangeEditorState={onChangeEditorState}
       />
     );
   },
@@ -57,16 +52,12 @@ export const WithInitialConfigType: Story = {
 
 export const WidthInitialSettings: Story = {
   render: () => {
-    const onChangeEditorState: EditorOnChangeFn = (editorState) => {
-      console.debug(JSON.stringify(editorState.toJSON(), null, 2));
-    };
     return (
-      <RootEditor
+      <RootReadonlyEditor
         initialConfigType={{
           editorState: JSON.stringify(dummyContent),
         }}
         initialSettings={{ showTreeView: true }}
-        onChangeEditorState={onChangeEditorState}
       />
     );
   },

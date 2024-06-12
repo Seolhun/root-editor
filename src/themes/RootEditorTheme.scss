@@ -21,22 +21,20 @@
     padding-left: 16px;
   }
   .RootEditorTheme__h1 {
-    font-size: 24px;
+    font-size: 2rem;
     color: rgb(5, 5, 5);
     font-weight: 400;
     margin: 0;
   }
   .RootEditorTheme__h2 {
-    font-size: 15px;
+    font-size: 1.5rem;
     color: rgb(101, 103, 107);
     font-weight: 700;
     margin: 0;
-    text-transform: uppercase;
   }
   .RootEditorTheme__h3 {
-    font-size: 12px;
+    font-size: 1.2rem;
     margin: 0;
-    text-transform: uppercase;
   }
   .RootEditorTheme__indent {
     --lexical-indent-base-value: 40px;
