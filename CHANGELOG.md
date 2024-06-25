@@ -1,5 +1,13 @@
 # root-editor
 
+## 0.1.6
+
+### Patch Changes
+
+- 721f088: chore: add editor types
+- 8a3bdd6: refactor: change the button type to button
+- 242ff6a: feat: add readonly editor features
+
 ## 0.1.6-alpha.2
 
 ### Patch Changes
