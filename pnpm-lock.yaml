@@ -68,6 +68,9 @@ importers:
       '@lexical/yjs':
         specifier: ^0.15.0
         version: 0.15.0(yjs@13.6.15)
+      '@seolhun/root-ui-tailwind':
+        specifier: ^0.8.6
+        version: 0.8.6(tailwindcss@3.4.3)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1543,6 +1546,9 @@ packages:
   '@fal-works/esbuild-plugin-global-externals@2.1.2':
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
 
+  '@fxts/core@1.0.0':
+    resolution: {integrity: sha512-M4I+os4XhWpu7D8x7RWYjzGB/rMKhwKT/o7BBfFh4gieWh/ajzK6t0oCZlD6YIb775O1FWipyKeqneA1meqkIA==}
+
   '@gar/promisify@1.1.3':
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
 
@@ -1990,6 +1996,11 @@ packages:
       eslint: '>=8'
       prettier: '>=3'
       typescript: '>=5'
+
+  '@seolhun/root-ui-tailwind@0.8.6':
+    resolution: {integrity: sha512-ZPZMaXDCk/VeI0NkBaGwwOAK3tDQJqX6yeR9NirPH2PVZsoSF6GBvOx7XLz12jc7/tcM80N+XaNHHWm2jPuYOQ==, tarball: https://npm.pkg.github.com/download/@seolhun/root-ui-tailwind/0.8.6/b797d772ac5612d2635236c8b125f99b3f89684a}
+    peerDependencies:
+      tailwindcss: '>=3.0.0'
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -3244,9 +3255,16 @@ packages:
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
+  color-string@1.9.1:
+    resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
+
   color-support@1.1.3:
     resolution: {integrity: sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==}
     hasBin: true
+
+  color@4.2.3:
+    resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
+    engines: {node: '>=12.5.0'}
 
   colord@2.9.3:
     resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
@@ -4651,6 +4669,9 @@ packages:
 
   is-arrayish@0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}
+
+  is-arrayish@0.3.2:
+    resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
 
   is-async-function@2.0.0:
     resolution: {integrity: sha512-Y1JXKrfykRJGdlDwdKlLpLyMIiWqWvuSd17TvZk68PLAOGOoF4Xyav1z0Xhoi+gCYjZVeC5SI+hYFOfvXmGRCA==}
@@ -6848,6 +6869,9 @@ packages:
   signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
+
+  simple-swizzle@0.2.2:
+    resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -9273,6 +9297,10 @@ snapshots:
 
   '@fal-works/esbuild-plugin-global-externals@2.1.2': {}
 
+  '@fxts/core@1.0.0':
+    dependencies:
+      tslib: 2.6.2
+
   '@gar/promisify@1.1.3': {}
 
   '@humanwhocodes/config-array@0.11.14':
@@ -9824,6 +9852,13 @@ snapshots:
       - eslint-import-resolver-webpack
       - eslint-plugin-import
       - supports-color
+
+  '@seolhun/root-ui-tailwind@0.8.6(tailwindcss@3.4.3)':
+    dependencies:
+      '@fxts/core': 1.0.0
+      color: 4.2.3
+      lodash-es: 4.17.21
+      tailwindcss: 3.4.3
 
   '@sinclair/typebox@0.27.8': {}
 
@@ -11739,7 +11774,17 @@ snapshots:
 
   color-name@1.1.4: {}
 
+  color-string@1.9.1:
+    dependencies:
+      color-name: 1.1.4
+      simple-swizzle: 0.2.2
+
   color-support@1.1.3: {}
+
+  color@4.2.3:
+    dependencies:
+      color-convert: 2.0.1
+      color-string: 1.9.1
 
   colord@2.9.3: {}
 
@@ -13489,6 +13534,8 @@ snapshots:
       get-intrinsic: 1.2.4
 
   is-arrayish@0.2.1: {}
+
+  is-arrayish@0.3.2: {}
 
   is-async-function@2.0.0:
     dependencies:
@@ -16024,6 +16071,10 @@ snapshots:
   signal-exit@3.0.7: {}
 
   signal-exit@4.1.0: {}
+
+  simple-swizzle@0.2.2:
+    dependencies:
+      is-arrayish: 0.3.2
 
   sisteransi@1.0.5: {}
 

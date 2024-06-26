@@ -20,7 +20,10 @@ import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 import { rootEditorTheme } from './themes/RootEditorTheme';
 
+/*eslint-disable */
+import '~/assets/tailwind.scss';
 import './RootEditor.scss';
+/*eslint-enable */
 
 type ElementType = HTMLElement;
 
