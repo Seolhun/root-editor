@@ -2,15 +2,18 @@ import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalCompos
 import clsx from 'clsx';
 import * as React from 'react';
 
+import theme from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings } from './Editor.types';
 import { BaseRootEditor, BaseRootEditorProps } from './RootEditor';
 import { RootEditorNodes } from './RootEditor.Nodes';
-import { SettingsProvider } from './context/SettingsContext';
 import { FloatingAreaProvider } from './context/floating';
 import { I18nProvider, i18nProviderProps } from './context/i18n';
-import { rootEditorTheme } from './themes/RootEditorTheme';
+import { SettingsProvider } from './context/settings/SettingsContext';
 
+/*eslint-disable */
+import './assets/tailwind.scss';
 import './RootEditor.scss';
+/*eslint-enable */
 
 type ElementType = HTMLElement;
 
@@ -52,7 +55,7 @@ export const RootReadonlyEditor = React.forwardRef<ElementType, RootReadonlyEdit
       onError: (error: Error) => {
         throw error;
       },
-      theme: rootEditorTheme,
+      theme,
       ...initialConfigType,
       editable: false,
     };

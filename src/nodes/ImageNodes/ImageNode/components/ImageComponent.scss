@@ -1,0 +1,48 @@
+.__RootEditor__ {
+  span.RootImage {
+    cursor: default;
+    display: inline-block;
+    position: relative;
+    user-select: none;
+  }
+
+  .RootImage img {
+    max-width: 100%;
+    cursor: default;
+  }
+
+  .RootImage img.focused {
+    outline: 2px solid rgb(60, 132, 244);
+    user-select: none;
+  }
+
+  .RootImage img.focused.draggable {
+    cursor: grab;
+  }
+
+  .RootImage img.focused.draggable:active {
+    cursor: grabbing;
+  }
+
+  .RootImage .image-edit-button {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    background-image: url(../../../../../public/icons/pencil-fill.svg);
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 35px;
+    height: 35px;
+    vertical-align: -0.25em;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .RootImage .image-edit-button:hover {
+    background-color: rgba(60, 132, 244, 0.1);
+  }
+}
+

@@ -41,12 +41,7 @@ export const I18nProvider = ({ children, language = 'en', resources = DEFAULT_I1
   }, [resources]);
 
   const t = React.useCallback<I18nTFunction>(
-    (key: string) => {
-      if (i18nResources?.[language]?.[key]) {
-        return key;
-      }
-      return i18nResources[language][key] || key;
-    },
+    (key: string) => i18nResources?.[language]?.[key] || key,
     [i18nResources, language],
   );
 

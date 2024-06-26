@@ -8,9 +8,9 @@ export interface SelectProps extends ElementProps {
   options: SelectOptionProps[];
 }
 
-function Select({ className, onChange, options, value, ...rests }: SelectProps): JSX.Element {
+export function Select({ className, onChange, options, value, ...rests }: SelectProps): JSX.Element {
   return (
-    <select {...rests} className={clsx('Root__Editor__Select', className)} onChange={onChange} value={value}>
+    <select {...rests} className={clsx('RootEditor__Select', className)} onChange={onChange} value={value}>
       {options.map((selectOptionProps, i) => (
         <SelectOption key={i} {...selectOptionProps}>
           {selectOptionProps?.children || selectOptionProps?.value}
@@ -19,5 +19,3 @@ function Select({ className, onChange, options, value, ...rests }: SelectProps):
     </select>
   );
 }
-export { Select };
-export default Select;

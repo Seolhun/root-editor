@@ -4,23 +4,27 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { Editor, EditorProps } from './Editor';
+import theme from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings, EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
 import { FlashMessageContext } from './context/FlashMessageContext';
-import { SettingsProvider, useSettings } from './context/SettingsContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
 import { FloatingAreaProvider } from './context/floating';
 import { I18nProvider, i18nProviderProps } from './context/i18n';
+import { SettingsProvider, useSettings } from './context/settings/SettingsContext';
 import DocsPlugin from './plugins/DocsPlugin';
 import PasteLogPlugin from './plugins/PasteLogPlugin';
 import { TableContext } from './plugins/TablePlugin';
 import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
-import { rootEditorTheme } from './themes/RootEditorTheme';
 
+/*eslint-disable */
+import '@seolhun/root-ui/dist/index.css';
+import './assets/tailwind.scss';
 import './RootEditor.scss';
+/*eslint-enable */
 
 type ElementType = HTMLElement;
 
@@ -62,7 +66,7 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
       onError: (error: Error) => {
         throw error;
       },
-      theme: rootEditorTheme,
+      theme,
       ...initialConfigType,
     };
 
@@ -94,7 +98,7 @@ export const BaseRootEditor = ({ ...others }: BaseRootEditorProps) => {
       <SharedHistoryContext>
         <TableContext>
           <SharedAutocompleteContext>
-            <div className="editor-shell">
+            <div className="RootEditorShell">
               <Editor {...others} />
             </div>
             <Settings />

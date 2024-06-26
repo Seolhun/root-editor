@@ -14,15 +14,15 @@ import {
   CLEAR_HISTORY_COMMAND,
   COMMAND_PRIORITY_EDITOR,
 } from 'lexical';
-import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
+import * as React from 'react';
 
-import { useSettings } from '~/context/SettingsContext';
+import { useSettings } from '~/context/settings';
+import useFlashMessage from '~/hooks/useFlashMessage';
+import useModal from '~/hooks/useModal';
 import { Button } from '~/ui/Button';
+import { docFromHash, docToHash } from '~/utils/docSerialization';
 
-import useFlashMessage from '../../hooks/useFlashMessage';
-import useModal from '../../hooks/useModal';
-import { docFromHash, docToHash } from '../../utils/docSerialization';
 import {
   editorStateFromSerializedDocument,
   exportFile,

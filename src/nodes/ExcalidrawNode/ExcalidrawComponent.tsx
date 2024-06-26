@@ -16,9 +16,10 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as React from 'react';
 
+import { ImageResizer } from '~/ui/ImageResizer';
+
 import type { ExcalidrawInitialElements } from './ExcalidrawModal';
 
-import ImageResizer from '../../ui/ImageResizer';
 import ExcalidrawImage from './ExcalidrawImage';
 import ExcalidrawModal from './ExcalidrawModal';
 import { $isExcalidrawNode } from './index';
