@@ -1,5 +1,12 @@
 import { EditorThemeClasses } from 'lexical';
 
+export const EditorClasses = {
+  Image: 'RootImage',
+  ImageCaption: 'ImageNode__Caption',
+  ImageResizer: 'ImageNode__Resizer',
+  ImageResizer__Resizing: 'ImageNode__Resizer--resizing',
+};
+
 export const theme: EditorThemeClasses = {
   code: 'editor-code',
   codeHighlight: {
@@ -49,8 +56,8 @@ export const theme: EditorThemeClasses = {
     nested: {
       listitem: 'editor-nested-listitem',
     },
-    ol: 'editor-list-ol',
-    ul: 'editor-list-ul',
+    ol: 'RootEditor__List__ol',
+    ul: 'RootEditor__List__ul',
   },
   ltr: 'ltr',
   paragraph: 'RootEditor__paragraph',

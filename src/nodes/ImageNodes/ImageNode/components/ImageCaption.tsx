@@ -13,8 +13,8 @@ import clsx from 'clsx';
 import { $getRoot, createCommand } from 'lexical';
 import * as React from 'react';
 
+import { EditorClasses } from '~/Editor.theme';
 import { createWebsocketProvider } from '~/collaboration';
-import { EditorClassNames } from '~/constants';
 import { useSharedHistoryContext } from '~/context/SharedHistoryContext';
 import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
@@ -60,7 +60,7 @@ export function ImageCaption({ caption }: ImageCaptionProps): JSX.Element {
   }, [caption]);
 
   return (
-    <div className={clsx(EditorClassNames.ImageCaption)}>
+    <div className={clsx(EditorClasses.ImageCaption)}>
       <LexicalNestedComposer initialEditor={caption}>
         <AutoFocusPlugin />
         <LinkPlugin />

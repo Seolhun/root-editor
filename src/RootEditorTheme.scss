@@ -1,0 +1,20 @@
+.__RootEditor__ {
+  /**
+   * ./src/Editor.theme.ts
+   */
+  .RootEditor__paragraph {
+    word-break: break-all;
+  }
+
+  .RootEditor__List__ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+    padding-left: 1rem;
+  }
+
+  .RootEditor__List__ul {
+    list-style-type: disc;
+    list-style-position: inside;
+    padding-left: 1rem;
+  }
+}
