@@ -6,16 +6,18 @@
     word-break: break-all;
   }
 
-  .RootEditor__List__ol {
+  .RootEditor__ol, .RootEditor__ol1, .RootEditor__ol2, .RootEditor__ol3, .RootEditor__ol4, .RootEditor__ol5 {
     list-style-type: decimal;
     list-style-position: inside;
-    padding-left: 1rem;
+    padding: 0;
+    margin: 0;
   }
 
-  .RootEditor__List__ul {
+  .RootEditor__ul, .RootEditor__ul1, .RootEditor__ul2, .RootEditor__ul3, .RootEditor__ul4, .RootEditor__ul5 {
     list-style-type: disc;
     list-style-position: inside;
-    padding-left: 1rem;
+    padding: 0;
+    margin: 0;
   }
 
   .RootEditor__ltr {
@@ -43,24 +45,6 @@
     padding-left: 16px;
   }
 
-  .RootEditor__h1 {
-    font-size: 2rem;
-    color: rgb(5, 5, 5);
-    font-weight: 400;
-    margin: 0;
-  }
-
-  .RootEditor__h2 {
-    font-size: 1.5rem;
-    color: rgb(101, 103, 107);
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .RootEditor__h3 {
-    font-size: 1.2rem;
-    margin: 0;
-  }
   .RootEditor__indent {
     --lexical-indent-base-value: 40px;
   }
@@ -331,45 +315,6 @@
     background-color: #ffbbbb !important;
   }
 
-  .RootEditor__ol1 {
-    padding: 0;
-    margin: 0;
-    list-style-position: outside;
-  }
-
-  .RootEditor__ol2 {
-    padding: 0;
-    margin: 0;
-    list-style-type: upper-alpha;
-    list-style-position: outside;
-  }
-
-  .RootEditor__ol3 {
-    padding: 0;
-    margin: 0;
-    list-style-type: lower-alpha;
-    list-style-position: outside;
-  }
-
-  .RootEditor__ol4 {
-    padding: 0;
-    margin: 0;
-    list-style-type: upper-roman;
-    list-style-position: outside;
-  }
-
-  .RootEditor__ol5 {
-    padding: 0;
-    margin: 0;
-    list-style-type: lower-roman;
-    list-style-position: outside;
-  }
-
-  .RootEditor__ul {
-    padding: 0;
-    margin: 0;
-    list-style-position: outside;
-  }
 
   .RootEditor__listItem {
     margin: 0 32px;

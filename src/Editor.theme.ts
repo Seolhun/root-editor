@@ -72,8 +72,10 @@ export const theme: EditorThemeClasses = {
     nested: {
       listitem: 'RootEditor__nestedListItem',
     },
+    ol: 'RootEditor__ol',
     olDepth: ['RootEditor__ol1', 'RootEditor__ol2', 'RootEditor__ol3', 'RootEditor__ol4', 'RootEditor__ol5'],
     ul: 'RootEditor__ul',
+    ulDepth: ['RootEditor__ul1', 'RootEditor__ul2', 'RootEditor__ul3', 'RootEditor__ul4', 'RootEditor__ul5'],
   },
   ltr: 'RootEditor__ltr',
   mark: 'RootEditor__mark',
