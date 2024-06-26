@@ -29,7 +29,7 @@ import {
 import { $createTextNode, $isParagraphNode, $isTextNode, LexicalNode } from 'lexical';
 
 import { $createEquationNode, $isEquationNode, EquationNode } from '../../nodes/EquationNode';
-import { $createImageNode, $isImageNode, ImageNode } from '../../nodes/ImageNode';
+import { $createImageNode, $isImageNode, ImageNode } from '../../nodes/ImageNodes/ImageNode';
 import { $createTweetNode, $isTweetNode, TweetNode } from '../../nodes/TweetNode';
 import emojiList from '../../utils/emoji-list';
 

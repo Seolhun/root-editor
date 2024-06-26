@@ -29,6 +29,26 @@ export interface ImagePayload {
   width?: number;
 }
 
+export function $createImageNode({
+  key,
+  altText,
+  caption,
+  captionsEnabled,
+  height,
+  maxWidth = 500,
+  showCaption,
+  src,
+  width,
+}: ImagePayload): ImageNode {
+  return $applyNodeReplacement(
+    new ImageNode(src, altText, maxWidth, width, height, showCaption, caption, captionsEnabled, key),
+  );
+}
+
+export function $isImageNode(node: LexicalNode | null | undefined): node is ImageNode {
+  return node instanceof ImageNode;
+}
+
 function isGoogleDocCheckboxImg(img: HTMLImageElement): boolean {
   return (
     img.parentElement != null &&
@@ -215,24 +235,4 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   updateDOM(): false {
     return false;
   }
-}
-
-export function $createImageNode({
-  key,
-  altText,
-  caption,
-  captionsEnabled,
-  height,
-  maxWidth = 500,
-  showCaption,
-  src,
-  width,
-}: ImagePayload): ImageNode {
-  return $applyNodeReplacement(
-    new ImageNode(src, altText, maxWidth, width, height, showCaption, caption, captionsEnabled, key),
-  );
-}
-
-export function $isImageNode(node: LexicalNode | null | undefined): node is ImageNode {
-  return node instanceof ImageNode;
 }

@@ -24,16 +24,17 @@ import {
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 
+import useModal from '~/hooks/useModal';
+import LinkPlugin from '~/plugins/LinkPlugin';
+import { Button } from '~/ui/Button';
+import ContentEditable from '~/ui/ContentEditable';
+import { DialogActions } from '~/ui/Dialog';
+import Placeholder from '~/ui/Placeholder';
+import Select from '~/ui/Select';
+import TextInput from '~/ui/TextInput';
+
 import type { Position } from './InlineImageNode';
 
-import useModal from '../hooks/useModal';
-import LinkPlugin from '../plugins/LinkPlugin';
-import { Button } from '../ui/Button';
-import ContentEditable from '../ui/ContentEditable';
-import { DialogActions } from '../ui/Dialog';
-import Placeholder from '../ui/Placeholder';
-import Select from '../ui/Select';
-import TextInput from '../ui/TextInput';
 import { $isInlineImageNode, InlineImageNode } from './InlineImageNode';
 
 import './InlineImageNode.scss';
