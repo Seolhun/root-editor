@@ -1,7 +1,7 @@
 @import 'https://fonts.googleapis.com/css?family=Reenie+Beanie';
 
 .__RootEditor__ {
-  .editor-shell {
+  .RootEditorShell {
     margin: 20px auto;
     border-radius: 2px;
     color: #000;
@@ -910,37 +910,37 @@
     transform: translateX(20px);
   }
 
-  .editor-shell span.editor-image {
+  .RootEditorShell span.RootImage {
     cursor: default;
     display: inline-block;
     position: relative;
     user-select: none;
   }
 
-  .editor-shell .editor-image img {
+  .RootEditorShell .RootImage img {
     max-width: 100%;
     cursor: default;
   }
 
-  .editor-shell .editor-image img.focused {
+  .RootEditorShell .RootImage img.focused {
     outline: 2px solid rgb(60, 132, 244);
     user-select: none;
   }
 
-  .editor-shell .editor-image img.focused.draggable {
+  .RootEditorShell .RootImage img.focused.draggable {
     cursor: grab;
   }
 
-  .editor-shell .editor-image img.focused.draggable:active {
+  .RootEditorShell .RootImage img.focused.draggable:active {
     cursor: grabbing;
   }
 
-  .editor-shell .editor-image .image-caption-container .tree-view-output {
+  .RootEditorShell .RootImage .ImageNode__Caption .tree-view-output {
     margin: 0;
     border-radius: 0;
   }
 
-  .editor-shell .editor-image .image-caption-container {
+  .RootEditorShell .RootImage .ImageNode__Caption {
     display: block;
     position: absolute;
     bottom: 4px;
@@ -955,7 +955,7 @@
     overflow: hidden;
   }
 
-  .editor-shell .editor-image .image-caption-button {
+  .RootEditorShell .RootImage .image-caption-button {
     display: block;
     position: absolute;
     bottom: 20px;
@@ -973,11 +973,11 @@
     user-select: none;
   }
 
-  .editor-shell .editor-image .image-caption-button:hover {
+  .RootEditorShell .RootImage .image-caption-button:hover {
     background-color: rgba(60, 132, 244, 0.5);
   }
 
-  .editor-shell .editor-image .image-edit-button {
+  .RootEditorShell .RootImage .image-edit-button {
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     background-image: url(../public/icons/pencil-fill.svg);
@@ -994,113 +994,56 @@
     user-select: none;
   }
 
-  .editor-shell .editor-image .image-edit-button:hover {
+  .RootEditorShell .RootImage .image-edit-button:hover {
     background-color: rgba(60, 132, 244, 0.1);
   }
 
-  .editor-shell .editor-image .image-resizer {
-    display: block;
-    width: 7px;
-    height: 7px;
-    position: absolute;
-    background-color: rgb(60, 132, 244);
-    border: 1px solid #fff;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-n {
-    top: -6px;
-    left: 48%;
-    cursor: n-resize;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-ne {
-    top: -6px;
-    right: -6px;
-    cursor: ne-resize;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-e {
-    bottom: 48%;
-    right: -6px;
-    cursor: e-resize;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-se {
-    bottom: -2px;
-    right: -6px;
-    cursor: nwse-resize;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-s {
-    bottom: -2px;
-    left: 48%;
-    cursor: s-resize;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-sw {
-    bottom: -2px;
-    left: -6px;
-    cursor: sw-resize;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-w {
-    bottom: 48%;
-    left: -6px;
-    cursor: w-resize;
-  }
-
-  .editor-shell .editor-image .image-resizer.image-resizer-nw {
-    top: -6px;
-    left: -6px;
-    cursor: nw-resize;
-  }
-
-  .editor-shell span.inline-editor-image {
+  .RootEditorShell span.RootInlineImage {
     cursor: default;
     display: inline-block;
     position: relative;
     z-index: 1;
   }
 
-  .editor-shell .inline-editor-image img {
+  .RootEditorShell .RootInlineImage img {
     max-width: 100%;
     cursor: default;
   }
 
-  .editor-shell .inline-editor-image img.focused {
+  .RootEditorShell .RootInlineImage img.focused {
     outline: 2px solid rgb(60, 132, 244);
   }
 
-  .editor-shell .inline-editor-image img.focused.draggable {
+  .RootEditorShell .RootInlineImage img.focused.draggable {
     cursor: grab;
   }
 
-  .editor-shell .inline-editor-image img.focused.draggable:active {
+  .RootEditorShell .RootInlineImage img.focused.draggable:active {
     cursor: grabbing;
   }
 
-  .editor-shell .inline-editor-image .image-caption-container .tree-view-output {
+  .RootEditorShell .RootInlineImage .ImageNode__Caption .tree-view-output {
     margin: 0;
     border-radius: 0;
   }
 
-  .editor-shell .inline-editor-image.position-full {
+  .RootEditorShell .RootInlineImage.position-full {
     margin: 1em 0 1em 0;
   }
 
-  .editor-shell .inline-editor-image.position-left {
+  .RootEditorShell .RootInlineImage.position-left {
     float: left;
     width: 50%;
     margin: 1em 1em 0 0;
   }
 
-  .editor-shell .inline-editor-image.position-right {
+  .RootEditorShell .RootInlineImage.position-right {
     float: right;
     width: 50%;
     margin: 1em 0 0 1em;
   }
 
-  .editor-shell .inline-editor-image .image-edit-button {
+  .RootEditorShell .RootInlineImage .image-edit-button {
     display: block;
     position: absolute;
     top: 12px;
@@ -1116,11 +1059,11 @@
     user-select: none;
   }
 
-  .editor-shell .inline-editor-image .image-edit-button:hover {
+  .RootEditorShell .RootInlineImage .image-edit-button:hover {
     background-color: rgba(60, 132, 244, 0.5);
   }
 
-  .editor-shell .inline-editor-image .image-caption-container {
+  .RootEditorShell .RootInlineImage .ImageNode__Caption {
     display: block;
     background-color: #f4f4f4;
     min-width: 100%;

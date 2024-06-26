@@ -42,7 +42,7 @@ export const theme: EditorThemeClasses = {
     h5: 'Root__Editor-h5',
     h6: 'Root__Editor-h6',
   },
-  image: 'editor-image',
+  image: 'RootImage',
   link: 'editor-link',
   list: {
     listitem: 'editor-listitem',

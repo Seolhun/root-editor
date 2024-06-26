@@ -2,7 +2,7 @@ import { CAN_USE_BEFORE_INPUT } from '@lexical/utils';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { INITIAL_SETTINGS } from './Editor.settings';
-import { useSettings } from './context/SettingsContext';
+import { useSettings } from './context/settings/SettingsContext';
 import Switch from './ui/Switch';
 
 export function Settings(): JSX.Element {

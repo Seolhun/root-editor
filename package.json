@@ -142,8 +142,6 @@
     "postcss-loader": "^8.1.1",
     "postcss-preset-env": "7.7.2",
     "prettier": "^3.2.5",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "rimraf": "^5.0.7",
     "sass": "^1.74.1",
     "sass-loader": "^13.0.2",

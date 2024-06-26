@@ -16,11 +16,16 @@ type Story = StoryObj<typeof RootEditor>;
 
 export const Default: Story = {
   render: () => {
+    const onChangeEditorState: EditorOnChangeFn = (editorState) => {
+      console.debug(JSON.stringify(editorState.toJSON(), null, 2));
+    };
+
     return (
       <RootEditor
         initialConfigType={{
           editorState: JSON.stringify(dummyContent),
         }}
+        onChangeEditorState={onChangeEditorState}
       />
     );
   },
@@ -28,12 +33,17 @@ export const Default: Story = {
 
 export const WidthMaxLength: Story = {
   render: () => {
+    const onChangeEditorState: EditorOnChangeFn = (editorState) => {
+      console.debug(JSON.stringify(editorState.toJSON(), null, 2));
+    };
+
     return (
       <RootEditor
         initialConfigType={{
           editorState: JSON.stringify(dummyContent),
         }}
         maxLength={10}
+        onChangeEditorState={onChangeEditorState}
       />
     );
   },
@@ -44,6 +54,7 @@ export const WithInitialConfigType: Story = {
     const onChangeEditorState: EditorOnChangeFn = (editorState) => {
       console.debug(JSON.stringify(editorState.toJSON(), null, 2));
     };
+
     return (
       <RootEditor
         initialConfigType={{
@@ -60,6 +71,7 @@ export const WidthInitialSettings: Story = {
     const onChangeEditorState: EditorOnChangeFn = (editorState) => {
       console.debug(JSON.stringify(editorState.toJSON(), null, 2));
     };
+
     return (
       <RootEditor
         initialConfigType={{

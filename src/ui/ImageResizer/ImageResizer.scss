@@ -1,0 +1,58 @@
+.__RootEditor__ {
+  .ImageNode__Resizer {
+    position: absolute;
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: rgb(60, 132, 244);
+    border: 1px solid #fff;
+
+    &.Direction--n {
+      top: -6px;
+      left: 48%;
+      cursor: n-resize;
+    }
+
+    &.Direction--ne {
+      top: -6px;
+      right: -6px;
+      cursor: ne-resize;
+    }
+
+    &.Direction--e {
+      bottom: 48%;
+      right: -6px;
+      cursor: e-resize;
+    }
+
+    &.Direction--se {
+      bottom: -2px;
+      right: -6px;
+      cursor: nwse-resize;
+    }
+
+    &.Direction--s {
+      bottom: -2px;
+      left: 48%;
+      cursor: s-resize;
+    }
+
+    &.Direction--sw {
+      bottom: -2px;
+      left: -6px;
+      cursor: sw-resize;
+    }
+
+    &.Direction--w {
+      bottom: 48%;
+      left: -6px;
+      cursor: w-resize;
+    }
+
+    &.Direction--nw {
+      top: -6px;
+      left: -6px;
+      cursor: nw-resize;
+    }
+  }
+}

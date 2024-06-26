@@ -1,9 +1,9 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import * as React from 'react';
 
-import type { EditorSettings, EditorSettingsKey } from '../Editor.settings';
+import type { EditorSettings, EditorSettingsKey } from '../../Editor.settings';
 
-import { DEFAULT_SETTINGS, INITIAL_SETTINGS } from '../Editor.settings';
+import { DEFAULT_SETTINGS, INITIAL_SETTINGS } from '../../Editor.settings';
 
 export interface SettingsContextValues {
   setOption: (name: EditorSettingsKey, value: boolean) => void;

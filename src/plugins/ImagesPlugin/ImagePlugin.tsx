@@ -326,7 +326,7 @@ function canDropImage(event: DragEvent): boolean {
   return !!(
     target &&
     target instanceof HTMLElement &&
-    !target.closest('code, span.editor-image') &&
+    !target.closest('code, span.RootImage') &&
     target.parentElement &&
     target.parentElement.closest('div.ContentEditable__root')
   );
