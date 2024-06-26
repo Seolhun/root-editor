@@ -3,10 +3,8 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import clsx from 'clsx';
 import * as React from 'react';
 
-/*eslint-disable */
-import '~/assets/tailwind.scss';
-
 import { Editor, EditorProps } from './Editor';
+import theme from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings, EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
@@ -21,8 +19,9 @@ import PasteLogPlugin from './plugins/PasteLogPlugin';
 import { TableContext } from './plugins/TablePlugin';
 import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
-import { rootEditorTheme } from './themes/RootEditorTheme';
 
+/*eslint-disable */
+import './assets/tailwind.scss';
 import './RootEditor.scss';
 /*eslint-enable */
 
@@ -66,7 +65,7 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
       onError: (error: Error) => {
         throw error;
       },
-      theme: rootEditorTheme,
+      theme,
       ...initialConfigType,
     };
 

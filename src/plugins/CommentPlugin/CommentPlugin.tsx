@@ -37,12 +37,12 @@ import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import theme from '~/Editor.theme';
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
 import { useFloatingAreaContext } from '~/context/floating';
 import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import useLayoutEffect from '~/shared/useLayoutEffect';
-import CommentEditorTheme from '~/themes/CommentEditorTheme';
 import { Button } from '~/ui/Button';
 import ContentEditable from '~/ui/ContentEditable';
 import Placeholder from '~/ui/Placeholder';
@@ -132,7 +132,7 @@ function PlainTextEditor({
     onError: (error: Error) => {
       throw error;
     },
-    theme: CommentEditorTheme,
+    theme,
   };
 
   return (

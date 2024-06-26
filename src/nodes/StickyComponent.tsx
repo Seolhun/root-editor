@@ -9,14 +9,14 @@ import { LexicalNestedComposer } from '@lexical/react/LexicalNestedComposer';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { calculateZoomLevel } from '@lexical/utils';
 import { $getNodeByKey } from 'lexical';
-import { useEffect, useRef } from 'react';
 import * as React from 'react';
+import { useEffect, useRef } from 'react';
 
+import theme from '~/Editor.theme';
 import useLayoutEffect from '~/shared/useLayoutEffect';
 
 import { createWebsocketProvider } from '../collaboration';
 import { useSharedHistoryContext } from '../context/SharedHistoryContext';
-import StickyEditorTheme from '../themes/StickyEditorTheme';
 import ContentEditable from '../ui/ContentEditable';
 import Placeholder from '../ui/Placeholder';
 import { $isStickyNode } from './StickyNode';
@@ -214,7 +214,7 @@ export default function StickyComponent({
         >
           <i className="bucket" />
         </button>
-        <LexicalNestedComposer initialEditor={caption} initialTheme={StickyEditorTheme}>
+        <LexicalNestedComposer initialEditor={caption} initialTheme={theme}>
           {isCollabActive ? (
             <CollaborationPlugin
               id={caption.getKey()}

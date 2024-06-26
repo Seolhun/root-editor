@@ -1,5 +1,18 @@
 .__RootEditor__ {
   .ImageNode__Caption {
+    display: block;
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #fff;
+    background-color: rgba(255, 255, 255, 0.9);
+    min-width: 100px;
+    color: #000;
+    overflow: hidden;
+
     .ContentEditable {
       min-height: 20px;
       border: 0px;
@@ -33,6 +46,11 @@
 
     .ImageNode__Resizer--resizing {
       touch-action: none;
+    }
+
+    .tree-view-output {
+      margin: 0;
+      border-radius: 0;
     }
   }
 }
