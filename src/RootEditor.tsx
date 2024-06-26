@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import { Editor, EditorProps } from './Editor';
-import theme from './Editor.theme';
+import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings, EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';

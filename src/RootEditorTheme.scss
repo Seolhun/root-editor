@@ -1,0 +1,495 @@
+.__RootEditor__ {
+  /**
+   * ./src/Editor.theme.ts
+   */
+  .RootEditor__paragraph {
+    word-break: break-all;
+  }
+
+  .RootEditor__ol, .RootEditor__ol1, .RootEditor__ol2, .RootEditor__ol3, .RootEditor__ol4, .RootEditor__ol5 {
+    list-style-type: decimal;
+    list-style-position: inside;
+    padding: 0;
+    margin: 0;
+  }
+
+  .RootEditor__ul, .RootEditor__ul1, .RootEditor__ul2, .RootEditor__ul3, .RootEditor__ul4, .RootEditor__ul5 {
+    list-style-type: disc;
+    list-style-position: inside;
+    padding: 0;
+    margin: 0;
+  }
+
+  .RootEditor__ltr {
+    text-align: left;
+  }
+
+  .RootEditor__rtl {
+    text-align: right;
+  }
+
+  .RootEditor__paragraph {
+    margin: 0;
+    position: relative;
+  }
+
+  .RootEditor__quote {
+    margin: 0;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: rgb(101, 103, 107);
+    border-left-color: rgb(206, 208, 212);
+    border-left-width: 4px;
+    border-left-style: solid;
+    padding-left: 16px;
+  }
+
+  .RootEditor__indent {
+    --lexical-indent-base-value: 40px;
+  }
+
+  .RootEditor__textBold {
+    font-weight: bold;
+  }
+
+  .RootEditor__textItalic {
+    font-style: italic;
+  }
+
+  .RootEditor__textUnderline {
+    text-decoration: underline;
+  }
+
+  .RootEditor__textStrikethrough {
+    text-decoration: line-through;
+  }
+
+  .RootEditor__textUnderlineStrikethrough {
+    text-decoration: underline line-through;
+  }
+
+  .RootEditor__textSubscript {
+    font-size: 0.8em;
+    vertical-align: sub !important;
+  }
+
+  .RootEditor__textSuperscript {
+    font-size: 0.8em;
+    vertical-align: super;
+  }
+
+  .RootEditor__textCode {
+    background-color: rgb(240, 242, 245);
+    padding: 1px 0.25rem;
+    font-family: Menlo, Consolas, Monaco, monospace;
+    font-size: 94%;
+  }
+
+  .RootEditor__hashtag {
+    background-color: rgba(88, 144, 255, 0.15);
+    border-bottom: 1px solid rgba(88, 144, 255, 0.3);
+  }
+
+  .RootEditor__link {
+    color: rgb(33, 111, 219);
+    text-decoration: none;
+  }
+
+  .RootEditor__link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .RootEditor__code {
+    background-color: rgb(240, 242, 245);
+    font-family: Menlo, Consolas, Monaco, monospace;
+    display: block;
+    padding: 8px 8px 8px 52px;
+    line-height: 1.53;
+    font-size: 13px;
+    margin: 0;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    overflow-x: auto;
+    position: relative;
+    tab-size: 2;
+  }
+
+  .RootEditor__code:before {
+    content: attr(data-gutter);
+    position: absolute;
+    background-color: #eee;
+    left: 0;
+    top: 0;
+    border-right: 1px solid #ccc;
+    padding: 8px;
+    color: #777;
+    white-space: pre-wrap;
+    text-align: right;
+    min-width: 25px;
+  }
+
+  .RootEditor__table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    table-layout: fixed;
+    width: max-content;
+    margin: 30px 0;
+  }
+
+  .RootEditor__tableSelection *::selection {
+    background-color: transparent;
+  }
+
+  .RootEditor__tableSelected {
+    outline: 2px solid rgb(60, 132, 244);
+  }
+
+  .RootEditor__tableCell {
+    border: 1px solid #bbb;
+    width: 75px;
+    min-width: 75px;
+    vertical-align: top;
+    text-align: start;
+    padding: 6px 8px;
+    position: relative;
+    outline: none;
+  }
+
+  .RootEditor__tableCellSortedIndicator {
+    display: block;
+    opacity: 0.5;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #999;
+  }
+
+  .RootEditor__tableCellResizer {
+    position: absolute;
+    right: -4px;
+    height: 100%;
+    width: 8px;
+    cursor: ew-resize;
+    z-index: 10;
+    top: 0;
+  }
+
+  .RootEditor__tableCellHeader {
+    background-color: #f2f3f5;
+    text-align: start;
+  }
+
+  .RootEditor__tableCellSelected {
+    background-color: #c9dbf0;
+  }
+
+  .RootEditor__tableCellPrimarySelected {
+    border: 2px solid rgb(60, 132, 244);
+    display: block;
+    height: calc(100% - 2px);
+    position: absolute;
+    width: calc(100% - 2px);
+    left: -1px;
+    top: -1px;
+    z-index: 2;
+  }
+
+  .RootEditor__tableCellEditing {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+  }
+
+  .RootEditor__tableAddColumns {
+    position: absolute;
+    top: 0;
+    width: 20px;
+    background-color: #eee;
+    height: 100%;
+    right: -25px;
+    animation: table-controls 0.2s ease;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .RootEditor__tableAddColumns:after {
+    background-image: url(../public/icons/plus.svg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .RootEditor__tableAddColumns:hover {
+    background-color: #c9dbf0;
+  }
+
+  .RootEditor__tableAddRows {
+    position: absolute;
+    bottom: -25px;
+    width: calc(100% - 25px);
+    background-color: #eee;
+    height: 20px;
+    left: 0;
+    animation: table-controls 0.2s ease;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .RootEditor__tableAddRows:after {
+    background-image: url(../public/icons/plus.svg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+  }
+
+  .RootEditor__tableAddRows:hover {
+    background-color: #c9dbf0;
+  }
+
+  @keyframes table-controls {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .RootEditor__tableCellResizeRuler {
+    display: block;
+    position: absolute;
+    width: 1px;
+    background-color: rgb(60, 132, 244);
+    height: 100%;
+    top: 0;
+  }
+
+  .RootEditor__tableCellActionButtonContainer {
+    display: block;
+    right: 5px;
+    top: 6px;
+    position: absolute;
+    z-index: 4;
+    width: 20px;
+    height: 20px;
+  }
+
+  .RootEditor__tableCellActionButton {
+    background-color: #eee;
+    display: block;
+    border: 0;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    color: #222;
+    cursor: pointer;
+  }
+
+  .RootEditor__tableCellActionButton:hover {
+    background-color: #ddd;
+  }
+
+  .RootEditor__characterLimit {
+    display: inline;
+    background-color: #ffbbbb !important;
+  }
+
+
+  .RootEditor__listItem {
+    margin: 0 32px;
+  }
+
+  .RootEditor__listItemChecked,
+  .RootEditor__listItemUnchecked {
+    position: relative;
+    margin-left: 8px;
+    margin-right: 8px;
+    padding-left: 24px;
+    padding-right: 24px;
+    list-style-type: none;
+    outline: none;
+  }
+
+  .RootEditor__listItemChecked {
+    text-decoration: line-through;
+  }
+
+  .RootEditor__listItemUnchecked:before,
+  .RootEditor__listItemChecked:before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    top: 2px;
+    left: 0;
+    cursor: pointer;
+    display: block;
+    background-size: cover;
+    position: absolute;
+  }
+
+  .RootEditor__listItemUnchecked[dir='rtl']:before,
+  .RootEditor__listItemChecked[dir='rtl']:before {
+    left: auto;
+    right: 0;
+  }
+
+  .RootEditor__listItemUnchecked:focus:before,
+  .RootEditor__listItemChecked:focus:before {
+    box-shadow: 0 0 0 2px #a6cdfe;
+    border-radius: 2px;
+  }
+
+  .RootEditor__listItemUnchecked:before {
+    border: 1px solid #999;
+    border-radius: 2px;
+  }
+
+  .RootEditor__listItemChecked:before {
+    border: 1px solid rgb(61, 135, 245);
+    border-radius: 2px;
+    background-color: #3d87f5;
+    background-repeat: no-repeat;
+  }
+
+  .RootEditor__listItemChecked:after {
+    content: '';
+    cursor: pointer;
+    border-color: #fff;
+    border-style: solid;
+    position: absolute;
+    display: block;
+    top: 6px;
+    width: 3px;
+    left: 7px;
+    right: 7px;
+    height: 6px;
+    transform: rotate(45deg);
+    border-width: 0 2px 2px 0;
+  }
+
+  .RootEditor__nestedListItem {
+    list-style-type: none;
+  }
+
+  .RootEditor__nestedListItem:before,
+  .RootEditor__nestedListItem:after {
+    display: none;
+  }
+
+  .RootEditor__tokenComment {
+    color: slategray;
+  }
+
+  .RootEditor__tokenPunctuation {
+    color: #999;
+  }
+
+  .RootEditor__tokenProperty {
+    color: #905;
+  }
+
+  .RootEditor__tokenSelector {
+    color: #690;
+  }
+
+  .RootEditor__tokenOperator {
+    color: #9a6e3a;
+  }
+
+  .RootEditor__tokenAttr {
+    color: #07a;
+  }
+
+  .RootEditor__tokenVariable {
+    color: #e90;
+  }
+
+  .RootEditor__tokenFunction {
+    color: #dd4a68;
+  }
+
+  .RootEditor__mark {
+    background: rgba(255, 212, 0, 0.14);
+    border-bottom: 2px solid rgba(255, 212, 0, 0.3);
+    padding-bottom: 2px;
+  }
+
+  .RootEditor__markOverlap {
+    background: rgba(255, 212, 0, 0.3);
+    border-bottom: 2px solid rgba(255, 212, 0, 0.7);
+  }
+
+  .RootEditor__mark.selected {
+    background: rgba(255, 212, 0, 0.5);
+    border-bottom: 2px solid rgba(255, 212, 0, 1);
+  }
+
+  .RootEditor__markOverlap.selected {
+    background: rgba(255, 212, 0, 0.7);
+    border-bottom: 2px solid rgba(255, 212, 0, 0.7);
+  }
+
+  .RootEditor__embedBlock {
+    user-select: none;
+  }
+
+  .RootEditor__embedBlockFocus {
+    outline: 2px solid rgb(60, 132, 244);
+  }
+
+  .RootEditor__layoutContainer {
+    display: grid;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .RootEditor__layoutItem {
+    border: 1px dashed #ddd;
+    padding: 8px 16px;
+  }
+
+  .RootEditor__autocomplete {
+    color: #ccc;
+  }
+
+  .RootEditor__hr {
+    padding: 2px 2px;
+    border: none;
+    margin: 1em 0;
+    cursor: pointer;
+  }
+
+  .RootEditor__hr:after {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: #ccc;
+    line-height: 2px;
+  }
+
+  .RootEditor__hr.selected {
+    outline: 2px solid rgb(60, 132, 244);
+    user-select: none;
+  }
+}

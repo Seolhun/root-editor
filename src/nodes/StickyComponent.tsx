@@ -12,7 +12,7 @@ import { $getNodeByKey } from 'lexical';
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 
-import theme from '~/Editor.theme';
+import { theme } from '~/Editor.theme';
 import useLayoutEffect from '~/shared/useLayoutEffect';
 
 import { createWebsocketProvider } from '../collaboration';

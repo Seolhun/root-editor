@@ -2,7 +2,7 @@ import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalCompos
 import clsx from 'clsx';
 import * as React from 'react';
 
-import theme from './Editor.theme';
+import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings } from './Editor.types';
 import { BaseRootEditor, BaseRootEditorProps } from './RootEditor';
 import { RootEditorNodes } from './RootEditor.Nodes';

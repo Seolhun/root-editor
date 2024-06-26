@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { useRef } from 'react';
 
-import { EditorClassNames } from '~/constants';
+import { EditorClasses } from '~/Editor.theme';
 
 import './ImageResizer.scss';
 
@@ -220,49 +220,49 @@ export function ImageResizer({
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--n')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--n')}
       />
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north | Direction.east);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--ne')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--ne')}
       />
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.east);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--e')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--e')}
       />
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.south | Direction.east);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--se')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--se')}
       />
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.south);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--s')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--s')}
       />
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.south | Direction.west);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--sw')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--sw')}
       />
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.west);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--w')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--w')}
       />
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north | Direction.west);
         }}
-        className={clsx(EditorClassNames.ImageResizer, 'Direction--nw')}
+        className={clsx(EditorClasses.imageResizer, 'Direction--nw')}
       />
     </div>
   );
