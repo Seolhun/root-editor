@@ -910,76 +910,6 @@
     transform: translateX(20px);
   }
 
-  .RootEditorShell span.RootImage {
-    cursor: default;
-    display: inline-block;
-    position: relative;
-    user-select: none;
-  }
-
-  .RootEditorShell .RootImage img {
-    max-width: 100%;
-    cursor: default;
-  }
-
-  .RootEditorShell .RootImage img.focused {
-    outline: 2px solid rgb(60, 132, 244);
-    user-select: none;
-  }
-
-  .RootEditorShell .RootImage img.focused.draggable {
-    cursor: grab;
-  }
-
-  .RootEditorShell .RootImage img.focused.draggable:active {
-    cursor: grabbing;
-  }
-
-
-
-  .RootEditorShell .RootImage .image-caption-button {
-    display: block;
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    width: 30%;
-    padding: 10px;
-    margin: 0 auto;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.5);
-    min-width: 100px;
-    color: #fff;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .RootEditorShell .RootImage .image-caption-button:hover {
-    background-color: rgba(60, 132, 244, 0.5);
-  }
-
-  .RootEditorShell .RootImage .image-edit-button {
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    background-image: url(../public/icons/pencil-fill.svg);
-    background-size: 16px;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 35px;
-    height: 35px;
-    vertical-align: -0.25em;
-    position: absolute;
-    right: 4px;
-    top: 4px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .RootEditorShell .RootImage .image-edit-button:hover {
-    background-color: rgba(60, 132, 244, 0.1);
-  }
-
   .RootEditorShell span.RootInlineImage {
     cursor: default;
     display: inline-block;
@@ -1315,6 +1245,9 @@
   }
 
   .toolbar {
+    position: sticky;
+    top: 0;
+
     display: flex;
     margin-bottom: 1px;
     background: #fff;
@@ -1324,9 +1257,16 @@
     vertical-align: middle;
     overflow: auto;
     height: 36px;
-    position: sticky;
-    top: 0;
     z-index: 2;
+
+    /* Safari and Chrome */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none
   }
 
   button.toolbar-item {
@@ -1622,13 +1562,13 @@
     z-index: 3;
   }
 
-  .RootEditorTheme__blockCursor {
+  .RootEditor__blockCursor {
     display: block;
     pointer-events: none;
     position: absolute;
   }
 
-  .RootEditorTheme__blockCursor:after {
+  .RootEditor__blockCursor:after {
     content: '';
     display: block;
     position: absolute;
@@ -1636,6 +1576,10 @@
     width: 20px;
     border-top: 1px solid black;
     animation: CursorBlink 1.1s steps(2, start) infinite;
+  }
+
+  .RootEditor__paragraph {
+    word-break: break-all;
   }
 
   @keyframes CursorBlink {

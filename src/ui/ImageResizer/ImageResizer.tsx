@@ -6,7 +6,6 @@ import * as React from 'react';
 import { useRef } from 'react';
 
 import { EditorClassNames } from '~/constants';
-import { useI18n } from '~/context/i18n';
 
 import './ImageResizer.scss';
 
@@ -22,15 +21,11 @@ const Direction = {
 };
 
 export interface ImageResizerProps {
-  buttonRef: React.RefObject<HTMLButtonElement>;
-  captionsEnabled: boolean;
   editor: LexicalEditor;
   imageRef: React.RefObject<HTMLElement>;
   maxWidth?: number;
   onResizeEnd: (width: 'inherit' | number, height: 'inherit' | number) => void;
   onResizeStart: () => void;
-  setShowCaption: (show: boolean) => void;
-  showCaption: boolean;
 }
 
 export interface ImageResizerPositioning {
@@ -45,19 +40,20 @@ export interface ImageResizerPositioning {
   startY: number;
 }
 
+function getDefaultSize(editorRootElement: HTMLElement | null) {
+  return editorRootElement !== null ? editorRootElement.getBoundingClientRect().height - 20 : 100;
+}
+
+const MIN_WIDTH = 100;
+const MIN_HEIGHT = 100;
+
 export function ImageResizer({
-  buttonRef,
-  captionsEnabled,
   editor,
   imageRef,
   maxWidth,
   onResizeEnd,
   onResizeStart,
-  setShowCaption,
-  showCaption,
 }: ImageResizerProps): JSX.Element {
-  const { t } = useI18n();
-
   const controlWrapperRef = useRef<HTMLDivElement>(null);
   const userSelect = useRef({
     priority: '',
@@ -76,15 +72,13 @@ export function ImageResizer({
   });
   const editorRootElement = editor.getRootElement();
   // Find max width, accounting for editor padding.
-  const maxWidthContainer = maxWidth
-    ? maxWidth
-    : editorRootElement !== null
-      ? editorRootElement.getBoundingClientRect().width - 20
-      : 100;
-  const maxHeightContainer = editorRootElement !== null ? editorRootElement.getBoundingClientRect().height - 20 : 100;
-
-  const minWidth = 100;
-  const minHeight = 100;
+  const maxWidthContainer = (() => {
+    if (maxWidth) {
+      return maxWidth;
+    }
+    return getDefaultSize(editorRootElement);
+  })();
+  const maxHeightContainer = getDefaultSize(editorRootElement);
 
   const setStartCursor = (direction: number) => {
     const ew = direction === Direction.east || direction === Direction.west;
@@ -165,8 +159,7 @@ export function ImageResizer({
         let diff = Math.floor(positioning.startX - event.clientX / zoom);
         diff = positioning.direction & Direction.east ? -diff : diff;
 
-        const width = clamp(positioning.startWidth + diff, minWidth, maxWidthContainer);
-
+        const width = clamp(positioning.startWidth + diff, MIN_WIDTH, maxWidthContainer);
         const height = width / positioning.ratio;
         image.style.width = `${width}px`;
         image.style.height = `${height}px`;
@@ -176,7 +169,7 @@ export function ImageResizer({
         let diff = Math.floor(positioning.startY - event.clientY / zoom);
         diff = positioning.direction & Direction.south ? -diff : diff;
 
-        const height = clamp(positioning.startHeight + diff, minHeight, maxHeightContainer);
+        const height = clamp(positioning.startHeight + diff, MIN_HEIGHT, maxHeightContainer);
 
         image.style.height = `${height}px`;
         positioning.currentHeight = height;
@@ -184,7 +177,7 @@ export function ImageResizer({
         let diff = Math.floor(positioning.startX - event.clientX / zoom);
         diff = positioning.direction & Direction.east ? -diff : diff;
 
-        const width = clamp(positioning.startWidth + diff, minWidth, maxWidthContainer);
+        const width = clamp(positioning.startWidth + diff, MIN_WIDTH, maxWidthContainer);
 
         image.style.width = `${width}px`;
         positioning.currentWidth = width;
@@ -199,14 +192,17 @@ export function ImageResizer({
     if (image !== null && controlWrapper !== null && positioning.isResizing) {
       const width = positioning.currentWidth;
       const height = positioning.currentHeight;
-      positioning.startWidth = 0;
-      positioning.startHeight = 0;
-      positioning.ratio = 0;
-      positioning.startX = 0;
-      positioning.startY = 0;
-      positioning.currentWidth = 0;
-      positioning.currentHeight = 0;
-      positioning.isResizing = false;
+      Object.assign<ImageResizerPositioning, ImageResizerPositioning>(positioning, {
+        currentHeight: 0,
+        currentWidth: 0,
+        direction: 0,
+        isResizing: false,
+        ratio: 0,
+        startHeight: 0,
+        startWidth: 0,
+        startX: 0,
+        startY: 0,
+      });
 
       controlWrapper.classList.remove('ImageNode__Resizer--resizing');
 
@@ -220,18 +216,6 @@ export function ImageResizer({
 
   return (
     <div ref={controlWrapperRef}>
-      {!showCaption && captionsEnabled && (
-        <button
-          onClick={() => {
-            setShowCaption(!showCaption);
-          }}
-          className="image-caption-button"
-          ref={buttonRef}
-          type="button"
-        >
-          {t('plugins.image.caption.add')}
-        </button>
-      )}
       <div
         onPointerDown={(event) => {
           handlePointerDown(event, Direction.north);

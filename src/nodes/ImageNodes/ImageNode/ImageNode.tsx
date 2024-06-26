@@ -212,7 +212,6 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   // View
-
   getAltText(): string {
     return this.__altText;
   }

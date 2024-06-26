@@ -11,6 +11,9 @@ importers:
       '@excalidraw/excalidraw':
         specifier: ^0.17.0
         version: 0.17.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@heroicons/react':
+        specifier: ^2.1.4
+        version: 2.1.4(react@18.3.1)
       '@lexical/clipboard':
         specifier: 0.16.0
         version: 0.16.0
@@ -68,6 +71,9 @@ importers:
       '@lexical/yjs':
         specifier: ^0.16.0
         version: 0.16.0(yjs@13.6.15)
+      '@seolhun/root-ui':
+        specifier: ^0.8.6
+        version: 0.8.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4)
       '@seolhun/root-ui-tailwind':
         specifier: ^0.8.6
         version: 0.8.6(tailwindcss@3.4.4)
@@ -1546,11 +1552,44 @@ packages:
   '@fal-works/esbuild-plugin-global-externals@2.1.2':
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
 
+  '@floating-ui/core@1.6.3':
+    resolution: {integrity: sha512-1ZpCvYf788/ZXOhRQGFxnYQOVgeU+pi0i+d0Ow34La7qjIXETi6RNswGVKkA6KcDO8/+Ysu2E/CeUmmeEBDvTg==}
+
+  '@floating-ui/dom@1.6.6':
+    resolution: {integrity: sha512-qiTYajAnh3P+38kECeffMSQgbvXty2VB6rS+42iWR4FPIlZjLK84E9qtLnMTLIpPz2znD/TaFqaiavMUrS+Hcw==}
+
+  '@floating-ui/react-dom@2.1.1':
+    resolution: {integrity: sha512-4h84MJt3CHrtG18mGsXuLCHMrug49d7DFkU0RMIyshRveBeyV2hmV/pDaF2Uxtu8kgq5r46llp5E5FQiR0K2Yg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  '@floating-ui/react@0.26.18':
+    resolution: {integrity: sha512-enDDX09Jpi3kmhcXXpvs+fvRXOfBj1jUV2KF6uDMf5HjS+SOZJzNTFUW71lKbFcxz0BkmQqwbvqdmHIxMq/fyQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  '@floating-ui/utils@0.2.3':
+    resolution: {integrity: sha512-XGndio0l5/Gvd6CLIABvsav9HHezgDFFhDfHk1bvLfr9ni8dojqLSvBbotJEjmIwNHL7vK4QzBJTdBRoB+c1ww==}
+
   '@fxts/core@1.0.0':
     resolution: {integrity: sha512-M4I+os4XhWpu7D8x7RWYjzGB/rMKhwKT/o7BBfFh4gieWh/ajzK6t0oCZlD6YIb775O1FWipyKeqneA1meqkIA==}
 
   '@gar/promisify@1.1.3':
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
+
+  '@headlessui/react@1.7.19':
+    resolution: {integrity: sha512-Ll+8q3OlMJfJbAKM/+/Y2q6PPYbryqNTXDbryx7SXLIDamkF6iQFbriYHga0dY44PvDhvvBWCx1Xj4U5+G4hOw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+
+  '@heroicons/react@2.1.4':
+    resolution: {integrity: sha512-ju0wj0wwrUTMQ2Yceyrma7TKuI3BpSjp+qKqV81K9KGcUHdvTMdiwfRc2cwXBp3uXtKuDZkh0v03nWOQnJFv2Q==}
+    peerDependencies:
+      react: '>= 16'
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -1987,6 +2026,14 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0'
 
+  '@seolhun/root-ui@0.8.6':
+    resolution: {integrity: sha512-fe1T7K03T9ljgoSgBh86gSYTaoeOLGIKemfBC2Jg2FbMkxiDibU6Nknsxho0b/AxRnBDZBIt6gN9Vm6IKiZkOg==, tarball: https://npm.pkg.github.com/download/@seolhun/root-ui/0.8.6/ab387720b693998a6504286a0f336aeae3aa4927}
+    engines: {node: '>= 16.0.0', npm: '>= 6.0.0'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+      tailwindcss: '>=3.0.0'
+
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
 
@@ -2279,6 +2326,15 @@ packages:
   '@svgr/webpack@8.1.0':
     resolution: {integrity: sha512-LnhVjMWyMQV9ZmeEy26maJk+8HTIbd59cH4F2MJ439k9DqejRisfFNGAPvRYlKETuh9LrImlS8aKsBgKjMA8WA==}
     engines: {node: '>=14'}
+
+  '@tanstack/react-virtual@3.7.0':
+    resolution: {integrity: sha512-3RtOwEU1HKS4iFBoTcCrV3Szqt4KoERMhZr8v57dvnh5o70sR9GAdF+0aE/qhiOmePrKujGwAayFNJSr/8Dbqw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  '@tanstack/virtual-core@3.7.0':
+    resolution: {integrity: sha512-p0CWuqn+n8iZmsL7/l0Xg7kbyIKnHNqkEJkMDOkg4x3Ni3LohszmnJY8FPhTgG7Ad9ZFGcdKmn1R1mKUGEh9Xg==}
 
   '@testing-library/dom@8.20.1':
     resolution: {integrity: sha512-/DiOQ5xBxgdYRC8LNk7U+RWat0S3qRLeIw3ZIkMQ9kkVlRmwD/Eg8k8CqIpD6GW7u20JIUOfMKbxtiLutpjQ4g==}
@@ -3205,6 +3261,9 @@ packages:
     resolution: {integrity: sha512-+W/5efTR7y5HRD7gACw9yQjqMVvEMLBHmboM/kPWam+H+Hmyrgjh6YncVKK122YZkXrLudzTuAukUw9FnMf7IQ==}
     engines: {node: 10.* || >= 12.*}
 
+  client-only@0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+
   cliui@6.0.0:
     resolution: {integrity: sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==}
 
@@ -3222,6 +3281,10 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
+
+  clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
 
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
@@ -7095,6 +7158,9 @@ packages:
     resolution: {integrity: sha512-HwOKAP7Wc5aRGYdKH+dw0PRRpbO841v2DENBtjnR5HFWoiNByAl7vrx3p0G/rCyYXQsrxqtX48TImFtPcIHSpQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
+  tabbable@6.2.0:
+    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
+
   tailwindcss@3.4.4:
     resolution: {integrity: sha512-ZoyXOdJjISB7/BcLTR6SEsLgKtDStYyYZVLsUtWChO4Ps20CBad7lfJKVDiejocV4ME1hLmyY0WJE3hSDcmQ2A==}
     engines: {node: '>=14.0.0'}
@@ -9279,11 +9345,47 @@ snapshots:
 
   '@fal-works/esbuild-plugin-global-externals@2.1.2': {}
 
+  '@floating-ui/core@1.6.3':
+    dependencies:
+      '@floating-ui/utils': 0.2.3
+
+  '@floating-ui/dom@1.6.6':
+    dependencies:
+      '@floating-ui/core': 1.6.3
+      '@floating-ui/utils': 0.2.3
+
+  '@floating-ui/react-dom@2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@floating-ui/dom': 1.6.6
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@floating-ui/react@0.26.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@floating-ui/react-dom': 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@floating-ui/utils': 0.2.3
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tabbable: 6.2.0
+
+  '@floating-ui/utils@0.2.3': {}
+
   '@fxts/core@1.0.0':
     dependencies:
       tslib: 2.6.2
 
   '@gar/promisify@1.1.3': {}
+
+  '@headlessui/react@1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/react-virtual': 3.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      client-only: 0.0.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@heroicons/react@2.1.4(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -9813,6 +9915,20 @@ snapshots:
       '@fxts/core': 1.0.0
       color: 4.2.3
       lodash-es: 4.17.21
+      tailwindcss: 3.4.4
+
+  '@seolhun/root-ui@0.8.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4)':
+    dependencies:
+      '@floating-ui/react': 0.26.18(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@fxts/core': 1.0.0
+      '@headlessui/react': 1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@heroicons/react': 2.1.4(react@18.3.1)
+      '@seolhun/root-ui-tailwind': 0.8.6(tailwindcss@3.4.4)
+      clsx: 1.2.1
+      color: 4.2.3
+      lodash-es: 4.17.21
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       tailwindcss: 3.4.4
 
   '@sinclair/typebox@0.27.8': {}
@@ -10588,6 +10704,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+
+  '@tanstack/react-virtual@3.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@tanstack/virtual-core': 3.7.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@tanstack/virtual-core@3.7.0': {}
 
   '@testing-library/dom@8.20.1':
     dependencies:
@@ -11689,6 +11813,8 @@ snapshots:
     optionalDependencies:
       '@colors/colors': 1.5.0
 
+  client-only@0.0.1: {}
+
   cliui@6.0.0:
     dependencies:
       string-width: 4.2.3
@@ -11714,6 +11840,8 @@ snapshots:
       shallow-clone: 3.0.1
 
   clone@1.0.4: {}
+
+  clsx@1.2.1: {}
 
   clsx@2.1.1: {}
 
@@ -16301,6 +16429,8 @@ snapshots:
     dependencies:
       '@pkgr/core': 0.1.1
       tslib: 2.6.2
+
+  tabbable@6.2.0: {}
 
   tailwindcss@3.4.4:
     dependencies:

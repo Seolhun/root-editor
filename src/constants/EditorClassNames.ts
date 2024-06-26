@@ -1,3 +1,6 @@
+/**
+ * @see "src/Editor.theme.ts"
+ */
 export const EditorClassNames = {
   Image: 'RootImage',
   ImageCaption: 'ImageNode__Caption',

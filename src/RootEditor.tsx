@@ -21,6 +21,7 @@ import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 
 /*eslint-disable */
+import '@seolhun/root-ui/dist/index.css';
 import './assets/tailwind.scss';
 import './RootEditor.scss';
 /*eslint-enable */

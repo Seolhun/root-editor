@@ -3,6 +3,7 @@ import type { BaseSelection, LexicalCommand, LexicalEditor, NodeKey } from 'lexi
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalNodeSelection } from '@lexical/react/useLexicalNodeSelection';
 import { mergeRegister } from '@lexical/utils';
+import clsx from 'clsx';
 import {
   $getNodeByKey,
   $getSelection,
@@ -22,82 +23,16 @@ import {
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 
-import brokenImage from '~/assets/image-broken.svg';
 import { ImageResizer } from '~/ui/ImageResizer';
 
 import { $isImageNode } from '../ImageNode';
+import { BrokenImage } from './BrokenImage';
 import { ImageCaption } from './ImageCaption';
+import { LazyImage } from './LazyImage';
 
-const imageCache = new Set();
+import './ImageComponent.scss';
 
 export const RIGHT_CLICK_IMAGE_COMMAND: LexicalCommand<MouseEvent> = createCommand('RIGHT_CLICK_IMAGE_COMMAND');
-
-function useSuspenseImage(src: string) {
-  if (!imageCache.has(src)) {
-    throw new Promise((resolve) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        imageCache.add(src);
-        resolve(null);
-      };
-      img.onerror = () => {
-        imageCache.add(src);
-      };
-    });
-  }
-}
-
-function LazyImage({
-  className,
-  altText,
-  height,
-  imageRef,
-  maxWidth,
-  onError,
-  src,
-  width,
-}: {
-  altText: string;
-  className: null | string;
-  height: 'inherit' | number;
-  imageRef: { current: HTMLImageElement | null };
-  maxWidth: number;
-  onError: () => void;
-  src: string;
-  width: 'inherit' | number;
-}): JSX.Element {
-  useSuspenseImage(src);
-  return (
-    <img
-      style={{
-        height,
-        maxWidth,
-        width,
-      }}
-      alt={altText}
-      className={className || undefined}
-      draggable="false"
-      onError={onError}
-      ref={imageRef}
-      src={src}
-    />
-  );
-}
-
-function BrokenImage(): JSX.Element {
-  return (
-    <img
-      style={{
-        height: 200,
-        opacity: 0.2,
-        width: 200,
-      }}
-      draggable="false"
-      src={brokenImage}
-    />
-  );
-}
 
 export interface ImageComponentProps {
   altText: string;
@@ -124,13 +59,12 @@ export default function ImageComponent({
   src,
   width,
 }: ImageComponentProps): JSX.Element {
-  const imageRef = useRef<HTMLImageElement | null>(null);
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const activeEditorRef = useRef<LexicalEditor | null>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [editor] = useLexicalComposerContext();
   const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
   const [isResizing, setIsResizing] = useState<boolean>(false);
-  const [editor] = useLexicalComposerContext();
   const [selection, setSelection] = useState<BaseSelection | null>(null);
-  const activeEditorRef = useRef<LexicalEditor | null>(null);
   const [isLoadError, setIsLoadError] = useState<boolean>(false);
 
   const $onDelete = useCallback(
@@ -155,7 +89,6 @@ export default function ImageComponent({
   const $onEnter = useCallback(
     (event: KeyboardEvent) => {
       if (isSelected) {
-        const buttonElem = buttonRef.current;
         const latestSelection = $getSelection();
         const isNodeSelection = $isNodeSelection(latestSelection);
         const hasSelectionNodes = isNodeSelection && latestSelection.getNodes().length === 1;
@@ -165,10 +98,6 @@ export default function ImageComponent({
             $setSelection(null);
             event.preventDefault();
             caption.focus();
-            return true;
-          } else if (buttonElem !== null && buttonElem !== document.activeElement) {
-            event.preventDefault();
-            buttonElem.focus();
             return true;
           }
         }
@@ -180,7 +109,7 @@ export default function ImageComponent({
 
   const $onEscape = useCallback(
     (event: KeyboardEvent) => {
-      if (activeEditorRef.current === caption || buttonRef.current === event.target) {
+      if (activeEditorRef.current === caption) {
         $setSelection(null);
         editor.update(() => {
           setSelected(true);
@@ -274,7 +203,6 @@ export default function ImageComponent({
     );
 
     rootElement?.addEventListener('contextmenu', onRightClick);
-
     return () => {
       isMounted = false;
       unregister();
@@ -293,15 +221,6 @@ export default function ImageComponent({
     onRightClick,
     setSelected,
   ]);
-
-  const setShowCaption = () => {
-    editor.update(() => {
-      const node = $getNodeByKey(nodeKey);
-      if ($isImageNode(node)) {
-        node.setShowCaption(true);
-      }
-    });
-  };
 
   const onResizeEnd = (nextWidth: 'inherit' | number, nextHeight: 'inherit' | number) => {
     // Delay hiding the resize bars for click case
@@ -325,13 +244,16 @@ export default function ImageComponent({
   const isFocused = isSelected || isResizing;
   return (
     <Suspense fallback={null}>
-      <div draggable={draggable}>
+      <div className="relative" draggable={draggable}>
         {isLoadError ? (
           <BrokenImage />
         ) : (
           <LazyImage
+            className={clsx({
+              draggable: $isNodeSelection(selection),
+              focused: isFocused,
+            })}
             altText={altText}
-            className={isFocused ? `focused ${$isNodeSelection(selection) ? 'draggable' : ''}` : null}
             height={height}
             imageRef={imageRef}
             maxWidth={maxWidth}
@@ -340,22 +262,17 @@ export default function ImageComponent({
             width={width}
           />
         )}
+        {resizable && $isNodeSelection(selection) && isFocused && (
+          <ImageResizer
+            editor={editor}
+            imageRef={imageRef}
+            maxWidth={maxWidth}
+            onResizeEnd={onResizeEnd}
+            onResizeStart={onResizeStart}
+          />
+        )}
       </div>
-
-      {showCaption && <ImageCaption caption={caption} />}
-      {resizable && $isNodeSelection(selection) && isFocused && (
-        <ImageResizer
-          buttonRef={buttonRef}
-          captionsEnabled={!isLoadError && captionsEnabled}
-          editor={editor}
-          imageRef={imageRef}
-          maxWidth={maxWidth}
-          onResizeEnd={onResizeEnd}
-          onResizeStart={onResizeStart}
-          setShowCaption={setShowCaption}
-          showCaption={showCaption}
-        />
-      )}
+      {captionsEnabled && <ImageCaption caption={caption} />}
     </Suspense>
   );
 }
