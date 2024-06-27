@@ -1,5 +1,5 @@
 .__RootEditor__ {
-  .RootEditor__floatingTextFormatToolbar {
+  .RootEditor__FloatingTextFormatToolbar {
     position: absolute;
     top: 0;
     left: 0;
@@ -134,8 +134,10 @@
   }
 
   @media (max-width: 1024px) {
-    .RootEditor__floatingTextFormatToolbar button.insert-comment {
-      display: none;
+    .RootEditor__FloatingTextFormatToolbar {
+      button.insert-comment {
+        display: none;
+      }
     }
   }
 }

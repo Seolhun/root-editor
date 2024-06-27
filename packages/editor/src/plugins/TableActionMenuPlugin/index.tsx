@@ -722,25 +722,20 @@ function TableCellActionMenuContainer({
 }
 
 export interface TableActionMenuPluginProps {
-  anchorElem?: HTMLElement;
   cellMerge?: boolean;
 }
 
-export default function TableActionMenuPlugin({
-  anchorElem,
-  cellMerge = false,
-}: TableActionMenuPluginProps): null | ReactPortal {
+export default function TableActionMenuPlugin({ cellMerge = false }: TableActionMenuPluginProps): null | ReactPortal {
   const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const isEditable = useLexicalEditable();
 
-  const rootElement = anchorElem || floatingElement;
-  if (!isClientReady || !rootElement) {
+  if (!isClientReady || !floatingElement) {
     return null;
   }
 
   return createPortal(
-    isEditable ? <TableCellActionMenuContainer anchorElem={rootElement} cellMerge={cellMerge} /> : null,
-    rootElement,
+    isEditable ? <TableCellActionMenuContainer anchorElem={floatingElement} cellMerge={cellMerge} /> : null,
+    floatingElement,
   );
 }

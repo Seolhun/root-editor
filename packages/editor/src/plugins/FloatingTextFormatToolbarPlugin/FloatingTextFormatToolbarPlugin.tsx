@@ -1,3 +1,4 @@
+import { FloatingPortal } from '@floating-ui/react';
 import { $isCodeHighlightNode } from '@lexical/code';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
@@ -13,9 +14,8 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
+import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
 import { useFloatingAreaContext } from '~/components';
@@ -277,11 +277,7 @@ function TextFormatFloatingToolbar({
   );
 }
 
-function useFloatingTextFormatToolbar(
-  editor: LexicalEditor,
-  setIsLinkEditMode: Dispatch<boolean>,
-  anchorElem?: HTMLElement,
-) {
+function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: Dispatch<boolean>) {
   const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const [isText, setIsText] = useState(false);
@@ -362,7 +358,8 @@ function useFloatingTextFormatToolbar(
         updatePopup();
       }),
       editor.registerRootListener(() => {
-        if (editor.getRootElement() === null) {
+        const rootElement = editor.getRootElement();
+        if (rootElement === null) {
           setIsText(false);
         }
       }),
@@ -373,38 +370,35 @@ function useFloatingTextFormatToolbar(
     return null;
   }
 
-  const rootElement = anchorElem || floatingElement;
-  if (!isClientReady || !rootElement) {
+  if (!isClientReady || !floatingElement) {
     return null;
   }
 
-  return createPortal(
-    <TextFormatFloatingToolbar
-      anchorElem={rootElement}
-      editor={editor}
-      isBold={isBold}
-      isCode={isCode}
-      isItalic={isItalic}
-      isLink={isLink}
-      isStrikethrough={isStrikethrough}
-      isSubscript={isSubscript}
-      isSuperscript={isSuperscript}
-      isUnderline={isUnderline}
-      setIsLinkEditMode={setIsLinkEditMode}
-    />,
-    rootElement,
+  return (
+    <FloatingPortal root={floatingElement}>
+      <TextFormatFloatingToolbar
+        anchorElem={floatingElement}
+        editor={editor}
+        isBold={isBold}
+        isCode={isCode}
+        isItalic={isItalic}
+        isLink={isLink}
+        isStrikethrough={isStrikethrough}
+        isSubscript={isSubscript}
+        isSuperscript={isSuperscript}
+        isUnderline={isUnderline}
+        setIsLinkEditMode={setIsLinkEditMode}
+      />
+    </FloatingPortal>
   );
 }
 
 export interface FloatingTextFormatToolbarPluginProps {
-  anchorElem?: HTMLElement;
   setIsLinkEditMode: Dispatch<boolean>;
 }
 
-export function FloatingTextFormatToolbarPlugin({
-  anchorElem,
-  setIsLinkEditMode,
-}: FloatingTextFormatToolbarPluginProps) {
+export function FloatingTextFormatToolbarPlugin({ setIsLinkEditMode }: FloatingTextFormatToolbarPluginProps) {
   const [editor] = useLexicalComposerContext();
-  return useFloatingTextFormatToolbar(editor, setIsLinkEditMode, anchorElem);
+
+  return useFloatingTextFormatToolbar(editor, setIsLinkEditMode);
 }

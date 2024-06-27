@@ -6,7 +6,6 @@ import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings } from './Editor.types';
 import { BaseRootEditor, BaseRootEditorProps } from './RootEditor';
 import { RootEditorNodes } from './RootEditor.Nodes';
-import { FloatingAreaProvider } from './components';
 import { I18nProvider, i18nProviderProps } from './context/i18n';
 import { SettingsProvider } from './context/settings/SettingsContext';
 
@@ -62,15 +61,13 @@ export const RootReadonlyEditor = React.forwardRef<ElementType, RootReadonlyEdit
 
     return (
       <section className={clsx('__RootEditor__', className)} ref={ref}>
-        <FloatingAreaProvider>
-          <LexicalComposer initialConfig={initialConfig}>
-            <I18nProvider language={language} resources={resources}>
-              <SettingsProvider initialSettings={initialSettingValues}>
-                <BaseRootEditor {...others} />
-              </SettingsProvider>
-            </I18nProvider>
-          </LexicalComposer>
-        </FloatingAreaProvider>
+        <LexicalComposer initialConfig={initialConfig}>
+          <I18nProvider language={language} resources={resources}>
+            <SettingsProvider initialSettings={initialSettingValues}>
+              <BaseRootEditor {...others} />
+            </SettingsProvider>
+          </I18nProvider>
+        </LexicalComposer>
       </section>
     );
   },

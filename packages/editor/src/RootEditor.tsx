@@ -10,7 +10,6 @@ import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings, EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
-import { FloatingAreaProvider } from './components';
 import { FlashMessageContext } from './context/FlashMessageContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
@@ -72,16 +71,14 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
 
     return (
       <section className={clsx('__RootEditor__', className)} ref={ref}>
-        <FloatingAreaProvider>
-          <LexicalComposer initialConfig={initialConfig}>
-            <I18nProvider language={language} resources={resources}>
-              <SettingsProvider initialSettings={initialSettings}>
-                <BaseRootEditor {...others} />
-                {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
-              </SettingsProvider>
-            </I18nProvider>
-          </LexicalComposer>
-        </FloatingAreaProvider>
+        <LexicalComposer initialConfig={initialConfig}>
+          <I18nProvider language={language} resources={resources}>
+            <SettingsProvider initialSettings={initialSettings}>
+              <BaseRootEditor {...others} />
+              {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
+            </SettingsProvider>
+          </I18nProvider>
+        </LexicalComposer>
       </section>
     );
   },

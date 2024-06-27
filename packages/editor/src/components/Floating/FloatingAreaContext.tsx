@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as React from 'react';
 
 export type FloatingAreaContextValues<E extends HTMLElement = HTMLElement> = {
@@ -6,19 +7,23 @@ export type FloatingAreaContextValues<E extends HTMLElement = HTMLElement> = {
 
 export const FloatingAreaContext = React.createContext(null as unknown as FloatingAreaContextValues);
 
-export interface FloatingAreaProps {
-  children: React.ReactNode;
-}
+type ElementType = HTMLDivElement;
+type ElementProps = React.HTMLAttributes<ElementType>;
 
-export const FloatingAreaProvider = ({ children }: FloatingAreaProps) => {
+export const FloatingAreaProvider = ({ className, children, ...others }: ElementProps) => {
   const [floatingElement, setFloatingElement] = React.useState<HTMLElement | null>(null);
 
-  const contextValues = React.useMemo(() => ({ floatingElement }), [floatingElement]);
+  const contextValues = React.useMemo<FloatingAreaContextValues>(() => {
+    return {
+      floatingElement,
+    };
+  }, [floatingElement]);
 
   return (
     <FloatingAreaContext.Provider value={contextValues}>
-      {children}
-      <div id="floating-area" ref={setFloatingElement} />
+      <div {...others} className={clsx(className)} ref={setFloatingElement}>
+        {children}
+      </div>
     </FloatingAreaContext.Provider>
   );
 };

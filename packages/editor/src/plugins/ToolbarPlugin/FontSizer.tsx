@@ -1,8 +1,11 @@
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { $patchStyleText } from '@lexical/selection';
+import { IconButton } from '@seolhun/root-ui';
+import clsx from 'clsx';
 import { $getSelection, LexicalEditor } from 'lexical';
 import * as React from 'react';
 
-import './fontSize.scss';
+import './FontSizer.scss';
 
 const MIN_ALLOWED_FONT_SIZE = 8;
 const MAX_ALLOWED_FONT_SIZE = 72;
@@ -14,15 +17,13 @@ enum updateFontSizeType {
   increment = 1,
 }
 
-export default function FontSize({
-  disabled,
-  editor,
-  selectionFontSize,
-}: {
+export interface FontSizerProps {
   disabled: boolean;
   editor: LexicalEditor;
   selectionFontSize: string;
-}) {
+}
+
+export function FontSizer({ disabled, editor, selectionFontSize }: FontSizerProps) {
   const [inputValue, setInputValue] = React.useState<string>(selectionFontSize);
   const [inputChangeFlag, setInputChangeFlag] = React.useState<boolean>(false);
 
@@ -169,18 +170,18 @@ export default function FontSize({
   }, [selectionFontSize]);
 
   return (
-    <>
-      <button
-        className="toolbar-item font-decrement"
+    <div className={clsx('RootEditor__FontSizer')}>
+      <IconButton
+        className={clsx('toolbar-item font-decrement')}
         disabled={disabled || (selectionFontSize !== '' && Number(inputValue) <= MIN_ALLOWED_FONT_SIZE)}
         onClick={() => handleButtonClick(updateFontSizeType.decrement)}
         type="button"
       >
-        <i className="format minus-icon" />
-      </button>
+        <MinusIcon className={clsx('size-8', 'rounded-md')} />
+      </IconButton>
 
       <input
-        className="toolbar-item font-size-input"
+        className={clsx('toolbar-item font-size-input')}
         disabled={disabled}
         max={MAX_ALLOWED_FONT_SIZE}
         min={MIN_ALLOWED_FONT_SIZE}
@@ -191,14 +192,14 @@ export default function FontSize({
         value={inputValue}
       />
 
-      <button
-        className="toolbar-item font-increment"
+      <IconButton
+        className={clsx('toolbar-item font-increment')}
         disabled={disabled || (selectionFontSize !== '' && Number(inputValue) >= MAX_ALLOWED_FONT_SIZE)}
         onClick={() => handleButtonClick(updateFontSizeType.increment)}
         type="button"
       >
-        <i className="format add-icon" />
-      </button>
-    </>
+        <PlusIcon className={clsx('size-8', 'rounded-md')} />
+      </IconButton>
+    </div>
   );
 }

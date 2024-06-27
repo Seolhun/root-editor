@@ -104,16 +104,20 @@ export const theme: EditorThemeClasses = {
 };
 
 export interface RootEditorClasses extends EditorThemeClasses {
-  floatingTextFormatToolbar: 'RootEditor__floatingTextFormatToolbar';
+  floatingTextFormatToolbar: 'RootEditor__FloatingTextFormatToolbar';
+  fontSizer: 'RootEditor__FontSizer';
   imageCaption: 'ImageNode__Caption';
   imageResizer: 'ImageNode__Resizer';
   imageResizerResizing: 'ImageNode__Resizer--resizing';
+  linkEditor: 'RootEditor__LinkEditor';
 }
 
 export const EditorClasses: RootEditorClasses = {
   ...theme,
-  floatingTextFormatToolbar: 'RootEditor__floatingTextFormatToolbar',
+  floatingTextFormatToolbar: 'RootEditor__FloatingTextFormatToolbar',
+  fontSizer: 'RootEditor__FontSizer',
   imageCaption: 'ImageNode__Caption',
   imageResizer: 'ImageNode__Resizer',
   imageResizerResizing: 'ImageNode__Resizer--resizing',
+  linkEditor: 'RootEditor__LinkEditor',
 };

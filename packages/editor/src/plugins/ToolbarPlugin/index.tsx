@@ -74,11 +74,11 @@ import { InsertEquationDialog } from '../EquationsPlugin';
 import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin';
 import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '../ImagesPlugin';
 import { InsertInlineImageDialog } from '../InlineImagePlugin/InlineImagePlugin';
-import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
+import { InsertLayoutDialog } from '../LayoutPlugin/InsertLayoutDialog';
 import { INSERT_PAGE_BREAK } from '../PageBreakPlugin';
 import { InsertPollDialog } from '../PollPlugin';
 import { InsertTableDialog } from '../TablePlugin';
-import FontSize from './fontSize';
+import { FontSizer } from './FontSizer';
 
 const blockTypeToBlockName = {
   bullet: 'Bulleted List',
@@ -182,17 +182,14 @@ function dropDownActiveClass(active: boolean) {
   }
 }
 
-function BlockFormatDropDown({
-  blockType,
-  disabled = false,
-  editor,
-  rootType,
-}: {
+export interface BlockFormatDropDownProps {
   blockType: keyof typeof blockTypeToBlockName;
   disabled?: boolean;
   editor: LexicalEditor;
-  rootType: keyof typeof rootTypeToRootName;
-}): JSX.Element {
+  rootType?: keyof typeof rootTypeToRootName;
+}
+
+function BlockFormatDropDown({ blockType, disabled = false, editor }: BlockFormatDropDownProps): JSX.Element {
   const formatParagraph = () => {
     editor.update(() => {
       const selection = $getSelection();
@@ -318,17 +315,14 @@ function Divider(): JSX.Element {
   return <div className="divider" />;
 }
 
-function FontDropDown({
-  disabled = false,
-  editor,
-  style,
-  value,
-}: {
+export interface FontDropdownProps {
   disabled?: boolean;
   editor: LexicalEditor;
   style: string;
   value: string;
-}): JSX.Element {
+}
+
+function FontDropdown({ disabled = false, editor, style, value }: FontDropdownProps): JSX.Element {
   const handleClick = useCallback(
     (option: string) => {
       editor.update(() => {
@@ -813,9 +807,9 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
         </DropDown>
       ) : (
         <>
-          <FontDropDown disabled={!isEditable} editor={editor} style={'font-family'} value={fontFamily} />
+          <FontDropdown disabled={!isEditable} editor={editor} style={'font-family'} value={fontFamily} />
           <Divider />
-          <FontSize disabled={!isEditable} editor={editor} selectionFontSize={fontSize.slice(0, -2)} />
+          <FontSizer disabled={!isEditable} editor={editor} selectionFontSize={fontSize.slice(0, -2)} />
           <Divider />
           <button
             onClick={() => {
