@@ -2,7 +2,7 @@ import type { TableDOMCell } from '@lexical/table';
 import type { LexicalEditor } from 'lexical';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import useLexicalEditable from '@lexical/react/useLexicalEditable';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import {
   $getTableColumnIndexFromTableCellNode,
   $getTableNodeFromLexicalNodeOrThrow,
@@ -18,7 +18,7 @@ import * as React from 'react';
 import { MouseEventHandler, ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useFloatingAreaContext } from '~/context/floating';
+import { useFloatingAreaContext } from '~/components';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import './TableCellResizer.scss';

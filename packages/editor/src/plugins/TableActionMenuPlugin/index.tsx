@@ -1,7 +1,7 @@
 import type { ElementNode, LexicalEditor } from 'lexical';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import useLexicalEditable from '@lexical/react/useLexicalEditable';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import {
   $deleteTableColumn__EXPERIMENTAL,
   $deleteTableRow__EXPERIMENTAL,
@@ -36,7 +36,7 @@ import * as React from 'react';
 import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useFloatingAreaContext } from '~/context/floating';
+import { useFloatingAreaContext } from '~/components';
 import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import invariant from '~/shared/invariant';

@@ -1,6 +1,32 @@
 export interface EditorSettings {
   debug: boolean;
   disableBeforeInput: boolean;
+  /****************************************
+   * Features Enables
+   ****************************************/
+  /**
+   * @default false
+   */
+  enabledCommentFeature: boolean;
+  /**
+   * @default false
+   */
+  enabledEmbedFeature: boolean;
+  /**
+   * @default false
+   */
+  enabledEquationFeature: boolean;
+  /**
+   * @default true
+   */
+  enabledExcalidrawFeature: boolean;
+  /**
+   * @default true
+   */
+  enabledFigmaDocumentFeature: boolean;
+  /**
+   * Auto complete feature
+   */
   isAutocomplete: boolean;
   /**
    * Whether to enforce a maximum character limit on the editor
@@ -33,6 +59,17 @@ export interface EditorSettings {
 export const DEFAULT_SETTINGS: EditorSettings = {
   debug: false,
   disableBeforeInput: false,
+  /**
+   * Features Enables
+   */
+  enabledCommentFeature: false,
+  enabledEmbedFeature: false,
+  enabledEquationFeature: false,
+  enabledExcalidrawFeature: true,
+  enabledFigmaDocumentFeature: true,
+  /**
+   * Auto complete feature
+   */
   isAutocomplete: false,
   isCharLimit: true,
   isCharLimitUtf8: false,
@@ -50,8 +87,6 @@ export const DEFAULT_SETTINGS: EditorSettings = {
 } as const;
 
 // These are mutated in setupEnv
-export const INITIAL_SETTINGS: Record<EditorSettingsKey, boolean> = {
+export const INITIAL_SETTINGS: Record<keyof EditorSettings, boolean> = {
   ...DEFAULT_SETTINGS,
 };
-
-export type EditorSettingsKey = keyof EditorSettings;

@@ -104,6 +104,7 @@ export const theme: EditorThemeClasses = {
 };
 
 export interface RootEditorClasses extends EditorThemeClasses {
+  floatingTextFormatToolbar: 'RootEditor__floatingTextFormatToolbar';
   imageCaption: 'ImageNode__Caption';
   imageResizer: 'ImageNode__Resizer';
   imageResizerResizing: 'ImageNode__Resizer--resizing';
@@ -111,6 +112,7 @@ export interface RootEditorClasses extends EditorThemeClasses {
 
 export const EditorClasses: RootEditorClasses = {
   ...theme,
+  floatingTextFormatToolbar: 'RootEditor__floatingTextFormatToolbar',
   imageCaption: 'ImageNode__Caption',
   imageResizer: 'ImageNode__Resizer',
   imageResizerResizing: 'ImageNode__Resizer--resizing',

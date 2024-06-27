@@ -5,7 +5,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   disabled?: boolean;
 }
 
-function Button({ className, children, disabled, title, ...rests }: ButtonProps) {
+export function Button({ className, children, disabled, title, ...rests }: ButtonProps) {
   return (
     <button
       type="button"
@@ -24,6 +24,3 @@ function Button({ className, children, disabled, title, ...rests }: ButtonProps)
     </button>
   );
 }
-
-export { Button };
-export default Button;

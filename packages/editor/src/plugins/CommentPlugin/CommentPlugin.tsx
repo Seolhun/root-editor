@@ -39,7 +39,7 @@ import { createPortal } from 'react-dom';
 
 import { theme } from '~/Editor.theme';
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
-import { useFloatingAreaContext } from '~/context/floating';
+import { useFloatingAreaContext } from '~/components';
 import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import useLayoutEffect from '~/shared/useLayoutEffect';

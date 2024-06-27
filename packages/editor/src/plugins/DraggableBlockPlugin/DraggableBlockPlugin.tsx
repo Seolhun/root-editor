@@ -15,7 +15,7 @@ import * as React from 'react';
 import { DragEvent as ReactDragEvent, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useFloatingAreaContext } from '~/context/floating';
+import { useFloatingAreaContext } from '~/components';
 import { useClientReady } from '~/hooks/useClientReady';
 
 import { isHTMLElement } from '../../utils/guard';

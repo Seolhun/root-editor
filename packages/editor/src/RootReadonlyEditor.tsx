@@ -6,7 +6,7 @@ import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings } from './Editor.types';
 import { BaseRootEditor, BaseRootEditorProps } from './RootEditor';
 import { RootEditorNodes } from './RootEditor.Nodes';
-import { FloatingAreaProvider } from './context/floating';
+import { FloatingAreaProvider } from './components';
 import { I18nProvider, i18nProviderProps } from './context/i18n';
 import { SettingsProvider } from './context/settings/SettingsContext';
 
