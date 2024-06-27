@@ -66,6 +66,7 @@
   "dependencies": {
     "@excalidraw/excalidraw": "^0.17.0",
     "@floating-ui/react": "^0.26.18",
+    "@fxts/core": "^1.0.0",
     "@heroicons/react": "^2.1.4",
     "@lexical/clipboard": "0.16.0",
     "@lexical/code": "0.16.0",
