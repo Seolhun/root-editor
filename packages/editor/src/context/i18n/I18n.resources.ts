@@ -2,6 +2,10 @@ import { I18nResources } from './I18n.types';
 
 export const DEFAULT_I18N_RESOURCES: I18nResources = {
   en: {
+    Save: 'Save',
+    cancel: 'Cancel',
+    'confirm.discarding': 'Are you sure you want to discard your changes?',
+    discard: 'Discard',
     name: 'RootEditor',
     'plugins.code': 'Code',
     'plugins.image': 'Image',

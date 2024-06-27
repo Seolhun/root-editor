@@ -1,6 +1,7 @@
 import type { TableDOMCell } from '@lexical/table';
 import type { LexicalEditor } from 'lexical';
 
+import { FloatingPortal } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import {
@@ -14,8 +15,8 @@ import {
 } from '@lexical/table';
 import { calculateZoomLevel } from '@lexical/utils';
 import { $getNearestNodeFromDOMNode } from 'lexical';
+import { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import { MouseEventHandler, ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { useFloatingAreaContext } from '~/components';
@@ -368,7 +369,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
   );
 }
 
-export function TableCellResizerPlugin(): null | ReactPortal {
+export function TableCellResizerPlugin() {
   const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const [editor] = useLexicalComposerContext();
@@ -381,5 +382,9 @@ export function TableCellResizerPlugin(): null | ReactPortal {
     return null;
   }
 
-  return createPortal(<TableCellResizer editor={editor} />, floatingElement);
+  return (
+    <FloatingPortal root={floatingElement}>
+      <TableCellResizer editor={editor} />
+    </FloatingPortal>
+  );
 }

@@ -1,9 +1,9 @@
+import { FloatingPortal } from '@floating-ui/react';
 import { $isCodeNode, CodeNode, getLanguageFriendlyName, normalizeCodeLang } from '@lexical/code';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getNearestNodeFromDOMNode } from 'lexical';
-import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import { createPortal } from 'react-dom';
+import { useEffect, useRef, useState } from 'react';
 
 import { useFloatingAreaContext } from '~/components';
 
@@ -146,11 +146,15 @@ function getMouseInfo(event: MouseEvent): {
   }
 }
 
-export default function CodeActionMenuPlugin(): null | React.ReactPortal {
+export default function CodeActionMenuPlugin() {
   const { floatingElement } = useFloatingAreaContext();
   if (!floatingElement) {
     return null;
   }
 
-  return createPortal(<CodeActionMenuContainer anchorElem={floatingElement} />, floatingElement);
+  return (
+    <FloatingPortal root={floatingElement}>
+      <CodeActionMenuContainer anchorElem={floatingElement} />
+    </FloatingPortal>
+  );
 }
