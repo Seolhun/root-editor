@@ -24,7 +24,7 @@ import {
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 
-import useModal from '~/hooks/useModal';
+import { useModal } from '~/hooks/useModal';
 import LinkPlugin from '~/plugins/LinkPlugin';
 import { Button } from '~/ui/Button';
 import ContentEditable from '~/ui/ContentEditable';

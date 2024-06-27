@@ -35,11 +35,9 @@ import {
 } from 'lexical';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import { createPortal } from 'react-dom';
 
 import { useFloatingAreaContext } from '~/components';
-import { useClientReady } from '~/hooks/useClientReady';
-import useModal from '~/hooks/useModal';
+import { useModal } from '~/hooks/useModal';
 import invariant from '~/shared/invariant';
 import ColorPicker from '~/ui/ColorPicker';
 
@@ -158,7 +156,6 @@ function TableActionMenu({
   tableCellNode: _tableCellNode,
 }: TableCellActionMenuProps) {
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
   const [editor] = useLexicalComposerContext();
   const dropDownRef = useRef<HTMLDivElement | null>(null);
   const [tableCellNode, updateTableCellNode] = useState(_tableCellNode);
@@ -485,111 +482,116 @@ function TableActionMenu({
     }
   }
 
-  if (!isClientReady) {
+  if (!floatingElement) {
     return null;
   }
 
-  return createPortal(
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-      }}
-      className="dropdown"
-      ref={dropDownRef}
-    >
-      {mergeCellButton}
-      <button
-        onClick={() =>
-          showColorPickerModal('Cell background color', () => (
-            <ColorPicker color={backgroundColor} onChange={handleCellBackgroundColor} />
-          ))
-        }
-        className="item"
-        data-test-id="table-background-color"
-        type="button"
+  return (
+    <FloatingPortal root={floatingElement}>
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className="dropdown"
+        ref={dropDownRef}
       >
-        <span className="text">Background color</span>
-      </button>
-      <hr />
-      <button
-        className="item"
-        data-test-id="table-insert-row-above"
-        onClick={() => insertTableRowAtSelection(false)}
-        type="button"
-      >
-        <span className="text">Insert {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`} above</span>
-      </button>
-      <button
-        className="item"
-        data-test-id="table-insert-row-below"
-        onClick={() => insertTableRowAtSelection(true)}
-        type="button"
-      >
-        <span className="text">Insert {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`} below</span>
-      </button>
-      <hr />
-      <button
-        className="item"
-        data-test-id="table-insert-column-before"
-        onClick={() => insertTableColumnAtSelection(false)}
-        type="button"
-      >
-        <span className="text">
-          Insert {selectionCounts.columns === 1 ? 'column' : `${selectionCounts.columns} columns`} left
-        </span>
-      </button>
-      <button
-        className="item"
-        data-test-id="table-insert-column-after"
-        onClick={() => insertTableColumnAtSelection(true)}
-        type="button"
-      >
-        <span className="text">
-          Insert {selectionCounts.columns === 1 ? 'column' : `${selectionCounts.columns} columns`} right
-        </span>
-      </button>
-      <hr />
-      <button
-        className="item"
-        data-test-id="table-delete-columns"
-        onClick={() => deleteTableColumnAtSelection()}
-        type="button"
-      >
-        <span className="text">Delete column</span>
-      </button>
-      <button
-        className="item"
-        data-test-id="table-delete-rows"
-        onClick={() => deleteTableRowAtSelection()}
-        type="button"
-      >
-        <span className="text">Delete row</span>
-      </button>
-      <button className="item" data-test-id="table-delete" onClick={() => deleteTableAtSelection()} type="button">
-        <span className="text">Delete table</span>
-      </button>
-      <hr />
-      <button className="item" onClick={() => toggleTableRowIsHeader()} type="button">
-        <span className="text">
-          {(tableCellNode.__headerState & TableCellHeaderStates.ROW) === TableCellHeaderStates.ROW ? 'Remove' : 'Add'}{' '}
-          row header
-        </span>
-      </button>
-      <button
-        className="item"
-        data-test-id="table-column-header"
-        onClick={() => toggleTableColumnIsHeader()}
-        type="button"
-      >
-        <span className="text">
-          {(tableCellNode.__headerState & TableCellHeaderStates.COLUMN) === TableCellHeaderStates.COLUMN
-            ? 'Remove'
-            : 'Add'}{' '}
-          column header
-        </span>
-      </button>
-    </div>,
-    floatingElement,
+        {mergeCellButton}
+        <button
+          onClick={() =>
+            showColorPickerModal('Cell background color', () => (
+              <ColorPicker color={backgroundColor} onChange={handleCellBackgroundColor} />
+            ))
+          }
+          className="item"
+          data-test-id="table-background-color"
+          type="button"
+        >
+          <span className="text">Background color</span>
+        </button>
+        <hr />
+        <button
+          className="item"
+          data-test-id="table-insert-row-above"
+          onClick={() => insertTableRowAtSelection(false)}
+          type="button"
+        >
+          <span className="text">
+            Insert {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`} above
+          </span>
+        </button>
+        <button
+          className="item"
+          data-test-id="table-insert-row-below"
+          onClick={() => insertTableRowAtSelection(true)}
+          type="button"
+        >
+          <span className="text">
+            Insert {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`} below
+          </span>
+        </button>
+        <hr />
+        <button
+          className="item"
+          data-test-id="table-insert-column-before"
+          onClick={() => insertTableColumnAtSelection(false)}
+          type="button"
+        >
+          <span className="text">
+            Insert {selectionCounts.columns === 1 ? 'column' : `${selectionCounts.columns} columns`} left
+          </span>
+        </button>
+        <button
+          className="item"
+          data-test-id="table-insert-column-after"
+          onClick={() => insertTableColumnAtSelection(true)}
+          type="button"
+        >
+          <span className="text">
+            Insert {selectionCounts.columns === 1 ? 'column' : `${selectionCounts.columns} columns`} right
+          </span>
+        </button>
+        <hr />
+        <button
+          className="item"
+          data-test-id="table-delete-columns"
+          onClick={() => deleteTableColumnAtSelection()}
+          type="button"
+        >
+          <span className="text">Delete column</span>
+        </button>
+        <button
+          className="item"
+          data-test-id="table-delete-rows"
+          onClick={() => deleteTableRowAtSelection()}
+          type="button"
+        >
+          <span className="text">Delete row</span>
+        </button>
+        <button className="item" data-test-id="table-delete" onClick={() => deleteTableAtSelection()} type="button">
+          <span className="text">Delete table</span>
+        </button>
+        <hr />
+        <button className="item" onClick={() => toggleTableRowIsHeader()} type="button">
+          <span className="text">
+            {(tableCellNode.__headerState & TableCellHeaderStates.ROW) === TableCellHeaderStates.ROW ? 'Remove' : 'Add'}{' '}
+            row header
+          </span>
+        </button>
+        <button
+          className="item"
+          data-test-id="table-column-header"
+          onClick={() => toggleTableColumnIsHeader()}
+          type="button"
+        >
+          <span className="text">
+            {(tableCellNode.__headerState & TableCellHeaderStates.COLUMN) === TableCellHeaderStates.COLUMN
+              ? 'Remove'
+              : 'Add'}{' '}
+            column header
+          </span>
+        </button>
+      </div>
+    </FloatingPortal>
   );
 }
 
@@ -608,7 +610,7 @@ function TableCellActionMenuContainer({
 
   const [tableCellNode, setTableMenuCellNode] = useState<null | TableCellNode>(null);
 
-  const [colorPickerModal, showColorPickerModal] = useModal();
+  const [ColorPickerModal, showColorPickerModal] = useModal();
 
   const $moveMenu = useCallback(() => {
     const menu = menuButtonRef.current;
@@ -705,7 +707,7 @@ function TableCellActionMenuContainer({
           >
             <i className="chevron-down" />
           </button>
-          {colorPickerModal}
+          {ColorPickerModal}
           {isMenuOpen && (
             <TableActionMenu
               cellMerge={cellMerge}
@@ -728,14 +730,12 @@ export interface TableActionMenuPluginProps {
 
 export function TableActionMenuPlugin({ cellMerge = false }: TableActionMenuPluginProps) {
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
   const isEditable = useLexicalEditable();
 
-  if (!isClientReady || !floatingElement) {
+  if (!floatingElement) {
     return null;
   }
 
-  console.debug('floatingElement', floatingElement);
   return (
     <FloatingPortal root={floatingElement}>
       {isEditable ? <TableCellActionMenuContainer anchorElem={floatingElement} cellMerge={cellMerge} /> : null}

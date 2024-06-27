@@ -1,3 +1,4 @@
+import { FloatingPortal } from '@floating-ui/react';
 import { $createCodeNode } from '@lexical/code';
 import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
 import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
@@ -19,18 +20,17 @@ import {
   LexicalEditor,
   TextNode,
 } from 'lexical';
-import { useCallback, useMemo, useState } from 'react';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { useCallback, useMemo, useState } from 'react';
 
 import catTypingGif from '../../assets/cat-typing.gif';
-import useModal from '../../hooks/useModal';
+import { useModal } from '../../hooks/useModal';
 import { EmbedConfigs } from '../AutoEmbedPlugin';
 import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
 import { InsertEquationDialog } from '../EquationsPlugin';
 import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin';
 import { INSERT_IMAGE_COMMAND, InsertImageDialog } from '../ImagesPlugin';
-import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
+import { InsertLayoutDialog } from '../LayoutPlugin/InsertLayoutDialog';
 import { INSERT_PAGE_BREAK } from '../PageBreakPlugin';
 import { InsertPollDialog } from '../PollPlugin';
 import { InsertTableDialog } from '../TablesPlugin/TablePlugin';
@@ -327,32 +327,39 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
     <>
       {modal}
       <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
-        menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) =>
-          anchorElementRef.current && options.length
-            ? ReactDOM.createPortal(
-                <div className="typeahead-popover component-picker-menu">
-                  <ul>
-                    {options.map((option, i: number) => (
-                      <ComponentPickerMenuItem
-                        onClick={() => {
-                          setHighlightedIndex(i);
-                          selectOptionAndCleanUp(option);
-                        }}
-                        onMouseEnter={() => {
-                          setHighlightedIndex(i);
-                        }}
-                        index={i}
-                        isSelected={selectedIndex === i}
-                        key={option.key}
-                        option={option}
-                      />
-                    ))}
-                  </ul>
-                </div>,
-                anchorElementRef.current,
-              )
-            : null
-        }
+        menuRenderFn={(
+          anchorElementRef,
+          { options: _options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex },
+        ) => {
+          const isEmpty = !anchorElementRef.current || !options.length;
+          if (isEmpty) {
+            return null;
+          }
+
+          return (
+            <FloatingPortal root={anchorElementRef.current}>
+              <div className="typeahead-popover component-picker-menu">
+                <ul>
+                  {options.map((option, i: number) => (
+                    <ComponentPickerMenuItem
+                      onClick={() => {
+                        setHighlightedIndex(i);
+                        selectOptionAndCleanUp(option);
+                      }}
+                      onMouseEnter={() => {
+                        setHighlightedIndex(i);
+                      }}
+                      index={i}
+                      isSelected={selectedIndex === i}
+                      key={option.key}
+                      option={option}
+                    />
+                  ))}
+                </ul>
+              </div>
+            </FloatingPortal>
+          );
+        }}
         onQueryChange={setQueryString}
         onSelectOption={onSelectOption}
         options={options}

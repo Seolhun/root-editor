@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import SelectOption, { SelectOptionProps } from './Select.Option';
+import { SelectOption, SelectOptionProps } from './Select.Option';
 
 type ElementProps = React.SelectHTMLAttributes<HTMLSelectElement>;
 export interface SelectProps extends ElementProps {

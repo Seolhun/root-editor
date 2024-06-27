@@ -1,14 +1,28 @@
+import { FloatingDelayGroup } from '@floating-ui/react';
 import * as React from 'react';
 
-import { TooltipOptions } from './Tooltip.types';
+import { TooltipDelay, TooltipOptions } from './Tooltip.types';
 import { TooltipContext, useTooltip } from './useTooltipContext';
 
 export interface TooltipProps extends TooltipOptions {
   children: React.ReactNode;
+  /**
+   * Open/Close delay
+   */
+  delay?: TooltipDelay;
 }
 
-export const TooltipRoot = ({ children, ...options }: TooltipProps) => {
+const DEFAULT_DELAY: TooltipDelay = {
+  close: 100,
+  open: 300,
+};
+
+export const TooltipRoot = ({ children, delay, ...options }: TooltipProps) => {
   const tooltipValues = useTooltip(options);
 
-  return <TooltipContext.Provider value={tooltipValues}>{children}</TooltipContext.Provider>;
+  return (
+    <FloatingDelayGroup delay={delay || DEFAULT_DELAY}>
+      <TooltipContext.Provider value={tooltipValues}>{children}</TooltipContext.Provider>
+    </FloatingDelayGroup>
+  );
 };

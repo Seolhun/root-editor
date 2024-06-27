@@ -9,7 +9,7 @@ export interface DropdownItemProps {
   title?: string;
 }
 
-function DropdownItem({ className, children, onClick, title }: DropdownItemProps): JSX.Element {
+export function DropdownItem({ className, children, onClick, title }: DropdownItemProps): JSX.Element {
   const ref = React.useRef<HTMLButtonElement>(null);
 
   const { registerItem } = useDropdownContext();
@@ -26,6 +26,3 @@ function DropdownItem({ className, children, onClick, title }: DropdownItemProps
     </button>
   );
 }
-
-export { DropdownItem };
-export default DropdownItem;

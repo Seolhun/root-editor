@@ -11,7 +11,6 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { useFloatingAreaContext } from '~/components';
 import { useI18n } from '~/context/i18n';
-import { useClientReady } from '~/hooks/useClientReady';
 import { Button } from '~/ui/Button';
 import { Modal } from '~/ui/Modal';
 
@@ -74,7 +73,6 @@ export default function ExcalidrawModal({
 }: ExcalidrawModalProps) {
   const { t } = useI18n();
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
   const excaliDrawModelRef = useRef<HTMLDivElement | null>(null);
   const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();
   const [discardModalOpen, setDiscardModalOpen] = useState(false);
@@ -178,7 +176,7 @@ export default function ExcalidrawModal({
         closeOnClickOutside={false}
         title="Discard"
       >
-        {t('confirm.discarding')}
+        {t('confirm.discard')}
         <div className="ExcalidrawModal__discardModal">
           <Button
             onClick={() => {
@@ -209,7 +207,7 @@ export default function ExcalidrawModal({
     setFiles(fls);
   };
 
-  if (!isClientReady) {
+  if (!floatingElement) {
     return null;
   }
 

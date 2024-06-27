@@ -20,7 +20,6 @@ import * as React from 'react';
 import { EditorClasses } from '~/Editor.theme';
 import { useFloatingAreaContext } from '~/components';
 import { useSettings } from '~/context/settings';
-import { useClientReady } from '~/hooks/useClientReady';
 import { getDOMRangeRect } from '~/utils/getDOMRangeRect';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { setFloatingElemPosition } from '~/utils/setFloatingElemPosition';
@@ -279,7 +278,6 @@ function TextFormatFloatingToolbar({
 
 function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: Dispatch<boolean>) {
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
   const [isText, setIsText] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -370,7 +368,7 @@ function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: 
     return null;
   }
 
-  if (!isClientReady || !floatingElement) {
+  if (!floatingElement) {
     return null;
   }
 

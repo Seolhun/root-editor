@@ -1,16 +1,17 @@
 import React from 'react';
 
+import { useTooltipContext } from '../Floating';
 import { useDropdownContext } from './Dropdown.Context';
 
 export interface DropdownItemListProps {
   children: React.ReactNode;
-  onClose: () => void;
 }
 
-const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemListProps>(
-  ({ children, onClose }, ref): JSX.Element => {
+export const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemListProps>(
+  ({ children }, ref): JSX.Element => {
     const [highlightedItem, setHighlightedItem] = React.useState<React.RefObject<HTMLButtonElement>>();
 
+    const { setOpen } = useTooltipContext();
     const { items } = useDropdownContext();
 
     const handleKeyDown = React.useCallback(
@@ -26,7 +27,7 @@ const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemListProps>
         switch (key) {
           case 'Tab':
           case 'Escape': {
-            onClose();
+            setOpen(false);
             break;
           }
           case 'ArrowUp': {
@@ -49,7 +50,7 @@ const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemListProps>
           }
         }
       },
-      [items, onClose],
+      [items, setOpen],
     );
 
     React.useEffect(() => {
@@ -68,6 +69,3 @@ const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemListProps>
     );
   },
 );
-
-export { DropdownItemList };
-export default DropdownItemList;

@@ -1,10 +1,10 @@
 import { LexicalEditor } from 'lexical';
-import { useState } from 'react';
 import * as React from 'react';
+import { useState } from 'react';
 
+import { Dropdown } from '~/components';
 import { Button } from '~/ui/Button';
 
-import DropDown, { DropDownItem } from '../../ui/DropDown';
 import { INSERT_LAYOUT_COMMAND } from './LayoutPlugin';
 
 const LAYOUTS = [
@@ -15,13 +15,12 @@ const LAYOUTS = [
   { label: '4 columns (equal width)', value: '1fr 1fr 1fr 1fr' },
 ];
 
-export function InsertLayoutDialog({
-  activeEditor,
-  onClose,
-}: {
+export interface InsertLayoutDialogProps {
   activeEditor: LexicalEditor;
   onClose: () => void;
-}): JSX.Element {
+}
+
+export function InsertLayoutDialog({ activeEditor, onClose }: InsertLayoutDialogProps): JSX.Element {
   const [layout, setLayout] = useState(LAYOUTS[0].value);
   const buttonLabel = LAYOUTS.find((item) => item.value === layout)?.label;
 
@@ -32,13 +31,15 @@ export function InsertLayoutDialog({
 
   return (
     <>
-      <DropDown buttonClassName="toolbar-item dialog-dropdown" buttonLabel={buttonLabel}>
-        {LAYOUTS.map(({ label, value }) => (
-          <DropDownItem className="item" key={value} onClick={() => setLayout(value)}>
-            <span className="text">{label}</span>
-          </DropDownItem>
-        ))}
-      </DropDown>
+      <Dropdown buttonClassName="toolbar-item dialog-dropdown" buttonLabel={buttonLabel}>
+        <Dropdown.ItemList>
+          {LAYOUTS.map(({ label, value }) => (
+            <Dropdown.Item className="item" key={value} onClick={() => setLayout(value)}>
+              <span className="text">{label}</span>
+            </Dropdown.Item>
+          ))}
+        </Dropdown.ItemList>
+      </Dropdown>
       <Button onClick={onClick}>Insert</Button>
     </>
   );

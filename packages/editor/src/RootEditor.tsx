@@ -1,7 +1,5 @@
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-/*eslint-disable */
-import '@seolhun/root-ui/dist/index.css';
 import clsx from 'clsx';
 import * as React from 'react';
 
@@ -21,8 +19,11 @@ import { TableContext } from './plugins/TablesPlugin';
 import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 
+/*eslint-disable */
+import '@seolhun/root-ui/dist/index.css';
 import './RootEditor.scss';
 import './assets/tailwind.scss';
+import { FloatingAreaProvider } from './components';
 /*eslint-enable */
 
 type ElementType = HTMLElement;
@@ -91,21 +92,23 @@ export const BaseRootEditor = ({ ...others }: BaseRootEditorProps) => {
   const { debug, measureTypingPerf } = settings;
 
   return (
-    <FlashMessageContext>
-      <SharedHistoryContext>
-        <TableContext>
-          <SharedAutocompleteContext>
-            <div className="RootEditorShell">
-              <Editor {...others} />
-            </div>
-            <Settings />
-            {debug ? <DocsPlugin /> : null}
-            {debug ? <PasteLogPlugin /> : null}
-            {debug ? <TestRecorderPlugin /> : null}
-            {measureTypingPerf ? <TypingPerfPlugin /> : null}
-          </SharedAutocompleteContext>
-        </TableContext>
-      </SharedHistoryContext>
-    </FlashMessageContext>
+    <FloatingAreaProvider>
+      <FlashMessageContext>
+        <SharedHistoryContext>
+          <TableContext>
+            <SharedAutocompleteContext>
+              <div className="RootEditorShell">
+                <Editor {...others} />
+              </div>
+              <Settings />
+              {debug ? <DocsPlugin /> : null}
+              {debug ? <PasteLogPlugin /> : null}
+              {debug ? <TestRecorderPlugin /> : null}
+              {measureTypingPerf ? <TypingPerfPlugin /> : null}
+            </SharedAutocompleteContext>
+          </TableContext>
+        </SharedHistoryContext>
+      </FlashMessageContext>
+    </FloatingAreaProvider>
   );
 };

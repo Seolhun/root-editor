@@ -1,5 +1,6 @@
 import type { LexicalEditor } from 'lexical';
 
+import { FloatingPortal } from '@floating-ui/react';
 import {
   AutoEmbedOption,
   EmbedConfig,
@@ -8,13 +9,12 @@ import {
   URL_MATCHER,
 } from '@lexical/react/LexicalAutoEmbedPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { useMemo, useState } from 'react';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { useMemo, useState } from 'react';
 
 import { Button } from '~/ui/Button';
 
-import useModal from '../../hooks/useModal';
+import { useModal } from '../../hooks/useModal';
 import { DialogActions } from '../../ui/Dialog';
 import { INSERT_FIGMA_COMMAND } from '../FigmaPlugin';
 import { INSERT_TWEET_COMMAND } from '../TwitterPlugin';
@@ -291,32 +291,37 @@ export default function AutoEmbedPlugin(): JSX.Element {
     <>
       {modal}
       <LexicalAutoEmbedPlugin<RootEditorEmbedConfig>
-        menuRenderFn={(anchorElementRef, { options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) =>
-          anchorElementRef.current
-            ? ReactDOM.createPortal(
-                <div
-                  style={{
-                    marginLeft: `${Math.max(parseFloat(anchorElementRef.current.style.width) - 200, 0)}px`,
-                    width: 200,
+        menuRenderFn={(anchorElementRef, { options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
+          const anchorElement = anchorElementRef.current;
+          const isEmpty = !anchorElement?.style.width || !options.length;
+          if (isEmpty) {
+            return null;
+          }
+
+          return (
+            <FloatingPortal root={anchorElementRef.current}>
+              <div
+                style={{
+                  marginLeft: `${Math.max(parseFloat(anchorElement.style.width) - 200, 0)}px`,
+                  width: 200,
+                }}
+                className="typeahead-popover auto-embed-menu"
+              >
+                <AutoEmbedMenu
+                  onOptionClick={(option: AutoEmbedOption, index: number) => {
+                    setHighlightedIndex(index);
+                    selectOptionAndCleanUp(option);
                   }}
-                  className="typeahead-popover auto-embed-menu"
-                >
-                  <AutoEmbedMenu
-                    onOptionClick={(option: AutoEmbedOption, index: number) => {
-                      setHighlightedIndex(index);
-                      selectOptionAndCleanUp(option);
-                    }}
-                    onOptionMouseEnter={(index: number) => {
-                      setHighlightedIndex(index);
-                    }}
-                    options={options}
-                    selectedItemIndex={selectedIndex}
-                  />
-                </div>,
-                anchorElementRef.current,
-              )
-            : null
-        }
+                  onOptionMouseEnter={(index: number) => {
+                    setHighlightedIndex(index);
+                  }}
+                  options={options}
+                  selectedItemIndex={selectedIndex}
+                />
+              </div>
+            </FloatingPortal>
+          );
+        }}
         embedConfigs={EmbedConfigs}
         getMenuOptions={getMenuOptions}
         onOpenEmbedModalForConfig={openEmbedModal}

@@ -3,11 +3,10 @@ import {
   flip,
   offset,
   shift,
-  useDelayGroupContext,
+  useClick,
   useDismiss,
   useFloating,
   useFocus,
-  useHover,
   useInteractions,
   useRole,
 } from '@floating-ui/react';
@@ -20,13 +19,22 @@ export interface UseTooltipProps extends TooltipOptions {
 }
 
 export interface UseTooltipReturns extends TooltipFloatingReturns, TooltipIntersectionReturns {
-  open?: boolean;
+  /**
+   * Open state
+   */
+  open: boolean;
   /**
    * Portal target element
    */
   root?: HTMLElement | null;
-
-  setOpen?: (open: boolean) => void;
+  /**
+   * Set open state
+   */
+  setOpen: (open: boolean) => void;
+  /**
+   * zIndex
+   */
+  zIndex?: number;
 }
 
 export function useTooltip({
@@ -34,15 +42,14 @@ export function useTooltip({
   initialOpen = false,
   onOpenChange: setControlledOpen,
   open: controlledOpen,
-  placement = 'bottom',
+  placement = 'bottom-start',
   root,
+  zIndex,
 }: UseTooltipProps = {}): UseTooltipReturns {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState<boolean>(initialOpen);
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
-
-  const { delay } = useDelayGroupContext();
 
   const floatingData = useFloating({
     middleware: [
@@ -61,29 +68,32 @@ export function useTooltip({
 
   const { context } = floatingData;
 
-  const hover = useHover(context, {
-    delay,
+  const click = useClick(context, {
     enabled: !disabled,
-    move: false,
   });
   const focus = useFocus(context, {
     enabled: !disabled,
   });
-  const dismiss = useDismiss(context);
-  const role = useRole(context, { role: 'tooltip' });
+  const dismiss = useDismiss(context, {
+    enabled: !disabled,
+  });
+  const role = useRole(context, {
+    enabled: !disabled,
+    role: 'tooltip',
+  });
 
-  const interactions = useInteractions([hover, focus, dismiss, role]);
+  const interactionValues = useInteractions([focus, click, dismiss, role]);
 
-  return React.useMemo<UseTooltipReturns>(
-    () => ({
+  return React.useMemo<UseTooltipReturns>(() => {
+    return {
       open,
       root,
       setOpen,
-      ...interactions,
+      zIndex,
+      ...interactionValues,
       ...floatingData,
-    }),
-    [open, setOpen, interactions, floatingData, root],
-  );
+    };
+  }, [open, root, setOpen, zIndex, interactionValues, floatingData]);
 }
 
 export type TooltipContextValues = UseTooltipReturns;

@@ -1,3 +1,4 @@
+import { FloatingPortal } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { eventFiles } from '@lexical/rich-text';
 import { calculateZoomLevel, mergeRegister } from '@lexical/utils';
@@ -13,14 +14,11 @@ import {
 } from 'lexical';
 import * as React from 'react';
 import { DragEvent as ReactDragEvent, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 
 import { useFloatingAreaContext } from '~/components';
-import { useClientReady } from '~/hooks/useClientReady';
-
-import { isHTMLElement } from '../../utils/guard';
-import { Point } from '../../utils/point';
-import { Rect } from '../../utils/rect';
+import { isHTMLElement } from '~/utils/guard';
+import { Point } from '~/utils/point';
+import { Rect } from '~/utils/rect';
 
 import './DraggableBlockPlugin.scss';
 
@@ -229,7 +227,6 @@ function hideTargetLine(targetLineElem: HTMLElement | null) {
 
 function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
   const scrollerElem = floatingElement?.parentElement;
 
   const menuRef = useRef<HTMLDivElement>(null);
@@ -376,12 +373,12 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
     hideTargetLine(targetLineRef.current);
   }
 
-  if (!isClientReady) {
+  if (!floatingElement) {
     return null;
   }
 
-  return createPortal(
-    <>
+  return (
+    <FloatingPortal root={floatingElement}>
       <div
         className="icon draggable-block-menu"
         draggable={true}
@@ -392,8 +389,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
         <div className={isEditable ? 'icon' : ''} />
       </div>
       <div className="draggable-block-target-line" ref={targetLineRef} />
-    </>,
-    floatingElement,
+    </FloatingPortal>
   );
 }
 

@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import ColorPicker from './ColorPicker';
-import DropDown from './DropDown';
+import { Dropdown } from '~/components/Dropdown';
 
-type Props = {
+import ColorPicker from './ColorPicker';
+
+export type DropdownColorPickerProps = {
   buttonAriaLabel?: string;
   buttonClassName: string;
   buttonIconClassName?: string;
@@ -15,16 +16,16 @@ type Props = {
   title?: string;
 };
 
-export default function DropdownColorPicker({
+export function DropdownColorPicker({
   color,
   disabled = false,
   onChange,
   stopCloseOnClickSelf = true,
   ...rest
-}: Props) {
+}: DropdownColorPickerProps) {
   return (
-    <DropDown {...rest} disabled={disabled} stopCloseOnClickSelf={stopCloseOnClickSelf}>
+    <Dropdown {...rest} disabled={disabled}>
       <ColorPicker color={color} onChange={onChange} />
-    </DropDown>
+    </Dropdown>
   );
 }

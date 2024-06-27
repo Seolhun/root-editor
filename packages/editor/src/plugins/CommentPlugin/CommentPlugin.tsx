@@ -2,6 +2,8 @@ import type { Provider } from '@lexical/yjs';
 import type { EditorState, LexicalCommand, LexicalEditor, NodeKey, RangeSelection } from 'lexical';
 import type { Doc } from 'yjs';
 
+import { FloatingPortal } from '@floating-ui/react';
+import { isNil } from '@fxts/core';
 import {
   $createMarkNode,
   $getMarkIDs,
@@ -23,6 +25,7 @@ import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { createDOMRange, createRectsFromDOMRange } from '@lexical/selection';
 import { $isRootTextContentEmpty, $rootTextContent } from '@lexical/text';
 import { mergeRegister, registerNestedElementResolver } from '@lexical/utils';
+import clsx from 'clsx';
 import {
   $getNodeByKey,
   $getSelection,
@@ -33,15 +36,14 @@ import {
   createCommand,
   KEY_ESCAPE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
+import * as React from 'react';
 
 import { theme } from '~/Editor.theme';
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
 import { useFloatingAreaContext } from '~/components';
-import { useClientReady } from '~/hooks/useClientReady';
-import useModal from '~/hooks/useModal';
+import { useI18n } from '~/context/i18n';
+import { useModal } from '~/hooks/useModal';
 import useLayoutEffect from '~/shared/useLayoutEffect';
 import { Button } from '~/ui/Button';
 import ContentEditable from '~/ui/ContentEditable';
@@ -351,14 +353,8 @@ function CommentsComposer({
   );
 }
 
-function ShowDeleteCommentOrThreadDialog({
-  commentOrThread,
-  deleteCommentOrThread,
-  onClose,
-  thread = undefined,
-}: {
+interface ShowDeleteCommentOrThreadDialogProps {
   commentOrThread: Comment | Thread;
-
   deleteCommentOrThread: (
     comment: Comment | Thread,
     // eslint-disable-next-line no-shadow
@@ -366,25 +362,33 @@ function ShowDeleteCommentOrThreadDialog({
   ) => void;
   onClose: () => void;
   thread?: Thread;
-}): JSX.Element {
+}
+
+function ShowDeleteCommentOrThreadDialog({
+  commentOrThread,
+  deleteCommentOrThread,
+  onClose,
+  thread = undefined,
+}: ShowDeleteCommentOrThreadDialogProps): JSX.Element {
+  const { t } = useI18n();
   return (
     <>
-      Are you sure you want to delete this {commentOrThread.type}?
-      <div className="Modal__content">
+      {t('confirm.delete')}
+      <div className={clsx('Modal__content', 'flex space-x-2')}>
         <Button
           onClick={() => {
             deleteCommentOrThread(commentOrThread, thread);
             onClose();
           }}
         >
-          Delete
-        </Button>{' '}
+          {t('delete')}
+        </Button>
         <Button
           onClick={() => {
             onClose();
           }}
         >
-          Cancel
+          {t('cancel')}
         </Button>
       </div>
     </>
@@ -622,8 +626,7 @@ export interface CommentPluginProps {
   providerFactory?: (id: string, yjsDocMap: Map<string, Doc>) => Provider;
 }
 
-export default function CommentPlugin({ providerFactory }: CommentPluginProps) {
-  const isClientReady = useClientReady();
+export function CommentPlugin({ providerFactory }: CommentPluginProps) {
   const { floatingElement } = useFloatingAreaContext();
   const collabContext = useCollaborationContext();
   const [editor] = useLexicalComposerContext();
@@ -846,45 +849,42 @@ export default function CommentPlugin({ providerFactory }: CommentPluginProps) {
     editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
   };
 
-  if (!isClientReady) {
+  if (!floatingElement) {
     return null;
   }
 
   return (
     <>
-      {showCommentInput &&
-        createPortal(
-          <CommentInputBox cancelAddComment={cancelAddComment} editor={editor} submitAddComment={submitAddComment} />,
-          floatingElement,
-        )}
-      {activeAnchorKey !== null &&
-        activeAnchorKey !== undefined &&
-        !showCommentInput &&
-        createPortal(
-          <AddCommentBox anchorKey={activeAnchorKey} editor={editor} onAddComment={onAddComment} />,
-          floatingElement,
-        )}
-      {createPortal(
+      {showCommentInput && (
+        <FloatingPortal root={floatingElement}>
+          <CommentInputBox cancelAddComment={cancelAddComment} editor={editor} submitAddComment={submitAddComment} />
+        </FloatingPortal>
+      )}
+      {!isNil(activeAnchorKey) && !showCommentInput && (
+        <FloatingPortal root={floatingElement}>
+          <AddCommentBox anchorKey={activeAnchorKey} editor={editor} onAddComment={onAddComment} />
+        </FloatingPortal>
+      )}
+      <FloatingPortal root={floatingElement}>
         <Button
           className={`CommentPlugin_ShowCommentsButton ${showComments ? 'active' : ''}`}
           onClick={() => setShowComments(!showComments)}
           title={showComments ? 'Hide Comments' : 'Show Comments'}
         >
           <i className="comments" />
-        </Button>,
-        floatingElement,
-      )}
-      {showComments &&
-        createPortal(
+        </Button>
+      </FloatingPortal>
+      {showComments && (
+        <FloatingPortal root={floatingElement}>
           <CommentsPanel
             activeIDs={activeIDs}
             comments={comments}
             deleteCommentOrThread={deleteCommentOrThread}
             markNodeMap={markNodeMap}
             submitAddComment={submitAddComment}
-          />,
-          floatingElement,
-        )}
+          />
+        </FloatingPortal>
+      )}
     </>
   );
 }
