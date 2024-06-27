@@ -80,10 +80,11 @@
   }
 
   .RootEditor__textCode {
-    background-color: rgb(240, 242, 245);
-    padding: 1px 0.25rem;
+    padding: 0.125rem 0.25rem;
     font-family: Menlo, Consolas, Monaco, monospace;
-    font-size: 94%;
+    font-size: 90%;
+    @apply bg-neutral-2 dark:bg-neutral-2;
+    @apply rounded;
   }
 
   .RootEditor__hashtag {

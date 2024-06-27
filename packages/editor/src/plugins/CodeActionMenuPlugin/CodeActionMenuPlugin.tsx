@@ -5,8 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
-import { useFloatingAreaContext } from '~/context/floating';
-import { useClientReady } from '~/hooks/useClientReady';
+import { useFloatingAreaContext } from '~/components';
 
 import { CopyButton } from './components/CopyButton';
 import { canBePrettier, PrettierButton } from './components/PrettierButton';
@@ -147,18 +146,11 @@ function getMouseInfo(event: MouseEvent): {
   }
 }
 
-export interface CodeActionMenuPluginProps {
-  anchorElem?: HTMLElement;
-}
-
-export default function CodeActionMenuPlugin({ anchorElem }: CodeActionMenuPluginProps): null | React.ReactPortal {
+export default function CodeActionMenuPlugin(): null | React.ReactPortal {
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
-
-  const rootElement = anchorElem || floatingElement;
-  if (!isClientReady || !rootElement) {
+  if (!floatingElement) {
     return null;
   }
 
-  return createPortal(<CodeActionMenuContainer anchorElem={rootElement} />, rootElement);
+  return createPortal(<CodeActionMenuContainer anchorElem={floatingElement} />, floatingElement);
 }

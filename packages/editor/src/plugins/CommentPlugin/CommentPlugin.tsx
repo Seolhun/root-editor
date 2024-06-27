@@ -16,7 +16,7 @@ import { useCollaborationContext } from '@lexical/react/LexicalCollaborationCont
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { EditorRefPlugin } from '@lexical/react/LexicalEditorRefPlugin';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
@@ -39,7 +39,7 @@ import { createPortal } from 'react-dom';
 
 import { theme } from '~/Editor.theme';
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
-import { useFloatingAreaContext } from '~/context/floating';
+import { useFloatingAreaContext } from '~/components';
 import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import useLayoutEffect from '~/shared/useLayoutEffect';

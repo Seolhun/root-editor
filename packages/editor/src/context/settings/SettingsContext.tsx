@@ -1,12 +1,12 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import * as React from 'react';
 
-import type { EditorSettings, EditorSettingsKey } from '../../Editor.settings';
+import type { EditorSettings } from '../../Editor.settings';
 
 import { DEFAULT_SETTINGS, INITIAL_SETTINGS } from '../../Editor.settings';
 
 export interface SettingsContextValues {
-  setOption: (name: EditorSettingsKey, value: boolean) => void;
+  setOption: (name: keyof EditorSettings, value: boolean) => void;
   settings: EditorSettings;
 }
 
@@ -23,7 +23,7 @@ export const SettingsProvider = ({ children, initialSettings }: SettingsProvider
     ...initialSettings,
   });
 
-  const setOption = useCallback((setting: EditorSettingsKey, value: boolean) => {
+  const setOption = useCallback((setting: keyof EditorSettings, value: boolean) => {
     setEditorSettings((options) => ({
       ...options,
       [setting]: value,
@@ -45,7 +45,7 @@ export const useSettings = (): SettingsContextValues => {
   return useContext(SettingsContext);
 };
 
-function setURLParam(param: EditorSettingsKey, value: boolean | null) {
+function setURLParam(param: keyof EditorSettings, value: boolean | null) {
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.search);
   if (value !== DEFAULT_SETTINGS[param]) {

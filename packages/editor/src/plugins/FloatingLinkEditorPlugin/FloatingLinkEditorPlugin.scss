@@ -1,5 +1,5 @@
 .__RootEditor__ {
-  .link-editor {
+  .RootEditor__LinkEditor {
     display: flex;
     position: absolute;
     top: 0;
@@ -13,31 +13,103 @@
     border-radius: 0 0 8px 8px;
     transition: opacity 0.5s;
     will-change: transform;
-  }
 
-  .link-editor .button {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    padding: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 0 2px;
-  }
+    .button.active, .toolbar .button.active {
+      background-color: rgb(223, 232, 250);
+    }
 
-  .link-editor .button.hovered {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    background-color: #eee;
-  }
+    .button {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      padding: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 0 2px;
+    }
 
-  .link-editor .button i,
-  .actions i {
-    background-size: contain;
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    vertical-align: -0.25em;
+    .button.hovered {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      background-color: #eee;
+    }
+
+    .button i, .actions i {
+      background-size: contain;
+      display: inline-block;
+      height: 20px;
+      width: 20px;
+      vertical-align: -0.25em;
+    }
+
+    @mixin LinkWrapper {
+      position: relative;
+      font-family: inherit;
+      font-size: 15px;
+      padding: 8px 12px;
+      border: 0;
+      outline: 0;
+
+      @apply flex flex-1 items-start space-x-4;
+      @apply text-space-1 dark:text-cream-1;
+      @apply rounded-lg;
+    }
+
+    @mixin LinkAction {
+      @apply flex items-center;
+      @apply space-x-2;
+    }
+
+    .LinkForm {
+      @include LinkWrapper;
+
+      &__Input {
+        display: block;
+        width: calc(100% - 75px);
+        padding: 8px 12px;
+        box-sizing: border-box;
+        position: relative;
+        font-family: inherit;
+
+        @apply bg-cream-4 dark:bg-space-4;
+        @apply text-space-1 dark:text-cream-1;
+      }
+
+      &__Actions {
+        @include LinkAction;
+      }
+    }
+
+    .LinkView {
+      @include LinkWrapper;
+
+      &__Link {
+        display: flex;
+        text-decoration: underline;
+        word-break: break-all;
+        color: rgb(33, 111, 219);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &__Actions {
+        @include LinkAction;
+      }
+    }
+
+    .link-cancel {}
+    .link-confirm {}
+    .link-edit {}
+    .link-trash {}
+
+    select {
+      padding: 6px;
+      border: none;
+      background-color: rgba(0, 0, 0, 0.075);
+      border-radius: 4px;
+    }
   }
 }

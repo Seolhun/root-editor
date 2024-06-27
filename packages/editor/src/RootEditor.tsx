@@ -1,5 +1,7 @@
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+/*eslint-disable */
+import '@seolhun/root-ui/dist/index.css';
 import clsx from 'clsx';
 import * as React from 'react';
 
@@ -11,7 +13,6 @@ import { Settings } from './Settings';
 import { FlashMessageContext } from './context/FlashMessageContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
-import { FloatingAreaProvider } from './context/floating';
 import { I18nProvider, i18nProviderProps } from './context/i18n';
 import { SettingsProvider, useSettings } from './context/settings/SettingsContext';
 import DocsPlugin from './plugins/DocsPlugin';
@@ -20,10 +21,8 @@ import { TableContext } from './plugins/TablePlugin';
 import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 
-/*eslint-disable */
-import '@seolhun/root-ui/dist/index.css';
-import './assets/tailwind.scss';
 import './RootEditor.scss';
+import './assets/tailwind.scss';
 /*eslint-enable */
 
 type ElementType = HTMLElement;
@@ -72,16 +71,14 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
 
     return (
       <section className={clsx('__RootEditor__', className)} ref={ref}>
-        <FloatingAreaProvider>
-          <LexicalComposer initialConfig={initialConfig}>
-            <I18nProvider language={language} resources={resources}>
-              <SettingsProvider initialSettings={initialSettings}>
-                <BaseRootEditor {...others} />
-                {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
-              </SettingsProvider>
-            </I18nProvider>
-          </LexicalComposer>
-        </FloatingAreaProvider>
+        <LexicalComposer initialConfig={initialConfig}>
+          <I18nProvider language={language} resources={resources}>
+            <SettingsProvider initialSettings={initialSettings}>
+              <BaseRootEditor {...others} />
+              {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
+            </SettingsProvider>
+          </I18nProvider>
+        </LexicalComposer>
       </section>
     );
   },

@@ -15,7 +15,7 @@ const LAYOUTS = [
   { label: '4 columns (equal width)', value: '1fr 1fr 1fr 1fr' },
 ];
 
-export default function InsertLayoutDialog({
+export function InsertLayoutDialog({
   activeEditor,
   onClose,
 }: {

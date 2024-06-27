@@ -14,7 +14,24 @@ const meta: Meta<typeof RootEditor> = {
 export default meta;
 type Story = StoryObj<typeof RootEditor>;
 
-export const Default: Story = {
+export const PlainEditor: Story = {
+  render: () => {
+    const onChangeEditorState: EditorOnChangeFn = (editorState) => {
+      console.log(JSON.stringify(editorState.toJSON(), null, 2));
+    };
+
+    return (
+      <RootEditor
+        initialSettings={{
+          isRichText: false,
+        }}
+        onChangeEditorState={onChangeEditorState}
+      />
+    );
+  },
+};
+
+export const RichEditor: Story = {
   render: () => {
     const onChangeEditorState: EditorOnChangeFn = (editorState) => {
       console.log(JSON.stringify(editorState.toJSON(), null, 2));

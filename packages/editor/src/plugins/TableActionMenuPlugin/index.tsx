@@ -1,7 +1,7 @@
 import type { ElementNode, LexicalEditor } from 'lexical';
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import useLexicalEditable from '@lexical/react/useLexicalEditable';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import {
   $deleteTableColumn__EXPERIMENTAL,
   $deleteTableRow__EXPERIMENTAL,
@@ -36,7 +36,7 @@ import * as React from 'react';
 import { ReactPortal, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useFloatingAreaContext } from '~/context/floating';
+import { useFloatingAreaContext } from '~/components';
 import { useClientReady } from '~/hooks/useClientReady';
 import useModal from '~/hooks/useModal';
 import invariant from '~/shared/invariant';
@@ -722,25 +722,20 @@ function TableCellActionMenuContainer({
 }
 
 export interface TableActionMenuPluginProps {
-  anchorElem?: HTMLElement;
   cellMerge?: boolean;
 }
 
-export default function TableActionMenuPlugin({
-  anchorElem,
-  cellMerge = false,
-}: TableActionMenuPluginProps): null | ReactPortal {
+export default function TableActionMenuPlugin({ cellMerge = false }: TableActionMenuPluginProps): null | ReactPortal {
   const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const isEditable = useLexicalEditable();
 
-  const rootElement = anchorElem || floatingElement;
-  if (!isClientReady || !rootElement) {
+  if (!isClientReady || !floatingElement) {
     return null;
   }
 
   return createPortal(
-    isEditable ? <TableCellActionMenuContainer anchorElem={rootElement} cellMerge={cellMerge} /> : null,
-    rootElement,
+    isEditable ? <TableCellActionMenuContainer anchorElem={floatingElement} cellMerge={cellMerge} /> : null,
+    floatingElement,
   );
 }

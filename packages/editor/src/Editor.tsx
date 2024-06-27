@@ -2,9 +2,9 @@ import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { CharacterLimitPlugin } from '@lexical/react/LexicalCharacterLimitPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
-import ClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
+import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
 import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin';
@@ -13,15 +13,16 @@ import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
-import useLexicalEditable from '@lexical/react/useLexicalEditable';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import clsx from 'clsx';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
+import * as React from 'react';
 
 import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 
 import { EditorPlaceholderRenderer } from './Editor.types';
+import { FloatingAreaProvider } from './components';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
 import { useSettings } from './context/settings/SettingsContext';
 // import ActionsPlugin from './plugins/ActionsPlugin';
@@ -42,7 +43,7 @@ import EquationsPlugin from './plugins/EquationsPlugin';
 import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
 import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
-import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
+import { FloatingTextFormatToolbarPlugin } from './plugins/FloatingTextFormatToolbarPlugin';
 import { ImagesPlugin } from './plugins/ImagesPlugin';
 import { InlineImagePlugin } from './plugins/InlineImagePlugin/InlineImagePlugin';
 import KeywordsPlugin from './plugins/KeywordsPlugin';
@@ -96,15 +97,8 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
   } = settings;
 
   const isEditable = useLexicalEditable();
-  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
-
-  const onFloatingAnchorRef = (element: HTMLDivElement) => {
-    if (element !== null) {
-      setFloatingAnchorElem(element);
-    }
-  };
 
   useEffect(() => {
     const updateViewPortWidth = () => {
@@ -127,11 +121,11 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
   }, []);
 
   const hasMaxLength = maxLength != null && maxLength > 0;
-  const canUseFloatingAnchor = floatingAnchorElem && !isSmallWidthViewport;
+  const canUseFloatingAnchor = !isSmallWidthViewport;
   const PlaceholderMessage = <Placeholder>{placeholder?.(settings)}</Placeholder>;
 
   return (
-    <>
+    <FloatingAreaProvider>
       {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />}
       <div
         className={clsx('editor-container', {
@@ -167,7 +161,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
             <RichTextPlugin
               contentEditable={
                 <div className="editor-scroller">
-                  <div className="editor" ref={onFloatingAnchorRef}>
+                  <div className="editor">
                     <ContentEditable />
                   </div>
                 </div>
@@ -200,18 +194,11 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
             <LayoutPlugin />
             {canUseFloatingAnchor && (
               <>
-                <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-                <CodeActionMenuPlugin anchorElem={floatingAnchorElem} />
-                <FloatingLinkEditorPlugin
-                  anchorElem={floatingAnchorElem}
-                  isLinkEditMode={isLinkEditMode}
-                  setIsLinkEditMode={setIsLinkEditMode}
-                />
-                <TableCellActionMenuPlugin anchorElem={floatingAnchorElem} cellMerge={true} />
-                <FloatingTextFormatToolbarPlugin
-                  anchorElem={floatingAnchorElem}
-                  setIsLinkEditMode={setIsLinkEditMode}
-                />
+                <DraggableBlockPlugin />
+                <CodeActionMenuPlugin />
+                <FloatingLinkEditorPlugin isLinkEditMode={isLinkEditMode} setIsLinkEditMode={setIsLinkEditMode} />
+                <TableCellActionMenuPlugin cellMerge={true} />
+                <FloatingTextFormatToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
               </>
             )}
           </>
@@ -234,6 +221,6 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
         {/* <ActionsPlugin /> */}
       </div>
       {showTreeView && <TreeViewPlugin />}
-    </>
+    </FloatingAreaProvider>
   );
 }

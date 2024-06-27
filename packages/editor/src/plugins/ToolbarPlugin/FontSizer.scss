@@ -1,0 +1,47 @@
+.__RootEditor__ {
+  .RootEditor__FontSizer {
+    @apply flex items-center space-x-2;
+
+    .font-size-input {
+      font-weight: bold;
+      font-size: 14px;
+      height: 32px;
+      width: 32px;
+      padding: 4px 6px;
+      text-align: center;
+
+      @apply border-neutral dark:border-neutral;
+      @apply text-space-1 dark:text-cream-1;
+      @apply rounded-md;
+    }
+
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    .add-icon {
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .minus-icon {
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    button.font-decrement {
+      padding: 0px;
+      margin-right: 3px;
+    }
+
+    button.font-increment {
+      padding: 0px;
+      margin-left: 3px;
+    }
+  }
+}
