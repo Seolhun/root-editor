@@ -130,7 +130,6 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
           {isMenuOpen && (
             <FloatingPortal root={tableActionContainerRef}>
               <TableActionMenu
-                buttonElementRef={tableActionButtonRef}
                 cellMerge={cellMerge}
                 onClose={() => setIsMenuOpen(false)}
                 showColorPickerModal={showColorPickerModal}

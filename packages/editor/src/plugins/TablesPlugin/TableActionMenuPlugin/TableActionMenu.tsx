@@ -134,7 +134,6 @@ function currentCellBackgroundColor(editor: LexicalEditor): null | string {
 }
 
 export type TableActionMenuProps = Readonly<{
-  buttonElementRef: React.RefObject<HTMLButtonElement>;
   cellMerge: boolean;
   onClose: () => void;
   showColorPickerModal: (title: string, showModal: (onClose: () => void) => JSX.Element) => void;
@@ -142,7 +141,6 @@ export type TableActionMenuProps = Readonly<{
 }>;
 
 export function TableActionMenu({
-  buttonElementRef,
   cellMerge,
   onClose,
   showColorPickerModal,
@@ -187,22 +185,6 @@ export function TableActionMenu({
       setCanUnmergeCell($canUnmerge());
     });
   }, [editor]);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropDownRef.current != null &&
-        buttonElementRef.current != null &&
-        !dropDownRef.current.contains(event.target as Node) &&
-        !buttonElementRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    }
-
-    window.addEventListener('click', handleClickOutside);
-    return () => window.removeEventListener('click', handleClickOutside);
-  }, [buttonElementRef, onClose]);
 
   const clearTableSelection = useCallback(() => {
     editor.update(() => {

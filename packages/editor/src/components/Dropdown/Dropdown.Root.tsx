@@ -8,7 +8,7 @@ import { DropdownContextProvider } from './Dropdown.Context';
 
 export interface DropdownProps {
   buttonAriaLabel?: string;
-  buttonClassName: string;
+  buttonClassName?: string;
   buttonIconClassName?: string;
   buttonLabel?: string;
   children: (JSX.Element | string)[] | JSX.Element | string;
