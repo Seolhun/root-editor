@@ -32,4 +32,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: storybook
-          folder: docs
+          folder: ./packages/components/docs

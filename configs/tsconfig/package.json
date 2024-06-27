@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "CC0-1.0",
+  "name": "@seolhun/root-tsconfig",
+  "version": "0.0.1"
+}
