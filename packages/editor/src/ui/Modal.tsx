@@ -1,23 +1,21 @@
+import { FloatingPortal } from '@floating-ui/react';
+import { H6 } from '@seolhun/root-ui';
+import clsx from 'clsx';
 import * as React from 'react';
 import { ReactNode, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 
 import { useFloatingAreaContext } from '~/components';
-import { useClientReady } from '~/hooks/useClientReady';
 
 import './Modal.scss';
 
-function PortalImpl({
-  children,
-  closeOnClickOutside,
-  onClose,
-  title,
-}: {
+export interface PortalImplProps {
   children: ReactNode;
   closeOnClickOutside: boolean;
   onClose: () => void;
   title: string;
-}) {
+}
+
+function PortalImpl({ children, closeOnClickOutside, onClose, title }: PortalImplProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,7 +46,6 @@ function PortalImpl({
     }
 
     window.addEventListener('keydown', handler);
-
     return () => {
       window.removeEventListener('keydown', handler);
       if (modalOverlayElement !== null) {
@@ -60,8 +57,13 @@ function PortalImpl({
   return (
     <div className="Modal__overlay" role="dialog">
       <div className="Modal__modal" ref={modalRef} tabIndex={-1}>
-        <h2 className="Modal__title">{title}</h2>
-        <button aria-label="Close modal" className="Modal__closeButton" onClick={onClose} type="button">
+        <H6 className="Modal__title">{title}</H6>
+        <button
+          aria-label="Close modal"
+          className={clsx('Modal__closeButton', 'absolute')}
+          onClick={onClose}
+          type="button"
+        >
           X
         </button>
         <div className="Modal__content">{children}</div>
@@ -79,15 +81,15 @@ export interface ModalProps {
 
 export function Modal({ children, closeOnClickOutside = false, onClose, title }: ModalProps) {
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
-  if (!isClientReady) {
+  if (!floatingElement) {
     return null;
   }
 
-  return createPortal(
-    <PortalImpl closeOnClickOutside={closeOnClickOutside} onClose={onClose} title={title}>
-      {children}
-    </PortalImpl>,
-    floatingElement,
+  return (
+    <FloatingPortal root={floatingElement}>
+      <PortalImpl closeOnClickOutside={closeOnClickOutside} onClose={onClose} title={title}>
+        {children}
+      </PortalImpl>
+    </FloatingPortal>
   );
 }

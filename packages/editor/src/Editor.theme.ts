@@ -76,21 +76,21 @@ export const theme: EditorThemeClasses = {
   paragraph: 'RootEditor__paragraph',
   quote: 'RootEditor__quote',
   rtl: 'RootEditor__rtl',
-  table: 'RootEditor__table',
-  tableAddColumns: 'RootEditor__tableAddColumns',
-  tableAddRows: 'RootEditor__tableAddRows',
-  tableCell: 'RootEditor__tableCell',
-  tableCellActionButton: 'RootEditor__tableCellActionButton',
-  tableCellActionButtonContainer: 'RootEditor__tableCellActionButtonContainer',
-  tableCellEditing: 'RootEditor__tableCellEditing',
-  tableCellHeader: 'RootEditor__tableCellHeader',
-  tableCellPrimarySelected: 'RootEditor__tableCellPrimarySelected',
-  tableCellResizer: 'RootEditor__tableCellResizer',
-  tableCellSelected: 'RootEditor__tableCellSelected',
-  tableCellSortedIndicator: 'RootEditor__tableCellSortedIndicator',
-  tableResizeRuler: 'RootEditor__tableCellResizeRuler',
-  tableSelected: 'RootEditor__tableSelected',
-  tableSelection: 'RootEditor__tableSelection',
+  table: 'RootEditor__Table',
+  tableAddColumns: 'RootEditor__TableAddColumns',
+  tableAddRows: 'RootEditor__TableAddRows',
+  tableCell: 'RootEditor__TableCell',
+  tableCellActionButton: 'RootEditor__TableCellActionButton',
+  tableCellActionButtonContainer: 'RootEditor__TableCellActionButtonContainer',
+  tableCellEditing: 'RootEditor__TableCellEditing',
+  tableCellHeader: 'RootEditor__TableCellHeader',
+  tableCellPrimarySelected: 'RootEditor__TableCellPrimarySelected',
+  tableCellResizer: 'RootEditor__TableCellResizer',
+  tableCellSelected: 'RootEditor__TableCellSelected',
+  tableCellSortedIndicator: 'RootEditor__TableCellSortedIndicator',
+  tableResizeRuler: 'RootEditor__TableCellResizeRuler',
+  tableSelected: 'RootEditor__TableSelected',
+  tableSelection: 'RootEditor__TableSelection',
   text: {
     bold: 'RootEditor__textBold',
     code: 'RootEditor__textCode',
@@ -112,7 +112,7 @@ export interface RootEditorClasses extends EditorThemeClasses {
   linkEditor: 'RootEditor__LinkEditor';
 }
 
-export const EditorClasses: RootEditorClasses = {
+export const EditorClasses = {
   ...theme,
   floatingTextFormatToolbar: 'RootEditor__FloatingTextFormatToolbar',
   fontSizer: 'RootEditor__FontSizer',
@@ -120,4 +120,4 @@ export const EditorClasses: RootEditorClasses = {
   imageResizer: 'ImageNode__Resizer',
   imageResizerResizing: 'ImageNode__Resizer--resizing',
   linkEditor: 'RootEditor__LinkEditor',
-};
+} as const satisfies RootEditorClasses;

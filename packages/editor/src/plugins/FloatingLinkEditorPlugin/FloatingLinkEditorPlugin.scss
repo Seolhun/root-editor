@@ -85,10 +85,10 @@
       @include LinkWrapper;
 
       &__Link {
-        display: flex;
-        text-decoration: underline;
-        word-break: break-all;
-        color: rgb(33, 111, 219);
+        @apply flex flex-1;
+        @apply underline;
+        @apply break-all;
+        @apply text-primary dark:text-primary;
 
         &:hover {
           text-decoration: underline;

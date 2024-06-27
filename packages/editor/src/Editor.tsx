@@ -15,14 +15,13 @@ import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 
 import { EditorPlaceholderRenderer } from './Editor.types';
-import { FloatingAreaProvider } from './components';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
 import { useSettings } from './context/settings/SettingsContext';
 // import ActionsPlugin from './plugins/ActionsPlugin';
@@ -32,7 +31,7 @@ import AutocompletePlugin from './plugins/AutocompletePlugin';
 import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
 import CollapsiblePlugin from './plugins/CollapsiblePlugin';
-// import CommentPlugin from './plugins/CommentPlugin';
+import { CommentPlugin } from './plugins/CommentPlugin';
 import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
 import ContextMenuPlugin from './plugins/ContextMenuPlugin';
 import DragDropPaste from './plugins/DragDropPastePlugin';
@@ -57,9 +56,7 @@ import PageBreakPlugin from './plugins/PageBreakPlugin';
 import PollPlugin from './plugins/PollPlugin';
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
 import TabFocusPlugin from './plugins/TabFocusPlugin';
-import TableCellActionMenuPlugin from './plugins/TableActionMenuPlugin';
-import TableCellResizer from './plugins/TableCellResizer';
-import TableOfContentsPlugin from './plugins/TableOfContentsPlugin';
+import { TableActionMenuPlugin, TableCellResizerPlugin, TableOfContentsPlugin } from './plugins/TablesPlugin';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
@@ -83,6 +80,11 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
   const { historyState } = useSharedHistoryContext();
   const { settings } = useSettings();
   const {
+    enabledCommentFeature,
+    enabledEmbedFeature,
+    enabledEquationFeature,
+    enabledExcalidrawFeature,
+    enabledFigmaDocumentFeature,
     isAutocomplete,
     isCharLimit,
     isCharLimitUtf8,
@@ -125,7 +127,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
   const PlaceholderMessage = <Placeholder>{placeholder?.(settings)}</Placeholder>;
 
   return (
-    <FloatingAreaProvider>
+    <>
       {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />}
       <div
         className={clsx('editor-container', {
@@ -146,7 +148,9 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
         <KeywordsPlugin />
         <SpeechToTextPlugin />
         <AutoLinkPlugin />
-        {/* <CommentPlugin providerFactory={isCollaborative ? createWebsocketProvider : undefined} /> */}
+        {enabledCommentFeature && (
+          <CommentPlugin providerFactory={isCollaborative ? createWebsocketProvider : undefined} />
+        )}
         {isRichText ? (
           <>
             {isCollaborative ? (
@@ -175,18 +179,20 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
             <CheckListPlugin />
             <ListMaxIndentLevelPlugin maxDepth={7} />
             <TablePlugin hasCellBackgroundColor={tableCellBackgroundColor} hasCellMerge={tableCellMerge} />
-            <TableCellResizer />
+            <TableCellResizerPlugin />
             <ImagesPlugin />
             <InlineImagePlugin />
             <LinkPlugin />
             <PollPlugin />
             <TwitterPlugin />
             <YouTubePlugin />
-            <FigmaPlugin />
+            {enabledEquationFeature && <EquationsPlugin />}
+            {enabledExcalidrawFeature && <ExcalidrawPlugin />}
+            {enabledFigmaDocumentFeature && <FigmaPlugin />}
+            {enabledEmbedFeature && <AutoEmbedPlugin />}
+
             <ClickableLinkPlugin disabled={isEditable} />
             <HorizontalRulePlugin />
-            <EquationsPlugin />
-            <ExcalidrawPlugin />
             <TabFocusPlugin />
             <TabIndentationPlugin />
             <CollapsiblePlugin />
@@ -197,7 +203,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
                 <DraggableBlockPlugin />
                 <CodeActionMenuPlugin />
                 <FloatingLinkEditorPlugin isLinkEditMode={isLinkEditMode} setIsLinkEditMode={setIsLinkEditMode} />
-                <TableCellActionMenuPlugin cellMerge={true} />
+                <TableActionMenuPlugin cellMerge={true} />
                 <FloatingTextFormatToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
               </>
             )}
@@ -221,6 +227,6 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
         {/* <ActionsPlugin /> */}
       </div>
       {showTreeView && <TreeViewPlugin />}
-    </FloatingAreaProvider>
+    </>
   );
 }

@@ -2,6 +2,12 @@ import { I18nResources } from './I18n.types';
 
 export const DEFAULT_I18N_RESOURCES: I18nResources = {
   en: {
+    Save: 'Save',
+    cancel: 'Cancel',
+    'confirm.delete': 'Are you sure you want to delete this?',
+    'confirm.discard': 'Are you sure you want to discard your changes?',
+    delete: 'Delete',
+    discard: 'Discard',
     name: 'RootEditor',
     'plugins.code': 'Code',
     'plugins.image': 'Image',
@@ -10,7 +16,6 @@ export const DEFAULT_I18N_RESOURCES: I18nResources = {
     'plugins.image.caption.placeholder': 'Enter a caption',
     'plugins.link': 'Link',
     'plugins.list': 'List',
-
     'plugins.table': 'Table',
     'plugins.video': 'Video',
     'toolbar.blockquote': 'Blockquote',
@@ -30,7 +35,6 @@ export const DEFAULT_I18N_RESOURCES: I18nResources = {
     'toolbar.platform.youtube': 'YouTube',
     'toolbar.strike': 'Strike',
     'toolbar.table': 'Table',
-
     'toolbar.underline': 'Underline',
     'toolbar.video': 'Video',
   },

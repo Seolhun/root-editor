@@ -27,10 +27,11 @@
     border-radius: 10px;
   }
   .Modal__title {
-    color: #444;
     margin: 0px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
+
+    @apply text-space-1 dark:text-cream-1;
+    @apply border-b border-neutral-1;
   }
   .Modal__closeButton {
     border: 0px;

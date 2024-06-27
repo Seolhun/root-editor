@@ -29,7 +29,6 @@ export default function ExcalidrawComponent({ data, nodeKey }: { data: string; n
   const [isModalOpen, setModalOpen] = useState<boolean>(data === '[]' && editor.isEditable());
   const imageContainerRef = useRef<HTMLImageElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
-  const captionButtonRef = useRef<HTMLButtonElement | null>(null);
   const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey);
   const [isResizing, setIsResizing] = useState<boolean>(false);
 
@@ -186,14 +185,10 @@ export default function ExcalidrawComponent({ data, nodeKey }: { data: string; n
           )}
           {(isSelected || isResizing) && (
             <ImageResizer
-              buttonRef={captionButtonRef}
-              captionsEnabled={true}
               editor={editor}
               imageRef={imageContainerRef}
               onResizeEnd={onResizeEnd}
               onResizeStart={onResizeStart}
-              setShowCaption={() => null}
-              showCaption={true}
             />
           )}
         </button>

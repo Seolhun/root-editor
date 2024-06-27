@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useOpenerContext } from '../Floating';
 import { useDropdownContext } from './Dropdown.Context';
 
 export interface DropdownItemProps {
@@ -9,9 +10,10 @@ export interface DropdownItemProps {
   title?: string;
 }
 
-function DropdownItem({ className, children, onClick, title }: DropdownItemProps): JSX.Element {
+export function DropdownItem({ className, children, onClick, title }: DropdownItemProps): JSX.Element {
   const ref = React.useRef<HTMLButtonElement>(null);
 
+  const { setOpen } = useOpenerContext();
   const { registerItem } = useDropdownContext();
 
   React.useEffect(() => {
@@ -20,12 +22,14 @@ function DropdownItem({ className, children, onClick, title }: DropdownItemProps
     }
   }, [ref, registerItem]);
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setOpen(false);
+    onClick(event);
+  };
+
   return (
-    <button className={className} onClick={onClick} ref={ref} title={title} type="button">
+    <button className={className} onClick={handleClick} ref={ref} title={title} type="button">
       {children}
     </button>
   );
 }
-
-export { DropdownItem };
-export default DropdownItem;

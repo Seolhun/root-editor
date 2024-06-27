@@ -1,3 +1,4 @@
+import { FloatingPortal } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   LexicalTypeaheadMenuPlugin,
@@ -6,9 +7,8 @@ import {
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import { TextNode } from 'lexical';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { $createMentionNode } from '../../nodes/MentionNode';
 
@@ -619,32 +619,35 @@ export default function NewMentionsPlugin(): JSX.Element | null {
 
   return (
     <LexicalTypeaheadMenuPlugin<MentionTypeaheadOption>
-      menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) =>
-        anchorElementRef.current && results.length
-          ? ReactDOM.createPortal(
-              <div className="typeahead-popover mentions-menu">
-                <ul>
-                  {options.map((option, i: number) => (
-                    <MentionsTypeaheadMenuItem
-                      onClick={() => {
-                        setHighlightedIndex(i);
-                        selectOptionAndCleanUp(option);
-                      }}
-                      onMouseEnter={() => {
-                        setHighlightedIndex(i);
-                      }}
-                      index={i}
-                      isSelected={selectedIndex === i}
-                      key={option.key}
-                      option={option}
-                    />
-                  ))}
-                </ul>
-              </div>,
-              anchorElementRef.current,
-            )
-          : null
-      }
+      menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
+        const isEmpty = !anchorElementRef.current || !results.length;
+        if (isEmpty) {
+          return null;
+        }
+        return (
+          <FloatingPortal root={anchorElementRef.current}>
+            <div className="typeahead-popover mentions-menu">
+              <ul>
+                {options.map((option, i: number) => (
+                  <MentionsTypeaheadMenuItem
+                    onClick={() => {
+                      setHighlightedIndex(i);
+                      selectOptionAndCleanUp(option);
+                    }}
+                    onMouseEnter={() => {
+                      setHighlightedIndex(i);
+                    }}
+                    index={i}
+                    isSelected={selectedIndex === i}
+                    key={option.key}
+                    option={option}
+                  />
+                ))}
+              </ul>
+            </div>
+          </FloatingPortal>
+        );
+      }}
       onQueryChange={setQueryString}
       onSelectOption={onSelectOption}
       options={options}

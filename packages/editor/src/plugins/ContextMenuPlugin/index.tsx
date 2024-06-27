@@ -1,3 +1,4 @@
+import { FloatingPortal } from '@floating-ui/react';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { LexicalContextMenuPlugin, MenuOption } from '@lexical/react/LexicalContextMenuPlugin';
@@ -12,7 +13,6 @@ import {
 } from 'lexical';
 import { useCallback, useMemo } from 'react';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 function ContextMenuItem({
   index,
@@ -214,34 +214,39 @@ export default function ContextMenuPlugin(): JSX.Element {
         anchorElementRef,
         { options: _options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex },
         { setMenuRef },
-      ) =>
-        anchorElementRef.current
-          ? ReactDOM.createPortal(
-              <div
-                style={{
-                  marginLeft: anchorElementRef.current.style.width,
-                  userSelect: 'none',
-                  width: 200,
+      ) => {
+        const anchorElement = anchorElementRef.current;
+        const isEmpty = !anchorElement?.style.width || !options.length;
+        if (isEmpty) {
+          return null;
+        }
+
+        return (
+          <FloatingPortal root={anchorElementRef.current}>
+            <div
+              style={{
+                marginLeft: anchorElement.style.width,
+                userSelect: 'none',
+                width: 200,
+              }}
+              className="typeahead-popover auto-embed-menu"
+              ref={setMenuRef}
+            >
+              <ContextMenu
+                onOptionClick={(option: ContextMenuOption, index: number) => {
+                  setHighlightedIndex(index);
+                  selectOptionAndCleanUp(option);
                 }}
-                className="typeahead-popover auto-embed-menu"
-                ref={setMenuRef}
-              >
-                <ContextMenu
-                  onOptionClick={(option: ContextMenuOption, index: number) => {
-                    setHighlightedIndex(index);
-                    selectOptionAndCleanUp(option);
-                  }}
-                  onOptionMouseEnter={(index: number) => {
-                    setHighlightedIndex(index);
-                  }}
-                  options={options}
-                  selectedItemIndex={selectedIndex}
-                />
-              </div>,
-              anchorElementRef.current,
-            )
-          : null
-      }
+                onOptionMouseEnter={(index: number) => {
+                  setHighlightedIndex(index);
+                }}
+                options={options}
+                selectedItemIndex={selectedIndex}
+              />
+            </div>
+          </FloatingPortal>
+        );
+      }}
       onSelectOption={onSelectOption}
       onWillOpen={onWillOpen}
       options={options}

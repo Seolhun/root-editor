@@ -27,23 +27,19 @@ function useDropdown(): DropdownContextValues {
   };
 }
 
-function useDropdownContext(): DropdownContextValues {
+export function useDropdownContext(): DropdownContextValues {
   return React.useContext(DropdownContext);
 }
 
-function DropdownContextProvider({ children }: DropdownContextProviderProps): JSX.Element {
+export function DropdownContextProvider({ children }: DropdownContextProviderProps): JSX.Element {
   const { items, registerItem } = useDropdown();
 
-  const contextValue = React.useMemo(
-    () => ({
+  const contextValue = React.useMemo(() => {
+    return {
       items,
       registerItem,
-    }),
-    [items, registerItem],
-  );
+    };
+  }, [items, registerItem]);
 
   return <DropdownContext.Provider value={contextValue}>{children}</DropdownContext.Provider>;
 }
-
-export { DropdownContextProvider, useDropdownContext };
-export default DropdownContextProvider;

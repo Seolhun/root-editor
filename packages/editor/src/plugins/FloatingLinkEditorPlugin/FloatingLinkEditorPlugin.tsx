@@ -1,3 +1,4 @@
+import { FloatingPortal } from '@floating-ui/react';
 import { filter, find, pipe } from '@fxts/core';
 import { CheckCircleIcon, PencilIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { $createLinkNode, $isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
@@ -18,13 +19,11 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import { createPortal } from 'react-dom';
+import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
 import { useFloatingAreaContext } from '~/components';
-import { useClientReady } from '~/hooks/useClientReady';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { setFloatingElemPositionForLinkEditor } from '~/utils/setFloatingElemPositionForLinkEditor';
 import { sanitizeUrl } from '~/utils/url';
@@ -287,10 +286,8 @@ function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
   isLinkEditMode: boolean,
   setIsLinkEditMode: Dispatch<boolean>,
-  anchorElem?: HTMLElement,
 ): JSX.Element | null {
   const { floatingElement } = useFloatingAreaContext();
-  const isClientReady = useClientReady();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
 
@@ -360,19 +357,20 @@ function useFloatingLinkEditorToolbar(
     );
   }, [editor]);
 
-  if (!isClientReady || !floatingElement) {
+  if (!floatingElement) {
     return null;
   }
 
-  return createPortal(
-    <FloatingLinkEditor
-      editor={activeEditor}
-      isLink={isLink}
-      isLinkEditMode={isLinkEditMode}
-      setIsLink={setIsLink}
-      setIsLinkEditMode={setIsLinkEditMode}
-    />,
-    floatingElement,
+  return (
+    <FloatingPortal root={floatingElement}>
+      <FloatingLinkEditor
+        editor={activeEditor}
+        isLink={isLink}
+        isLinkEditMode={isLinkEditMode}
+        setIsLink={setIsLink}
+        setIsLinkEditMode={setIsLinkEditMode}
+      />
+    </FloatingPortal>
   );
 }
 
