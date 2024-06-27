@@ -1,4 +1,6 @@
 import { FloatingPortal } from '@floating-ui/react';
+import { H6 } from '@seolhun/root-ui';
+import clsx from 'clsx';
 import * as React from 'react';
 import { ReactNode, useEffect, useRef } from 'react';
 
@@ -55,8 +57,13 @@ function PortalImpl({ children, closeOnClickOutside, onClose, title }: PortalImp
   return (
     <div className="Modal__overlay" role="dialog">
       <div className="Modal__modal" ref={modalRef} tabIndex={-1}>
-        <h2 className="Modal__title">{title}</h2>
-        <button aria-label="Close modal" className="Modal__closeButton" onClick={onClose} type="button">
+        <H6 className="Modal__title">{title}</H6>
+        <button
+          aria-label="Close modal"
+          className={clsx('Modal__closeButton', 'absolute')}
+          onClick={onClose}
+          type="button"
+        >
           X
         </button>
         <div className="Modal__content">{children}</div>

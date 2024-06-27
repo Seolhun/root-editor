@@ -23,10 +23,9 @@ export const OpenerContent = React.forwardRef<ElementType, OpenerContentProps>(
 
     const { root, zIndex } = contextValues;
     return (
-      <FloatingPortal root={contextValues.root}>
+      <FloatingPortal root={root}>
         {contextValues?.open && (
           <div
-            {...contextValues?.getFloatingProps(others)}
             style={{
               ...others.style,
               left: contextValues?.x ?? 0,
@@ -37,6 +36,7 @@ export const OpenerContent = React.forwardRef<ElementType, OpenerContentProps>(
             }}
             className={clsx(className)}
             ref={mergedRef}
+            {...contextValues?.getFloatingProps(others)}
           >
             {children}
           </div>

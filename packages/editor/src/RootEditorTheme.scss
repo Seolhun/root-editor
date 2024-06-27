@@ -131,7 +131,7 @@
     min-width: 25px;
   }
 
-  .RootEditor__table {
+  .RootEditor__Table {
     border-collapse: collapse;
     border-spacing: 0;
     overflow-y: scroll;
@@ -141,26 +141,26 @@
     margin: 30px 0;
   }
 
-  .RootEditor__tableSelection *::selection {
+  .RootEditor__TableSelection *::selection {
     background-color: transparent;
   }
 
-  .RootEditor__tableSelected {
-    outline: 2px solid rgb(60, 132, 244);
+  .RootEditor__TableSelected {
+    @apply outline-2 outline-primary;
   }
 
-  .RootEditor__tableCell {
-    border: 1px solid #bbb;
-    width: 75px;
-    min-width: 75px;
-    vertical-align: top;
-    text-align: start;
-    padding: 6px 8px;
+  .RootEditor__TableCell {
     position: relative;
+    width: 100px;
+    min-width: 100px;
+    vertical-align: top;
+    padding: 6px 8px;
     outline: none;
+
+    @apply border border-neutral dark:border-neutral;
   }
 
-  .RootEditor__tableCellSortedIndicator {
+  .RootEditor__TableCellSortedIndicator {
     display: block;
     opacity: 0.5;
     position: absolute;
@@ -168,10 +168,11 @@
     left: 0;
     width: 100%;
     height: 4px;
-    background-color: #999;
+
+    @apply bg-neutral-4 dark:bg-neutral-4;
   }
 
-  .RootEditor__tableCellResizer {
+  .RootEditor__TableCellResizer {
     position: absolute;
     right: -4px;
     height: 100%;
@@ -181,32 +182,34 @@
     top: 0;
   }
 
-  .RootEditor__tableCellHeader {
+  .RootEditor__TableCellHeader {
     background-color: #f2f3f5;
-    text-align: start;
+
+    @apply bg-neutral-1 dark:bg-neutral-1;
   }
 
-  .RootEditor__tableCellSelected {
-    background-color: #c9dbf0;
+  .RootEditor__TableCellSelected {
+    @apply bg-primary-1 dark:bg-primary-1;
   }
 
-  .RootEditor__tableCellPrimarySelected {
-    border: 2px solid rgb(60, 132, 244);
+  .RootEditor__TableCellPrimarySelected {
+    position: absolute;
+    top: -1px;
+    left: -1px;
     display: block;
     height: calc(100% - 2px);
-    position: absolute;
     width: calc(100% - 2px);
-    left: -1px;
-    top: -1px;
     z-index: 2;
+
+    @apply border-2 border-primary dark:border-primary;
   }
 
-  .RootEditor__tableCellEditing {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
-    border-radius: 3px;
+  .RootEditor__TableCellEditing {
+    @apply rounded;
+    @apply shadow;
   }
 
-  .RootEditor__tableAddColumns {
+  .RootEditor__TableAddColumns {
     position: absolute;
     top: 0;
     width: 20px;
@@ -218,7 +221,7 @@
     cursor: pointer;
   }
 
-  .RootEditor__tableAddColumns:after {
+  .RootEditor__TableAddColumns:after {
     background-image: url(../public/icons/plus.svg);
     background-size: contain;
     background-position: center;
@@ -233,23 +236,24 @@
     opacity: 0.4;
   }
 
-  .RootEditor__tableAddColumns:hover {
-    background-color: #c9dbf0;
+  .RootEditor__TableAddColumns:hover {
+    @apply bg-cream-2 dark:bg-space-2;
   }
 
-  .RootEditor__tableAddRows {
+  .RootEditor__TableAddRows {
     position: absolute;
     bottom: -25px;
-    width: calc(100% - 25px);
-    background-color: #eee;
-    height: 20px;
     left: 0;
-    animation: table-controls 0.2s ease;
+    width: calc(100% - 25px);
+    height: 20px;
     border: 0;
+    animation: table-controls 0.2s ease;
     cursor: pointer;
+
+    @apply bg-cream-1 dark:bg-space-1;
   }
 
-  .RootEditor__tableAddRows:after {
+  .RootEditor__TableAddRows:after {
     background-image: url(../public/icons/plus.svg);
     background-size: contain;
     background-position: center;
@@ -264,7 +268,7 @@
     opacity: 0.4;
   }
 
-  .RootEditor__tableAddRows:hover {
+  .RootEditor__TableAddRows:hover {
     background-color: #c9dbf0;
   }
 
@@ -277,45 +281,48 @@
     }
   }
 
-  .RootEditor__tableCellResizeRuler {
+  .RootEditor__TableCellResizeRuler {
     display: block;
     position: absolute;
     width: 1px;
-    background-color: rgb(60, 132, 244);
     height: 100%;
     top: 0;
+
+    @apply bg-primary dark:bg-primary;
   }
 
-  .RootEditor__tableCellActionButtonContainer {
-    display: block;
-    right: 5px;
-    top: 6px;
+  .RootEditor__TableCellActionButtonContainer {
     position: absolute;
-    z-index: 4;
+    top: 6px;
+    left: 0;
+    display: block;
     width: 20px;
     height: 20px;
+    z-index: 4;
+    will-change: transform;
   }
 
-  .RootEditor__tableCellActionButton {
-    background-color: #eee;
+  .RootEditor__TableCellActionButton {
     display: block;
     border: 0;
     border-radius: 20px;
     width: 20px;
     height: 20px;
-    color: #222;
     cursor: pointer;
-  }
 
-  .RootEditor__tableCellActionButton:hover {
-    background-color: #ddd;
+    @apply flex items-center justify-center;
+    @apply bg-neutral-1 dark:bg-neutral-8;
+    @apply text-space-1 dark:text-cream-1;
+
+    &:hover {
+      background-color: #ddd;
+    }
   }
 
   .RootEditor__characterLimit {
     display: inline;
-    background-color: #ffbbbb !important;
+    @apply bg-danger-2 dark:bg-danger-2;
   }
-
 
   .RootEditor__listItem {
     margin: 0 32px;

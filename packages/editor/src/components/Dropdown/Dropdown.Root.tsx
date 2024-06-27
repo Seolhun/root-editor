@@ -1,3 +1,5 @@
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import clsx from 'clsx';
 import React from 'react';
 
 import { Opener, useFloatingAreaContext } from '~/components';
@@ -38,7 +40,7 @@ export function DropdownRoot({
         >
           {buttonIconClassName && <span className={buttonIconClassName} />}
           {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
-          <i className="chevron-down" />
+          <ChevronDownIcon className={clsx('size-8')} />
         </button>
       </Opener.Trigger>
 

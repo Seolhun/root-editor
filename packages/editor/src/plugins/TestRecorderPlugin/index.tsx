@@ -365,7 +365,7 @@ ${steps.map(formatStep).join(`\n`)}
     download('test.js', generateTestContent());
   }, [generateTestContent]);
 
-  const button = (
+  const Button = (
     <button
       className={`editor-dev-button ${isRecording ? 'active' : ''}`}
       id="test-recorder-button"
@@ -374,7 +374,7 @@ ${steps.map(formatStep).join(`\n`)}
       type="button"
     />
   );
-  const output = isRecording ? (
+  const Output = isRecording ? (
     <div className="test-recorder-output">
       <div className="test-recorder-toolbar">
         <button
@@ -405,7 +405,7 @@ ${steps.map(formatStep).join(`\n`)}
     </div>
   ) : null;
 
-  return [button, output];
+  return [Button, Output];
 }
 
 export default function TestRecorderPlugin(): JSX.Element {
