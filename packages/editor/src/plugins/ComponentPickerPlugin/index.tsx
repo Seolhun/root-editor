@@ -33,7 +33,7 @@ import { INSERT_IMAGE_COMMAND, InsertImageDialog } from '../ImagesPlugin';
 import InsertLayoutDialog from '../LayoutPlugin/InsertLayoutDialog';
 import { INSERT_PAGE_BREAK } from '../PageBreakPlugin';
 import { InsertPollDialog } from '../PollPlugin';
-import { InsertTableDialog } from '../TablePlugin';
+import { InsertTableDialog } from '../TablesPlugin/TablePlugin';
 
 class ComponentPickerOption extends MenuOption {
   // Icon for display

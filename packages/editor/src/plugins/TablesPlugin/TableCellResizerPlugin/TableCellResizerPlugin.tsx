@@ -21,7 +21,7 @@ import { createPortal } from 'react-dom';
 import { useFloatingAreaContext } from '~/components';
 import { useClientReady } from '~/hooks/useClientReady';
 
-import './TableCellResizer.scss';
+import './TableCellResizerPlugin.scss';
 
 type MousePosition = {
   x: number;
@@ -368,7 +368,7 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
   );
 }
 
-export default function TableCellResizerPlugin(): null | ReactPortal {
+export function TableCellResizerPlugin(): null | ReactPortal {
   const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const [editor] = useLexicalComposerContext();

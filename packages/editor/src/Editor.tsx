@@ -57,9 +57,7 @@ import PageBreakPlugin from './plugins/PageBreakPlugin';
 import PollPlugin from './plugins/PollPlugin';
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
 import TabFocusPlugin from './plugins/TabFocusPlugin';
-import TableCellActionMenuPlugin from './plugins/TableActionMenuPlugin';
-import TableCellResizer from './plugins/TableCellResizer';
-import TableOfContentsPlugin from './plugins/TableOfContentsPlugin';
+import { TableActionMenuPlugin, TableCellResizerPlugin, TableOfContentsPlugin } from './plugins/TablesPlugin';
 import ToolbarPlugin from './plugins/ToolbarPlugin';
 import TreeViewPlugin from './plugins/TreeViewPlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
@@ -175,7 +173,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
             <CheckListPlugin />
             <ListMaxIndentLevelPlugin maxDepth={7} />
             <TablePlugin hasCellBackgroundColor={tableCellBackgroundColor} hasCellMerge={tableCellMerge} />
-            <TableCellResizer />
+            <TableCellResizerPlugin />
             <ImagesPlugin />
             <InlineImagePlugin />
             <LinkPlugin />
@@ -197,7 +195,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
                 <DraggableBlockPlugin />
                 <CodeActionMenuPlugin />
                 <FloatingLinkEditorPlugin isLinkEditMode={isLinkEditMode} setIsLinkEditMode={setIsLinkEditMode} />
-                <TableCellActionMenuPlugin cellMerge={true} />
+                <TableActionMenuPlugin cellMerge={true} />
                 <FloatingTextFormatToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
               </>
             )}

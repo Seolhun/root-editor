@@ -725,7 +725,7 @@ export interface TableActionMenuPluginProps {
   cellMerge?: boolean;
 }
 
-export default function TableActionMenuPlugin({ cellMerge = false }: TableActionMenuPluginProps): null | ReactPortal {
+export function TableActionMenuPlugin({ cellMerge = false }: TableActionMenuPluginProps): null | ReactPortal {
   const { floatingElement } = useFloatingAreaContext();
   const isClientReady = useClientReady();
   const isEditable = useLexicalEditable();

@@ -77,7 +77,7 @@ import { InsertInlineImageDialog } from '../InlineImagePlugin/InlineImagePlugin'
 import { InsertLayoutDialog } from '../LayoutPlugin/InsertLayoutDialog';
 import { INSERT_PAGE_BREAK } from '../PageBreakPlugin';
 import { InsertPollDialog } from '../PollPlugin';
-import { InsertTableDialog } from '../TablePlugin';
+import { InsertTableDialog } from '../TablesPlugin/TablePlugin';
 import { FontSizer } from './FontSizer';
 
 const blockTypeToBlockName = {

@@ -17,7 +17,7 @@ import { I18nProvider, i18nProviderProps } from './context/i18n';
 import { SettingsProvider, useSettings } from './context/settings/SettingsContext';
 import DocsPlugin from './plugins/DocsPlugin';
 import PasteLogPlugin from './plugins/PasteLogPlugin';
-import { TableContext } from './plugins/TablePlugin';
+import { TableContext } from './plugins/TablesPlugin';
 import TestRecorderPlugin from './plugins/TestRecorderPlugin';
 import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 
