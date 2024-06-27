@@ -13,7 +13,7 @@
     will-change: transform;
 
     @apply rounded-md;
-    @apply shadow-md;
+    @apply shadow border border-neutral-1 dark:border-neutral-1;
     @apply bg-cream-1 dark:bg-space-1;
     @apply space-x-2;
     @apply p-4;

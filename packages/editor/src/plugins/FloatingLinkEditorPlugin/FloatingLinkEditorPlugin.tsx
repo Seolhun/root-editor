@@ -3,6 +3,7 @@ import { CheckCircleIcon, PencilIcon, TrashIcon, XCircleIcon } from '@heroicons/
 import { $createLinkNode, $isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $findMatchingParent, mergeRegister } from '@lexical/utils';
+import { IconButton } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import {
   $getSelection,
@@ -17,8 +18,8 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 import { createPortal } from 'react-dom';
 
 import { EditorClasses } from '~/Editor.theme';
@@ -40,13 +41,7 @@ export interface FloatingLinkEditorProps {
 
 const linkIcon = clsx('size-10', 'mt-2', 'cursor-pointer');
 
-function FloatingLinkEditor({
-  editor,
-  isLink,
-  isLinkEditMode,
-  setIsLink,
-  setIsLinkEditMode,
-}: FloatingLinkEditorProps): JSX.Element {
+function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLinkEditMode }: FloatingLinkEditorProps) {
   const { floatingElement } = useFloatingAreaContext();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -212,10 +207,14 @@ function FloatingLinkEditor({
     }
   };
 
+  if (!isLink) {
+    return null;
+  }
+
   return (
     <div className={clsx(EditorClasses.linkEditor)} ref={editorRef}>
-      {!isLink ? null : isLinkEditMode ? (
-        <>
+      {isLinkEditMode ? (
+        <div className={clsx('LinkForm')}>
           <input
             onChange={(event) => {
               setEditedLinkUrl(event.target.value);
@@ -223,55 +222,60 @@ function FloatingLinkEditor({
             onKeyDown={(event) => {
               monitorInputInteraction(event);
             }}
-            className="link-input"
+            className="LinkForm__Input"
             ref={inputRef}
             value={editedLinkUrl}
           />
-          <div className={clsx('flex items-center', 'space-x-2')}>
-            <XCircleIcon
+          <div className={clsx('LinkForm__Actions')}>
+            <IconButton
               onClick={() => {
                 setIsLinkEditMode(false);
               }}
-              className={clsx('link-cancel', linkIcon, 'text-neutral dark:text-neutral')}
               onMouseDown={(event) => event.preventDefault()}
               role="button"
               tabIndex={0}
-            />
+            >
+              <XCircleIcon className={clsx('link-cancel', linkIcon, 'text-neutral dark:text-neutral')} />
+            </IconButton>
 
-            <CheckCircleIcon
-              className={clsx('link-confirm', linkIcon, 'text-neutral dark:text-neutral')}
+            <IconButton
               onClick={handleLinkSubmission}
               onMouseDown={(event) => event.preventDefault()}
               role="button"
               tabIndex={0}
-            />
+            >
+              <CheckCircleIcon className={clsx('link-confirm', linkIcon, 'text-neutral dark:text-neutral')} />
+            </IconButton>
           </div>
-        </>
+        </div>
       ) : (
-        <div className={clsx('link-view')}>
-          <a href={sanitizeUrl(linkUrl)} rel="noopener noreferrer" target="_blank">
+        <div className={clsx('LinkView')}>
+          <a className="LinkView__Link" href={sanitizeUrl(linkUrl)} rel="noopener noreferrer" target="_blank">
             {linkUrl}
           </a>
-          <div className={clsx('flex items-center', 'space-x-2')}>
-            <PencilIcon
+          <div className={clsx('LinkView__Actions')}>
+            <IconButton
               onClick={() => {
                 setEditedLinkUrl(linkUrl);
                 setIsLinkEditMode(true);
               }}
-              className={clsx('link-edit', linkIcon, 'text-neutral dark:text-neutral')}
               onMouseDown={(event) => event.preventDefault()}
               role="button"
               tabIndex={0}
-            />
-            <TrashIcon
+            >
+              <PencilIcon className={clsx('link-edit', linkIcon, 'text-neutral dark:text-neutral')} />
+            </IconButton>
+
+            <IconButton
               onClick={() => {
                 editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
               }}
-              className={clsx('link-trash', linkIcon, 'text-neutral dark:text-neutral')}
               onMouseDown={(event) => event.preventDefault()}
               role="button"
               tabIndex={0}
-            />
+            >
+              <TrashIcon className={clsx('link-trash', linkIcon, 'text-neutral dark:text-neutral')} />
+            </IconButton>
           </div>
         </div>
       )}
