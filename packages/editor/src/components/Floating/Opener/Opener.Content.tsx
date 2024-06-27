@@ -3,16 +3,16 @@ import { useId } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { useTooltipContext } from './useTooltipContext';
+import { useOpenerContext } from './useOpenerContext';
 
 type ElementType = HTMLElement;
 type ElementProps = React.HTMLAttributes<ElementType>;
 
-export interface TooltipContentProps extends ElementProps {}
+export interface OpenerContentProps extends ElementProps {}
 
-export const TooltipContent = React.forwardRef<ElementType, TooltipContentProps>(
+export const OpenerContent = React.forwardRef<ElementType, OpenerContentProps>(
   ({ className, children, ...others }, ref) => {
-    const contextValues = useTooltipContext();
+    const contextValues = useOpenerContext();
     const tooltipId = useId();
 
     const mergedRef = useMergeRefs([contextValues?.refs.setFloating || null, ref]);
@@ -22,7 +22,6 @@ export const TooltipContent = React.forwardRef<ElementType, TooltipContentProps>
     });
 
     const { root, zIndex } = contextValues;
-    console.debug(root);
     return (
       <FloatingPortal root={contextValues.root}>
         {contextValues?.open && (

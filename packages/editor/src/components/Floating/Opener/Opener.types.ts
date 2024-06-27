@@ -1,12 +1,12 @@
 import { Placement, useFloating, useInteractions } from '@floating-ui/react';
 
-export type TooltipDelay = {
+export type OpenerDelay = {
   close: number;
   open: number;
 };
 
-export type TooltipInteraction = 'click' | 'focus' | 'hover';
-export interface TooltipOptions {
+export type OpenerInteraction = 'click' | 'focus' | 'hover';
+export interface OpenerOptions {
   /**
    * Initial open state
    */
@@ -20,7 +20,7 @@ export interface TooltipOptions {
    */
   open?: boolean;
   /**
-   * Tooltip placement
+   * Opener placement
    * @default 'bottom-start'
    */
   placement?: Placement;
@@ -34,6 +34,6 @@ export interface TooltipOptions {
   zIndex?: number;
 }
 
-export type TooltipIntersectionReturns = ReturnType<typeof useInteractions>;
+export type OpenerIntersectionReturns = ReturnType<typeof useInteractions>;
 
-export type TooltipFloatingReturns = ReturnType<typeof useFloating>;
+export type OpenerFloatingReturns = ReturnType<typeof useFloating>;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTooltipContext } from '../Floating';
+import { useOpenerContext } from '../Floating';
 import { useDropdownContext } from './Dropdown.Context';
 
 export interface DropdownItemListProps {
@@ -11,7 +11,7 @@ export const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemLis
   ({ children }, ref): JSX.Element => {
     const [highlightedItem, setHighlightedItem] = React.useState<React.RefObject<HTMLButtonElement>>();
 
-    const { setOpen } = useTooltipContext();
+    const { setOpen } = useOpenerContext();
     const { items } = useDropdownContext();
 
     const handleKeyDown = React.useCallback(

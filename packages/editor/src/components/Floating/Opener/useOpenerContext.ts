@@ -12,13 +12,13 @@ import {
 } from '@floating-ui/react';
 import * as React from 'react';
 
-import { TooltipFloatingReturns, TooltipIntersectionReturns, TooltipOptions } from './Tooltip.types';
+import { OpenerFloatingReturns, OpenerIntersectionReturns, OpenerOptions } from './Opener.types';
 
-export interface UseTooltipProps extends TooltipOptions {
+export interface UseOpenerProps extends OpenerOptions {
   disabled?: boolean;
 }
 
-export interface UseTooltipReturns extends TooltipFloatingReturns, TooltipIntersectionReturns {
+export interface UseOpenerReturns extends OpenerFloatingReturns, OpenerIntersectionReturns {
   /**
    * Open state
    */
@@ -37,7 +37,7 @@ export interface UseTooltipReturns extends TooltipFloatingReturns, TooltipInters
   zIndex?: number;
 }
 
-export function useTooltip({
+export function useOpener({
   disabled,
   initialOpen = false,
   onOpenChange: setControlledOpen,
@@ -45,7 +45,7 @@ export function useTooltip({
   placement = 'bottom-start',
   root,
   zIndex,
-}: UseTooltipProps = {}): UseTooltipReturns {
+}: UseOpenerProps = {}): UseOpenerReturns {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState<boolean>(initialOpen);
 
   const open = controlledOpen ?? uncontrolledOpen;
@@ -84,7 +84,7 @@ export function useTooltip({
 
   const interactionValues = useInteractions([focus, click, dismiss, role]);
 
-  return React.useMemo<UseTooltipReturns>(() => {
+  return React.useMemo<UseOpenerReturns>(() => {
     return {
       open,
       root,
@@ -96,14 +96,14 @@ export function useTooltip({
   }, [open, root, setOpen, zIndex, interactionValues, floatingData]);
 }
 
-export type TooltipContextValues = UseTooltipReturns;
-export const TooltipContext = React.createContext<TooltipContextValues>(null as unknown as TooltipContextValues);
+export type OpenerContextValues = UseOpenerReturns;
+export const OpenerContext = React.createContext<OpenerContextValues>(null as unknown as OpenerContextValues);
 
-export const useTooltipContext = (): TooltipContextValues => {
-  const context = React.useContext(TooltipContext);
+export const useOpenerContext = (): OpenerContextValues => {
+  const context = React.useContext(OpenerContext);
 
   if (context == null) {
-    throw new Error('Tooltip components must be wrapped in <Tooltip />');
+    throw new Error('Opener components must be wrapped in <Opener />');
   }
   return context;
 };

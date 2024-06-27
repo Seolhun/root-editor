@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Tooltip, useFloatingAreaContext } from '~/components';
+import { Opener, useFloatingAreaContext } from '~/components';
 
 import { DropdownContextProvider } from './Dropdown.Context';
 
@@ -28,8 +28,8 @@ export function DropdownRoot({
   }
 
   return (
-    <Tooltip root={floatingElement}>
-      <Tooltip.Trigger>
+    <Opener root={floatingElement}>
+      <Opener.Trigger>
         <button
           aria-label={buttonAriaLabel || buttonLabel}
           className={buttonClassName}
@@ -40,11 +40,11 @@ export function DropdownRoot({
           {buttonLabel && <span className="text dropdown-button-text">{buttonLabel}</span>}
           <i className="chevron-down" />
         </button>
-      </Tooltip.Trigger>
+      </Opener.Trigger>
 
-      <Tooltip.Content>
+      <Opener.Content>
         <DropdownContextProvider>{children}</DropdownContextProvider>
-      </Tooltip.Content>
-    </Tooltip>
+      </Opener.Content>
+    </Opener>
   );
 }
