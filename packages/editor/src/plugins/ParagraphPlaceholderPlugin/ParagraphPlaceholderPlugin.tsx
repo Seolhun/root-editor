@@ -1,6 +1,7 @@
 // ParagraphPlaceholderPlugin.tsx
 
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import { $getRoot, $getSelection, $isParagraphNode, $isRangeSelection } from 'lexical';
 import { useEffect, useRef } from 'react';
 
@@ -21,9 +22,12 @@ const tailwindPlaceholderClasses = [
 export const ParagraphPlaceholderPlugin = ({ hideOnEmptyEditor, placeholder }: ParagraphPlaceholderPluginProps) => {
   const [editor] = useLexicalComposerContext();
   const paragraphRef = useRef<HTMLElement | null>(null);
+  const isEditable = useLexicalEditable();
 
   useEffect(() => {
     const unregister = editor.registerUpdateListener(({ editorState }) => {
+      if (!isEditable) return;
+
       editorState.read(() => {
         if (paragraphRef?.current) {
           paragraphRef.current.removeAttribute('data-root-placeholder');
@@ -63,7 +67,7 @@ export const ParagraphPlaceholderPlugin = ({ hideOnEmptyEditor, placeholder }: P
     return () => {
       unregister();
     };
-  }, [editor, hideOnEmptyEditor, placeholder]);
+  }, [editor, hideOnEmptyEditor, isEditable, placeholder]);
 
   return null;
 };

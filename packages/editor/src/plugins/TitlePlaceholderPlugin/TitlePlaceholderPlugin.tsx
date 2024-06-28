@@ -1,4 +1,5 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import { $isHeadingNode } from '@lexical/rich-text';
 import { $getRoot, $getSelection, $isRangeSelection } from 'lexical';
 import * as React from 'react';
@@ -19,8 +20,11 @@ const tailwindPlaceholderClasses = [
 export function TitlePlaceholderPlugin({ placeholder }: TitlePlaceholderPluginProps): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   const h1Ref = React.useRef<HTMLHeadingElement | null>(null);
+  const isEditable = useLexicalEditable();
 
   React.useEffect(() => {
+    if (!isEditable) return;
+
     const unregister = editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         if (h1Ref?.current) {
@@ -62,7 +66,7 @@ export function TitlePlaceholderPlugin({ placeholder }: TitlePlaceholderPluginPr
     return () => {
       unregister();
     };
-  }, [editor, placeholder]);
+  }, [editor, isEditable, placeholder]);
 
   return null;
 }
