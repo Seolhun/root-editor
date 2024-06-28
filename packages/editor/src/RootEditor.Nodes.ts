@@ -21,7 +21,7 @@ import { KeywordNode } from './nodes/KeywordNode';
 import { LayoutContainerNode } from './nodes/LayoutContainerNode';
 import { LayoutItemNode } from './nodes/LayoutItemNode';
 import { MentionNode } from './nodes/MentionNode';
-import { PageBreakNode } from './nodes/PageBreakNode/PageBreakNode';
+import { PageBreakNode } from './nodes/PageBreakNode';
 import { PollNode } from './nodes/PollNode';
 import { StickyNode } from './nodes/StickyNode';
 import { TweetNode } from './nodes/TweetNode';

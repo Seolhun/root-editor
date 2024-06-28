@@ -16,9 +16,9 @@ import { useModal } from '~/hooks/useModal';
 import { Button } from '~/ui/Button';
 import { DialogActions } from '~/ui/Dialog';
 
-import { INSERT_FIGMA_COMMAND } from '../FigmaPlugin';
-import { INSERT_TWEET_COMMAND } from '../TwitterPlugin';
-import { INSERT_YOUTUBE_COMMAND } from '../YouTubePlugin';
+import { INSERT_FIGMA_COMMAND } from '../FigmaPlugin/FigmaPlugin';
+import { INSERT_TWEET_COMMAND } from '../TwitterPlugin/TwitterPlugin';
+import { INSERT_YOUTUBE_COMMAND } from '../YouTubePlugin/YouTubePlugin';
 
 interface RootEditorEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
@@ -209,13 +209,12 @@ const debounce = (callback: (text: string) => void, delay: number) => {
   };
 };
 
-export function AutoEmbedDialog({
-  embedConfig,
-  onClose,
-}: {
+interface AutoEmbedDialogProps {
   embedConfig: RootEditorEmbedConfig;
   onClose: () => void;
-}): JSX.Element {
+}
+
+export function AutoEmbedDialog({ embedConfig, onClose }: AutoEmbedDialogProps): JSX.Element {
   const [text, setText] = useState('');
   const [editor] = useLexicalComposerContext();
   const [embedResult, setEmbedResult] = useState<EmbedMatchResult | null>(null);

@@ -253,6 +253,9 @@ importers:
       '@lexical/code':
         specifier: 0.16.0
         version: 0.16.0
+      '@lexical/dragon':
+        specifier: ^0.16.0
+        version: 0.16.0
       '@lexical/file':
         specifier: 0.16.0
         version: 0.16.0

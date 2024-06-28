@@ -9,6 +9,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { LexicalNestedComposer } from '@lexical/react/LexicalNestedComposer';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
+import { mergeRegister } from '@lexical/utils';
 import clsx from 'clsx';
 import { $getRoot, createCommand } from 'lexical';
 import * as React from 'react';
@@ -49,14 +50,14 @@ export function ImageCaption({ caption }: ImageCaptionProps): JSX.Element {
   }, [caption]);
 
   React.useEffect(() => {
-    return caption.registerUpdateListener(() => {
-      const captionEditorState = caption.getEditorState();
-      captionEditorState.read(() => {
-        const root = $getRoot();
-        const textContent = root.getTextContent();
+    const unregister = mergeRegister(
+      caption.registerTextContentListener((textContent) => {
         setCaptionTextSize(textContent.length);
-      });
-    });
+      }),
+    );
+    return () => {
+      unregister();
+    };
   }, [caption]);
 
   return (

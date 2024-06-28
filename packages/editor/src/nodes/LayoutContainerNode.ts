@@ -48,7 +48,7 @@ export class LayoutContainerNode extends ElementNode {
   static importDOM(): DOMConversionMap | null {
     return {
       div: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-layout-container')) {
+        if (!domNode.hasAttribute('data-root-layout-container')) {
           return null;
         }
         return {
@@ -79,7 +79,7 @@ export class LayoutContainerNode extends ElementNode {
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
     element.style.gridTemplateColumns = this.__templateColumns;
-    element.setAttribute('data-lexical-layout-container', 'true');
+    element.setAttribute('data-root-layout-container', 'true');
     return { element };
   }
 

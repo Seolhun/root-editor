@@ -8,6 +8,7 @@ export const DEFAULT_I18N_RESOURCES: I18nResources = {
     delete: 'Delete',
     discard: 'Discard',
     'editor.placeholder': 'Write your story...',
+    'editor.title.placeholder': 'Write your story title...',
     insert: 'Insert',
     name: 'RootEditor',
     'plugins.code': 'Code',

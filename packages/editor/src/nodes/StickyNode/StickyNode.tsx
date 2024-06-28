@@ -1,4 +1,5 @@
 import type {
+  DOMExportOutput,
   EditorConfig,
   LexicalEditor,
   LexicalNode,
@@ -44,15 +45,16 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
   static clone(node: StickyNode): StickyNode {
     return new StickyNode(node.__x, node.__y, node.__color, node.__caption, node.__key);
   }
+
   static getType(): string {
     return 'sticky';
   }
 
   static importJSON(serializedNode: SerializedStickyNode): StickyNode {
     const stickyNode = new StickyNode(serializedNode.xOffset, serializedNode.yOffset, serializedNode.color);
-    const caption = serializedNode.caption;
+    const captionEditor = serializedNode.caption;
     const nestedEditor = stickyNode.__caption;
-    const editorState = nestedEditor.parseEditorState(caption.editorState);
+    const editorState = nestedEditor.parseEditorState(captionEditor.editorState);
     if (!editorState.isEmpty()) {
       nestedEditor.setEditorState(editorState);
     }
@@ -65,6 +67,9 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
     return div;
   }
 
+  /**
+   * @todo Don't use document.body to portal something in editor
+   */
   decorate(editor: LexicalEditor, config: EditorConfig): JSX.Element {
     return createPortal(
       <Suspense fallback={null}>
@@ -78,6 +83,12 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
       </Suspense>,
       document.body,
     );
+  }
+
+  exportDOM(): DOMExportOutput {
+    const element = document.createElement('div');
+    element.setAttribute('data-root-node-key', this.getKey());
+    return { element };
   }
 
   exportJSON(): SerializedStickyNode {
@@ -112,10 +123,10 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
   }
 }
 
-export function $isStickyNode(node: LexicalNode | null | undefined): node is StickyNode {
-  return node instanceof StickyNode;
-}
-
 export function $createStickyNode(xOffset: number, yOffset: number): StickyNode {
   return new StickyNode(xOffset, yOffset, 'yellow');
+}
+
+export function $isStickyNode(node: LexicalNode | null | undefined): node is StickyNode {
+  return node instanceof StickyNode;
 }

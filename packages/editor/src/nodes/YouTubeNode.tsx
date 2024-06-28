@@ -48,7 +48,7 @@ export type SerializedYouTubeNode = Spread<
 >;
 
 function $convertYoutubeElement(domNode: HTMLElement): DOMConversionOutput | null {
-  const videoID = domNode.getAttribute('data-lexical-youtube');
+  const videoID = domNode.getAttribute('data-root-youtube');
   if (videoID) {
     const node = $createYouTubeNode(videoID);
     return { node };
@@ -75,7 +75,7 @@ export class YouTubeNode extends DecoratorBlockNode {
   static importDOM(): DOMConversionMap | null {
     return {
       iframe: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-youtube')) {
+        if (!domNode.hasAttribute('data-root-youtube')) {
           return null;
         }
         return {
@@ -105,7 +105,7 @@ export class YouTubeNode extends DecoratorBlockNode {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('iframe');
-    element.setAttribute('data-lexical-youtube', this.__id);
+    element.setAttribute('data-root-youtube', this.__id);
     element.setAttribute('width', '560');
     element.setAttribute('height', '315');
     element.setAttribute('src', `https://www.youtube-nocookie.com/embed/${this.__id}`);

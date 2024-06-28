@@ -17,57 +17,6 @@ import { Suspense } from 'react';
 
 const ImageComponent = React.lazy(() => import('./components/ImageComponent'));
 
-export interface ImagePayload {
-  altText: string;
-  caption?: LexicalEditor;
-  captionsEnabled?: boolean;
-  height?: number;
-  key?: NodeKey;
-  maxWidth?: number;
-  showCaption?: boolean;
-  src: string;
-  width?: number;
-}
-
-export function $createImageNode({
-  key,
-  altText,
-  caption,
-  captionsEnabled,
-  height,
-  maxWidth = 500,
-  showCaption,
-  src,
-  width,
-}: ImagePayload): ImageNode {
-  return $applyNodeReplacement(
-    new ImageNode(src, altText, maxWidth, width, height, showCaption, caption, captionsEnabled, key),
-  );
-}
-
-export function $isImageNode(node: LexicalNode | null | undefined): node is ImageNode {
-  return node instanceof ImageNode;
-}
-
-function isGoogleDocCheckboxImg(img: HTMLImageElement): boolean {
-  return (
-    img.parentElement != null &&
-    img.parentElement.tagName === 'LI' &&
-    img.previousSibling === null &&
-    img.getAttribute('aria-roledescription') === 'checkbox'
-  );
-}
-
-function $convertImageElement(domNode: Node): DOMConversionOutput | null {
-  const img = domNode as HTMLImageElement;
-  if (img.src.startsWith('file:///') || isGoogleDocCheckboxImg(img)) {
-    return null;
-  }
-  const { alt: altText, height, src, width } = img;
-  const node = $createImageNode({ altText, height, src, width });
-  return { node };
-}
-
 export type SerializedImageNode = Spread<
   {
     altText: string;
@@ -234,4 +183,57 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   updateDOM(): false {
     return false;
   }
+}
+
+export interface ImagePayload {
+  altText: string;
+  caption?: LexicalEditor;
+  captionsEnabled?: boolean;
+  height?: number;
+  key?: NodeKey;
+  maxWidth?: number;
+  showCaption?: boolean;
+  src: string;
+  width?: number;
+}
+
+export function $createImageNode({
+  key,
+  altText,
+  caption,
+  captionsEnabled,
+  height,
+  maxWidth = 500,
+  showCaption,
+  src,
+  width,
+}: ImagePayload): ImageNode {
+  return $applyNodeReplacement(
+    new ImageNode(src, altText, maxWidth, width, height, showCaption, caption, captionsEnabled, key),
+  );
+}
+
+function $convertImageElement(domNode: Node): DOMConversionOutput | null {
+  const img = domNode as HTMLImageElement;
+  if (img.src.startsWith('file:///') || isGoogleDocCheckboxImg(img)) {
+    return null;
+  }
+  const { alt: altText, height, src, width } = img;
+  const node = $createImageNode({ altText, height, src, width });
+  return {
+    node,
+  };
+}
+
+function isGoogleDocCheckboxImg(img: HTMLImageElement): boolean {
+  return (
+    img.parentElement != null &&
+    img.parentElement.tagName === 'LI' &&
+    img.previousSibling === null &&
+    img.getAttribute('aria-roledescription') === 'checkbox'
+  );
+}
+
+export function $isImageNode(node: LexicalNode | null | undefined): node is ImageNode {
+  return node instanceof ImageNode;
 }

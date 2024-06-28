@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { EditorOnChangeFn } from './Editor.types';
 import { RootEditor } from './RootEditor';
-import { dummyContent } from './stories';
+import { dummyContent, titleDummy } from './stories';
 
 const meta: Meta<typeof RootEditor> = {
   component: RootEditor,
@@ -89,6 +89,27 @@ export const WidthInitialSettings: Story = {
           showTreeView: true,
         }}
         initialConfigType={{}}
+        onChangeEditorState={onChangeEditorState}
+      />
+    );
+  },
+};
+
+export const TemplateExample: Story = {
+  render: () => {
+    const onChangeEditorState: EditorOnChangeFn = (editorState) => {
+      console.log(JSON.stringify(editorState.toJSON(), null, 2));
+    };
+
+    return (
+      <RootEditor
+        initialConfigType={{
+          editorState: JSON.stringify(titleDummy),
+        }}
+        initialSettings={{
+          debug: true,
+          showTreeView: true,
+        }}
         onChangeEditorState={onChangeEditorState}
       />
     );

@@ -24,8 +24,8 @@ export type SerializedEquationNode = Spread<
 >;
 
 function $convertEquationElement(domNode: HTMLElement): DOMConversionOutput | null {
-  let equation = domNode.getAttribute('data-lexical-equation');
-  const inline = domNode.getAttribute('data-lexical-inline') === 'true';
+  let equation = domNode.getAttribute('data-root-equation');
+  const inline = domNode.getAttribute('data-root-inline') === 'true';
   // Decode the equation from base64
   equation = atob(equation || '');
   if (equation) {
@@ -57,7 +57,7 @@ export class EquationNode extends DecoratorNode<JSX.Element> {
   static importDOM(): DOMConversionMap | null {
     return {
       div: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-equation')) {
+        if (!domNode.hasAttribute('data-root-equation')) {
           return null;
         }
         return {
@@ -66,7 +66,7 @@ export class EquationNode extends DecoratorNode<JSX.Element> {
         };
       },
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-equation')) {
+        if (!domNode.hasAttribute('data-root-equation')) {
           return null;
         }
         return {
@@ -101,8 +101,8 @@ export class EquationNode extends DecoratorNode<JSX.Element> {
     const element = document.createElement(this.__inline ? 'span' : 'div');
     // Encode the equation as base64 to avoid issues with special characters
     const equation = btoa(this.__equation);
-    element.setAttribute('data-lexical-equation', equation);
-    element.setAttribute('data-lexical-inline', `${this.__inline}`);
+    element.setAttribute('data-root-equation', equation);
+    element.setAttribute('data-root-inline', `${this.__inline}`);
     katex.render(this.__equation, element, {
       displayMode: !this.__inline, // true === block display //
       errorColor: '#cc0000',

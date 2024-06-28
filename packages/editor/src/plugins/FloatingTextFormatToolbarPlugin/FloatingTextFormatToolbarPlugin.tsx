@@ -355,8 +355,7 @@ function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: 
       editor.registerUpdateListener(() => {
         updatePopup();
       }),
-      editor.registerRootListener(() => {
-        const rootElement = editor.getRootElement();
+      editor.registerRootListener((rootElement) => {
         if (rootElement === null) {
           setIsText(false);
         }

@@ -50,7 +50,7 @@ export class MentionNode extends TextNode {
   static importDOM(): DOMConversionMap | null {
     return {
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-mention')) {
+        if (!domNode.hasAttribute('data-root-mention')) {
           return null;
         }
         return {
@@ -88,7 +88,7 @@ export class MentionNode extends TextNode {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('span');
-    element.setAttribute('data-lexical-mention', 'true');
+    element.setAttribute('data-root-mention', 'true');
     element.textContent = this.__text;
     return { element };
   }

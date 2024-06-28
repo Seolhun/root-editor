@@ -241,7 +241,7 @@ ${steps.map(formatStep).join(`\n`)}
       }
     };
 
-    return editor.registerRootListener((rootElement: HTMLElement | null, prevRootElement: HTMLElement | null) => {
+    return editor.registerRootListener((rootElement, prevRootElement) => {
       if (prevRootElement !== null) {
         prevRootElement.removeEventListener('keydown', onKeyDown);
         prevRootElement.removeEventListener('keyup', onKeyUp);

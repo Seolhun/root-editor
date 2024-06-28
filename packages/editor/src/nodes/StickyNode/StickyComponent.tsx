@@ -9,16 +9,16 @@ import { LexicalNestedComposer } from '@lexical/react/LexicalNestedComposer';
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { calculateZoomLevel } from '@lexical/utils';
 import { $getNodeByKey } from 'lexical';
-import * as React from 'react';
 import { useEffect, useRef } from 'react';
+import * as React from 'react';
 
 import { theme } from '~/Editor.theme';
+import { createWebsocketProvider } from '~/collaboration';
+import { useSharedHistoryContext } from '~/context/SharedHistoryContext';
 import useLayoutEffect from '~/shared/useLayoutEffect';
+import ContentEditable from '~/ui/ContentEditable';
+import Placeholder from '~/ui/Placeholder';
 
-import { createWebsocketProvider } from '../collaboration';
-import { useSharedHistoryContext } from '../context/SharedHistoryContext';
-import ContentEditable from '../ui/ContentEditable';
-import Placeholder from '../ui/Placeholder';
 import { $isStickyNode } from './StickyNode';
 
 import './StickyNode.scss';

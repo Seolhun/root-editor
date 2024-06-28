@@ -42,7 +42,7 @@ import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
 import { EmojisPlugin } from './plugins/EmojisPlugin';
 import EquationsPlugin from './plugins/EquationsPlugin';
 import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
-import FigmaPlugin from './plugins/FigmaPlugin';
+import { FigmaPlugin } from './plugins/FigmaPlugin/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import { FloatingTextFormatToolbarPlugin } from './plugins/FloatingTextFormatToolbarPlugin';
 import { ImagesPlugin } from './plugins/ImagesPlugin';
@@ -55,16 +55,17 @@ import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin';
 import { MaxLengthPlugin } from './plugins/MaxLengthPlugin';
 import MentionsPlugin from './plugins/MentionsPlugin';
 import PageBreakPlugin from './plugins/PageBreakPlugin';
+import { ParagraphPlaceholderPlugin } from './plugins/ParagraphPlaceholderPlugin';
 import PollPlugin from './plugins/PollPlugin';
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
 import TabFocusPlugin from './plugins/TabFocusPlugin';
 import { TableActionMenuPlugin, TableCellResizerPlugin, TableOfContentsPlugin } from './plugins/TablesPlugin';
+import { TitlePlaceholderPlugin } from './plugins/TitlePlaceholderPlugin';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { TreeViewPlugin } from './plugins/TreeViewPlugin';
-import TwitterPlugin from './plugins/TwitterPlugin';
-import YouTubePlugin from './plugins/YouTubePlugin';
+import { TwitterPlugin } from './plugins/TwitterPlugin/TwitterPlugin';
+import { YouTubePlugin } from './plugins/YouTubePlugin';
 import ContentEditable from './ui/ContentEditable';
-import Placeholder from './ui/Placeholder';
 
 export interface EditorProps {
   /**
@@ -127,8 +128,6 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
 
   const hasMaxLength = maxLength != null && maxLength > 0;
   const canUseFloatingAnchor = !isSmallWidthViewport;
-  const placeholderMessage = placeholder ? placeholder(settings) : t('editor.placeholder');
-  const PlaceholderNode = <Placeholder>{placeholderMessage}</Placeholder>;
   return (
     <div
       className={clsx('EditorContainer', isRichText ? EditorClasses.richText : EditorClasses.plainText, {
@@ -149,6 +148,9 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
       <KeywordsPlugin />
       <SpeechToTextPlugin />
       <AutoLinkPlugin />
+      <ParagraphPlaceholderPlugin hideOnEmptyEditor placeholder={`Press "/" for commands`} />
+      <TitlePlaceholderPlugin placeholder={t('editor.title.placeholder') as string} />
+
       {enabledCommentFeature && (
         <CommentPlugin providerFactory={isCollaborative ? createWebsocketProvider : undefined} />
       )}
@@ -172,7 +174,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
               </div>
             }
             ErrorBoundary={LexicalErrorBoundary}
-            placeholder={PlaceholderNode}
+            placeholder={null}
           />
           <MarkdownShortcutPlugin />
           <CodeHighlightPlugin />
@@ -214,7 +216,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
           <PlainTextPlugin
             contentEditable={<ContentEditable />}
             ErrorBoundary={LexicalErrorBoundary}
-            placeholder={PlaceholderNode}
+            placeholder={null}
           />
           <HistoryPlugin externalHistoryState={historyState} />
         </>

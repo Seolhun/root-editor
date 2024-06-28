@@ -2,8 +2,24 @@
   /**
    * ./src/Editor.theme.ts
    */
+
+  .RootEditor__h1, .RootEditor__h2, .RootEditor__h3, .RootEditor__h4, .RootEditor__h5, .RootEditor__h6 {
+    margin: 0;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
   .RootEditor__paragraph {
+    margin-top: 12px;
+    margin-bottom: 6px;
+    position: relative;
     word-break: break-all;
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 
   .RootEditor__ol, .RootEditor__ol1, .RootEditor__ol2, .RootEditor__ol3, .RootEditor__ol4, .RootEditor__ol5 {
@@ -26,11 +42,6 @@
 
   .RootEditor__rtl {
     text-align: right;
-  }
-
-  .RootEditor__paragraph {
-    margin: 0;
-    position: relative;
   }
 
   .RootEditor__quote {

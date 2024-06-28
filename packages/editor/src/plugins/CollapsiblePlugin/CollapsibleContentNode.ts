@@ -36,7 +36,7 @@ export class CollapsibleContentNode extends ElementNode {
   static importDOM(): DOMConversionMap | null {
     return {
       div: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-collapsible-content')) {
+        if (!domNode.hasAttribute('data-root-collapsible-content')) {
           return null;
         }
         return {
@@ -81,7 +81,7 @@ export class CollapsibleContentNode extends ElementNode {
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
     element.classList.add('Collapsible__content');
-    element.setAttribute('data-lexical-collapsible-content', 'true');
+    element.setAttribute('data-root-collapsible-content', 'true');
     return { element };
   }
 

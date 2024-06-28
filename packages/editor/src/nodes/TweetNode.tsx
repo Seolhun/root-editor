@@ -31,7 +31,7 @@ type TweetComponentProps = Readonly<{
 }>;
 
 function $convertTweetElement(domNode: HTMLDivElement): DOMConversionOutput | null {
-  const id = domNode.getAttribute('data-lexical-tweet-id');
+  const id = domNode.getAttribute('data-root-tweet-id');
   if (id) {
     const node = $createTweetNode(id);
     return { node };
@@ -130,7 +130,7 @@ export class TweetNode extends DecoratorBlockNode {
   static importDOM(): DOMConversionMap<HTMLDivElement> | null {
     return {
       div: (domNode: HTMLDivElement) => {
-        if (!domNode.hasAttribute('data-lexical-tweet-id')) {
+        if (!domNode.hasAttribute('data-root-tweet-id')) {
           return null;
         }
         return {
@@ -166,7 +166,7 @@ export class TweetNode extends DecoratorBlockNode {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
-    element.setAttribute('data-lexical-tweet-id', this.__id);
+    element.setAttribute('data-root-tweet-id', this.__id);
     const text = document.createTextNode(this.getTextContent());
     element.append(text);
     return { element };
