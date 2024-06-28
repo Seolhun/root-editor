@@ -2,12 +2,12 @@ import { I18nResources } from './I18n.types';
 
 export const DEFAULT_I18N_RESOURCES: I18nResources = {
   en: {
-    Save: 'Save',
     cancel: 'Cancel',
     'confirm.delete': 'Are you sure you want to delete this?',
     'confirm.discard': 'Are you sure you want to discard your changes?',
     delete: 'Delete',
     discard: 'Discard',
+    'editor.placeholder': 'Write your story...',
     insert: 'Insert',
     name: 'RootEditor',
     'plugins.code': 'Code',
@@ -19,6 +19,7 @@ export const DEFAULT_I18N_RESOURCES: I18nResources = {
     'plugins.list': 'List',
     'plugins.table': 'Table',
     'plugins.video': 'Video',
+    save: 'Save',
     'toolbar.blockquote': 'Blockquote',
     'toolbar.bold': 'Bold',
     'toolbar.bulleted_list': 'Bulleted List',

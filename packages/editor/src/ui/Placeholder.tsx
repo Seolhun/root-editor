@@ -7,7 +7,7 @@ type ElementProps = React.HTMLAttributes<ElementType>;
 
 const Placeholder = React.forwardRef<ElementType, ElementProps>(({ className, children, ...others }, ref) => {
   return (
-    <div {...others} className={className || 'Placeholder__root'} ref={ref}>
+    <div {...others} className={className || 'RootEditor__Placeholder'} ref={ref}>
       {children}
     </div>
   );

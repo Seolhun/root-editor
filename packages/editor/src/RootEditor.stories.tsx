@@ -37,7 +37,7 @@ export const RichEditor: Story = {
       console.log(JSON.stringify(editorState.toJSON(), null, 2));
     };
 
-    return <RootEditor initialConfigType={{}} onChangeEditorState={onChangeEditorState} />;
+    return <RootEditor onChangeEditorState={onChangeEditorState} />;
   },
 };
 

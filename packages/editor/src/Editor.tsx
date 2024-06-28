@@ -21,8 +21,10 @@ import * as React from 'react';
 import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 
+import { EditorClasses } from './Editor.theme';
 import { EditorPlaceholderRenderer } from './Editor.types';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
+import { useI18n } from './context/i18n';
 import { useSettings } from './context/settings/SettingsContext';
 import ActionsPlugin from './plugins/ActionsPlugin';
 import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
@@ -77,6 +79,7 @@ export interface EditorProps {
 
 export function Editor({ maxLength, placeholder }: EditorProps) {
   const skipCollaborationInitRef = React.useRef<boolean>();
+  const { t } = useI18n();
   const { historyState } = useSharedHistoryContext();
   const { settings } = useSettings();
   const {
@@ -124,12 +127,11 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
 
   const hasMaxLength = maxLength != null && maxLength > 0;
   const canUseFloatingAnchor = !isSmallWidthViewport;
-  const PlaceholderMessage = <Placeholder>{placeholder?.(settings)}</Placeholder>;
-
+  const placeholderMessage = placeholder ? placeholder(settings) : t('editor.placeholder');
+  const PlaceholderNode = <Placeholder>{placeholderMessage}</Placeholder>;
   return (
     <div
-      className={clsx('EditorContainer', {
-        PlainText: !isRichText,
+      className={clsx('EditorContainer', isRichText ? EditorClasses.richText : EditorClasses.plainText, {
         TreeView: showTreeView,
       })}
     >
@@ -170,7 +172,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
               </div>
             }
             ErrorBoundary={LexicalErrorBoundary}
-            placeholder={PlaceholderMessage}
+            placeholder={PlaceholderNode}
           />
           <MarkdownShortcutPlugin />
           <CodeHighlightPlugin />
@@ -212,7 +214,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
           <PlainTextPlugin
             contentEditable={<ContentEditable />}
             ErrorBoundary={LexicalErrorBoundary}
-            placeholder={PlaceholderMessage}
+            placeholder={PlaceholderNode}
           />
           <HistoryPlugin externalHistoryState={historyState} />
         </>

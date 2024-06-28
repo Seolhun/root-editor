@@ -1,21 +1,30 @@
 .__RootEditor__ {
-  .Placeholder__root {
-    font-size: 15px;
-    color: #999;
-    overflow: hidden;
-    position: absolute;
-    text-overflow: ellipsis;
+  .RootEditor__RichText .RootEditor__Placeholder {
+    top: 50px;
+  }
+
+  .RootEditor__PlainText .RootEditor__Placeholder {
     top: 8px;
+  }
+
+  .RootEditor__Placeholder {
+    position: absolute;
     left: 28px;
-    right: 28px;
+    right: auto;
+    display: inline-block;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
-    display: inline-block;
     pointer-events: none;
+
+    @apply text-neutral dark:text-neutral;
   }
+
   @media (max-width: 1025px) {
-    .Placeholder__root {
-      left: 8px;
+    .RootEditor__Placeholder {
+      left: 12px;
     }
   }
 }

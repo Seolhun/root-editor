@@ -231,7 +231,7 @@ export default function ExcalidrawModal({
                 {t('discard')}
               </button>
               <button className="action-button" onClick={save}>
-                {t('Save')}
+                {t('save')}
               </button>
             </div>
           </div>
