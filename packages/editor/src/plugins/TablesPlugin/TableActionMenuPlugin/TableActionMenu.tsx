@@ -34,7 +34,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import invariant from '~/shared/invariant';
-import ColorPicker from '~/ui/ColorPicker';
+import { ColorPicker } from '~/ui/ColorPicker';
 
 function computeSelectionCount(selection: TableSelection): {
   columns: number;

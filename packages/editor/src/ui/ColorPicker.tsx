@@ -34,7 +34,7 @@ const basicColors = [
 const WIDTH = 214;
 const HEIGHT = 150;
 
-export default function ColorPicker({ color, onChange }: Readonly<ColorPickerProps>): JSX.Element {
+export function ColorPicker({ color, onChange }: Readonly<ColorPickerProps>): JSX.Element {
   const [selfColor, setSelfColor] = useState(transformColor('hex', color));
   const [inputColor, setInputColor] = useState(color);
   const innerDivRef = useRef(null);
@@ -82,7 +82,6 @@ export default function ColorPicker({ color, onChange }: Readonly<ColorPickerPro
   };
 
   useEffect(() => {
-    // Check if the dropdown is actually active
     if (innerDivRef.current !== null && onChange) {
       onChange(selfColor.hex, skipAddingToHistoryStack);
       setInputColor(selfColor.hex);
@@ -175,7 +174,6 @@ function MoveWrapper({ className, children, onChange, style }: MoveWrapperProps)
     if (e.button !== 0) {
       return;
     }
-
     move(e);
 
     const onMouseMove = (_e: MouseEvent): void => {
@@ -188,10 +186,8 @@ function MoveWrapper({ className, children, onChange, style }: MoveWrapperProps)
       if (draggedRef.current) {
         skipAddingToHistoryStack = false;
       }
-
       document.removeEventListener('mousemove', onMouseMove, false);
       document.removeEventListener('mouseup', onMouseUp, false);
-
       move(_e);
       draggedRef.current = false;
     };
@@ -249,7 +245,7 @@ export function toHex(value: string): string {
     return value;
   }
 
-  return '#000000';
+  return 'transparent';
 }
 
 function hex2rgb(hex: string): RGB {

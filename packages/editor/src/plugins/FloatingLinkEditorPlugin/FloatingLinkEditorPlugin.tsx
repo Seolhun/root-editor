@@ -19,11 +19,11 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { setFloatingElemPositionForLinkEditor } from '~/utils/setFloatingElemPositionForLinkEditor';
 import { sanitizeUrl } from '~/utils/url';
@@ -38,7 +38,7 @@ export interface FloatingLinkEditorProps {
   setIsLinkEditMode: Dispatch<boolean>;
 }
 
-const linkIcon = clsx('size-10', 'mt-2', 'cursor-pointer');
+const linkIcon = clsx('size-12', 'text-neutral dark:text-neutral', 'cursor-pointer');
 
 function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLinkEditMode }: FloatingLinkEditorProps) {
   const { floatingElement } = useFloatingAreaContext();
@@ -234,7 +234,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
               role="button"
               tabIndex={0}
             >
-              <XCircleIcon className={clsx('link-cancel', linkIcon, 'text-neutral dark:text-neutral')} />
+              <XCircleIcon className={clsx('Link__Cancel', linkIcon)} />
             </IconButton>
 
             <IconButton
@@ -243,7 +243,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
               role="button"
               tabIndex={0}
             >
-              <CheckCircleIcon className={clsx('link-confirm', linkIcon, 'text-neutral dark:text-neutral')} />
+              <CheckCircleIcon className={clsx('Link__Confirm', linkIcon)} />
             </IconButton>
           </div>
         </div>
@@ -262,7 +262,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
               role="button"
               tabIndex={0}
             >
-              <PencilIcon className={clsx('link-edit', linkIcon, 'text-neutral dark:text-neutral')} />
+              <PencilIcon className={clsx('Link__Edit', linkIcon)} />
             </IconButton>
 
             <IconButton
@@ -273,7 +273,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
               role="button"
               tabIndex={0}
             >
-              <TrashIcon className={clsx('link-trash', linkIcon, 'text-neutral dark:text-neutral')} />
+              <TrashIcon className={clsx('Link__Trash', linkIcon)} />
             </IconButton>
           </div>
         </div>

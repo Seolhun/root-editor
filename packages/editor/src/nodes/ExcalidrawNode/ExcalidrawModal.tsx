@@ -6,10 +6,10 @@ import {
   ExcalidrawInitialDataState,
 } from '@excalidraw/excalidraw/types/types';
 import { FloatingPortal } from '@floating-ui/react';
-import * as React from 'react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 import { useI18n } from '~/context/i18n';
 import { Button } from '~/ui/Button';
 import { Modal } from '~/ui/Modal';

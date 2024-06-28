@@ -110,6 +110,7 @@ export interface RootEditorClasses extends EditorThemeClasses {
   imageResizer: 'ImageNode__Resizer';
   imageResizerResizing: 'ImageNode__Resizer--resizing';
   linkEditor: 'RootEditor__LinkEditor';
+  settings: 'RootEditor__Settings';
 }
 
 export const EditorClasses = {
@@ -120,4 +121,5 @@ export const EditorClasses = {
   imageResizer: 'ImageNode__Resizer',
   imageResizerResizing: 'ImageNode__Resizer--resizing',
   linkEditor: 'RootEditor__LinkEditor',
+  settings: 'RootEditor__Settings',
 } as const satisfies RootEditorClasses;

@@ -1,7 +1,7 @@
 import { FloatingPortal } from '@floating-ui/react';
 import * as React from 'react';
 
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 
 import './FlashMessage.scss';
 

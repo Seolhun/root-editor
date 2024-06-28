@@ -500,4 +500,23 @@
     outline: 2px solid rgb(60, 132, 244);
     user-select: none;
   }
+
+  .RootEditor__Settings {
+    animation: slide-in 0.4s ease;
+
+    @keyframes slide-in {
+      0% {
+        opacity: 0;
+        transform: translateX(-200px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @apply bg-cream-1 dark:bg-space-1;
+    @apply shadow-md;
+  }
 }

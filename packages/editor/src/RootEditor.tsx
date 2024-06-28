@@ -1,5 +1,7 @@
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+/*eslint-disable */
+import '@seolhun/root-ui/dist/index.css';
 import clsx from 'clsx';
 import * as React from 'react';
 
@@ -8,22 +10,20 @@ import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings, EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { Settings } from './Settings';
+import { FloatingAreaProvider } from './context/floating';
 import { FlashMessageContext } from './context/FlashMessageContext';
 import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
 import { SharedHistoryContext } from './context/SharedHistoryContext';
 import { I18nProvider, i18nProviderProps } from './context/i18n';
 import { SettingsProvider, useSettings } from './context/settings/SettingsContext';
-import DocsPlugin from './plugins/DocsPlugin';
-import PasteLogPlugin from './plugins/PasteLogPlugin';
+import {DocsPlugin} from './plugins/DocsPlugin';
+import {PasteLogPlugin} from './plugins/PasteLogPlugin';
 import { TableContext } from './plugins/TablesPlugin';
-import TestRecorderPlugin from './plugins/TestRecorderPlugin';
-import TypingPerfPlugin from './plugins/TypingPerfPlugin';
+import {TestRecorderPlugin} from './plugins/TestRecorderPlugin';
+import {TypingPerfPlugin} from './plugins/TypingPerfPlugin';
 
-/*eslint-disable */
-import '@seolhun/root-ui/dist/index.css';
 import './RootEditor.scss';
 import './assets/tailwind.scss';
-import { FloatingAreaProvider } from './components';
 /*eslint-enable */
 
 type ElementType = HTMLElement;

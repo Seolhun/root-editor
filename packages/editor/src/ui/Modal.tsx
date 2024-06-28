@@ -1,10 +1,10 @@
 import { FloatingPortal } from '@floating-ui/react';
 import { H6 } from '@seolhun/root-ui';
 import clsx from 'clsx';
-import * as React from 'react';
 import { ReactNode, useEffect, useRef } from 'react';
+import * as React from 'react';
 
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 
 import './Modal.scss';
 

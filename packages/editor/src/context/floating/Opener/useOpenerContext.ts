@@ -6,11 +6,12 @@ import {
   useClick,
   useDismiss,
   useFloating,
-  useFocus,
   useInteractions,
   useRole,
 } from '@floating-ui/react';
 import * as React from 'react';
+
+import { ElementRef } from '~/types';
 
 import { OpenerFloatingReturns, OpenerIntersectionReturns, OpenerOptions } from './Opener.types';
 
@@ -26,7 +27,7 @@ export interface UseOpenerReturns extends OpenerFloatingReturns, OpenerIntersect
   /**
    * Portal target element
    */
-  root?: HTMLElement | null;
+  root?: ElementRef<HTMLElement>;
   /**
    * Set open state
    */
@@ -44,6 +45,7 @@ export function useOpener({
   open: controlledOpen,
   placement = 'bottom-start',
   root,
+  strategy = 'fixed',
   zIndex,
 }: UseOpenerProps = {}): UseOpenerReturns {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState<boolean>(initialOpen);
@@ -51,27 +53,18 @@ export function useOpener({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-  const floatingData = useFloating({
-    middleware: [
-      offset(5),
-      flip(),
-      shift({
-        padding: 5,
-      }),
-    ],
+  const floating = useFloating({
+    middleware: [offset(5), shift(), flip()],
     onOpenChange: setOpen,
     open,
     placement,
-    strategy: 'fixed',
+    strategy,
     whileElementsMounted: autoUpdate,
   });
 
-  const { context } = floatingData;
+  const { context } = floating;
 
   const click = useClick(context, {
-    enabled: !disabled,
-  });
-  const focus = useFocus(context, {
     enabled: !disabled,
   });
   const dismiss = useDismiss(context, {
@@ -82,18 +75,18 @@ export function useOpener({
     role: 'tooltip',
   });
 
-  const interactionValues = useInteractions([focus, click, dismiss, role]);
+  const interactions = useInteractions([click, dismiss, role]);
 
   return React.useMemo<UseOpenerReturns>(() => {
     return {
+      ...interactions,
+      ...floating,
       open,
       root,
       setOpen,
       zIndex,
-      ...interactionValues,
-      ...floatingData,
     };
-  }, [open, root, setOpen, zIndex, interactionValues, floatingData]);
+  }, [open, root, setOpen, zIndex, interactions, floating]);
 }
 
 export type OpenerContextValues = UseOpenerReturns;

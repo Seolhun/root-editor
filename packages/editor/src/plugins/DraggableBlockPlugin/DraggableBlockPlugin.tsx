@@ -12,10 +12,10 @@ import {
   DROP_COMMAND,
   LexicalEditor,
 } from 'lexical';
-import * as React from 'react';
 import { DragEvent as ReactDragEvent, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 import { isHTMLElement } from '~/utils/guard';
 import { Point } from '~/utils/point';
 import { Rect } from '~/utils/rect';

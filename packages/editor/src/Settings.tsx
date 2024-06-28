@@ -1,7 +1,10 @@
 import { CAN_USE_BEFORE_INPUT } from '@lexical/utils';
-import React, { useEffect, useMemo, useState } from 'react';
+import clsx from 'clsx';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { INITIAL_SETTINGS } from './Editor.settings';
+import { EditorClasses } from './Editor.theme';
+import { Opener } from './context/floating';
 import { useSettings } from './context/settings/SettingsContext';
 import Switch from './ui/Switch';
 
@@ -23,6 +26,8 @@ export function Settings(): JSX.Element {
     showTreeView,
   } = settings;
 
+  const settingButtonRef = useRef<HTMLButtonElement>(null);
+
   /**
    * TODO: We should support SSR/CSR. so, we should use `window` object in a proper way.
    */
@@ -43,15 +48,15 @@ export function Settings(): JSX.Element {
   }, [windowLocation]);
 
   return (
-    <>
-      <button
+    <Opener root={settingButtonRef.current}>
+      <Opener.Trigger
         className={`editor-dev-button ${showSettings ? 'active' : ''}`}
         id="options-button"
         onClick={() => setShowSettings(!showSettings)}
-        type="button"
+        ref={settingButtonRef}
       />
-      {showSettings ? (
-        <div className="switches">
+      <Opener.Content>
+        <div className={clsx(EditorClasses.settings, 'switches')}>
           {isRichText && debug && (
             <Switch
               onClick={() => {
@@ -135,7 +140,7 @@ export function Settings(): JSX.Element {
             text="Preserve newlines in Markdown"
           />
         </div>
-      ) : null}
-    </>
+      </Opener.Content>
+    </Opener>
   );
 }

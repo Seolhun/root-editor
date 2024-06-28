@@ -34,7 +34,7 @@ export const OpenerContent = React.forwardRef<ElementType, OpenerContentProps>(
               visibility: contextValues?.x == null ? 'hidden' : 'visible',
               zIndex: zIndex ?? 1e7,
             }}
-            className={clsx(className)}
+            className={clsx(className, 'Opener__Panel')}
             ref={mergedRef}
             {...contextValues?.getFloatingProps(others)}
           >

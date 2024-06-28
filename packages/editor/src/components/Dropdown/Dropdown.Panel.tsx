@@ -1,27 +1,27 @@
 import React from 'react';
 
-import { useOpenerContext } from '../Floating';
+import { Opener, useOpenerContext } from '~/context/floating';
+
 import { useDropdownContext } from './Dropdown.Context';
 
-export interface DropdownItemListProps {
-  children: React.ReactNode;
-}
+type ElementType = HTMLDivElement;
+type ElementProps = React.HTMLAttributes<ElementType>;
 
-export const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemListProps>(
-  ({ children }, ref): JSX.Element => {
+export const DropdownPanel = React.forwardRef<ElementType, ElementProps>(
+  ({ children, onKeyDown, ...others }, ref): JSX.Element => {
     const [highlightedItem, setHighlightedItem] = React.useState<React.RefObject<HTMLButtonElement>>();
 
     const { setOpen } = useOpenerContext();
     const { items } = useDropdownContext();
 
     const handleKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLDivElement>) => {
+      (e: React.KeyboardEvent<ElementType>) => {
         if (!items) return;
 
-        const { key } = event;
+        const { key } = e;
         const behaviorKeys = ['Escape', 'ArrowUp', 'ArrowDown', 'Tab'];
         if (behaviorKeys.includes(key)) {
-          event.preventDefault();
+          e.preventDefault();
         }
 
         switch (key) {
@@ -49,8 +49,9 @@ export const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemLis
             break;
           }
         }
+        onKeyDown?.(e);
       },
-      [items, setOpen],
+      [items, onKeyDown, setOpen],
     );
 
     React.useEffect(() => {
@@ -63,9 +64,11 @@ export const DropdownItemList = React.forwardRef<HTMLDivElement, DropdownItemLis
     }, [items, highlightedItem]);
 
     return (
-      <div className="dropdown" onKeyDown={handleKeyDown} ref={ref} role="menubar" tabIndex={0}>
-        {children}
-      </div>
+      <Opener.Content>
+        <div {...others} className="dropdown" onKeyDown={handleKeyDown} ref={ref} role="menubar" tabIndex={0}>
+          {children}
+        </div>
+      </Opener.Content>
     );
   },
 );

@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { useOpenerContext } from '../Floating';
+import { useOpenerContext } from '~/context/floating';
+
 import { useDropdownContext } from './Dropdown.Context';
 
 export interface DropdownItemProps {
   children: React.ReactNode;
-  className: string;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   title?: string;
 }
 
@@ -24,7 +25,7 @@ export function DropdownItem({ className, children, onClick, title }: DropdownIt
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(false);
-    onClick(event);
+    onClick?.(event);
   };
 
   return (

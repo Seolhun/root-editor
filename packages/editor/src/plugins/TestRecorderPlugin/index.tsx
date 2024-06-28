@@ -408,7 +408,7 @@ ${steps.map(formatStep).join(`\n`)}
   return [Button, Output];
 }
 
-export default function TestRecorderPlugin(): JSX.Element {
+export function TestRecorderPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [testRecorderButton, testRecorderOutput] = useTestRecorder(editor);
 

@@ -25,6 +25,14 @@ export interface EditorSettings {
    */
   enabledFigmaDocumentFeature: boolean;
   /**
+   * @default true
+   */
+  enabledTweeterFeature: boolean;
+  /**
+   * @default true
+   */
+  enabledYoutubeFeature: boolean;
+  /**
    * Auto complete feature
    */
   isAutocomplete: boolean;
@@ -63,10 +71,12 @@ export const DEFAULT_SETTINGS: EditorSettings = {
    * Features Enables
    */
   enabledCommentFeature: false,
-  enabledEmbedFeature: false,
+  enabledEmbedFeature: true,
   enabledEquationFeature: false,
   enabledExcalidrawFeature: true,
   enabledFigmaDocumentFeature: true,
+  enabledTweeterFeature: true,
+  enabledYoutubeFeature: true,
   /**
    * Auto complete feature
    */

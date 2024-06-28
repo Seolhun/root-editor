@@ -6,11 +6,11 @@ import { $getTableCellNodeFromLexicalNode, TableCellNode } from '@lexical/table'
 import { IconButton } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import { $getSelection, $isRangeSelection } from 'lexical';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 import { useModal } from '~/hooks/useModal';
 
 import { TableActionMenu } from './TableActionMenu';
