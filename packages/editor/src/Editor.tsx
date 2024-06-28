@@ -27,14 +27,14 @@ import { useSharedHistoryContext } from './context/SharedHistoryContext';
 import { useI18n } from './context/i18n';
 import { useSettings } from './context/settings/SettingsContext';
 import ActionsPlugin from './plugins/ActionsPlugin';
-import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
+import { AutoEmbedPlugin } from './plugins/AutoEmbedPlugin';
 import AutoLinkPlugin from './plugins/AutoLinkPlugin';
 import AutocompletePlugin from './plugins/AutocompletePlugin';
 import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
 import CollapsiblePlugin from './plugins/CollapsiblePlugin';
 import { CommentPlugin } from './plugins/CommentPlugin';
-import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
+import { ComponentPickerPlugin } from './plugins/ComponentPickerPlugin';
 import ContextMenuPlugin from './plugins/ContextMenuPlugin';
 import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
@@ -89,6 +89,8 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
     enabledEquationFeature,
     enabledExcalidrawFeature,
     enabledFigmaDocumentFeature,
+    enabledTweeterFeature,
+    enabledYoutubeFeature,
     isAutocomplete,
     isCharLimit,
     isCharLimitUtf8,
@@ -141,7 +143,6 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
       <ClearEditorPlugin />
       <ComponentPickerPlugin />
       <EmojiPickerPlugin />
-      <AutoEmbedPlugin />
       <MentionsPlugin />
       <EmojisPlugin />
       <HashtagPlugin />
@@ -187,11 +188,12 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
           <InlineImagePlugin />
           <LinkPlugin />
           <PollPlugin />
-          <TwitterPlugin />
-          <YouTubePlugin />
+
           {enabledEquationFeature && <EquationsPlugin />}
           {enabledExcalidrawFeature && <ExcalidrawPlugin />}
           {enabledFigmaDocumentFeature && <FigmaPlugin />}
+          {enabledTweeterFeature && <TwitterPlugin />}
+          {enabledYoutubeFeature && <YouTubePlugin />}
           {enabledEmbedFeature && <AutoEmbedPlugin />}
 
           <ClickableLinkPlugin disabled={isEditable} />

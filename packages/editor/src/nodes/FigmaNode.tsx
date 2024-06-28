@@ -21,8 +21,8 @@ function FigmaComponent({ className, documentID, format, nodeKey }: FigmaCompone
         src={`https://www.figma.com/embed?embed_host=lexical&url=\
         https://www.figma.com/file/${documentID}`}
         allowFullScreen={true}
-        height="315"
-        width="560"
+        height="500px"
+        width="100%"
       />
     </BlockWithAlignableContents>
   );

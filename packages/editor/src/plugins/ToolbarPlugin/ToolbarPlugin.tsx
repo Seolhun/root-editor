@@ -56,8 +56,8 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import { Dispatch, useCallback, useEffect, useState } from 'react';
 import * as React from 'react';
+import { Dispatch, useCallback, useEffect, useState } from 'react';
 
 import catTypingGif from '~/assets/cat-typing.gif';
 import { Dropdown } from '~/components';
@@ -65,20 +65,20 @@ import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
 import { useModal } from '~/hooks/useModal';
 import { $createStickyNode } from '~/nodes/StickyNode';
+import { INSERT_COLLAPSIBLE_COMMAND } from '~/plugins/CollapsiblePlugin';
+import { InsertEquationDialog } from '~/plugins/EquationsPlugin';
+import { INSERT_EXCALIDRAW_COMMAND } from '~/plugins/ExcalidrawPlugin';
+import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '~/plugins/ImagesPlugin';
+import { InsertInlineImageDialog } from '~/plugins/InlineImagePlugin/InlineImagePlugin';
+import { InsertLayoutDialog } from '~/plugins/LayoutPlugin/InsertLayoutDialog';
+import { INSERT_PAGE_BREAK } from '~/plugins/PageBreakPlugin';
+import { InsertPollDialog } from '~/plugins/PollPlugin';
+import { InsertTableDialog } from '~/plugins/TablesPlugin';
 import { IS_APPLE } from '~/shared/environment';
 import { ColorPickerDropdown } from '~/ui/ColorPickerDropdown';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { sanitizeUrl } from '~/utils/url';
 
-import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
-import { InsertEquationDialog } from '../EquationsPlugin';
-import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin';
-import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '../ImagesPlugin';
-import { InsertInlineImageDialog } from '../InlineImagePlugin/InlineImagePlugin';
-import { InsertLayoutDialog } from '../LayoutPlugin/InsertLayoutDialog';
-import { INSERT_PAGE_BREAK } from '../PageBreakPlugin';
-import { InsertPollDialog } from '../PollPlugin';
-import { InsertTableDialog } from '../TablesPlugin/TablePlugin';
 import { EmbedDropdown } from './EmbedDropdown';
 import { FontDropdown } from './FontDropdown';
 import { FontSizer } from './FontSizer';
@@ -414,7 +414,7 @@ export interface ToolbarPluginProps {
 export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.Element {
   const { t } = useI18n();
   const { settings } = useSettings();
-  const { enabledEquationFeature, enabledExcalidrawFeature } = settings;
+  const { enabledEquationFeature, enabledExcalidrawFeature, enabledStickyNote } = settings;
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
@@ -1038,19 +1038,22 @@ export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.El
                 </Dropdown.Item>
               )}
 
-              <Dropdown.Item
-                onClick={() => {
-                  editor.update(() => {
-                    const root = $getRoot();
-                    const stickyNode = $createStickyNode(0, 0);
-                    root.append(stickyNode);
-                  });
-                }}
-                className="item"
-              >
-                <i className="icon sticky" />
-                <span className="text">{t('toolbar.sticky_note')}</span>
-              </Dropdown.Item>
+              {enabledStickyNote && (
+                <Dropdown.Item
+                  onClick={() => {
+                    editor.update(() => {
+                      const root = $getRoot();
+                      const stickyNode = $createStickyNode(0, 0);
+                      root.append(stickyNode);
+                    });
+                  }}
+                  className="item"
+                >
+                  <i className="icon sticky" />
+                  <span className="text">{t('toolbar.sticky_note')}</span>
+                </Dropdown.Item>
+              )}
+
               <Dropdown.Item
                 onClick={() => {
                   editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
@@ -1058,7 +1061,7 @@ export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.El
                 className="item"
               >
                 <i className="icon caret-right" />
-                <span className="text">Collapsible container</span>
+                <span className="text">{t('toolbar.collapsible_container')}</span>
               </Dropdown.Item>
             </Dropdown.Panel>
           </Dropdown>

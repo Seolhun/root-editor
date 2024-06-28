@@ -6,8 +6,10 @@ import {
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import { $createTextNode, $getSelection, $isRangeSelection, TextNode } from 'lexical';
-import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import * as React from 'react';
+
+import { useFloatingAreaContext } from '~/context/floating';
 
 class EmojiOption extends MenuOption {
   emoji: string;
@@ -80,6 +82,7 @@ export default function EmojiPickerPlugin() {
   const [editor] = useLexicalComposerContext();
   const [queryString, setQueryString] = useState<null | string>(null);
   const [emojis, setEmojis] = useState<Array<Emoji>>([]);
+  const { floatingElement } = useFloatingAreaContext();
 
   useEffect(() => {
     import('../../utils/emoji-list').then((file) => setEmojis(file.default));
@@ -135,6 +138,10 @@ export default function EmojiPickerPlugin() {
     [editor],
   );
 
+  if (!floatingElement) {
+    return null;
+  }
+
   return (
     <LexicalTypeaheadMenuPlugin
       menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
@@ -144,7 +151,7 @@ export default function EmojiPickerPlugin() {
         }
 
         return (
-          <FloatingPortal root={anchorElementRef.current}>
+          <FloatingPortal root={anchorElementRef}>
             <div className="typeahead-popover emoji-menu">
               <ul>
                 {options.map((option: EmojiOption, index) => (
@@ -170,6 +177,7 @@ export default function EmojiPickerPlugin() {
       onQueryChange={setQueryString}
       onSelectOption={onSelectOption}
       options={options}
+      parent={floatingElement}
       triggerFn={checkForTriggerMatch}
     />
   );

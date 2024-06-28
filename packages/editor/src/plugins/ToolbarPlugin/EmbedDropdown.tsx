@@ -6,8 +6,7 @@ import * as React from 'react';
 import { Dropdown } from '~/components';
 import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
-
-import { EmbedConfigs } from '../AutoEmbedPlugin';
+import { EmbedConfigs } from '~/plugins/AutoEmbedPlugin';
 
 export interface EmbedDropdownProps {
   disabled?: boolean;

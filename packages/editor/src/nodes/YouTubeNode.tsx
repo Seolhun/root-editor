@@ -31,10 +31,10 @@ function YouTubeComponent({ className, format, nodeKey, videoID }: YouTubeCompon
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen={true}
         frameBorder="0"
-        height="315"
+        height="500px"
         src={`https://www.youtube-nocookie.com/embed/${videoID}`}
         title="YouTube video"
-        width="560"
+        width="100%"
       />
     </BlockWithAlignableContents>
   );

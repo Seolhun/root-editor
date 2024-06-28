@@ -12,6 +12,7 @@ import {
 import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
+import clsx from 'clsx';
 import {
   $createParagraphNode,
   $getSelection,
@@ -20,20 +21,22 @@ import {
   LexicalEditor,
   TextNode,
 } from 'lexical';
-import * as React from 'react';
 import { useCallback, useMemo, useState } from 'react';
+import * as React from 'react';
 
-import catTypingGif from '../../assets/cat-typing.gif';
-import { useModal } from '../../hooks/useModal';
-import { EmbedConfigs } from '../AutoEmbedPlugin';
-import { INSERT_COLLAPSIBLE_COMMAND } from '../CollapsiblePlugin';
-import { InsertEquationDialog } from '../EquationsPlugin';
-import { INSERT_EXCALIDRAW_COMMAND } from '../ExcalidrawPlugin';
-import { INSERT_IMAGE_COMMAND, InsertImageDialog } from '../ImagesPlugin';
-import { InsertLayoutDialog } from '../LayoutPlugin/InsertLayoutDialog';
-import { INSERT_PAGE_BREAK } from '../PageBreakPlugin';
-import { InsertPollDialog } from '../PollPlugin';
-import { InsertTableDialog } from '../TablesPlugin/TablePlugin';
+import { EditorClasses } from '~/Editor.theme';
+import catTypingGif from '~/assets/cat-typing.gif';
+import { useFloatingAreaContext } from '~/context/floating';
+import { useModal } from '~/hooks/useModal';
+import { EmbedConfigs } from '~/plugins/AutoEmbedPlugin';
+import { INSERT_COLLAPSIBLE_COMMAND } from '~/plugins/CollapsiblePlugin';
+import { InsertEquationDialog } from '~/plugins/EquationsPlugin';
+import { INSERT_EXCALIDRAW_COMMAND } from '~/plugins/ExcalidrawPlugin';
+import { INSERT_IMAGE_COMMAND, InsertImageDialog } from '~/plugins/ImagesPlugin';
+import { InsertLayoutDialog } from '~/plugins/LayoutPlugin';
+import { INSERT_PAGE_BREAK } from '~/plugins/PageBreakPlugin';
+import { InsertPollDialog } from '~/plugins/PollPlugin';
+import { InsertTableDialog } from '~/plugins/TablesPlugin';
 
 class ComponentPickerOption extends MenuOption {
   // Icon for display
@@ -281,9 +284,10 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
   ];
 }
 
-export default function ComponentPickerMenuPlugin(): JSX.Element {
+export function ComponentPickerPlugin() {
+  const { floatingElement } = useFloatingAreaContext();
   const [editor] = useLexicalComposerContext();
-  const [modal, showModal] = useModal();
+  const [ModalNode, showModal] = useModal();
   const [queryString, setQueryString] = useState<null | string>(null);
 
   const checkForTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
@@ -323,22 +327,22 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
     [editor],
   );
 
+  if (!floatingElement) {
+    return null;
+  }
+
   return (
     <>
-      {modal}
       <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
-        menuRenderFn={(
-          anchorElementRef,
-          { options: _options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex },
-        ) => {
-          const isEmpty = !anchorElementRef.current || !options.length;
+        menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
+          const isEmpty = !options.length;
           if (isEmpty) {
             return null;
           }
 
           return (
-            <FloatingPortal root={anchorElementRef.current}>
-              <div className="typeahead-popover component-picker-menu">
+            <FloatingPortal root={anchorElementRef}>
+              <div className={clsx(EditorClasses.componentPicker, 'typeahead-popover component-picker-menu')}>
                 <ul>
                   {options.map((option, i: number) => (
                     <ComponentPickerMenuItem
@@ -363,8 +367,11 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         onQueryChange={setQueryString}
         onSelectOption={onSelectOption}
         options={options}
+        parent={floatingElement}
         triggerFn={checkForTriggerMatch}
       />
+
+      {ModalNode}
     </>
   );
 }

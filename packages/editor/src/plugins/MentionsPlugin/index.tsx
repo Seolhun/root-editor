@@ -7,8 +7,10 @@ import {
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import { TextNode } from 'lexical';
-import * as React from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import * as React from 'react';
+
+import { useFloatingAreaContext } from '~/context/floating';
 
 import { $createMentionNode } from '../../nodes/MentionNode';
 
@@ -575,11 +577,10 @@ function MentionsTypeaheadMenuItem({
 
 export default function NewMentionsPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
+  const { floatingElement } = useFloatingAreaContext();
 
   const [queryString, setQueryString] = useState<null | string>(null);
-
   const results = useMentionLookupService(queryString);
-
   const checkForSlashTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
     minLength: 0,
   });
@@ -617,6 +618,10 @@ export default function NewMentionsPlugin(): JSX.Element | null {
     [checkForSlashTriggerMatch, editor],
   );
 
+  if (!floatingElement) {
+    return null;
+  }
+
   return (
     <LexicalTypeaheadMenuPlugin<MentionTypeaheadOption>
       menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
@@ -624,8 +629,9 @@ export default function NewMentionsPlugin(): JSX.Element | null {
         if (isEmpty) {
           return null;
         }
+
         return (
-          <FloatingPortal root={anchorElementRef.current}>
+          <FloatingPortal root={anchorElementRef}>
             <div className="typeahead-popover mentions-menu">
               <ul>
                 {options.map((option, i: number) => (
@@ -651,6 +657,7 @@ export default function NewMentionsPlugin(): JSX.Element | null {
       onQueryChange={setQueryString}
       onSelectOption={onSelectOption}
       options={options}
+      parent={floatingElement}
       triggerFn={checkForMentionMatch}
     />
   );

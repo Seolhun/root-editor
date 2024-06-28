@@ -11,8 +11,10 @@ import {
   type LexicalNode,
   PASTE_COMMAND,
 } from 'lexical';
-import { useCallback, useMemo } from 'react';
 import * as React from 'react';
+import { useCallback, useMemo } from 'react';
+
+import { useFloatingAreaContext } from '~/context/floating';
 
 function ContextMenuItem({
   index,
@@ -94,6 +96,7 @@ export class ContextMenuOption extends MenuOption {
 
 export default function ContextMenuPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
+  const { floatingElement } = useFloatingAreaContext();
 
   const defaultOptions = useMemo(() => {
     return [
@@ -212,7 +215,7 @@ export default function ContextMenuPlugin(): JSX.Element {
     <LexicalContextMenuPlugin
       menuRenderFn={(
         anchorElementRef,
-        { options: _options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex },
+        { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex },
         { setMenuRef },
       ) => {
         const anchorElement = anchorElementRef.current;
@@ -220,9 +223,12 @@ export default function ContextMenuPlugin(): JSX.Element {
         if (isEmpty) {
           return null;
         }
+        if (!floatingElement) {
+          return null;
+        }
 
         return (
-          <FloatingPortal root={anchorElementRef.current}>
+          <FloatingPortal root={floatingElement}>
             <div
               style={{
                 marginLeft: anchorElement.style.width,
