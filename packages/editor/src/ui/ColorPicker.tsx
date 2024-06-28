@@ -34,7 +34,7 @@ const basicColors = [
 const WIDTH = 214;
 const HEIGHT = 150;
 
-export default function ColorPicker({ color, onChange }: Readonly<ColorPickerProps>): JSX.Element {
+export function ColorPicker({ color, onChange }: Readonly<ColorPickerProps>): JSX.Element {
   const [selfColor, setSelfColor] = useState(transformColor('hex', color));
   const [inputColor, setInputColor] = useState(color);
   const innerDivRef = useRef(null);
@@ -191,11 +191,9 @@ function MoveWrapper({ className, children, onChange, style }: MoveWrapperProps)
 
       document.removeEventListener('mousemove', onMouseMove, false);
       document.removeEventListener('mouseup', onMouseUp, false);
-
       move(_e);
       draggedRef.current = false;
     };
-
     document.addEventListener('mousemove', onMouseMove, false);
     document.addEventListener('mouseup', onMouseUp, false);
   };

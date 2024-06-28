@@ -18,9 +18,9 @@ import { createWebsocketProvider } from '~/collaboration';
 import { useSharedHistoryContext } from '~/context/SharedHistoryContext';
 import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
-import EmojisPlugin from '~/plugins/EmojisPlugin';
-import LinkPlugin from '~/plugins/LinkPlugin';
-import TreeViewPlugin from '~/plugins/TreeViewPlugin';
+import { EmojisPlugin } from '~/plugins/EmojisPlugin';
+import { LinkPlugin } from '~/plugins/LinkPlugin';
+import { TreeViewPlugin } from '~/plugins/TreeViewPlugin';
 import ContentEditable from '~/ui/ContentEditable';
 import Placeholder from '~/ui/Placeholder';
 

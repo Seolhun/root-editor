@@ -22,7 +22,6 @@ import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 
 import { EditorPlaceholderRenderer } from './Editor.types';
-import { FloatingAreaProvider } from './components';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
 import { useSettings } from './context/settings/SettingsContext';
 import ActionsPlugin from './plugins/ActionsPlugin';
@@ -38,7 +37,7 @@ import ContextMenuPlugin from './plugins/ContextMenuPlugin';
 import DragDropPaste from './plugins/DragDropPastePlugin';
 import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
 import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
-import EmojisPlugin from './plugins/EmojisPlugin';
+import { EmojisPlugin } from './plugins/EmojisPlugin';
 import EquationsPlugin from './plugins/EquationsPlugin';
 import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
 import FigmaPlugin from './plugins/FigmaPlugin';
@@ -46,9 +45,9 @@ import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import { FloatingTextFormatToolbarPlugin } from './plugins/FloatingTextFormatToolbarPlugin';
 import { ImagesPlugin } from './plugins/ImagesPlugin';
 import { InlineImagePlugin } from './plugins/InlineImagePlugin/InlineImagePlugin';
-import KeywordsPlugin from './plugins/KeywordsPlugin';
+import { KeywordsPlugin } from './plugins/KeywordsPlugin';
 import { LayoutPlugin } from './plugins/LayoutPlugin/LayoutPlugin';
-import LinkPlugin from './plugins/LinkPlugin';
+import { LinkPlugin } from './plugins/LinkPlugin';
 import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
 import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin';
 import { MaxLengthPlugin } from './plugins/MaxLengthPlugin';
@@ -58,8 +57,8 @@ import PollPlugin from './plugins/PollPlugin';
 import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
 import TabFocusPlugin from './plugins/TabFocusPlugin';
 import { TableActionMenuPlugin, TableCellResizerPlugin, TableOfContentsPlugin } from './plugins/TablesPlugin';
-import ToolbarPlugin from './plugins/ToolbarPlugin';
-import TreeViewPlugin from './plugins/TreeViewPlugin';
+import { ToolbarPlugin } from './plugins/ToolbarPlugin';
+import { TreeViewPlugin } from './plugins/TreeViewPlugin';
 import TwitterPlugin from './plugins/TwitterPlugin';
 import YouTubePlugin from './plugins/YouTubePlugin';
 import ContentEditable from './ui/ContentEditable';
@@ -128,7 +127,7 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
   const PlaceholderMessage = <Placeholder>{placeholder?.(settings)}</Placeholder>;
 
   return (
-    <FloatingAreaProvider
+    <div
       className={clsx('EditorContainer', {
         PlainText: !isRichText,
         TreeView: showTreeView,
@@ -226,6 +225,6 @@ export function Editor({ maxLength, placeholder }: EditorProps) {
       {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
       <ActionsPlugin />
       {showTreeView && <TreeViewPlugin />}
-    </FloatingAreaProvider>
+    </div>
   );
 }

@@ -31,6 +31,7 @@ import {
   $getNearestNodeOfType,
   mergeRegister,
 } from '@lexical/utils';
+import clsx from 'clsx';
 import {
   $createParagraphNode,
   $getNodeByKey,
@@ -56,11 +57,12 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
+import * as React from 'react';
 
 import catTypingGif from '~/assets/cat-typing.gif';
 import { Dropdown } from '~/components';
+import { useI18n } from '~/context/i18n';
 import { useModal } from '~/hooks/useModal';
 import { $createStickyNode } from '~/nodes/StickyNode';
 import { IS_APPLE } from '~/shared/environment';
@@ -95,6 +97,8 @@ const blockTypeToBlockName = {
   paragraph: 'Normal',
   quote: 'Quote',
 };
+
+const HEADINGS: HeadingTagType[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
 const rootTypeToRootName = {
   root: 'Root',
@@ -168,6 +172,8 @@ export interface BlockFormatDropdownProps {
 }
 
 function BlockFormatDropdown({ blockType, disabled = false, editor }: BlockFormatDropdownProps): JSX.Element {
+  const { t } = useI18n();
+
   const formatParagraph = () => {
     editor.update(() => {
       const selection = $getSelection();
@@ -242,60 +248,57 @@ function BlockFormatDropdown({ blockType, disabled = false, editor }: BlockForma
   };
 
   return (
-    <Dropdown
-      buttonAriaLabel="Formatting options for text style"
-      buttonClassName="toolbar-item block-controls"
-      buttonIconClassName={'icon block-type ' + blockType}
-      buttonLabel={blockTypeToBlockName[blockType]}
-      disabled={disabled}
-    >
-      <Dropdown.ItemList>
-        <Dropdown.Item className={'item ' + dropDownActiveClass(blockType === 'paragraph')} onClick={formatParagraph}>
+    <Dropdown>
+      <Dropdown.Trigger
+        aria-label="Formatting options for text style"
+        buttonIconClassName={'icon block-type ' + blockType}
+        className="toolbar-item block-controls"
+        disabled={disabled}
+      >
+        {blockTypeToBlockName[blockType]}
+      </Dropdown.Trigger>
+      <Dropdown.Panel>
+        <Dropdown.Item
+          className={clsx('item', dropDownActiveClass(blockType === 'paragraph'))}
+          onClick={formatParagraph}
+        >
           <i className="icon paragraph" />
-          <span className="text">Normal</span>
+          <span className="text">{t('toolbar.paragraph')}</span>
         </Dropdown.Item>
-        <Dropdown.Item
-          className={'item ' + dropDownActiveClass(blockType === 'h1')}
-          onClick={() => formatHeading('h1')}
-        >
-          <i className="icon h1" />
-          <span className="text">Heading 1</span>
-        </Dropdown.Item>
-        <Dropdown.Item
-          className={'item ' + dropDownActiveClass(blockType === 'h2')}
-          onClick={() => formatHeading('h2')}
-        >
-          <i className="icon h2" />
-          <span className="text">Heading 2</span>
-        </Dropdown.Item>
-        <Dropdown.Item
-          className={'item ' + dropDownActiveClass(blockType === 'h3')}
-          onClick={() => formatHeading('h3')}
-        >
-          <i className="icon h3" />
-          <span className="text">Heading 3</span>
-        </Dropdown.Item>
-        <Dropdown.Item className={'item ' + dropDownActiveClass(blockType === 'bullet')} onClick={formatBulletList}>
+        {HEADINGS.map((heading) => (
+          <Dropdown.Item
+            className={clsx('item', dropDownActiveClass(blockType === heading))}
+            key={heading}
+            onClick={() => formatHeading(heading)}
+          >
+            <i className={clsx('icon', heading)} />
+            <span className="text">{blockTypeToBlockName[heading]}</span>
+          </Dropdown.Item>
+        ))}
+        <Dropdown.Item className={clsx('item', dropDownActiveClass(blockType === 'bullet'))} onClick={formatBulletList}>
           <i className="icon bullet-list" />
-          <span className="text">Bullet List</span>
+          <span className="text">{t('toolbar.bulleted_list')}</span>
         </Dropdown.Item>
-        <Dropdown.Item className={'item ' + dropDownActiveClass(blockType === 'number')} onClick={formatNumberedList}>
+        <Dropdown.Item
+          className={clsx('item', dropDownActiveClass(blockType === 'number'))}
+          onClick={formatNumberedList}
+        >
           <i className="icon numbered-list" />
-          <span className="text">Numbered List</span>
+          <span className="text">{t('toolbar.numbered_list')}</span>
         </Dropdown.Item>
-        <Dropdown.Item className={'item ' + dropDownActiveClass(blockType === 'check')} onClick={formatCheckList}>
+        <Dropdown.Item className={clsx('item', dropDownActiveClass(blockType === 'check'))} onClick={formatCheckList}>
           <i className="icon check-list" />
-          <span className="text">Check List</span>
+          <span className="text">{t('toolbar.checklist')}</span>
         </Dropdown.Item>
-        <Dropdown.Item className={'item ' + dropDownActiveClass(blockType === 'quote')} onClick={formatQuote}>
+        <Dropdown.Item className={clsx('item', dropDownActiveClass(blockType === 'quote'))} onClick={formatQuote}>
           <i className="icon quote" />
-          <span className="text">Quote</span>
+          <span className="text">{t('toolbar.quote')}</span>
         </Dropdown.Item>
-        <Dropdown.Item className={'item ' + dropDownActiveClass(blockType === 'code')} onClick={formatCode}>
+        <Dropdown.Item className={clsx('item', dropDownActiveClass(blockType === 'code'))} onClick={formatCode}>
           <i className="icon code" />
-          <span className="text">Code Block</span>
+          <span className="text">{t('toolbar.code_block')}</span>
         </Dropdown.Item>
-      </Dropdown.ItemList>
+      </Dropdown.Panel>
     </Dropdown>
   );
 }
@@ -304,28 +307,28 @@ function Divider(): JSX.Element {
   return <div className="divider" />;
 }
 
-function ElementFormatDropdown({
-  disabled = false,
-  editor,
-  isRTL,
-  value,
-}: {
+interface ElementFormatDropdownProps {
   disabled: boolean;
   editor: LexicalEditor;
   isRTL: boolean;
   value: ElementFormatType;
-}) {
+}
+
+function ElementFormatDropdown({ disabled = false, editor, isRTL, value }: ElementFormatDropdownProps) {
   const formatOption = ELEMENT_FORMAT_OPTIONS[value || 'left'];
+  const { t } = useI18n();
 
   return (
-    <Dropdown
-      buttonAriaLabel="Formatting options for text alignment"
-      buttonClassName="toolbar-item spaced alignment"
-      buttonIconClassName={`icon ${isRTL ? formatOption.iconRTL : formatOption.icon}`}
-      buttonLabel={formatOption.name}
-      disabled={disabled}
-    >
-      <Dropdown.ItemList>
+    <Dropdown>
+      <Dropdown.Trigger
+        aria-label="Formatting options for text alignment"
+        buttonIconClassName={`icon ${isRTL ? formatOption.iconRTL : formatOption.icon}`}
+        className="toolbar-item spaced alignment"
+        disabled={disabled}
+      >
+        {formatOption.name}
+      </Dropdown.Trigger>
+      <Dropdown.Panel>
         <Dropdown.Item
           onClick={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left');
@@ -333,7 +336,7 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className="icon left-align" />
-          <span className="text">Left Align</span>
+          <span className="text">{t('toolbar.left_align')}</span>
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
@@ -342,7 +345,7 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className="icon center-align" />
-          <span className="text">Center Align</span>
+          <span className="text">{t('toolbar.center_align')}</span>
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
@@ -351,7 +354,7 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className="icon right-align" />
-          <span className="text">Right Align</span>
+          <span className="text">{t('toolbar.right_align')}</span>
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
@@ -360,7 +363,7 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className="icon justify-align" />
-          <span className="text">Justify Align</span>
+          <span className="text">{t('toolbar.justify_align')}</span>
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
@@ -369,7 +372,7 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className={`icon ${isRTL ? ELEMENT_FORMAT_OPTIONS.start.iconRTL : ELEMENT_FORMAT_OPTIONS.start.icon}`} />
-          <span className="text">Start Align</span>
+          <span className="text">{t('toolbar.start_align')}</span>
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
@@ -378,7 +381,7 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className={`icon ${isRTL ? ELEMENT_FORMAT_OPTIONS.end.iconRTL : ELEMENT_FORMAT_OPTIONS.end.icon}`} />
-          <span className="text">End Align</span>
+          <span className="text">{t('toolbar.end_align')}</span>
         </Dropdown.Item>
         <Divider />
         <Dropdown.Item
@@ -388,7 +391,7 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className={'icon ' + (isRTL ? 'indent' : 'outdent')} />
-          <span className="text">Outdent</span>
+          <span className="text">{isRTL ? t('toolbar.indent') : t('toolbar.outdent')}</span>
         </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
@@ -397,14 +400,19 @@ function ElementFormatDropdown({
           className="item"
         >
           <i className={'icon ' + (isRTL ? 'outdent' : 'indent')} />
-          <span className="text">Indent</span>
+          <span className="text">{isRTL ? t('toolbar.outdent') : t('toolbar.indent')}</span>
         </Dropdown.Item>
-      </Dropdown.ItemList>
+      </Dropdown.Panel>
     </Dropdown>
   );
 }
 
-export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode: Dispatch<boolean> }): JSX.Element {
+export interface ToolbarPluginProps {
+  setIsLinkEditMode: Dispatch<boolean>;
+}
+
+export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.Element {
+  const { t } = useI18n();
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
@@ -732,13 +740,16 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
         </>
       )}
       {blockType === 'code' ? (
-        <Dropdown
-          buttonAriaLabel="Select language"
-          buttonClassName="toolbar-item code-language"
-          buttonLabel={getLanguageFriendlyName(codeLanguage)}
-          disabled={!isEditable}
-        >
-          <Dropdown.ItemList>
+        <Dropdown>
+          <Dropdown.Trigger
+            aria-label="Select language"
+            buttonIconClassName="icon code-language"
+            className="toolbar-item code-language"
+            disabled={!isEditable}
+          >
+            {getLanguageFriendlyName(codeLanguage)}
+          </Dropdown.Trigger>
+          <Dropdown.Panel>
             {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
               return (
                 <Dropdown.Item
@@ -750,7 +761,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 </Dropdown.Item>
               );
             })}
-          </Dropdown.ItemList>
+          </Dropdown.Panel>
         </Dropdown>
       ) : (
         <>
@@ -763,7 +774,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
             }}
             aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? '⌘B' : 'Ctrl+B'}`}
-            className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
+            className={clsx('toolbar-item spaced', isBold ? 'active' : '')}
             disabled={!isEditable}
             title={IS_APPLE ? 'Bold (⌘B)' : 'Bold (Ctrl+B)'}
             type="button"
@@ -775,7 +786,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
             }}
             aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? '⌘I' : 'Ctrl+I'}`}
-            className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
+            className={clsx('toolbar-item spaced', isItalic ? 'active' : '')}
             disabled={!isEditable}
             title={IS_APPLE ? 'Italic (⌘I)' : 'Italic (Ctrl+I)'}
             type="button"
@@ -787,7 +798,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline');
             }}
             aria-label={`Format text to underlined. Shortcut: ${IS_APPLE ? '⌘U' : 'Ctrl+U'}`}
-            className={'toolbar-item spaced ' + (isUnderline ? 'active' : '')}
+            className={clsx('toolbar-item spaced', isUnderline ? 'active' : '')}
             disabled={!isEditable}
             title={IS_APPLE ? 'Underline (⌘U)' : 'Underline (Ctrl+U)'}
             type="button"
@@ -799,7 +810,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code');
             }}
             aria-label="Insert code block"
-            className={'toolbar-item spaced ' + (isCode ? 'active' : '')}
+            className={clsx('toolbar-item spaced', isCode ? 'active' : '')}
             disabled={!isEditable}
             title="Insert code block"
             type="button"
@@ -808,7 +819,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
           </button>
           <button
             aria-label="Insert link"
-            className={'toolbar-item spaced ' + (isLink ? 'active' : '')}
+            className={clsx('toolbar-item spaced', isLink ? 'active' : '')}
             disabled={!isEditable}
             onClick={insertLink}
             title="Insert link"
@@ -834,46 +845,46 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
             onChange={onBgColorSelect}
             title="bg color"
           />
-          <Dropdown
-            buttonAriaLabel="Formatting options for additional text styles"
-            buttonClassName="toolbar-item spaced"
-            buttonIconClassName="icon dropdown-more"
-            buttonLabel=""
-            disabled={!isEditable}
-          >
-            <Dropdown.ItemList>
+          <Dropdown>
+            <Dropdown.Trigger
+              aria-label="Formatting options for additional text styles"
+              buttonIconClassName="icon dropdown-more"
+              className="toolbar-item spaced"
+              disabled={!isEditable}
+            />
+            <Dropdown.Panel>
               <Dropdown.Item
                 onClick={() => {
                   activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
                 }}
                 aria-label="Format text with a strikethrough"
-                className={'item ' + dropDownActiveClass(isStrikethrough)}
+                className={clsx('item', dropDownActiveClass(isStrikethrough))}
                 title="Strikethrough"
               >
                 <i className="icon strikethrough" />
-                <span className="text">Strikethrough</span>
+                <span className="text">{t('toolbar.strikethrough')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
                   activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript');
                 }}
                 aria-label="Format text with a subscript"
-                className={'item ' + dropDownActiveClass(isSubscript)}
+                className={clsx('item', dropDownActiveClass(isSubscript))}
                 title="Subscript"
               >
                 <i className="icon subscript" />
-                <span className="text">Subscript</span>
+                <span className="text">{t('toolbar.subscript')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
                   activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript');
                 }}
                 aria-label="Format text with a superscript"
-                className={'item ' + dropDownActiveClass(isSuperscript)}
+                className={clsx('item', dropDownActiveClass(isSuperscript))}
                 title="Superscript"
               >
                 <i className="icon superscript" />
-                <span className="text">Superscript</span>
+                <span className="text">{t('toolbar.superscript')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 aria-label="Clear all text formatting"
@@ -882,21 +893,23 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 title="Clear text formatting"
               >
                 <i className="icon clear" />
-                <span className="text">Clear Formatting</span>
+                <span className="text">{t('toolbar.clear_formatting')}</span>
               </Dropdown.Item>
-            </Dropdown.ItemList>
+            </Dropdown.Panel>
           </Dropdown>
 
           <Divider />
 
-          <Dropdown
-            buttonAriaLabel="Insert specialized editor node"
-            buttonClassName="toolbar-item spaced"
-            buttonIconClassName="icon plus"
-            buttonLabel="Insert"
-            disabled={!isEditable}
-          >
-            <Dropdown.ItemList>
+          <Dropdown>
+            <Dropdown.Trigger
+              aria-label="Insert specialized editor node"
+              buttonIconClassName="icon plus"
+              className="toolbar-item spaced"
+              disabled={!isEditable}
+            >
+              {t('insert')}
+            </Dropdown.Trigger>
+            <Dropdown.Panel>
               <Dropdown.Item
                 onClick={() => {
                   activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
@@ -904,7 +917,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon horizontal-rule" />
-                <span className="text">Horizontal Rule</span>
+                <span className="text">{t('toolbar.horizontal_rule')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -913,7 +926,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon page-break" />
-                <span className="text">Page Break</span>
+                <span className="text">{t('toolbar.page_break')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -924,7 +937,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon image" />
-                <span className="text">Image</span>
+                <span className="text">{t('toolbar.image')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -935,7 +948,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon image" />
-                <span className="text">Inline Image</span>
+                <span className="text">{t('toolbar.inline_image')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() =>
@@ -947,7 +960,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon gif" />
-                <span className="text">GIF</span>
+                <span className="text">{t('toolbar.gif')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -956,7 +969,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon diagram-2" />
-                <span className="text">Excalidraw</span>
+                <span className="text">{t('toolbar.excalidraw')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -967,7 +980,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon table" />
-                <span className="text">Table</span>
+                <span className="text">{t('toolbar.table')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -978,7 +991,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon poll" />
-                <span className="text">Poll</span>
+                <span className="text">{t('toolbar.poll')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -989,7 +1002,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon columns" />
-                <span className="text">Columns Layout</span>
+                <span className="text">{t('toolbar.columns_layout')}</span>
               </Dropdown.Item>
 
               <Dropdown.Item
@@ -1001,7 +1014,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon equation" />
-                <span className="text">Equation</span>
+                <span className="text">{t('toolbar.equation')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -1014,7 +1027,7 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                 className="item"
               >
                 <i className="icon sticky" />
-                <span className="text">Sticky Note</span>
+                <span className="text">{t('toolbar.sticky_note')}</span>
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
@@ -1037,11 +1050,13 @@ export default function ToolbarPlugin({ setIsLinkEditMode }: { setIsLinkEditMode
                   <span className="text">{embedConfig.contentName}</span>
                 </Dropdown.Item>
               ))}
-            </Dropdown.ItemList>
+            </Dropdown.Panel>
           </Dropdown>
         </>
       )}
+
       <Divider />
+
       <ElementFormatDropdown disabled={!isEditable} editor={editor} isRTL={isRTL} value={elementFormat} />
 
       {modal}

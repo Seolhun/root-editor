@@ -36,12 +36,12 @@ import {
   createCommand,
   KEY_ESCAPE_COMMAND,
 } from 'lexical';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as React from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { theme } from '~/Editor.theme';
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 import { useI18n } from '~/context/i18n';
 import { useModal } from '~/hooks/useModal';
 import useLayoutEffect from '~/shared/useLayoutEffect';

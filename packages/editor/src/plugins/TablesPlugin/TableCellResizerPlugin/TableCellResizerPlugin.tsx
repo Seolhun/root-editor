@@ -15,10 +15,10 @@ import {
 } from '@lexical/table';
 import { calculateZoomLevel } from '@lexical/utils';
 import { $getNearestNodeFromDOMNode } from 'lexical';
-import * as React from 'react';
 import { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 
 import './TableCellResizerPlugin.scss';
 

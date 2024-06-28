@@ -14,11 +14,11 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 import { useSettings } from '~/context/settings';
 import { getDOMRangeRect } from '~/utils/getDOMRangeRect';
 import { getSelectedNode } from '~/utils/getSelectedNode';

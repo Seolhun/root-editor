@@ -1,8 +1,10 @@
 import { DropdownItem } from './Dropdown.Item';
-import { DropdownItemList } from './Dropdown.ItemList';
+import { DropdownPanel } from './Dropdown.Panel';
 import { DropdownRoot } from './Dropdown.Root';
+import { DropdownTrigger } from './Dropdown.Trigger';
 
 export const Dropdown = Object.assign(DropdownRoot, {
   Item: DropdownItem,
-  ItemList: DropdownItemList,
+  Panel: DropdownPanel,
+  Trigger: DropdownTrigger,
 });

@@ -60,14 +60,16 @@ export function FontDropdown({ disabled = false, editor, style, value }: FontDro
     style === 'font-family' ? 'Formatting options for font family' : 'Formatting options for font size';
 
   return (
-    <Dropdown
-      buttonAriaLabel={buttonAriaLabel}
-      buttonClassName={'toolbar-item ' + style}
-      buttonIconClassName={style === 'font-family' ? 'icon block-type font-family' : ''}
-      buttonLabel={value}
-      disabled={disabled}
-    >
-      <Dropdown.ItemList>
+    <Dropdown>
+      <Dropdown.Trigger
+        aria-label={buttonAriaLabel}
+        buttonIconClassName={style === 'font-family' ? 'icon block-type font-family' : ''}
+        className={clsx('toolbar-item', style)}
+        disabled={disabled}
+      >
+        {value}
+      </Dropdown.Trigger>
+      <Dropdown.Panel>
         {(style === 'font-family' ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(([option, text]) => (
           <Dropdown.Item
             className={clsx('item', dropDownActiveClass(value === option), {
@@ -79,7 +81,7 @@ export function FontDropdown({ disabled = false, editor, style, value }: FontDro
             <span className="text">{text}</span>
           </Dropdown.Item>
         ))}
-      </Dropdown.ItemList>
+      </Dropdown.Panel>
     </Dropdown>
   );
 }

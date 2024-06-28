@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Dropdown } from '~/components/Dropdown';
 
-import ColorPicker from './ColorPicker';
+import { ColorPicker } from './ColorPicker';
 
 export type DropdownColorPickerProps = {
   buttonAriaLabel?: string;
@@ -12,20 +12,35 @@ export type DropdownColorPickerProps = {
   color: string;
   disabled?: boolean;
   onChange?: (color: string, skipHistoryStack: boolean) => void;
-  stopCloseOnClickSelf?: boolean;
   title?: string;
 };
 
 export function DropdownColorPicker({
+  buttonAriaLabel,
+  buttonClassName,
+  buttonIconClassName,
+  buttonLabel,
   color,
   disabled = false,
   onChange,
-  stopCloseOnClickSelf = true,
-  ...rest
+  title,
 }: DropdownColorPickerProps) {
   return (
-    <Dropdown {...rest} disabled={disabled}>
-      <ColorPicker color={color} onChange={onChange} />
+    <Dropdown>
+      <Dropdown.Trigger
+        aria-label={buttonAriaLabel}
+        buttonIconClassName={buttonIconClassName}
+        className={buttonClassName}
+        disabled={disabled}
+        title={title}
+      >
+        {buttonLabel}
+      </Dropdown.Trigger>
+      <Dropdown.Panel>
+        <Dropdown.Item>
+          <ColorPicker color={color} onChange={onChange} />
+        </Dropdown.Item>
+      </Dropdown.Panel>
     </Dropdown>
   );
 }

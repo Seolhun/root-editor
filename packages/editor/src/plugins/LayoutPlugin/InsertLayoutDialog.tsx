@@ -1,8 +1,9 @@
 import { LexicalEditor } from 'lexical';
-import * as React from 'react';
 import { useState } from 'react';
+import * as React from 'react';
 
 import { Dropdown } from '~/components';
+import { useI18n } from '~/context/i18n';
 import { Button } from '~/ui/Button';
 
 import { INSERT_LAYOUT_COMMAND } from './LayoutPlugin';
@@ -21,6 +22,7 @@ export interface InsertLayoutDialogProps {
 }
 
 export function InsertLayoutDialog({ activeEditor, onClose }: InsertLayoutDialogProps): JSX.Element {
+  const { t } = useI18n();
   const [layout, setLayout] = useState(LAYOUTS[0].value);
   const buttonLabel = LAYOUTS.find((item) => item.value === layout)?.label;
 
@@ -31,16 +33,17 @@ export function InsertLayoutDialog({ activeEditor, onClose }: InsertLayoutDialog
 
   return (
     <>
-      <Dropdown buttonClassName="toolbar-item dialog-dropdown" buttonLabel={buttonLabel}>
-        <Dropdown.ItemList>
+      <Dropdown>
+        <Dropdown.Trigger className="toolbar-item dialog-dropdown">{buttonLabel}</Dropdown.Trigger>
+        <Dropdown.Panel>
           {LAYOUTS.map(({ label, value }) => (
             <Dropdown.Item className="item" key={value} onClick={() => setLayout(value)}>
               <span className="text">{label}</span>
             </Dropdown.Item>
           ))}
-        </Dropdown.ItemList>
+        </Dropdown.Panel>
       </Dropdown>
-      <Button onClick={onClick}>Insert</Button>
+      <Button onClick={onClick}>{t('insert')}</Button>
     </>
   );
 }

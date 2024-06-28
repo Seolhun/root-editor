@@ -1,5 +1,4 @@
 import {
-  autoUpdate,
   flip,
   offset,
   shift,
@@ -63,7 +62,6 @@ export function useOpener({
     open,
     placement,
     strategy: 'fixed',
-    whileElementsMounted: autoUpdate,
   });
 
   const { context } = floatingData;

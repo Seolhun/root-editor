@@ -19,11 +19,11 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/components';
+import { useFloatingAreaContext } from '~/context/floating';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { setFloatingElemPositionForLinkEditor } from '~/utils/setFloatingElemPositionForLinkEditor';
 import { sanitizeUrl } from '~/utils/url';
