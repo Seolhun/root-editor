@@ -4,7 +4,7 @@ import { Dropdown } from '~/components/Dropdown';
 
 import { ColorPicker } from './ColorPicker';
 
-export type DropdownColorPickerProps = {
+export type ColorPickerDropdownProps = {
   buttonAriaLabel?: string;
   buttonClassName: string;
   buttonIconClassName?: string;
@@ -15,7 +15,7 @@ export type DropdownColorPickerProps = {
   title?: string;
 };
 
-export function DropdownColorPicker({
+export function ColorPickerDropdown({
   buttonAriaLabel,
   buttonClassName,
   buttonIconClassName,
@@ -24,22 +24,23 @@ export function DropdownColorPicker({
   disabled = false,
   onChange,
   title,
-}: DropdownColorPickerProps) {
+}: ColorPickerDropdownProps) {
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
   return (
-    <Dropdown>
+    <Dropdown root={buttonRef.current} strategy="absolute">
       <Dropdown.Trigger
         aria-label={buttonAriaLabel}
         buttonIconClassName={buttonIconClassName}
         className={buttonClassName}
         disabled={disabled}
+        ref={buttonRef}
         title={title}
       >
         {buttonLabel}
       </Dropdown.Trigger>
+
       <Dropdown.Panel>
-        <Dropdown.Item>
-          <ColorPicker color={color} onChange={onChange} />
-        </Dropdown.Item>
+        <ColorPicker color={color} onChange={onChange} />
       </Dropdown.Panel>
     </Dropdown>
   );

@@ -1,4 +1,6 @@
-import { Placement, useFloating, useInteractions } from '@floating-ui/react';
+import { Placement, Strategy, useFloating, useInteractions } from '@floating-ui/react';
+
+import { ElementRef } from '~/types';
 
 export type OpenerDelay = {
   close: number;
@@ -27,7 +29,11 @@ export interface OpenerOptions {
   /**
    * Portal target element
    */
-  root?: HTMLElement | null;
+  root?: ElementRef<HTMLElement>;
+  /**
+   * Opener strategy
+   */
+  strategy?: Strategy;
   /**
    * Z-index of tooltip content
    */

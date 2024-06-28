@@ -703,23 +703,11 @@
   }
 
   .switches {
-    z-index: 6;
     position: fixed;
+    z-index: 6;
     left: 10px;
     bottom: 70px;
     animation: slide-in 0.4s ease;
-  }
-
-  @keyframes slide-in {
-    0% {
-      opacity: 0;
-      transform: translateX(-200px);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
   }
 
   .switch {

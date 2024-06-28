@@ -17,7 +17,7 @@ export function useModal(): [
     setModalContent(null);
   }, []);
 
-  const modal = useMemo(() => {
+  const ModalNode = useMemo(() => {
     if (modalContent === null) {
       return null;
     }
@@ -45,5 +45,5 @@ export function useModal(): [
     [onClose],
   );
 
-  return [modal, showModal];
+  return [ModalNode, showModal];
 }

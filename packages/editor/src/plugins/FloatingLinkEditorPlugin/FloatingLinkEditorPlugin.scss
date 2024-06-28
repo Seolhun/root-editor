@@ -1,47 +1,14 @@
 .__RootEditor__ {
   .RootEditor__LinkEditor {
-    display: flex;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 10;
     max-width: 400px;
     width: 100%;
     opacity: 0;
-    background-color: #fff;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-    border-radius: 0 0 8px 8px;
     transition: opacity 0.5s;
     will-change: transform;
-
-    .button.active, .toolbar .button.active {
-      background-color: rgb(223, 232, 250);
-    }
-
-    .button {
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      padding: 6px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin: 0 2px;
-    }
-
-    .button.hovered {
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      background-color: #eee;
-    }
-
-    .button i, .actions i {
-      background-size: contain;
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      vertical-align: -0.25em;
-    }
+    z-index: 10;
 
     @mixin LinkWrapper {
       position: relative;
@@ -51,59 +18,67 @@
       border: 0;
       outline: 0;
 
-      @apply flex flex-1 items-start space-x-4;
+      @apply flex flex-1 space-x-4;
       @apply text-space-1 dark:text-cream-1;
-      @apply rounded-lg;
     }
 
     @mixin LinkAction {
-      @apply flex items-center;
-      @apply space-x-2;
+      @apply flex items-center space-x-2;
     }
 
     .LinkForm {
+      @apply bg-cream-1 dark:bg-space-1;
+      @apply border border-neutral-1 dark:border-neutral-1;
+      @apply shadow;
+      @apply rounded-md;
+
       @include LinkWrapper;
 
-      &__Input {
-        display: block;
-        width: calc(100% - 75px);
+      .LinkForm__Input {
         padding: 8px 12px;
-        box-sizing: border-box;
-        position: relative;
         font-family: inherit;
 
+        @apply relative;
+        @apply block;
+        @apply w-full;
         @apply bg-cream-4 dark:bg-space-4;
         @apply text-space-1 dark:text-cream-1;
       }
 
-      &__Actions {
+      .LinkForm__Actions {
         @include LinkAction;
       }
     }
 
     .LinkView {
+      @apply bg-cream-1 dark:bg-space-1;
+      @apply border border-neutral-1 dark:border-neutral-1;
+      @apply shadow;
+      @apply rounded-md;
+
       @include LinkWrapper;
 
-      &__Link {
+      .LinkView__Link {
         @apply flex flex-1;
         @apply underline;
         @apply break-all;
         @apply text-primary dark:text-primary;
+        @apply mt-3;
 
         &:hover {
           text-decoration: underline;
         }
       }
 
-      &__Actions {
+      .LinkView__Actions {
         @include LinkAction;
       }
     }
 
-    .link-cancel {}
-    .link-confirm {}
-    .link-edit {}
-    .link-trash {}
+    .Link__Cancel {}
+    .Link__Confirm {}
+    .Link__Edit {}
+    .Link__Trash {}
 
     select {
       padding: 6px;

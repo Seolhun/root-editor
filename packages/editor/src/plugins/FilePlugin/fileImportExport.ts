@@ -66,7 +66,7 @@ export function importFile(editor: LexicalEditor) {
 function readTextFileFromSystem(callback: (text: string) => void) {
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = '.lexical';
+  input.accept = '.json';
   input.addEventListener('change', (event: Event) => {
     const target = event.target as HTMLInputElement;
 
@@ -87,7 +87,7 @@ function readTextFileFromSystem(callback: (text: string) => void) {
 }
 
 /**
- * Generates a .lexical file to be downloaded by the browser containing the current editor state.
+ * Generates a .json file to be downloaded by the browser containing the current editor state.
  * @param editor - The lexical editor.
  * @param config - An object that optionally contains fileName and source. fileName defaults to
  * the current date (as a string) and source defaults to Lexical.
@@ -105,7 +105,7 @@ export function exportFile(
     lastSaved: now.getTime(),
   });
   const fileName = config.fileName || now.toISOString();
-  exportBlob(serializedDocument, `${fileName}.lexical`);
+  exportBlob(serializedDocument, `${fileName}.json`);
 }
 
 // Adapted from https://stackoverflow.com/a/19328891/2013580

@@ -25,19 +25,6 @@ export const Default: Story = {
   },
 };
 
-export const WidthMaxLength: Story = {
-  render: () => {
-    return (
-      <RootReadonlyEditor
-        initialConfigType={{
-          editorState: JSON.stringify(dummyContent),
-        }}
-        maxLength={10}
-      />
-    );
-  },
-};
-
 export const WithInitialConfigType: Story = {
   render: () => {
     return (
@@ -50,14 +37,14 @@ export const WithInitialConfigType: Story = {
   },
 };
 
-export const WidthInitialSettings: Story = {
+export const WidthMaxLength: Story = {
   render: () => {
     return (
       <RootReadonlyEditor
         initialConfigType={{
           editorState: JSON.stringify(dummyContent),
         }}
-        initialSettings={{ showTreeView: true }}
+        maxLength={10}
       />
     );
   },

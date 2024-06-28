@@ -28,6 +28,7 @@ export const DEFAULT_I18N_RESOURCES: I18nResources = {
     'toolbar.code': 'Code',
     'toolbar.code_block': 'Code Block',
     'toolbar.columns_layout': 'Columns Layout',
+    'toolbar.embed': 'Embed',
     'toolbar.emoji': 'Emoji',
     'toolbar.end_align': 'End Align',
     'toolbar.equation': 'Equation',

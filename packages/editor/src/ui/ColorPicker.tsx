@@ -82,7 +82,6 @@ export function ColorPicker({ color, onChange }: Readonly<ColorPickerProps>): JS
   };
 
   useEffect(() => {
-    // Check if the dropdown is actually active
     if (innerDivRef.current !== null && onChange) {
       onChange(selfColor.hex, skipAddingToHistoryStack);
       setInputColor(selfColor.hex);
@@ -175,7 +174,6 @@ function MoveWrapper({ className, children, onChange, style }: MoveWrapperProps)
     if (e.button !== 0) {
       return;
     }
-
     move(e);
 
     const onMouseMove = (_e: MouseEvent): void => {
@@ -188,12 +186,12 @@ function MoveWrapper({ className, children, onChange, style }: MoveWrapperProps)
       if (draggedRef.current) {
         skipAddingToHistoryStack = false;
       }
-
       document.removeEventListener('mousemove', onMouseMove, false);
       document.removeEventListener('mouseup', onMouseUp, false);
       move(_e);
       draggedRef.current = false;
     };
+
     document.addEventListener('mousemove', onMouseMove, false);
     document.addEventListener('mouseup', onMouseUp, false);
   };
@@ -247,7 +245,7 @@ export function toHex(value: string): string {
     return value;
   }
 
-  return '#000000';
+  return 'transparent';
 }
 
 function hex2rgb(hex: string): RGB {

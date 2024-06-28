@@ -4,8 +4,8 @@ import * as React from 'react';
 
 import { useOpenerContext } from './useOpenerContext';
 
-type ElementType = HTMLDivElement;
-type ElementProps = React.HTMLAttributes<ElementType>;
+type ElementType = HTMLButtonElement;
+type ElementProps = React.ButtonHTMLAttributes<ElementType>;
 
 export const OpenerTrigger = React.forwardRef<ElementType, ElementProps>(({ className, children, ...props }, ref) => {
   const contextValues = useOpenerContext();
@@ -14,13 +14,13 @@ export const OpenerTrigger = React.forwardRef<ElementType, ElementProps>(({ clas
   const mergedRef = useMergeRefs([contextValues?.refs.setReference, ref, childrenRef]);
 
   return (
-    <div
-      className={clsx(className)}
+    <button
+      className={clsx(className, 'Opener__Trigger')}
       data-state={contextValues?.open ? 'open' : 'closed'}
       ref={mergedRef}
       {...contextValues?.getReferenceProps(props)}
     >
       {children}
-    </div>
+    </button>
   );
 });

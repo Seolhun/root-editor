@@ -9,13 +9,13 @@ import {
   URL_MATCHER,
 } from '@lexical/react/LexicalAutoEmbedPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import * as React from 'react';
 import { useMemo, useState } from 'react';
+import * as React from 'react';
 
+import { useModal } from '~/hooks/useModal';
 import { Button } from '~/ui/Button';
+import { DialogActions } from '~/ui/Dialog';
 
-import { useModal } from '../../hooks/useModal';
-import { DialogActions } from '../../ui/Dialog';
 import { INSERT_FIGMA_COMMAND } from '../FigmaPlugin';
 import { INSERT_TWEET_COMMAND } from '../TwitterPlugin';
 import { INSERT_YOUTUBE_COMMAND } from '../YouTubePlugin';
@@ -37,7 +37,7 @@ interface RootEditorEmbedConfig extends EmbedConfig {
   keywords: Array<string>;
 }
 
-export const YoutubeEmbedConfig: RootEditorEmbedConfig = {
+export const YoutubeEmbedConfig = {
   type: 'youtube-video',
 
   contentName: 'Youtube Video',
@@ -68,9 +68,9 @@ export const YoutubeEmbedConfig: RootEditorEmbedConfig = {
 
     return null;
   },
-};
+} as const satisfies RootEditorEmbedConfig;
 
-export const TwitterEmbedConfig: RootEditorEmbedConfig = {
+export const TwitterEmbedConfig = {
   type: 'tweet',
 
   // e.g. Tweet or Google Map.
@@ -102,9 +102,9 @@ export const TwitterEmbedConfig: RootEditorEmbedConfig = {
 
     return null;
   },
-};
+} as const satisfies RootEditorEmbedConfig;
 
-export const FigmaEmbedConfig: RootEditorEmbedConfig = {
+export const FigmaEmbedConfig = {
   type: 'figma',
 
   contentName: 'Figma Document',
@@ -132,7 +132,7 @@ export const FigmaEmbedConfig: RootEditorEmbedConfig = {
 
     return null;
   },
-};
+} as const satisfies RootEditorEmbedConfig;
 
 export const EmbedConfigs = [TwitterEmbedConfig, YoutubeEmbedConfig, FigmaEmbedConfig];
 
