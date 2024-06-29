@@ -15,9 +15,9 @@ import * as React from 'react';
 import { theme } from '~/Editor.theme';
 import { createWebsocketProvider } from '~/collaboration';
 import { useSharedHistoryContext } from '~/context/SharedHistoryContext';
-import useLayoutEffect from '~/shared/useLayoutEffect';
-import ContentEditable from '~/ui/ContentEditable';
-import Placeholder from '~/ui/Placeholder';
+import { useIsoMorphicEffect } from '~/shared/useIsoMorphicEffect';
+import { ContentEditable } from '~/ui/ContentEditable';
+import { Placeholder } from '~/ui/Placeholder';
 
 import { $isStickyNode } from './StickyNode';
 
@@ -77,7 +77,7 @@ export default function StickyComponent({
     }
   }, [x, y]);
 
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     const position = positioningRef.current;
     const resizeObserver = new ResizeObserver((entries) => {
       for (let i = 0; i < entries.length; i++) {

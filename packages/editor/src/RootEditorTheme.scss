@@ -73,15 +73,21 @@
     margin-left: 20px;
     margin-bottom: 10px;
     font-size: 15px;
-    color: rgb(101, 103, 107);
-    border-left-color: rgb(206, 208, 212);
-    border-left-width: 4px;
-    border-left-style: solid;
     padding-left: 16px;
+
+    @apply text-neutral dark:text-neutral;
+    @apply border-l-4;
+    @apply border-neutral dark:border-neutral;
   }
 
   .RootEditor__indent {
     --lexical-indent-base-value: 40px;
+  }
+
+  .RootEditor__text {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
   }
 
   .RootEditor__textBold {
@@ -561,6 +567,49 @@
 
   .RootEditor__Mentions {
     width: 250px;
+  }
+
+  .RootEditor__DraggableBlock {
+    padding: 2px 1px;
+    cursor: grab;
+    position: absolute;
+    border-radius: 4px;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    will-change: transform;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &:hover {
+      @apply bg-neutral-1 dark:bg-neutral-1;
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.3;
+      background-image: url(../public/icons/draggable-block-menu.svg);
+    }
+  }
+
+  .RootEditor__DraggableBlock--selected {
+    @apply bg-neutral-1 dark:bg-neutral-1;
+    @apply rounded-lg;
+  }
+
+  .RootEditor__DraggableBlock__TargetLine {
+    pointer-events: none;
+    height: 4px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    will-change: transform;
+
+    @apply bg-primary dark:bg-primary;
   }
 }
 

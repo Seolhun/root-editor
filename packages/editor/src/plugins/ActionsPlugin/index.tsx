@@ -77,7 +77,7 @@ async function shareDoc(doc: SerializedDocument): Promise<void> {
   await window.navigator.clipboard.writeText(newUrl);
 }
 
-export default function ActionsPlugin(): JSX.Element {
+export function ActionsPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
   const [isSpeechToText, setIsSpeechToText] = useState(false);

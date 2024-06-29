@@ -18,9 +18,10 @@ import {
   LexicalCommand,
   LexicalEditor,
 } from 'lexical';
-import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
+import { EditorClasses } from '~/Editor.theme';
 import landscapeImage from '~/assets/landscape.jpg';
 import yellowFlowerImage from '~/assets/yellow-flower.jpg';
 import { $createImageNode, $isImageNode, ImageNode, ImagePayload } from '~/nodes/ImageNodes/ImageNode';
@@ -327,7 +328,7 @@ function canDropImage(event: DragEvent): boolean {
     target instanceof HTMLElement &&
     !target.closest('code, span.RootEditor__image') &&
     target.parentElement &&
-    target.parentElement.closest('div.ContentEditable__root')
+    target.parentElement.closest(EditorClasses.contentEditable)
   );
 }
 

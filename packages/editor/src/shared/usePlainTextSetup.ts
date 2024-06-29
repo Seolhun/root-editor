@@ -4,10 +4,10 @@ import { registerDragonSupport } from '@lexical/dragon';
 import { registerPlainText } from '@lexical/plain-text';
 import { mergeRegister } from '@lexical/utils';
 
-import useLayoutEffect from './useLayoutEffect';
+import { useIsoMorphicEffect } from './useIsoMorphicEffect';
 
 export function usePlainTextSetup(editor: LexicalEditor): void {
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     return mergeRegister(registerPlainText(editor), registerDragonSupport(editor));
     // We only do this for init
     // eslint-disable-next-line react-hooks/exhaustive-deps

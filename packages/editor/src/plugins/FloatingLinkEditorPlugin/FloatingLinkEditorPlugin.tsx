@@ -379,7 +379,7 @@ export interface FloatingLinkEditorToolbarProps {
   setIsLinkEditMode: Dispatch<boolean>;
 }
 
-export default function FloatingLinkEditorPlugin({
+export function FloatingLinkEditorPlugin({
   isLinkEditMode,
   setIsLinkEditMode,
 }: FloatingLinkEditorToolbarProps): JSX.Element | null {

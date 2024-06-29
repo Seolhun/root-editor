@@ -42,7 +42,7 @@ export function InsertEquationDialog({
   return <KatexEquationAlterer onConfirm={onEquationConfirm} />;
 }
 
-export default function EquationsPlugin(): JSX.Element | null {
+export function EquationsPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {

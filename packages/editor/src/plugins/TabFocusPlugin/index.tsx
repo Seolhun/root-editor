@@ -21,7 +21,7 @@ function registerKeyTimeStampTracker() {
   );
 }
 
-export default function TabFocusPlugin(): null {
+export function TabFocusPlugin(): null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {

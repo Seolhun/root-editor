@@ -52,13 +52,16 @@ export function TitlePlaceholderPlugin({ placeholder }: TitlePlaceholderPluginPr
         const parentNode = selection.anchor.getNode();
         if (!$isHeadingNode(parentNode) || !parentNode.isEmpty()) return;
 
-        // It's a paragraph node, it's empty, and it's selected
-        // Now switch over to the native selection to get the paragraph DOM element
-        const element = nativeSelection.anchorNode;
-        if (!element) return;
+        const headingDOMElement = nativeSelection.anchorNode;
+        if (!headingDOMElement) return;
 
-        if (element instanceof HTMLHeadingElement) {
-          h1Ref.current = element;
+        const parentDOMElement = headingDOMElement.parentElement;
+        if (!parentDOMElement) return;
+
+        const isContentEditable = parentDOMElement.isContentEditable && parentDOMElement instanceof HTMLDivElement;
+        const isHeadingElement = headingDOMElement instanceof HTMLHeadingElement;
+        if (isHeadingElement && isContentEditable) {
+          h1Ref.current = headingDOMElement;
           h1Ref.current.setAttribute(NodeAttributeNames.placeholder, placeholder);
           h1Ref.current.classList.add(...tailwindPlaceholderClasses);
         }

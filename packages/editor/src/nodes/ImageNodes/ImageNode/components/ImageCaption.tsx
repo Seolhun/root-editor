@@ -22,8 +22,8 @@ import { useSettings } from '~/context/settings';
 import { EmojisPlugin } from '~/plugins/EmojisPlugin';
 import { LinkPlugin } from '~/plugins/LinkPlugin';
 import { TreeViewPlugin } from '~/plugins/TreeViewPlugin';
-import ContentEditable from '~/ui/ContentEditable';
-import Placeholder from '~/ui/Placeholder';
+import { ContentEditable } from '~/ui/ContentEditable';
+import { Placeholder } from '~/ui/Placeholder';
 
 import './ImageCaption.scss';
 

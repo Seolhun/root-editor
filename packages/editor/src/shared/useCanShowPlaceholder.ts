@@ -4,7 +4,7 @@ import { $canShowPlaceholderCurry } from '@lexical/text';
 import { mergeRegister } from '@lexical/utils';
 import { useState } from 'react';
 
-import useLayoutEffect from './useLayoutEffect';
+import { useIsoMorphicEffect } from './useIsoMorphicEffect';
 
 function canShowPlaceholderFromCurrentEditorState(editor: LexicalEditor): boolean {
   const currentCanShowPlaceholder = editor.getEditorState().read($canShowPlaceholderCurry(editor.isComposing()));
@@ -15,7 +15,7 @@ function canShowPlaceholderFromCurrentEditorState(editor: LexicalEditor): boolea
 export function useCanShowPlaceholder(editor: LexicalEditor): boolean {
   const [canShowPlaceholder, setCanShowPlaceholder] = useState(() => canShowPlaceholderFromCurrentEditorState(editor));
 
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     function resetCanShowPlaceholder() {
       const currentCanShowPlaceholder = canShowPlaceholderFromCurrentEditorState(editor);
       setCanShowPlaceholder(currentCanShowPlaceholder);

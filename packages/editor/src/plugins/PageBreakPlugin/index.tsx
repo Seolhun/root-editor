@@ -7,7 +7,7 @@ import { $createPageBreakNode, PageBreakNode } from '../../nodes/PageBreakNode/P
 
 export const INSERT_PAGE_BREAK: LexicalCommand<undefined> = createCommand();
 
-export default function PageBreakPlugin(): JSX.Element | null {
+export function PageBreakPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {

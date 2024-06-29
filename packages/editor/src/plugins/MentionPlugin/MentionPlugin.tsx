@@ -7,7 +7,7 @@ import {
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import clsx from 'clsx';
 import { TextNode } from 'lexical';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
@@ -107,7 +107,7 @@ export function MentionPlugin({
     [editor],
   );
 
-  const checkForMentionMatch = useCallback(
+  const triggerMentionFn = useCallback(
     (text: string) => {
       const slashMatch = checkForSlashTriggerMatch(text, editor);
       if (slashMatch !== null) {
@@ -163,7 +163,7 @@ export function MentionPlugin({
       onSelectOption={onSelectOption}
       options={mentionOptions}
       parent={floatingElement}
-      triggerFn={checkForMentionMatch}
+      triggerFn={triggerMentionFn}
     />
   );
 }

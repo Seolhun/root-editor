@@ -4,12 +4,11 @@ import { registerDragonSupport } from '@lexical/dragon';
 import { registerRichText } from '@lexical/rich-text';
 import { mergeRegister } from '@lexical/utils';
 
-import useLayoutEffect from './useLayoutEffect';
+import { useIsoMorphicEffect } from './useIsoMorphicEffect';
 
 export function useRichTextSetup(editor: LexicalEditor): void {
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     return mergeRegister(registerRichText(editor), registerDragonSupport(editor));
-
     // We only do this for init
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);

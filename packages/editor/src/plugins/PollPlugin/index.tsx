@@ -46,7 +46,7 @@ export function InsertPollDialog({
   );
 }
 
-export default function PollPlugin(): JSX.Element | null {
+export function PollPlugin(): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     if (!editor.hasNodes([PollNode])) {
