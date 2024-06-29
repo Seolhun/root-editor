@@ -18,11 +18,12 @@ import {
   LexicalCommand,
   LexicalEditor,
 } from 'lexical';
-import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
 import type { Position } from '~/nodes/ImageNodes/InlineImageNode';
 
+import { EditorClasses } from '~/Editor.theme';
 import { $createInlineImageNode, $isInlineImageNode, InlineImageNode, InlineImagePayload } from '~/nodes/ImageNodes';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 import { Button } from '~/ui/Button';
@@ -296,7 +297,7 @@ function canDropImage(event: DragEvent): boolean {
     target instanceof HTMLElement &&
     !target.closest('code, span.RootEditor__image') &&
     target.parentElement &&
-    target.parentElement.closest('div.ContentEditable__root')
+    target.parentElement.closest(EditorClasses.contentEditable)
   );
 }
 

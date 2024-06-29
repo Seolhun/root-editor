@@ -3,7 +3,7 @@ import type { LexicalEditor, NodeKey } from 'lexical';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import useLayoutEffect from './useLayoutEffect';
+import { useIsoMorphicEffect } from './useIsoMorphicEffect';
 
 type ErrorBoundaryProps = {
   children: JSX.Element;
@@ -17,8 +17,7 @@ export function useDecorators(editor: LexicalEditor, ErrorBoundary: ErrorBoundar
     editor.getDecorators<JSX.Element>(),
   );
 
-  // Subscribe to changes
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     return editor.registerDecoratorListener<JSX.Element>((nextDecorators) => {
       ReactDOM.flushSync(() => {
         setDecorators(nextDecorators);

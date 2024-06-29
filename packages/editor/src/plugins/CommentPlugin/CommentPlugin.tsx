@@ -36,18 +36,18 @@ import {
   createCommand,
   KEY_ESCAPE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import * as React from 'react';
 
 import { theme } from '~/Editor.theme';
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
 import { useFloatingAreaContext } from '~/context/floating';
 import { useI18n } from '~/context/i18n';
 import { useModal } from '~/hooks/useModal';
-import useLayoutEffect from '~/shared/useLayoutEffect';
+import { useIsoMorphicEffect } from '~/shared/useIsoMorphicEffect';
 import { Button } from '~/ui/Button';
-import ContentEditable from '~/ui/ContentEditable';
-import Placeholder from '~/ui/Placeholder';
+import { ContentEditable } from '~/ui/ContentEditable';
+import { Placeholder } from '~/ui/Placeholder';
 
 import './CommentPlugin.scss';
 
@@ -84,7 +84,7 @@ function AddCommentBox({
     };
   }, [editor, updatePosition]);
 
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     updatePosition();
   }, [anchorKey, editor, updatePosition]);
 
@@ -245,7 +245,7 @@ function CommentInputBox({
     });
   }, [editor, selectionState]);
 
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     updateLocation();
     const container = selectionState.container;
     const body = document.body;

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 
 import { IS_APPLE } from '~/shared/environment';
-import useLayoutEffect from '~/shared/useLayoutEffect';
+import { useIsoMorphicEffect } from '~/shared/useIsoMorphicEffect';
 
 const copy = (text: null | string) => {
   const textArea = document.createElement('textarea');
@@ -214,7 +214,7 @@ ${steps.map(formatStep).join(`\n`)}
     [steps, setSteps],
   );
 
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (!isRecording) {
         return;
@@ -253,7 +253,7 @@ ${steps.map(formatStep).join(`\n`)}
     });
   }, [editor, isRecording, pushStep]);
 
-  useLayoutEffect(() => {
+  useIsoMorphicEffect(() => {
     if (preRef.current) {
       preRef.current.scrollTo(0, preRef.current.scrollHeight);
     }

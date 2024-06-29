@@ -15,8 +15,8 @@ import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
@@ -65,7 +65,7 @@ import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { TreeViewPlugin } from './plugins/TreeViewPlugin';
 import { TwitterPlugin } from './plugins/TwitterPlugin/TwitterPlugin';
 import { YouTubePlugin } from './plugins/YouTubePlugin';
-import ContentEditable from './ui/ContentEditable';
+import { ContentEditable } from './ui/ContentEditable';
 
 export interface EditorProps {
   /**

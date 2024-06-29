@@ -92,6 +92,7 @@ export const theme: EditorThemeClasses = {
   tableSelected: 'RootEditor__TableSelected',
   tableSelection: 'RootEditor__TableSelection',
   text: {
+    base: 'RootEditor__text',
     bold: 'RootEditor__textBold',
     code: 'RootEditor__textCode',
     italic: 'RootEditor__textItalic',
@@ -105,7 +106,9 @@ export const theme: EditorThemeClasses = {
 
 export interface RootEditorClasses extends EditorThemeClasses {
   componentPicker: 'RootEditor__ComponentPicker';
+  contentEditable: 'RootEditor__ContentEditable';
   draggableBlock: 'RootEditor__DraggableBlock';
+  draggableBlockSelected: 'RootEditor__DraggableBlock--selected';
   draggableBlockTargetLine: 'RootEditor__DraggableBlock__TargetLine';
   floatingTextFormatToolbar: 'RootEditor__FloatingTextFormatToolbar';
   fontSizer: 'RootEditor__FontSizer';
@@ -115,6 +118,7 @@ export interface RootEditorClasses extends EditorThemeClasses {
   linkEditor: 'RootEditor__LinkEditor';
   mention: 'RootEditor__Mention';
   mentionList: 'RootEditor__MentionList';
+  placeholder: 'RootEditor__Placeholder';
   plainText: 'RootEditor__PlainText';
   richText: 'RootEditor__RichText';
   settings: 'RootEditor__Settings';
@@ -123,7 +127,9 @@ export interface RootEditorClasses extends EditorThemeClasses {
 export const EditorClasses = {
   ...theme,
   componentPicker: 'RootEditor__ComponentPicker',
+  contentEditable: 'RootEditor__ContentEditable',
   draggableBlock: 'RootEditor__DraggableBlock',
+  draggableBlockSelected: 'RootEditor__DraggableBlock--selected',
   draggableBlockTargetLine: 'RootEditor__DraggableBlock__TargetLine',
   floatingTextFormatToolbar: 'RootEditor__FloatingTextFormatToolbar',
   fontSizer: 'RootEditor__FontSizer',
@@ -133,6 +139,7 @@ export const EditorClasses = {
   linkEditor: 'RootEditor__LinkEditor',
   mention: 'RootEditor__Mention',
   mentionList: 'RootEditor__MentionList',
+  placeholder: 'RootEditor__Placeholder',
   plainText: 'RootEditor__PlainText',
   richText: 'RootEditor__RichText',
   settings: 'RootEditor__Settings',
