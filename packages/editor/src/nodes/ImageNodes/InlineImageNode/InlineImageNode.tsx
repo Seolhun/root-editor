@@ -12,8 +12,10 @@ import type {
 } from 'lexical';
 
 import { $applyNodeReplacement, createEditor, DecoratorNode } from 'lexical';
-import * as React from 'react';
 import { Suspense } from 'react';
+import * as React from 'react';
+
+import { NodeAttributeNames } from '~/nodes/Node.AttributeNames';
 
 const InlineImageComponent = React.lazy(() => import('./InlineImageComponent'));
 
@@ -163,6 +165,7 @@ export class InlineImageNode extends DecoratorNode<JSX.Element> {
     element.setAttribute('alt', this.__altText);
     element.setAttribute('width', this.__width.toString());
     element.setAttribute('height', this.__height.toString());
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 

@@ -15,6 +15,8 @@ import { $applyNodeReplacement, createEditor, DecoratorNode } from 'lexical';
 import * as React from 'react';
 import { Suspense } from 'react';
 
+import { NodeAttributeNames } from '~/nodes/Node.AttributeNames';
+
 const ImageComponent = React.lazy(() => import('./components/ImageComponent'));
 
 export type SerializedImageNode = Spread<
@@ -143,6 +145,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
     element.setAttribute('alt', this.__altText);
     element.setAttribute('width', this.__width.toString());
     element.setAttribute('height', this.__height.toString());
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 

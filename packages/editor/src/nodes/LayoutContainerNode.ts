@@ -12,6 +12,8 @@ import type {
 import { addClassNamesToElement } from '@lexical/utils';
 import { ElementNode } from 'lexical';
 
+import { NodeAttributeNames } from './Node.AttributeNames';
+
 export type SerializedLayoutContainerNode = Spread<
   {
     templateColumns: string;
@@ -48,7 +50,7 @@ export class LayoutContainerNode extends ElementNode {
   static importDOM(): DOMConversionMap | null {
     return {
       div: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-root-layout-container')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.layout_container)) {
           return null;
         }
         return {
@@ -79,7 +81,8 @@ export class LayoutContainerNode extends ElementNode {
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
     element.style.gridTemplateColumns = this.__templateColumns;
-    element.setAttribute('data-root-layout-container', 'true');
+    element.setAttribute(NodeAttributeNames.layout_container, 'true');
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 

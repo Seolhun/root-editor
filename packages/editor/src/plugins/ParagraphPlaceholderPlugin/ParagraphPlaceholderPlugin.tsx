@@ -5,6 +5,8 @@ import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import { $getRoot, $getSelection, $isParagraphNode, $isRangeSelection } from 'lexical';
 import { useEffect, useRef } from 'react';
 
+import { NodeAttributeNames } from '~/nodes/Node.AttributeNames';
+
 export type ParagraphPlaceholderPluginProps = {
   hideOnEmptyEditor?: boolean;
   placeholder: string;
@@ -30,7 +32,7 @@ export const ParagraphPlaceholderPlugin = ({ hideOnEmptyEditor, placeholder }: P
 
       editorState.read(() => {
         if (paragraphRef?.current) {
-          paragraphRef.current.removeAttribute('data-root-placeholder');
+          paragraphRef.current.removeAttribute(NodeAttributeNames.placeholder);
           paragraphRef.current.classList.remove(...tailwindPlaceholderClasses);
           paragraphRef.current = null;
         }
@@ -58,7 +60,7 @@ export const ParagraphPlaceholderPlugin = ({ hideOnEmptyEditor, placeholder }: P
 
         if (paragraphDOMElement instanceof HTMLParagraphElement) {
           paragraphRef.current = paragraphDOMElement;
-          paragraphRef.current.setAttribute('data-root-placeholder', placeholder);
+          paragraphRef.current.setAttribute(NodeAttributeNames.placeholder, placeholder);
           paragraphRef.current.classList.add(...tailwindPlaceholderClasses);
         }
       });
