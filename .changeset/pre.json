@@ -7,6 +7,7 @@
     "@seolhun/root-editor": "0.1.6"
   },
   "changesets": [
+    "fifty-years-clean",
     "khaki-shrimps-tickle"
   ]
 }
