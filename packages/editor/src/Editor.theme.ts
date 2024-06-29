@@ -105,6 +105,8 @@ export const theme: EditorThemeClasses = {
 
 export interface RootEditorClasses extends EditorThemeClasses {
   componentPicker: 'RootEditor__ComponentPicker';
+  draggableBlock: 'RootEditor__DraggableBlock';
+  draggableBlockTargetLine: 'RootEditor__DraggableBlock__TargetLine';
   floatingTextFormatToolbar: 'RootEditor__FloatingTextFormatToolbar';
   fontSizer: 'RootEditor__FontSizer';
   imageCaption: 'ImageNode__Caption';
@@ -121,6 +123,8 @@ export interface RootEditorClasses extends EditorThemeClasses {
 export const EditorClasses = {
   ...theme,
   componentPicker: 'RootEditor__ComponentPicker',
+  draggableBlock: 'RootEditor__DraggableBlock',
+  draggableBlockTargetLine: 'RootEditor__DraggableBlock__TargetLine',
   floatingTextFormatToolbar: 'RootEditor__FloatingTextFormatToolbar',
   fontSizer: 'RootEditor__FontSizer',
   imageCaption: 'ImageNode__Caption',

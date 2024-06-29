@@ -35,7 +35,7 @@ import './Collapsible.scss';
 export const INSERT_COLLAPSIBLE_COMMAND = createCommand<void>();
 export const TOGGLE_COLLAPSIBLE_COMMAND = createCommand<NodeKey>();
 
-export default function CollapsiblePlugin(): null {
+export function CollapsiblePlugin(): null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {

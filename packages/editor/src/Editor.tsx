@@ -26,39 +26,39 @@ import { EditorPlaceholderRenderer } from './Editor.types';
 import { useSharedHistoryContext } from './context/SharedHistoryContext';
 import { useI18n } from './context/i18n';
 import { useSettings } from './context/settings/SettingsContext';
-import ActionsPlugin from './plugins/ActionsPlugin';
+import { ActionsPlugin } from './plugins/ActionsPlugin';
 import { AutoEmbedPlugin } from './plugins/AutoEmbedPlugin';
-import AutoLinkPlugin from './plugins/AutoLinkPlugin';
-import AutocompletePlugin from './plugins/AutocompletePlugin';
-import CodeActionMenuPlugin from './plugins/CodeActionMenuPlugin';
-import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
-import CollapsiblePlugin from './plugins/CollapsiblePlugin';
+import { AutoLinkPlugin } from './plugins/AutoLinkPlugin';
+import { AutocompletePlugin } from './plugins/AutocompletePlugin';
+import { CodeActionMenuPlugin } from './plugins/CodeActionMenuPlugin';
+import { CodeHighlightPlugin } from './plugins/CodeHighlightPlugin';
+import { CollapsiblePlugin } from './plugins/CollapsiblePlugin';
 import { CommentPlugin } from './plugins/CommentPlugin';
 import { ComponentPickerPlugin } from './plugins/ComponentPickerPlugin';
-import ContextMenuPlugin from './plugins/ContextMenuPlugin';
-import DragDropPaste from './plugins/DragDropPastePlugin';
-import DraggableBlockPlugin from './plugins/DraggableBlockPlugin';
-import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
+import { ContextMenuPlugin } from './plugins/ContextMenuPlugin';
+import { DragDropPastePlugin } from './plugins/DragDropPastePlugin';
+import { DraggableBlockPlugin } from './plugins/DraggableBlockPlugin';
+import { EmojiPickerPlugin } from './plugins/EmojiPickerPlugin';
 import { EmojisPlugin } from './plugins/EmojisPlugin';
-import EquationsPlugin from './plugins/EquationsPlugin';
-import ExcalidrawPlugin from './plugins/ExcalidrawPlugin';
+import { EquationsPlugin } from './plugins/EquationsPlugin';
+import { ExcalidrawPlugin } from './plugins/ExcalidrawPlugin';
 import { FigmaPlugin } from './plugins/FigmaPlugin/FigmaPlugin';
-import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
+import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
 import { FloatingTextFormatToolbarPlugin } from './plugins/FloatingTextFormatToolbarPlugin';
 import { ImagesPlugin } from './plugins/ImagesPlugin';
 import { InlineImagePlugin } from './plugins/InlineImagePlugin/InlineImagePlugin';
 import { KeywordsPlugin } from './plugins/KeywordsPlugin';
 import { LayoutPlugin } from './plugins/LayoutPlugin/LayoutPlugin';
 import { LinkPlugin } from './plugins/LinkPlugin';
-import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
-import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin';
+import { ListMaxIndentLevelPlugin } from './plugins/ListMaxIndentLevelPlugin';
+import { MarkdownShortcutPlugin } from './plugins/MarkdownShortcutPlugin';
 import { MaxLengthPlugin } from './plugins/MaxLengthPlugin';
 import { MentionPlugin, MentionPluginProps } from './plugins/MentionPlugin';
-import PageBreakPlugin from './plugins/PageBreakPlugin';
+import { PageBreakPlugin } from './plugins/PageBreakPlugin';
 import { ParagraphPlaceholderPlugin } from './plugins/ParagraphPlaceholderPlugin';
-import PollPlugin from './plugins/PollPlugin';
-import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
-import TabFocusPlugin from './plugins/TabFocusPlugin';
+import { PollPlugin } from './plugins/PollPlugin';
+import { SpeechToTextPlugin } from './plugins/SpeechToTextPlugin';
+import { TabFocusPlugin } from './plugins/TabFocusPlugin';
 import { TableActionMenuPlugin, TableCellResizerPlugin, TableOfContentsPlugin } from './plugins/TablesPlugin';
 import { TitlePlaceholderPlugin } from './plugins/TitlePlaceholderPlugin';
 import { ToolbarPlugin } from './plugins/ToolbarPlugin';
@@ -146,7 +146,7 @@ export function Editor({ maxLength, placeholder, plugins }: EditorProps) {
     >
       {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />}
       {isMaxLength && hasMaxLength && <MaxLengthPlugin maxLength={maxLength} />}
-      <DragDropPaste />
+      <DragDropPastePlugin />
       <AutoFocusPlugin />
       <ClearEditorPlugin />
       <ComponentPickerPlugin />

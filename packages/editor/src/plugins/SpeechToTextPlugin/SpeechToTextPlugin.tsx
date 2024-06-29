@@ -20,7 +20,7 @@ const VOICE_COMMANDS: Readonly<Record<string, (arg0: { editor: LexicalEditor; se
   },
 };
 
-function SpeechToTextPlugin(): null {
+function SpeechToText() {
   const [editor] = useLexicalComposerContext();
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
   const SpeechRecognition =
@@ -93,4 +93,4 @@ function SpeechToTextPlugin(): null {
   return null;
 }
 
-export default (SUPPORT_SPEECH_RECOGNITION ? SpeechToTextPlugin : () => null) as () => null;
+export const SpeechToTextPlugin = SUPPORT_SPEECH_RECOGNITION ? SpeechToText : () => null;

@@ -8,7 +8,7 @@ import { INSERT_IMAGE_COMMAND } from '../ImagesPlugin';
 
 const ACCEPTABLE_IMAGE_TYPES = ['image/', 'image/heic', 'image/heif', 'image/gif', 'image/webp'];
 
-export default function DragDropPaste(): null {
+export function DragDropPastePlugin(): null {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     return editor.registerCommand(

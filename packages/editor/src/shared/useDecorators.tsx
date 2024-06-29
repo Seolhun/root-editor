@@ -1,8 +1,7 @@
 import type { LexicalEditor, NodeKey } from 'lexical';
 
-import { Suspense, useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
-import { createPortal, flushSync } from 'react-dom';
+import * as ReactDOM from 'react-dom';
 
 import useLayoutEffect from './useLayoutEffect';
 
@@ -14,18 +13,20 @@ type ErrorBoundaryProps = {
 export type ErrorBoundaryType = React.ComponentClass<ErrorBoundaryProps> | React.FC<ErrorBoundaryProps>;
 
 export function useDecorators(editor: LexicalEditor, ErrorBoundary: ErrorBoundaryType): Array<JSX.Element> {
-  const [decorators, setDecorators] = useState<Record<NodeKey, JSX.Element>>(() => editor.getDecorators<JSX.Element>());
+  const [decorators, setDecorators] = React.useState<Record<NodeKey, JSX.Element>>(() =>
+    editor.getDecorators<JSX.Element>(),
+  );
 
   // Subscribe to changes
   useLayoutEffect(() => {
     return editor.registerDecoratorListener<JSX.Element>((nextDecorators) => {
-      flushSync(() => {
+      ReactDOM.flushSync(() => {
         setDecorators(nextDecorators);
       });
     });
   }, [editor]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // If the content editable mounts before the subscription is added, then
     // nothing will be rendered on initial pass. We can get around that by
     // ensuring that we set the value.
@@ -33,21 +34,22 @@ export function useDecorators(editor: LexicalEditor, ErrorBoundary: ErrorBoundar
   }, [editor]);
 
   // Return decorators defined as React Portals
-  return useMemo(() => {
-    const decoratedPortals = [];
+  return React.useMemo(() => {
+    const decoratedPortals: React.ReactPortal[] = [];
     const decoratorKeys = Object.keys(decorators);
 
     for (let i = 0; i < decoratorKeys.length; i++) {
       const nodeKey = decoratorKeys[i];
-      const reactDecorator = (
+      const ReactDecoratorElement = (
         <ErrorBoundary onError={(e) => editor._onError(e)}>
-          <Suspense fallback={null}>{decorators[nodeKey]}</Suspense>
+          <React.Suspense fallback={null}>{decorators[nodeKey]}</React.Suspense>
         </ErrorBoundary>
       );
-      const element = editor.getElementByKey(nodeKey);
+      const NodeElement = editor.getElementByKey(nodeKey);
 
-      if (element !== null) {
-        decoratedPortals.push(createPortal(reactDecorator, element, nodeKey));
+      if (NodeElement !== null) {
+        const Portal = ReactDOM.createPortal(ReactDecoratorElement, NodeElement, nodeKey);
+        decoratedPortals.push(Portal);
       }
     }
 

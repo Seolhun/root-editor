@@ -14,7 +14,7 @@ import { $createExcalidrawNode, ExcalidrawNode } from '../../nodes/ExcalidrawNod
 
 export const INSERT_EXCALIDRAW_COMMAND: LexicalCommand<void> = createCommand('INSERT_EXCALIDRAW_COMMAND');
 
-export default function ExcalidrawPlugin(): null {
+export function ExcalidrawPlugin(): null {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     if (!editor.hasNodes([ExcalidrawNode])) {

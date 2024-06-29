@@ -49,7 +49,7 @@ function $shouldPreventIndent(maxDepth: number): boolean {
   return totalDepth > maxDepth;
 }
 
-export default function ListMaxIndentLevelPlugin({ maxDepth = 7 }: { maxDepth?: number }): null {
+export function ListMaxIndentLevelPlugin({ maxDepth = 7 }: { maxDepth?: number }): null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {

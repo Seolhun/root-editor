@@ -146,7 +146,7 @@ function getMouseInfo(event: MouseEvent): {
   }
 }
 
-export default function CodeActionMenuPlugin() {
+export function CodeActionMenuPlugin() {
   const { floatingElement } = useFloatingAreaContext();
   if (!floatingElement) {
     return null;

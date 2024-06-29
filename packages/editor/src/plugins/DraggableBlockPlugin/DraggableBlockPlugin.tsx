@@ -2,6 +2,7 @@ import { FloatingPortal } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { eventFiles } from '@lexical/rich-text';
 import { calculateZoomLevel, mergeRegister } from '@lexical/utils';
+import clsx from 'clsx';
 import {
   $getNearestNodeFromDOMNode,
   $getNodeByKey,
@@ -15,16 +16,15 @@ import {
 import { DragEvent as ReactDragEvent, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 
+import { EditorClasses } from '~/Editor.theme';
 import { useFloatingAreaContext } from '~/context/floating';
 import { isHTMLElement } from '~/utils/guard';
 import { Point } from '~/utils/point';
 import { Rect } from '~/utils/rect';
 
-import './DraggableBlockPlugin.scss';
-
 const SPACE = 4;
 const TARGET_LINE_HALF_HEIGHT = 2;
-const DRAGGABLE_BLOCK_MENU_CLASSNAME = 'draggable-block-menu';
+const DRAGGABLE_BLOCK_MENU_CLASSNAME = EditorClasses.draggableBlock;
 const DRAG_DATA_FORMAT = 'application/x-lexical-drag-block';
 const TEXT_BOX_HORIZONTAL_PADDING = 28;
 
@@ -53,9 +53,9 @@ function getCollapsedMargins(elem: HTMLElement): {
   marginBottom: number;
   marginTop: number;
 } {
-  const getMargin = (element: Element | null, margin: 'marginBottom' | 'marginTop'): number =>
-    element ? parseFloat(window.getComputedStyle(element)[margin]) : 0;
-
+  const getMargin = (element: Element | null, margin: 'marginBottom' | 'marginTop'): number => {
+    return element ? parseFloat(window.getComputedStyle(element)[margin]) : 0;
+  };
   const { marginBottom, marginTop } = window.getComputedStyle(elem);
   const prevElemSiblingMarginBottom = getMargin(elem.previousElementSibling, 'marginBottom');
   const nextElemSiblingMarginTop = getMargin(elem.nextElementSibling, 'marginTop');
@@ -68,14 +68,14 @@ function getCollapsedMargins(elem: HTMLElement): {
 function getBlockElement(
   editor: LexicalEditor,
   event: MouseEvent,
-  anchorElem: HTMLElement | null,
+  anchorElement: HTMLElement | null,
   useEdgeAsDefault = false,
 ): HTMLElement | null {
-  if (!anchorElem) {
+  if (!anchorElement) {
     return null;
   }
 
-  const anchorElementRect = anchorElem.getBoundingClientRect();
+  const anchorElementRect = anchorElement.getBoundingClientRect();
   const topLevelNodeKeys = getTopLevelNodeKeys(editor);
 
   let blockElem: HTMLElement | null = null;
@@ -157,8 +157,8 @@ function isOnMenu(element: HTMLElement): boolean {
   return !!element.closest(`.${DRAGGABLE_BLOCK_MENU_CLASSNAME}`);
 }
 
-function setMenuPosition(targetElem: HTMLElement | null, floatingElem: HTMLElement, anchorElem: HTMLElement | null) {
-  if (!targetElem || !anchorElem) {
+function setMenuPosition(targetElem: HTMLElement | null, floatingElem: HTMLElement, anchorElement: HTMLElement | null) {
+  if (!targetElem || !anchorElement) {
     floatingElem.style.opacity = '0';
     floatingElem.style.transform = 'translate(-10000px, -10000px)';
     return;
@@ -167,7 +167,7 @@ function setMenuPosition(targetElem: HTMLElement | null, floatingElem: HTMLEleme
   const targetRect = targetElem.getBoundingClientRect();
   const targetStyle = window.getComputedStyle(targetElem);
   const floatingElemRect = floatingElem.getBoundingClientRect();
-  const anchorElementRect = anchorElem.getBoundingClientRect();
+  const anchorElementRect = anchorElement.getBoundingClientRect();
 
   const top =
     targetRect.top + (parseInt(targetStyle.lineHeight, 10) - floatingElemRect.height) / 2 - anchorElementRect.top;
@@ -178,34 +178,34 @@ function setMenuPosition(targetElem: HTMLElement | null, floatingElem: HTMLEleme
   floatingElem.style.transform = `translate(${left}px, ${top}px)`;
 }
 
-function setDragImage(dataTransfer: DataTransfer, draggableBlockElem: HTMLElement) {
-  const { transform } = draggableBlockElem.style;
+function setDragImage(dataTransfer: DataTransfer, draggableBlockElement: HTMLElement) {
+  const { transform } = draggableBlockElement.style;
 
   // Remove dragImage borders
-  draggableBlockElem.style.transform = 'translateZ(0)';
-  dataTransfer.setDragImage(draggableBlockElem, 0, 0);
+  draggableBlockElement.style.transform = 'translateZ(0)';
+  dataTransfer.setDragImage(draggableBlockElement, 0, 0);
 
-  setTimeout(() => {
-    draggableBlockElem.style.transform = transform;
+  requestAnimationFrame(() => {
+    draggableBlockElement.style.transform = transform;
   });
 }
 
 function setTargetLine(
-  targetLineElem: HTMLElement,
-  targetBlockElem: HTMLElement,
+  targetLineElement: HTMLElement,
+  targetBlockElement: HTMLElement,
   mouseY: number,
-  anchorElem: HTMLElement | null,
+  anchorElement: HTMLElement | null,
 ) {
-  if (!anchorElem) {
+  if (!anchorElement) {
     return;
   }
 
-  const { height: targetBlockElemHeight, top: targetBlockElemTop } = targetBlockElem.getBoundingClientRect();
-  const { top: anchorTop, width: anchorWidth } = anchorElem.getBoundingClientRect();
-  const { marginBottom, marginTop } = getCollapsedMargins(targetBlockElem);
-  let lineTop = targetBlockElemTop;
-  if (mouseY >= targetBlockElemTop) {
-    lineTop += targetBlockElemHeight + marginBottom / 2;
+  const { height: targetBlockElementHeight, top: targetBlockElementTop } = targetBlockElement.getBoundingClientRect();
+  const { top: anchorTop, width: anchorWidth } = anchorElement.getBoundingClientRect();
+  const { marginBottom, marginTop } = getCollapsedMargins(targetBlockElement);
+  let lineTop = targetBlockElementTop;
+  if (mouseY >= targetBlockElementTop) {
+    lineTop += targetBlockElementHeight + marginBottom / 2;
   } else {
     lineTop -= marginTop / 2;
   }
@@ -213,32 +213,32 @@ function setTargetLine(
   const top = lineTop - anchorTop - TARGET_LINE_HALF_HEIGHT;
   const left = TEXT_BOX_HORIZONTAL_PADDING - SPACE;
 
-  targetLineElem.style.transform = `translate(${left}px, ${top}px)`;
-  targetLineElem.style.width = `${anchorWidth - (TEXT_BOX_HORIZONTAL_PADDING - SPACE) * 2}px`;
-  targetLineElem.style.opacity = '.4';
+  targetLineElement.style.transform = `translate(${left}px, ${top}px)`;
+  targetLineElement.style.width = `${anchorWidth - (TEXT_BOX_HORIZONTAL_PADDING - SPACE) * 2}px`;
+  targetLineElement.style.opacity = '.4';
 }
 
-function hideTargetLine(targetLineElem: HTMLElement | null) {
-  if (targetLineElem) {
-    targetLineElem.style.opacity = '0';
-    targetLineElem.style.transform = 'translate(-10000px, -10000px)';
+function hideTargetLine(targetLineElement: HTMLElement | null) {
+  if (targetLineElement) {
+    targetLineElement.style.opacity = '0';
+    targetLineElement.style.transform = 'translate(-10000px, -10000px)';
   }
 }
 
 function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
   const { floatingElement } = useFloatingAreaContext();
-  const scrollerElem = floatingElement?.parentElement;
+  const scrollerElement = floatingElement?.parentElement;
 
   const menuRef = useRef<HTMLDivElement>(null);
   const targetLineRef = useRef<HTMLDivElement>(null);
   const isDraggingBlockRef = useRef<boolean>(false);
-  const [draggableBlockElem, setDraggableBlockElem] = useState<HTMLElement | null>(null);
+  const [activeDraggableBlockElem, setActiveDraggableBlockElem] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     function onMouseMove(event: MouseEvent) {
       const target = event.target;
       if (!isHTMLElement(target)) {
-        setDraggableBlockElem(null);
+        setActiveDraggableBlockElem(null);
         return;
       }
 
@@ -246,49 +246,52 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
         return;
       }
 
-      const _draggableBlockElem = getBlockElement(editor, event, floatingElement);
-
-      setDraggableBlockElem(_draggableBlockElem);
+      const draggableBlockElement = getBlockElement(editor, event, floatingElement);
+      setActiveDraggableBlockElem(draggableBlockElement);
     }
 
     function onMouseLeave() {
-      setDraggableBlockElem(null);
+      setActiveDraggableBlockElem(null);
     }
 
-    scrollerElem?.addEventListener('mousemove', onMouseMove);
-    scrollerElem?.addEventListener('mouseleave', onMouseLeave);
-
+    scrollerElement?.addEventListener('mousemove', onMouseMove);
+    scrollerElement?.addEventListener('mouseleave', onMouseLeave);
     return () => {
-      scrollerElem?.removeEventListener('mousemove', onMouseMove);
-      scrollerElem?.removeEventListener('mouseleave', onMouseLeave);
+      scrollerElement?.removeEventListener('mousemove', onMouseMove);
+      scrollerElement?.removeEventListener('mouseleave', onMouseLeave);
     };
-  }, [scrollerElem, floatingElement, editor]);
+  }, [scrollerElement, floatingElement, editor]);
 
   useEffect(() => {
     if (menuRef.current) {
-      setMenuPosition(draggableBlockElem, menuRef.current, floatingElement);
+      setMenuPosition(activeDraggableBlockElem, menuRef.current, floatingElement);
     }
-  }, [floatingElement, draggableBlockElem]);
+  }, [floatingElement, activeDraggableBlockElem]);
 
   useEffect(() => {
     function onDragover(event: DragEvent): boolean {
       if (!isDraggingBlockRef.current) {
         return false;
       }
+
       const [isFileTransfer] = eventFiles(event);
       if (isFileTransfer) {
         return false;
       }
+
       const { pageY, target } = event;
       if (!isHTMLElement(target)) {
         return false;
       }
-      const targetBlockElem = getBlockElement(editor, event, floatingElement, true);
-      const targetLineElem = targetLineRef.current;
-      if (targetBlockElem === null || targetLineElem === null) {
+
+      const targetBlockElement = getBlockElement(editor, event, floatingElement, true);
+      const targetLineElement = targetLineRef.current;
+      if (targetBlockElement === null || targetLineElement === null) {
         return false;
       }
-      setTargetLine(targetLineElem, targetBlockElem, pageY / calculateZoomLevel(target), floatingElement);
+
+      const mouseY = pageY / calculateZoomLevel(target);
+      setTargetLine(targetLineElement, targetBlockElement, mouseY, floatingElement);
       // Prevent default event to be able to trigger onDrop events
       event.preventDefault();
       return true;
@@ -298,38 +301,45 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
       if (!isDraggingBlockRef.current) {
         return false;
       }
+
       const [isFileTransfer] = eventFiles(event);
       if (isFileTransfer) {
         return false;
       }
+
       const { dataTransfer, pageY, target } = event;
       const dragData = dataTransfer?.getData(DRAG_DATA_FORMAT) || '';
       const draggedNode = $getNodeByKey(dragData);
       if (!draggedNode) {
         return false;
       }
+
       if (!isHTMLElement(target)) {
         return false;
       }
-      const targetBlockElem = getBlockElement(editor, event, floatingElement, true);
-      if (!targetBlockElem) {
+
+      const targetBlockElement = getBlockElement(editor, event, floatingElement, true);
+      if (!targetBlockElement) {
         return false;
       }
-      const targetNode = $getNearestNodeFromDOMNode(targetBlockElem);
+
+      const targetNode = $getNearestNodeFromDOMNode(targetBlockElement);
       if (!targetNode) {
         return false;
       }
+
       if (targetNode === draggedNode) {
         return true;
       }
-      const targetBlockElemTop = targetBlockElem.getBoundingClientRect().top;
-      if (pageY / calculateZoomLevel(target) >= targetBlockElemTop) {
+
+      const targetBlockElementTop = targetBlockElement.getBoundingClientRect().top;
+      if (pageY / calculateZoomLevel(target) >= targetBlockElementTop) {
         targetNode.insertAfter(draggedNode);
       } else {
         targetNode.insertBefore(draggedNode);
       }
-      setDraggableBlockElem(null);
 
+      setActiveDraggableBlockElem(null);
       return true;
     }
 
@@ -353,13 +363,13 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
 
   function onDragStart(event: ReactDragEvent<HTMLDivElement>): void {
     const dataTransfer = event.dataTransfer;
-    if (!dataTransfer || !draggableBlockElem) {
+    if (!dataTransfer || !activeDraggableBlockElem) {
       return;
     }
-    setDragImage(dataTransfer, draggableBlockElem);
+    setDragImage(dataTransfer, activeDraggableBlockElem);
     let nodeKey = '';
     editor.update(() => {
-      const node = $getNearestNodeFromDOMNode(draggableBlockElem);
+      const node = $getNearestNodeFromDOMNode(activeDraggableBlockElem);
       if (node) {
         nodeKey = node.getKey();
       }
@@ -380,7 +390,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
   return (
     <FloatingPortal root={floatingElement}>
       <div
-        className="icon draggable-block-menu"
+        className={clsx('icon', EditorClasses.draggableBlock)}
         draggable={true}
         onDragEnd={onDragEnd}
         onDragStart={onDragStart}
@@ -388,17 +398,13 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
       >
         <div className={isEditable ? 'icon' : ''} />
       </div>
-      <div className="draggable-block-target-line" ref={targetLineRef} />
+      <div className={EditorClasses.draggableBlockTargetLine} ref={targetLineRef} />
     </FloatingPortal>
   );
 }
 
-export interface DraggableBlockPluginProps {}
-
-function DraggableBlockPlugin() {
+export function DraggableBlockPlugin() {
   const [editor] = useLexicalComposerContext();
 
   return useDraggableBlockMenu(editor, editor._editable);
 }
-
-export default DraggableBlockPlugin;

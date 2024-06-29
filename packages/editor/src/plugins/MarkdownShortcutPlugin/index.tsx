@@ -1,8 +1,8 @@
-import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { MarkdownShortcutPlugin as LexicalMarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
 import * as React from 'react';
 
 import { ROOT_EDITOR_TRANSFORMERS } from '../MarkdownTransformers';
 
-export default function MarkdownPlugin(): JSX.Element {
-  return <MarkdownShortcutPlugin transformers={ROOT_EDITOR_TRANSFORMERS} />;
+export function MarkdownShortcutPlugin(): JSX.Element {
+  return <LexicalMarkdownShortcutPlugin transformers={ROOT_EDITOR_TRANSFORMERS} />;
 }
