@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "name": "@seolhun/root-editor",
-  "version": "0.1.6",
+  "version": "0.1.7-alpha.0",
   "types": "dist/legacy/index.d.ts",
   "main": "dist/legacy/index.cjs",
   "module": "dist/legacy/index.js",

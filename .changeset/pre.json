@@ -1,0 +1,12 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@seolhun/root-eslint": "0.0.1",
+    "@seolhun/root-tsconfig": "0.0.1",
+    "@seolhun/root-editor": "0.1.6"
+  },
+  "changesets": [
+    "khaki-shrimps-tickle"
+  ]
+}
