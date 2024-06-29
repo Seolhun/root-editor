@@ -554,8 +554,13 @@
     @apply bg-cream-1 dark:bg-space-1;
     @apply shadow-md;
   }
+
+  .RootEditor__ComponentPicker {
+    width: 200px;
+  }
+
+  .RootEditor__Mentions {
+    width: 250px;
+  }
 }
 
-.RootEditor__ComponentPicker {
-  width: 200px;
-}

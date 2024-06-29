@@ -4,6 +4,8 @@ import { $isHeadingNode } from '@lexical/rich-text';
 import { $getRoot, $getSelection, $isRangeSelection } from 'lexical';
 import * as React from 'react';
 
+import { NodeAttributeNames } from '~/nodes/Node.AttributeNames';
+
 export type TitlePlaceholderPluginProps = {
   placeholder: string;
 };
@@ -28,7 +30,7 @@ export function TitlePlaceholderPlugin({ placeholder }: TitlePlaceholderPluginPr
     const unregister = editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         if (h1Ref?.current) {
-          h1Ref.current.removeAttribute('data-root-placeholder');
+          h1Ref.current.removeAttribute(NodeAttributeNames.placeholder);
           h1Ref.current.classList.remove(...tailwindPlaceholderClasses);
           h1Ref.current = null;
         }
@@ -57,7 +59,7 @@ export function TitlePlaceholderPlugin({ placeholder }: TitlePlaceholderPluginPr
 
         if (element instanceof HTMLHeadingElement) {
           h1Ref.current = element;
-          h1Ref.current.setAttribute('data-root-placeholder', placeholder);
+          h1Ref.current.setAttribute(NodeAttributeNames.placeholder, placeholder);
           h1Ref.current.classList.add(...tailwindPlaceholderClasses);
         }
       });

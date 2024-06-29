@@ -14,6 +14,8 @@ import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlign
 import { DecoratorBlockNode, SerializedDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
 import * as React from 'react';
 
+import { NodeAttributeNames } from './Node.AttributeNames';
+
 type YouTubeComponentProps = Readonly<{
   className: Readonly<{
     base: string;
@@ -48,7 +50,7 @@ export type SerializedYouTubeNode = Spread<
 >;
 
 function $convertYoutubeElement(domNode: HTMLElement): DOMConversionOutput | null {
-  const videoID = domNode.getAttribute('data-root-youtube');
+  const videoID = domNode.getAttribute(NodeAttributeNames.youtube);
   if (videoID) {
     const node = $createYouTubeNode(videoID);
     return { node };
@@ -75,7 +77,7 @@ export class YouTubeNode extends DecoratorBlockNode {
   static importDOM(): DOMConversionMap | null {
     return {
       iframe: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-root-youtube')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.youtube)) {
           return null;
         }
         return {
@@ -105,7 +107,7 @@ export class YouTubeNode extends DecoratorBlockNode {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('iframe');
-    element.setAttribute('data-root-youtube', this.__id);
+    element.setAttribute(NodeAttributeNames.youtube, this.__id);
     element.setAttribute('width', '560');
     element.setAttribute('height', '315');
     element.setAttribute('src', `https://www.youtube-nocookie.com/embed/${this.__id}`);
@@ -116,6 +118,7 @@ export class YouTubeNode extends DecoratorBlockNode {
     );
     element.setAttribute('allowfullscreen', 'true');
     element.setAttribute('title', 'YouTube video');
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 

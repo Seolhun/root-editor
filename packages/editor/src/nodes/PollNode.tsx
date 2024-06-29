@@ -8,8 +8,10 @@ import {
   SerializedLexicalNode,
   Spread,
 } from 'lexical';
-import { Suspense } from 'react';
 import * as React from 'react';
+import { Suspense } from 'react';
+
+import { NodeAttributeNames } from './Node.AttributeNames';
 
 export type Options = ReadonlyArray<Option>;
 
@@ -53,8 +55,8 @@ export type SerializedPollNode = Spread<
 >;
 
 function $convertPollElement(domNode: HTMLElement): DOMConversionOutput | null {
-  const question = domNode.getAttribute('data-root-poll-question');
-  const options = domNode.getAttribute('data-root-poll-options');
+  const question = domNode.getAttribute(NodeAttributeNames.poll_question);
+  const options = domNode.getAttribute(NodeAttributeNames.poll_options);
   if (question !== null && options !== null) {
     const node = $createPollNode(question, JSON.parse(options));
     return { node };
@@ -83,7 +85,7 @@ export class PollNode extends DecoratorNode<JSX.Element> {
   static importDOM(): DOMConversionMap | null {
     return {
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-root-poll-question')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.poll_question)) {
           return null;
         }
         return {
@@ -131,8 +133,9 @@ export class PollNode extends DecoratorNode<JSX.Element> {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('span');
-    element.setAttribute('data-root-poll-question', this.__question);
-    element.setAttribute('data-root-poll-options', JSON.stringify(this.__options));
+    element.setAttribute(NodeAttributeNames.poll_question, this.__question);
+    element.setAttribute(NodeAttributeNames.poll_options, JSON.stringify(this.__options));
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 

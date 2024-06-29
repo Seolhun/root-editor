@@ -14,6 +14,8 @@ import * as React from 'react';
 import { Suspense } from 'react';
 import { createPortal } from 'react-dom';
 
+import { NodeAttributeNames } from '../Node.AttributeNames';
+
 const StickyComponent = React.lazy(() => import('./StickyComponent'));
 
 type StickyNoteColor = 'pink' | 'yellow';
@@ -87,7 +89,7 @@ export class StickyNode extends DecoratorNode<JSX.Element> {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
-    element.setAttribute('data-root-node-key', this.getKey());
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 

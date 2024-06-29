@@ -9,6 +9,7 @@ import {
   SerializedElementNode,
 } from 'lexical';
 
+import { NodeAttributeNames } from '~/nodes/Node.AttributeNames';
 import { IS_CHROME } from '~/shared/environment';
 import invariant from '~/shared/invariant';
 
@@ -36,7 +37,7 @@ export class CollapsibleContentNode extends ElementNode {
   static importDOM(): DOMConversionMap | null {
     return {
       div: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-root-collapsible-content')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.collapsible_content)) {
           return null;
         }
         return {
@@ -81,7 +82,8 @@ export class CollapsibleContentNode extends ElementNode {
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
     element.classList.add('Collapsible__content');
-    element.setAttribute('data-root-collapsible-content', 'true');
+    element.setAttribute(NodeAttributeNames.collapsible_content, 'true');
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 

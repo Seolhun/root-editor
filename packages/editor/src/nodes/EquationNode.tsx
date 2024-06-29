@@ -10,8 +10,10 @@ import type {
 
 import katex from 'katex';
 import { $applyNodeReplacement, DecoratorNode, DOMExportOutput } from 'lexical';
-import * as React from 'react';
 import { Suspense } from 'react';
+import * as React from 'react';
+
+import { NodeAttributeNames } from './Node.AttributeNames';
 
 const EquationComponent = React.lazy(() => import('./EquationComponent'));
 
@@ -24,8 +26,8 @@ export type SerializedEquationNode = Spread<
 >;
 
 function $convertEquationElement(domNode: HTMLElement): DOMConversionOutput | null {
-  let equation = domNode.getAttribute('data-root-equation');
-  const inline = domNode.getAttribute('data-root-inline') === 'true';
+  let equation = domNode.getAttribute(NodeAttributeNames.equation);
+  const inline = domNode.getAttribute(NodeAttributeNames.inline) === 'true';
   // Decode the equation from base64
   equation = atob(equation || '');
   if (equation) {
@@ -57,7 +59,7 @@ export class EquationNode extends DecoratorNode<JSX.Element> {
   static importDOM(): DOMConversionMap | null {
     return {
       div: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-root-equation')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.equation)) {
           return null;
         }
         return {
@@ -66,7 +68,7 @@ export class EquationNode extends DecoratorNode<JSX.Element> {
         };
       },
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-root-equation')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.equation)) {
           return null;
         }
         return {
@@ -101,8 +103,9 @@ export class EquationNode extends DecoratorNode<JSX.Element> {
     const element = document.createElement(this.__inline ? 'span' : 'div');
     // Encode the equation as base64 to avoid issues with special characters
     const equation = btoa(this.__equation);
-    element.setAttribute('data-root-equation', equation);
-    element.setAttribute('data-root-inline', `${this.__inline}`);
+    element.setAttribute(NodeAttributeNames.equation, equation);
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
+    element.setAttribute(NodeAttributeNames.inline, `${this.__inline}`);
     katex.render(this.__equation, element, {
       displayMode: !this.__inline, // true === block display //
       errorColor: '#cc0000',

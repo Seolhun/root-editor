@@ -11,6 +11,8 @@ import {
   TextNode,
 } from 'lexical';
 
+import { NodeAttributeNames } from './Node.AttributeNames';
+
 export type SerializedMentionNode = Spread<
   {
     mentionName: string;
@@ -32,6 +34,7 @@ function $convertMentionElement(domNode: HTMLElement): DOMConversionOutput | nul
 }
 
 const mentionStyle = 'background-color: rgba(24, 119, 232, 0.2)';
+
 export class MentionNode extends TextNode {
   __mention: string;
 
@@ -43,6 +46,7 @@ export class MentionNode extends TextNode {
   static clone(node: MentionNode): MentionNode {
     return new MentionNode(node.__mention, node.__text, node.__key);
   }
+
   static getType(): string {
     return 'mention';
   }
@@ -50,7 +54,7 @@ export class MentionNode extends TextNode {
   static importDOM(): DOMConversionMap | null {
     return {
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-root-mention')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.mention)) {
           return null;
         }
         return {
@@ -88,7 +92,8 @@ export class MentionNode extends TextNode {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('span');
-    element.setAttribute('data-root-mention', 'true');
+    element.setAttribute(NodeAttributeNames.mention, 'true');
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     element.textContent = this.__text;
     return { element };
   }

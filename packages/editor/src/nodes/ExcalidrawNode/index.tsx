@@ -11,8 +11,10 @@ import type {
 } from 'lexical';
 
 import { DecoratorNode } from 'lexical';
-import * as React from 'react';
 import { Suspense } from 'react';
+import * as React from 'react';
+
+import { NodeAttributeNames } from '../Node.AttributeNames';
 
 type Dimension = 'inherit' | number;
 
@@ -28,7 +30,7 @@ export type SerializedExcalidrawNode = Spread<
 >;
 
 function $convertExcalidrawElement(domNode: HTMLElement): DOMConversionOutput | null {
-  const excalidrawData = domNode.getAttribute('data-root-excalidraw-json');
+  const excalidrawData = domNode.getAttribute(NodeAttributeNames.excalidraw);
   const styleAttributes = window.getComputedStyle(domNode);
   const heightStr = styleAttributes.getPropertyValue('height');
   const widthStr = styleAttributes.getPropertyValue('width');
@@ -70,7 +72,7 @@ export class ExcalidrawNode extends DecoratorNode<JSX.Element> {
   static importDOM(): DOMConversionMap<HTMLSpanElement> | null {
     return {
       span: (domNode: HTMLSpanElement) => {
-        if (!domNode.hasAttribute('data-root-excalidraw-json')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.excalidraw)) {
           return null;
         }
         return {
@@ -124,7 +126,7 @@ export class ExcalidrawNode extends DecoratorNode<JSX.Element> {
     element.style.width = this.__width === 'inherit' ? 'inherit' : `${this.__width}px`;
     element.style.height = this.__height === 'inherit' ? 'inherit' : `${this.__height}px`;
 
-    element.setAttribute('data-root-excalidraw-json', this.__data);
+    element.setAttribute(NodeAttributeNames.excalidraw, this.__data);
     return { element };
   }
 

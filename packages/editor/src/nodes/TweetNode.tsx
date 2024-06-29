@@ -12,8 +12,10 @@ import type {
 
 import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
 import { DecoratorBlockNode, SerializedDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode';
-import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
+
+import { NodeAttributeNames } from './Node.AttributeNames';
 
 const WIDGET_SCRIPT_URL = 'https://platform.twitter.com/widgets.js';
 
@@ -31,7 +33,7 @@ type TweetComponentProps = Readonly<{
 }>;
 
 function $convertTweetElement(domNode: HTMLDivElement): DOMConversionOutput | null {
-  const id = domNode.getAttribute('data-root-tweet-id');
+  const id = domNode.getAttribute(NodeAttributeNames.twitter);
   if (id) {
     const node = $createTweetNode(id);
     return { node };
@@ -130,7 +132,7 @@ export class TweetNode extends DecoratorBlockNode {
   static importDOM(): DOMConversionMap<HTMLDivElement> | null {
     return {
       div: (domNode: HTMLDivElement) => {
-        if (!domNode.hasAttribute('data-root-tweet-id')) {
+        if (!domNode.hasAttribute(NodeAttributeNames.twitter)) {
           return null;
         }
         return {
@@ -166,7 +168,8 @@ export class TweetNode extends DecoratorBlockNode {
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('div');
-    element.setAttribute('data-root-tweet-id', this.__id);
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
+    element.setAttribute(NodeAttributeNames.twitter, this.__id);
     const text = document.createTextNode(this.getTextContent());
     element.append(text);
     return { element };

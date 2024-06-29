@@ -104,7 +104,7 @@ function ComponentPickerMenuItem({
 }
 
 function getDynamicOptions(editor: LexicalEditor, queryString: string) {
-  const options: Array<ComponentPickerOption> = [];
+  const options: ComponentPickerOption[] = [];
 
   if (queryString == null) {
     return options;
@@ -184,13 +184,14 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
     new ComponentPickerOption('Quote', {
       icon: <i className="icon quote" />,
       keywords: ['block quote'],
-      onSelect: () =>
-        editor.update(() => {
+      onSelect: () => {
+        return editor.update(() => {
           const selection = $getSelection();
           if ($isRangeSelection(selection)) {
             $setBlocksType(selection, () => $createQuoteNode());
           }
-        }),
+        });
+      },
     }),
     new ComponentPickerOption('Code', {
       icon: <i className="icon code" />,
@@ -198,7 +199,6 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
       onSelect: () =>
         editor.update(() => {
           const selection = $getSelection();
-
           if ($isRangeSelection(selection)) {
             if (selection.isCollapsed()) {
               $setBlocksType(selection, () => $createCodeNode());

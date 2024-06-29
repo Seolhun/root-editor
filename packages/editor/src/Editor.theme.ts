@@ -111,6 +111,8 @@ export interface RootEditorClasses extends EditorThemeClasses {
   imageResizer: 'ImageNode__Resizer';
   imageResizerResizing: 'ImageNode__Resizer--resizing';
   linkEditor: 'RootEditor__LinkEditor';
+  mention: 'RootEditor__Mention';
+  mentionList: 'RootEditor__MentionList';
   plainText: 'RootEditor__PlainText';
   richText: 'RootEditor__RichText';
   settings: 'RootEditor__Settings';
@@ -125,6 +127,8 @@ export const EditorClasses = {
   imageResizer: 'ImageNode__Resizer',
   imageResizerResizing: 'ImageNode__Resizer--resizing',
   linkEditor: 'RootEditor__LinkEditor',
+  mention: 'RootEditor__Mention',
+  mentionList: 'RootEditor__MentionList',
   plainText: 'RootEditor__PlainText',
   richText: 'RootEditor__RichText',
   settings: 'RootEditor__Settings',

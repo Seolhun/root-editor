@@ -12,6 +12,7 @@ import {
   Spread,
 } from 'lexical';
 
+import { NodeAttributeNames } from '~/nodes/Node.AttributeNames';
 import { IS_CHROME } from '~/shared/environment';
 import invariant from '~/shared/invariant';
 
@@ -90,6 +91,7 @@ export class CollapsibleContainerNode extends ElementNode {
     const element = document.createElement('details');
     element.classList.add('Collapsible__container');
     element.setAttribute('open', this.__open.toString());
+    element.setAttribute(NodeAttributeNames.__nodeKey, this.getKey());
     return { element };
   }
 
