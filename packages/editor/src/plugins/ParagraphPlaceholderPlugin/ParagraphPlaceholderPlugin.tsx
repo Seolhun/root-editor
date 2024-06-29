@@ -1,5 +1,3 @@
-// ParagraphPlaceholderPlugin.tsx
-
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import { $getRoot, $getSelection, $isParagraphNode, $isRangeSelection } from 'lexical';
@@ -43,8 +41,6 @@ export const ParagraphPlaceholderPlugin = ({ hideOnEmptyEditor, placeholder }: P
         if (!nativeSelection || !selection || !isRangeSelection) return;
 
         if (hideOnEmptyEditor) {
-          // Prevent from showing when editor is empty
-          // Showing a placeholder in the first empty paragraph might conflict with the RichTextPlugin placeholder
           const textContentSize = $getRoot().getTextContentSize();
           const isEmptyEditor = textContentSize === 0;
           if (isEmptyEditor) return;
@@ -53,12 +49,15 @@ export const ParagraphPlaceholderPlugin = ({ hideOnEmptyEditor, placeholder }: P
         const parentNode = selection.anchor.getNode();
         if (!$isParagraphNode(parentNode) || !parentNode.isEmpty()) return;
 
-        // It's a paragraph node, it's empty, and it's selected
-        // Now switch over to the native selection to get the paragraph DOM element
         const paragraphDOMElement = nativeSelection.anchorNode;
         if (!paragraphDOMElement) return;
 
-        if (paragraphDOMElement instanceof HTMLParagraphElement) {
+        const parentDOMElement = paragraphDOMElement.parentElement;
+        if (!parentDOMElement) return;
+
+        const isContentEditable = parentDOMElement.isContentEditable && parentDOMElement instanceof HTMLDivElement;
+        const isParagraphElement = paragraphDOMElement instanceof HTMLParagraphElement;
+        if (isParagraphElement && isContentEditable) {
           paragraphRef.current = paragraphDOMElement;
           paragraphRef.current.setAttribute(NodeAttributeNames.placeholder, placeholder);
           paragraphRef.current.classList.add(...tailwindPlaceholderClasses);
