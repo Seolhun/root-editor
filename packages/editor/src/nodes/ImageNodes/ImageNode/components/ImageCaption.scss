@@ -1,6 +1,4 @@
 .__RootEditor__ {
-  $font-size: 10px;
-
   .ImageNode__Caption {
     position: relative;
     display: block;
@@ -16,7 +14,7 @@
       outline: 0px;
       padding: 5px 10px;
       user-select: text;
-      font-size: $font-size;
+      font-size: 10px;
       width: calc(100% - 20px);
       white-space: pre-wrap;
       word-break: break-word;
@@ -27,7 +25,7 @@
     }
 
     .Placeholder {
-      font-size: $font-size;
+      font-size: 10px;
       position: absolute;
       top: 10px;
       left: 16px;

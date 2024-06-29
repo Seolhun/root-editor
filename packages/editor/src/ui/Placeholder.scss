@@ -22,7 +22,6 @@
     @apply text-neutral dark:text-neutral;
   }
 
-  // Drag & Drop block is not supported in mobile view
   @media (max-width: 1025px) {
     .RootEditor__Placeholder {
       left: 12px;
