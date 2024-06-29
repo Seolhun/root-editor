@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup';
+import sassPlugin from 'esbuild-plugin-sass';
 
 import { legacyConfig, modernConfig } from '../../scripts/tsup.cjs';
 import pkg from './package.json';
@@ -10,16 +11,16 @@ export default defineConfig([
     clean: false,
     entry: ['src/index.{ts,tsx}', '!**/*.{test,spec,stories}.{ts,tsx}'],
     external,
-    loader: {
-      '.scss': 'css', // This tells tsup to treat .scss files as CSS
-    },
+    esbuildPlugins: [
+      sassPlugin(),
+    ],
   }),
   legacyConfig({
     clean: false,
     entry: ['src/index.{ts,tsx}', '!**/*.{test,spec,stories}.{ts,tsx}'],
     external,
-    loader: {
-      '.scss': 'css', // This tells tsup to treat .scss files as CSS
-    },
+    esbuildPlugins: [
+      sassPlugin(),
+    ],
   }),
 ]);
