@@ -1,3 +1,9 @@
+/*eslint-disable */
+import '@seolhun/root-ui/index.css';
+import './RootEditor.scss';
+import './assets/tailwind.scss';
+/*eslint-enable */
+
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import clsx from 'clsx';
 import * as React from 'react';
@@ -8,11 +14,6 @@ import { BaseRootEditor, BaseRootEditorProps } from './RootEditor';
 import { RootEditorNodes } from './RootEditor.Nodes';
 import { I18nProvider, i18nProviderProps } from './context/i18n';
 import { SettingsProvider } from './context/settings/SettingsContext';
-
-/*eslint-disable */
-import './assets/tailwind.scss';
-import './RootEditor.scss';
-/*eslint-enable */
 
 type ElementType = HTMLElement;
 

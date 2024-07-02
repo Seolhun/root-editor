@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.3
+
+### Patch Changes
+
+- chore: update root-ui packages
+
 ## 0.1.7-alpha.2
 
 ### Patch Changes

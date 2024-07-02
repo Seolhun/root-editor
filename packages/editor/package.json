@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "name": "@seolhun/root-editor",
-  "version": "0.1.7-alpha.2",
+  "version": "0.1.7-alpha.3",
   "types": "dist/legacy/index.d.ts",
   "main": "dist/legacy/index.cjs",
   "module": "dist/legacy/index.js",
@@ -16,8 +16,10 @@
         "default": "./dist/modern/index.cjs"
       }
     },
-    "./modern/index.css": "./dist/modern/index.css",
-    "./legacy/index.css": "./dist/legacy/index.css",
+    "./index.css": {
+      "import": "./dist/modern/index.css",
+      "require": "./dist/legacy/index.css"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {

@@ -1,5 +1,5 @@
 /*eslint-disable */
-import '@seolhun/root-ui/dist/index.css';
+import '@seolhun/root-ui/index.css';
 import './RootEditor.scss';
 import './assets/tailwind.scss';
 /*eslint-enable */
