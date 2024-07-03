@@ -3,13 +3,13 @@
   "name": "@seolhun/root-editor",
   "version": "0.1.7-alpha.7",
   "types": "dist/legacy/index.d.ts",
-  "main": "dist/legacy/index.cjs",
-  "module": "dist/legacy/index.js",
+  "main": "dist/legacy/index.js",
+  "module": "dist/legacy/index.mjs",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/modern/index.d.ts",
-        "default": "./dist/modern/index.js"
+        "types": "./dist/modern/index.d.mts",
+        "default": "./dist/modern/index.mjs"
       },
       "require": {
         "types": "./dist/legacy/index.d.ts",
@@ -88,8 +88,8 @@
     "@lexical/text": "^0.16.0",
     "@lexical/utils": "0.16.0",
     "@lexical/yjs": "^0.16.0",
-    "@seolhun/root-ui": "^0.8.8-alpha.3",
-    "@seolhun/root-ui-tailwind": "^0.8.8-alpha.3",
+    "@seolhun/root-ui": "^0.8.8-alpha.4",
+    "@seolhun/root-ui-tailwind": "^0.8.8-alpha.4",
     "clsx": "^2.1.1",
     "katex": "^0.16.0",
     "lexical": "^0.16.0",
