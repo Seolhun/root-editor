@@ -317,11 +317,11 @@ importers:
         specifier: ^0.16.0
         version: 0.16.0(yjs@13.6.15)
       '@seolhun/root-ui':
-        specifier: ^0.8.8-alpha.2
-        version: 0.8.8-alpha.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
+        specifier: ^0.8.8-alpha.3
+        version: 0.8.8-alpha.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
       '@seolhun/root-ui-tailwind':
-        specifier: ^0.8.8-alpha.2
-        version: 0.8.8-alpha.2(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
+        specifier: ^0.8.8-alpha.3
+        version: 0.8.8-alpha.3(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -2150,13 +2150,13 @@ packages:
       prettier: '>=3'
       typescript: '>=5'
 
-  '@seolhun/root-ui-tailwind@0.8.8-alpha.2':
-    resolution: {integrity: sha512-MDiRRwyOzU47vUuZrBhT3WOo/Sp7xC3BXiAjZ9PVLO0d3q82Er9m8xnAZSLBo22EY6d4Fp079v/D3R60P65stQ==, tarball: https://npm.pkg.github.com/download/@seolhun/root-ui-tailwind/0.8.8-alpha.2/a2da59b966c178bf9f9aabf6ffdda9861d8ec040}
+  '@seolhun/root-ui-tailwind@0.8.8-alpha.3':
+    resolution: {integrity: sha512-9VROedUK58jPD/J1n6EIxF+9XfMGhLJrqvIpNhlroYTH14kAPSHLHLFDeA+IxMFDAZakt7p8tZtFh2rYP0+lQQ==, tarball: https://npm.pkg.github.com/download/@seolhun/root-ui-tailwind/0.8.8-alpha.3/0e5fba2b7ab536fb6d10568e74aac814882fc778}
     peerDependencies:
       tailwindcss: '>=3.0.0'
 
-  '@seolhun/root-ui@0.8.8-alpha.2':
-    resolution: {integrity: sha512-LJkXXZFuOmcNINqQKt6WWNWUqVBlCPZd5OMdEdRdDpB7+/BoLFb2NgI4zELQnVtkTcYh+hY/KO1JNkQ2RUNf4A==, tarball: https://npm.pkg.github.com/download/@seolhun/root-ui/0.8.8-alpha.2/50dcb3298da79f52580f5d01d3580111925d8131}
+  '@seolhun/root-ui@0.8.8-alpha.3':
+    resolution: {integrity: sha512-jaMyjwxrwvzuDbYiCrmaqM/cz+W/XGoZ/mMp31CjQ1NPhcC6bY/iGtUoYNScg99S4tIurHV7B/Br0z5O2mWJuw==, tarball: https://npm.pkg.github.com/download/@seolhun/root-ui/0.8.8-alpha.3/b4f93043a5dff7c69e045d16e385e1e897f9799b}
     engines: {node: '>= 16.0.0', npm: '>= 6.0.0'}
     peerDependencies:
       react: '>=18.0.0'
@@ -10262,19 +10262,19 @@ snapshots:
       - eslint-plugin-import
       - supports-color
 
-  '@seolhun/root-ui-tailwind@0.8.8-alpha.2(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))':
+  '@seolhun/root-ui-tailwind@0.8.8-alpha.3(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))':
     dependencies:
       '@fxts/core': 1.0.0
       color: 4.2.3
       lodash-es: 4.17.21
       tailwindcss: 3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3))
 
-  '@seolhun/root-ui@0.8.8-alpha.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))':
+  '@seolhun/root-ui@0.8.8-alpha.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))':
     dependencies:
       '@floating-ui/react': 0.26.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@fxts/core': 1.0.0
       '@headlessui/react': 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@seolhun/root-ui-tailwind': 0.8.8-alpha.2(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
+      '@seolhun/root-ui-tailwind': 0.8.8-alpha.3(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
       '@tanstack/react-virtual': 3.8.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 1.2.1
       color: 4.2.3
