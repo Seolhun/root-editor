@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.7
+
+### Patch Changes
+
+- chore: update index.css path root-uui
+
 ## 0.1.7-alpha.6
 
 ### Patch Changes
