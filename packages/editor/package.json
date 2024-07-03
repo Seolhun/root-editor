@@ -12,8 +12,8 @@
         "default": "./dist/modern/index.js"
       },
       "require": {
-        "types": "./dist/modern/index.d.cts",
-        "default": "./dist/modern/index.cjs"
+        "types": "./dist/legacy/index.d.ts",
+        "default": "./dist/legacy/index.js"
       }
     },
     "./index.css": {
