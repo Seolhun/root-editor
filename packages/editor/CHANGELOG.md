@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.8
+
+### Patch Changes
+
+- chore: update mjs path
+
 ## 0.1.7-alpha.7
 
 ### Patch Changes
