@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.4
+
+### Patch Changes
+
+- chore: update exports path
+
 ## 0.1.7-alpha.3
 
 ### Patch Changes
