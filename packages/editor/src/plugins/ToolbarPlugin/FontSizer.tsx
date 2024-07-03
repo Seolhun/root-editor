@@ -1,6 +1,5 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { $patchStyleText } from '@lexical/selection';
-import { IconButton } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import { $getSelection, LexicalEditor } from 'lexical';
 import * as React from 'react';
@@ -171,14 +170,14 @@ export function FontSizer({ disabled, editor, selectionFontSize }: FontSizerProp
 
   return (
     <div className={clsx('RootEditor__FontSizer')}>
-      <IconButton
+      <button
         className={clsx('toolbar-item font-decrement')}
         disabled={disabled || (selectionFontSize !== '' && Number(inputValue) <= MIN_ALLOWED_FONT_SIZE)}
         onClick={() => handleButtonClick(updateFontSizeType.decrement)}
         type="button"
       >
         <MinusIcon className={clsx('size-8', 'rounded-md')} />
-      </IconButton>
+      </button>
 
       <input
         className={clsx('toolbar-item font-size-input')}
@@ -192,14 +191,14 @@ export function FontSizer({ disabled, editor, selectionFontSize }: FontSizerProp
         value={inputValue}
       />
 
-      <IconButton
+      <button
         className={clsx('toolbar-item font-increment')}
         disabled={disabled || (selectionFontSize !== '' && Number(inputValue) >= MAX_ALLOWED_FONT_SIZE)}
         onClick={() => handleButtonClick(updateFontSizeType.increment)}
         type="button"
       >
         <PlusIcon className={clsx('size-8', 'rounded-md')} />
-      </IconButton>
+      </button>
     </div>
   );
 }

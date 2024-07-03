@@ -4,7 +4,6 @@ import { CheckCircleIcon, PencilIcon, TrashIcon, XCircleIcon } from '@heroicons/
 import { $createLinkNode, $isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $findMatchingParent, mergeRegister } from '@lexical/utils';
-import { IconButton } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import {
   $getSelection,
@@ -226,7 +225,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
             value={editedLinkUrl}
           />
           <div className={clsx('LinkForm__Actions')}>
-            <IconButton
+            <button
               onClick={() => {
                 setIsLinkEditMode(false);
               }}
@@ -235,16 +234,16 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
               tabIndex={0}
             >
               <XCircleIcon className={clsx('Link__Cancel', linkIcon)} />
-            </IconButton>
+            </button>
 
-            <IconButton
+            <button
               onClick={handleLinkSubmission}
               onMouseDown={(event) => event.preventDefault()}
               role="button"
               tabIndex={0}
             >
               <CheckCircleIcon className={clsx('Link__Confirm', linkIcon)} />
-            </IconButton>
+            </button>
           </div>
         </div>
       ) : (
@@ -253,7 +252,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
             {linkUrl}
           </a>
           <div className={clsx('LinkView__Actions')}>
-            <IconButton
+            <button
               onClick={() => {
                 setEditedLinkUrl(linkUrl);
                 setIsLinkEditMode(true);
@@ -263,9 +262,9 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
               tabIndex={0}
             >
               <PencilIcon className={clsx('Link__Edit', linkIcon)} />
-            </IconButton>
+            </button>
 
-            <IconButton
+            <button
               onClick={() => {
                 editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
               }}
@@ -274,7 +273,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
               tabIndex={0}
             >
               <TrashIcon className={clsx('Link__Trash', linkIcon)} />
-            </IconButton>
+            </button>
           </div>
         </div>
       )}

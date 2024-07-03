@@ -3,7 +3,6 @@ import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import { $getTableCellNodeFromLexicalNode, TableCellNode } from '@lexical/table';
-import { IconButton } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import { $getSelection, $isRangeSelection } from 'lexical';
 import * as React from 'react';
@@ -115,7 +114,7 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
     <div className={clsx(EditorClasses.tableCellActionButtonContainer)} ref={tableActionContainerRef}>
       {tableCellNode != null && (
         <>
-          <IconButton
+          <button
             onClick={(e) => {
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);
@@ -125,7 +124,7 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
             type="button"
           >
             <ChevronDownIcon className={clsx('size-10')} />
-          </IconButton>
+          </button>
 
           {isMenuOpen && (
             <FloatingPortal root={tableActionContainerRef}>
