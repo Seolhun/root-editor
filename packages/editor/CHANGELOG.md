@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.6
+
+### Patch Changes
+
+- chore: update index.css exports path
+
 ## 0.1.7-alpha.5
 
 ### Patch Changes
