@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.5
+
+### Patch Changes
+
+- refactor: remove IconButton
+
 ## 0.1.7-alpha.4
 
 ### Patch Changes
