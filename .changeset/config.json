@@ -5,7 +5,10 @@
   "linked": [],
   "ignore": [
     "@seolhun/root-eslint",
-    "@seolhun/root-tsconfig"
+    "@seolhun/root-tsconfig",
+    "@seolhun/root-editor-react-apps",
+    "@seolhun/root-editor-nextjs-page-router",
+    "@seolhun/root-editor-nextjs-app-router"
   ],
   "access": "restricted",
   "baseBranch": "main",
