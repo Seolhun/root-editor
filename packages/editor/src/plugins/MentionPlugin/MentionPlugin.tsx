@@ -17,7 +17,7 @@ import { $createMentionNode } from '~/nodes/MentionNode';
 import { AtSignMentionsRegex, AtSignMentionsRegexAliasRegex } from './MentionPlugin.const';
 import {
   FetchMentionOptionsAsyncFn,
-  FetMentionOptionsFn,
+  FetchMentionOptionsFn,
   MentionOption,
   RenderMentionOptionFn,
 } from './MentionPlugin.types';
@@ -52,7 +52,7 @@ export interface MentionPluginProps {
   /**
    * If you want to show mention options synchronously, use this prop.
    */
-  fetchMentionOptions?: FetMentionOptionsFn;
+  fetchMentionOptions?: FetchMentionOptionsFn;
   /**
    * If you want to fetch mention options asynchronously, use this function.
    */
