@@ -2,12 +2,7 @@ name: Continuous Deployment
 
 on:
   push:
-    branches: [main, develop]
-    paths-ignore:
-      - '**/*.md'
-  pull_request:
-    branches: [main, develop, /^release\/.*$/, /^feature\/.*$/, /^bugfix\/.*$/, /^hotfix\/.*$/, /^support\/.*$/]
-    types: [opened, synchronize, reopened]
+    branches: [main, develop, /^release\/.*$/]
     paths-ignore:
       - '**/*.md'
 
