@@ -16,9 +16,9 @@ import {
 } from 'lexical';
 import { useCallback, useEffect } from 'react';
 
-import { useSharedAutocompleteContext } from '../../context/SharedAutocompleteContext';
-import { $createAutocompleteNode, AutocompleteNode } from '../../nodes/AutocompleteNode';
-import { addSwipeRightListener } from '../../utils/swipe';
+import { useSharedAutocompleteContext } from '~/context/shared-autocomplete';
+import { $createAutocompleteNode, AutocompleteNode } from '~/nodes/AutocompleteNode';
+import { addSwipeRightListener } from '~/utils/swipe';
 
 type SearchPromise = {
   dismiss: () => void;

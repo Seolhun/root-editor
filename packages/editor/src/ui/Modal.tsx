@@ -1,4 +1,5 @@
 import { FloatingPortal } from '@floating-ui/react';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 import { H6 } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef } from 'react';
@@ -64,7 +65,7 @@ function PortalImpl({ children, closeOnClickOutside, onClose, title }: PortalImp
           onClick={onClose}
           type="button"
         >
-          X
+          <XMarkIcon className="size-10" />
         </button>
         <div className="Modal__content">{children}</div>
       </div>

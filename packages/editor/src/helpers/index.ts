@@ -7,6 +7,7 @@ import { Rect } from '~/utils/rect';
 const Downward = 1;
 const Upward = -1;
 const Indeterminate = 0;
+let prevIndex = Infinity;
 
 export function getTopLevelNodeKeys(editor: LexicalEditor): string[] {
   return editor.getEditorState().read(() => $getRoot().getChildrenKeys());
@@ -29,7 +30,6 @@ function getCollapsedMargins(elem: HTMLElement): {
 }
 
 export const getCurrentIndex = (() => {
-  const prevIndex = Infinity;
   return (keysLength: number): number => {
     if (keysLength === 0) {
       return Infinity;
@@ -43,7 +43,6 @@ export const getCurrentIndex = (() => {
 })();
 
 export const getBlockElement = (() => {
-  let prevIndex = Infinity;
   return (
     editor: LexicalEditor,
     event: MouseEvent,

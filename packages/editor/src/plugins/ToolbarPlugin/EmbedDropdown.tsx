@@ -2,9 +2,9 @@ import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
 import clsx from 'clsx';
 import { LexicalEditor } from 'lexical';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Dropdown } from '~/components';
-import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
 import { EmbedConfigs } from '~/plugins/AutoEmbedPlugin';
 
@@ -14,7 +14,7 @@ export interface EmbedDropdownProps {
 }
 
 export function EmbedDropdown({ disabled, editor }: EmbedDropdownProps) {
-  const { t } = useI18n();
+  const { t } = useTranslation();
   const { settings } = useSettings();
   const { enabledEmbedFeature, enabledFigmaDocumentFeature, enabledTweeterFeature, enabledYoutubeFeature } = settings;
 

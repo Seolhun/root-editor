@@ -1,9 +1,9 @@
 import { LexicalEditor } from 'lexical';
 import { useState } from 'react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Dropdown } from '~/components';
-import { useI18n } from '~/context/i18n';
 import { Button } from '~/ui/Button';
 
 import { INSERT_LAYOUT_COMMAND } from './LayoutPlugin';
@@ -22,7 +22,7 @@ export interface InsertLayoutDialogProps {
 }
 
 export function InsertLayoutDialog({ activeEditor, onClose }: InsertLayoutDialogProps): JSX.Element {
-  const { t } = useI18n();
+  const { t } = useTranslation();
   const [layout, setLayout] = useState(LAYOUTS[0].value);
   const buttonLabel = LAYOUTS.find((item) => item.value === layout)?.label;
 

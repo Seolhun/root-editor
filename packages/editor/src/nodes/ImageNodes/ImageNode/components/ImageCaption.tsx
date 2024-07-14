@@ -13,12 +13,12 @@ import { mergeRegister } from '@lexical/utils';
 import clsx from 'clsx';
 import { $getRoot, createCommand } from 'lexical';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { EditorClasses } from '~/Editor.theme';
 import { createWebsocketProvider } from '~/collaboration';
-import { useSharedHistoryContext } from '~/context/SharedHistoryContext';
-import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
+import { useSharedHistoryContext } from '~/context/shared-history';
 import { EmojisPlugin } from '~/plugins/EmojisPlugin';
 import { LinkPlugin } from '~/plugins/LinkPlugin';
 import { TreeViewPlugin } from '~/plugins/TreeViewPlugin';
@@ -40,7 +40,7 @@ export function ImageCaption({ caption }: ImageCaptionProps): JSX.Element {
   const {
     settings: { showNestedEditorTreeView },
   } = useSettings();
-  const { t } = useI18n();
+  const { t } = useTranslation();
 
   const onClearCaption = React.useCallback(() => {
     caption.update(() => {

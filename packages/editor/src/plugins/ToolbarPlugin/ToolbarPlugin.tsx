@@ -58,16 +58,16 @@ import {
 } from 'lexical';
 import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Dropdown } from '~/components';
-import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
 import { useModal } from '~/hooks/useModal';
 import { $createStickyNode } from '~/nodes/StickyNode';
 import { INSERT_COLLAPSIBLE_COMMAND } from '~/plugins/CollapsiblePlugin';
 import { InsertEquationDialog } from '~/plugins/EquationsPlugin';
 import { INSERT_EXCALIDRAW_COMMAND } from '~/plugins/ExcalidrawPlugin';
-import { INSERT_IMAGE_COMMAND, InsertImageDialog, InsertImagePayload } from '~/plugins/ImagesPlugin';
+import { InsertImageDialog } from '~/plugins/ImagesPlugin';
 import { InsertInlineImageDialog } from '~/plugins/InlineImagePlugin/InlineImagePlugin';
 import { InsertLayoutDialog } from '~/plugins/LayoutPlugin/InsertLayoutDialog';
 import { INSERT_PAGE_BREAK } from '~/plugins/PageBreakPlugin';
@@ -171,7 +171,7 @@ export interface BlockFormatDropdownProps {
 }
 
 function BlockFormatDropdown({ blockType, disabled = false, editor }: BlockFormatDropdownProps): JSX.Element {
-  const { t } = useI18n();
+  const { t } = useTranslation();
 
   const formatParagraph = () => {
     editor.update(() => {
@@ -315,7 +315,7 @@ interface ElementFormatDropdownProps {
 
 function ElementFormatDropdown({ disabled = false, editor, isRTL, value }: ElementFormatDropdownProps) {
   const formatOption = ELEMENT_FORMAT_OPTIONS[value || 'left'];
-  const { t } = useI18n();
+  const { t } = useTranslation();
 
   return (
     <Dropdown>
@@ -411,7 +411,7 @@ export interface ToolbarPluginProps {
 }
 
 export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.Element {
-  const { t } = useI18n();
+  const { t } = useTranslation();
   const { settings } = useSettings();
   const { enabledEquationFeature, enabledExcalidrawFeature, enabledStickyNote } = settings;
   const [editor] = useLexicalComposerContext();
@@ -703,9 +703,6 @@ export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.El
     },
     [activeEditor, selectedElementKey],
   );
-  const insertGifOnClick = (payload: InsertImagePayload) => {
-    activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
-  };
 
   return (
     <div className="toolbar">

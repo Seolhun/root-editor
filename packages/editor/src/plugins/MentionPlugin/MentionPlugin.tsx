@@ -15,12 +15,7 @@ import { useFloatingAreaContext } from '~/context/floating';
 import { $createMentionNode } from '~/nodes/MentionNode';
 
 import { AtSignMentionsRegex, AtSignMentionsRegexAliasRegex } from './MentionPlugin.const';
-import {
-  FetchMentionOptionsAsyncFn,
-  FetchMentionOptionsFn,
-  MentionOption,
-  RenderMentionOptionFn,
-} from './MentionPlugin.types';
+import { FetchMentionOptionsFn, MentionOption, RenderMentionOptionFn } from './MentionPlugin.types';
 import { MentionsTypeaheadMenuItem } from './MentionsTypeaheadMenuItem';
 
 function checkForAtSignMentions(text: string, minMatchLength: number): MenuTextMatch | null {
@@ -48,15 +43,11 @@ function getPossibleQueryMatch(text: string): MenuTextMatch | null {
   return checkForAtSignMentions(text, 1);
 }
 
-export interface MentionPluginProps {
-  /**
-   * If you want to show mention options synchronously, use this prop.
-   */
-  fetchMentionOptions?: FetchMentionOptionsFn;
+export interface ExternalMentionPluginProps {
   /**
    * If you want to fetch mention options asynchronously, use this function.
    */
-  fetchMentionOptionsAsync?: FetchMentionOptionsAsyncFn;
+  fetchMentionOptions?: FetchMentionOptionsFn;
   /**
    * If you want to customize the mention option rendering, use this prop.
    */
@@ -65,9 +56,8 @@ export interface MentionPluginProps {
 
 export function MentionPlugin({
   fetchMentionOptions,
-  fetchMentionOptionsAsync,
   renderMentionOption,
-}: MentionPluginProps): JSX.Element | null {
+}: ExternalMentionPluginProps): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
   const { floatingElement } = useFloatingAreaContext();
   const [mentionOptions, setMentionOptions] = React.useState<MentionOption[]>([]);
@@ -80,10 +70,7 @@ export function MentionPlugin({
   React.useEffect(() => {
     const getMentionOptions = async () => {
       if (fetchMentionOptions) {
-        return fetchMentionOptions(queryString);
-      }
-      if (fetchMentionOptionsAsync) {
-        const result = await fetchMentionOptionsAsync(queryString);
+        const result = await fetchMentionOptions(queryString);
         return result;
       }
       return [];
@@ -91,7 +78,7 @@ export function MentionPlugin({
     getMentionOptions().then((options) => {
       setMentionOptions(options);
     });
-  }, [fetchMentionOptions, fetchMentionOptionsAsync, queryString]);
+  }, [fetchMentionOptions, queryString]);
 
   const onSelectOption = useCallback(
     (selectedOption: MentionOption, nodeToReplace: null | TextNode, closeMenu: () => void) => {

@@ -1,19 +1,12 @@
-/*eslint-disable */
-import '@seolhun/root-ui/modern/index.css';
-import './RootEditor.scss';
-import './assets/tailwind.scss';
-/*eslint-enable */
-
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import clsx from 'clsx';
 import * as React from 'react';
 
+import { BaseRootEditor, BaseRootEditorProps } from './BaseRootEditor';
 import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings } from './Editor.types';
-import { BaseRootEditor, BaseRootEditorProps } from './RootEditor';
 import { RootEditorNodes } from './RootEditor.Nodes';
-import { I18nProvider, i18nProviderProps } from './context/i18n';
-import { SettingsProvider } from './context/settings/SettingsContext';
+import { SettingsProvider } from './context/settings';
 
 type ElementType = HTMLElement;
 
@@ -30,18 +23,10 @@ export interface RootReadonlyEditorProps extends BaseRootEditorProps {
    * Initial settings for the editor.
    */
   initialSettings?: EditorInitialSettings;
-  /**
-   * @default 'en'
-   */
-  language?: i18nProviderProps['language'];
-  /**
-   * Resources for the i18n messages.
-   */
-  resources?: i18nProviderProps['resources'];
 }
 
 export const RootReadonlyEditor = React.forwardRef<ElementType, RootReadonlyEditorProps>(
-  ({ className, initialConfigType, initialSettings, language = 'en', resources, ...others }, ref) => {
+  ({ className, initialConfigType, initialSettings, ...others }, ref) => {
     const initialSettingValues = React.useMemo(() => {
       return {
         ...initialSettings,
@@ -49,25 +34,25 @@ export const RootReadonlyEditor = React.forwardRef<ElementType, RootReadonlyEdit
       };
     }, [initialSettings]);
 
-    const initialConfig: InitialConfigType = {
-      namespace: 'RootReadonlyEditor',
-      nodes: [...RootEditorNodes],
-      onError: (error: Error) => {
-        throw error;
-      },
-      theme,
-      ...initialConfigType,
-      editable: false,
-    };
+    const initialConfig = React.useMemo<InitialConfigType>(() => {
+      return {
+        editable: false,
+        namespace: 'RootReadonlyEditor',
+        nodes: [...RootEditorNodes],
+        onError: (error: Error) => {
+          throw error;
+        },
+        theme,
+        ...initialConfigType,
+      };
+    }, [initialConfigType]);
 
     return (
       <section className={clsx('__RootEditor__', className)} ref={ref}>
         <LexicalComposer initialConfig={initialConfig}>
-          <I18nProvider language={language} resources={resources}>
-            <SettingsProvider initialSettings={initialSettingValues}>
-              <BaseRootEditor {...others} />
-            </SettingsProvider>
-          </I18nProvider>
+          <SettingsProvider initialSettings={initialSettingValues}>
+            <BaseRootEditor {...others} />
+          </SettingsProvider>
         </LexicalComposer>
       </section>
     );

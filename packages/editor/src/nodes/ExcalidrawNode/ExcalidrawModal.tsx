@@ -8,9 +8,9 @@ import {
 import { FloatingPortal } from '@floating-ui/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useFloatingAreaContext } from '~/context/floating';
-import { useI18n } from '~/context/i18n';
 import { Button } from '~/ui/Button';
 import { Modal } from '~/ui/Modal';
 
@@ -71,7 +71,7 @@ export default function ExcalidrawModal({
   onDelete,
   onSave,
 }: ExcalidrawModalProps) {
-  const { t } = useI18n();
+  const { t } = useTranslation();
   const { floatingElement } = useFloatingAreaContext();
   const excaliDrawModelRef = useRef<HTMLDivElement | null>(null);
   const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();

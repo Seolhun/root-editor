@@ -10,7 +10,8 @@ import type {
 import { DecoratorNode } from 'lexical';
 import * as React from 'react';
 
-import { useSharedAutocompleteContext } from '../context/SharedAutocompleteContext';
+import { useSharedAutocompleteContext } from '~/context/shared-autocomplete';
+
 import { uuid as UUID } from '../plugins/AutocompletePlugin';
 
 declare global {

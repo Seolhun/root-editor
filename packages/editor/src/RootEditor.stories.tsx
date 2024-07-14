@@ -158,14 +158,14 @@ export const PluginPropsExample: Story = {
         initialConfigType={{
           editorState: JSON.stringify(titleTemplate),
         }}
-        initialSettings={{
-          debug: true,
-          showTreeView: true,
-        }}
-        plugins={{
+        initialPluginFunctions={{
           mention: {
             fetchMentionOptions: getMentions,
           },
+        }}
+        initialSettings={{
+          debug: true,
+          showTreeView: true,
         }}
         onChangeEditorState={onChangeEditorState}
       />

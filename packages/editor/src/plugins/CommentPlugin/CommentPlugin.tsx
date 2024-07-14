@@ -38,11 +38,11 @@ import {
 } from 'lexical';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { theme } from '~/Editor.theme';
 import { Comment, Comments, CommentStore, createComment, createThread, Thread, useCommentStore } from '~/commenting';
 import { useFloatingAreaContext } from '~/context/floating';
-import { useI18n } from '~/context/i18n';
 import { useModal } from '~/hooks/useModal';
 import { useIsoMorphicEffect } from '~/shared/useIsoMorphicEffect';
 import { Button } from '~/ui/Button';
@@ -370,7 +370,7 @@ function ShowDeleteCommentOrThreadDialog({
   onClose,
   thread = undefined,
 }: ShowDeleteCommentOrThreadDialogProps): JSX.Element {
-  const { t } = useI18n();
+  const { t } = useTranslation();
   return (
     <>
       {t('confirm.delete')}

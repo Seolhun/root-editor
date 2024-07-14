@@ -4,11 +4,7 @@ import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERE
 import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { INSERT_HORIZONTAL_RULE_COMMAND } from '@lexical/react/LexicalHorizontalRuleNode';
-import {
-  LexicalTypeaheadMenuPlugin,
-  MenuOption,
-  useBasicTypeaheadTriggerMatch,
-} from '@lexical/react/LexicalTypeaheadMenuPlugin';
+import { LexicalTypeaheadMenuPlugin, useBasicTypeaheadTriggerMatch } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { INSERT_TABLE_COMMAND } from '@lexical/table';
@@ -21,8 +17,8 @@ import {
   LexicalEditor,
   TextNode,
 } from 'lexical';
-import { useCallback, useMemo, useState } from 'react';
 import * as React from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
 import { useFloatingAreaContext } from '~/context/floating';
@@ -37,35 +33,7 @@ import { INSERT_PAGE_BREAK } from '~/plugins/PageBreakPlugin';
 import { InsertPollDialog } from '~/plugins/PollPlugin';
 import { InsertTableDialog } from '~/plugins/TablesPlugin';
 
-class ComponentPickerOption extends MenuOption {
-  // Icon for display
-  icon?: JSX.Element;
-  // TBD
-  keyboardShortcut?: string;
-  // For extra searching.
-  keywords: Array<string>;
-  // What happens when you select this option?
-  onSelect: (queryString: string) => void;
-  // What shows up in the editor
-  title: string;
-
-  constructor(
-    title: string,
-    options: {
-      icon?: JSX.Element;
-      keyboardShortcut?: string;
-      keywords?: Array<string>;
-      onSelect: (queryString: string) => void;
-    },
-  ) {
-    super(title);
-    this.title = title;
-    this.keywords = options.keywords || [];
-    this.icon = options.icon;
-    this.keyboardShortcut = options.keyboardShortcut;
-    this.onSelect = options.onSelect.bind(this);
-  }
-}
+import { ComponentPickerOption } from './ComponentPickerOption';
 
 function ComponentPickerMenuItem({
   index,
@@ -230,7 +198,9 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
       icon: <i className="icon poll" />,
       keywords: ['poll', 'vote'],
       onSelect: () =>
-        showModal('Insert Poll', (onClose) => <InsertPollDialog activeEditor={editor} onClose={onClose} />),
+        showModal('Insert Poll', (onClose) => {
+          return <InsertPollDialog activeEditor={editor} onClose={onClose} />;
+        }),
     }),
     ...EmbedConfigs.map(
       (embedConfig) =>
@@ -244,13 +214,18 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
       icon: <i className="icon equation" />,
       keywords: ['equation', 'latex', 'math'],
       onSelect: () =>
-        showModal('Insert Equation', (onClose) => <InsertEquationDialog activeEditor={editor} onClose={onClose} />),
+        showModal('Insert Equation', (onClose) => {
+          return <InsertEquationDialog activeEditor={editor} onClose={onClose} />;
+        }),
     }),
     new ComponentPickerOption('Image', {
       icon: <i className="icon image" />,
       keywords: ['image', 'photo', 'picture', 'file'],
-      onSelect: () =>
-        showModal('Insert Image', (onClose) => <InsertImageDialog activeEditor={editor} onClose={onClose} />),
+      onSelect: () => {
+        return showModal('Insert Image', (onClose) => {
+          return <InsertImageDialog activeEditor={editor} onClose={onClose} />;
+        });
+      },
     }),
     new ComponentPickerOption('Collapsible', {
       icon: <i className="icon caret-right" />,

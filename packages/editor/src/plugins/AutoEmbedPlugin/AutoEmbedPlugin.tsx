@@ -9,9 +9,9 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import clsx from 'clsx';
 import * as React from 'react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useFloatingAreaContext } from '~/context/floating';
-import { useI18n } from '~/context/i18n';
 import { useModal } from '~/hooks/useModal';
 import { Button } from '~/ui/Button';
 import { DialogActions } from '~/ui/Dialog';
@@ -91,7 +91,7 @@ interface AutoEmbedDialogProps {
 }
 
 export function AutoEmbedDialog({ embedConfig, onClose }: AutoEmbedDialogProps): JSX.Element {
-  const { t } = useI18n();
+  const { t } = useTranslation();
   const [text, setText] = useState('');
   const [editor] = useLexicalComposerContext();
   const [embedResult, setEmbedResult] = useState<EmbedMatchResult | null>(null);

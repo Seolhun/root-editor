@@ -18,7 +18,7 @@ const Context: React.Context<ContextShape> = createContext([
 ]);
 
 export const SharedAutocompleteContext = ({ children }: { children: ReactNode }): JSX.Element => {
-  const context: ContextShape = useMemo(() => {
+  const contextValues = useMemo<ContextShape>(() => {
     let suggestion: null | Suggestion = null;
     const listeners: Set<CallbackFn> = new Set();
     return [
@@ -37,16 +37,19 @@ export const SharedAutocompleteContext = ({ children }: { children: ReactNode })
       },
     ];
   }, []);
-  return <Context.Provider value={context}>{children}</Context.Provider>;
+
+  return <Context.Provider value={contextValues}>{children}</Context.Provider>;
 };
 
 export const useSharedAutocompleteContext = (): HookShape => {
   const [subscribe, publish]: ContextShape = useContext(Context);
   const [suggestion, setSuggestion] = useState<Suggestion>(null);
+
   useEffect(() => {
     return subscribe((newSuggestion: Suggestion) => {
       setSuggestion(newSuggestion);
     });
   }, [subscribe]);
+
   return [suggestion, publish];
 };

@@ -19,6 +19,5 @@ export interface MentionTypeaheadMenuItemProps {
   option: MentionOption;
 }
 
-export type FetchMentionOptionsFn = (queryString: null | string) => MentionOption[];
-export type FetchMentionOptionsAsyncFn = (queryString: null | string) => Promise<MentionOption[]>;
+export type FetchMentionOptionsFn = (queryString: null | string) => Promise<MentionOption[]>;
 export type RenderMentionOptionFn = (option: MentionOption, index: number) => JSX.Element;

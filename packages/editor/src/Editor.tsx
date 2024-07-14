@@ -17,15 +17,15 @@ import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import clsx from 'clsx';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
+import { ContentEditable } from '~/ui/ContentEditable';
 
 import { EditorClasses } from './Editor.theme';
-import { EditorPlaceholderRenderer } from './Editor.types';
-import { useSharedHistoryContext } from './context/SharedHistoryContext';
-import { useI18n } from './context/i18n';
-import { useSettings } from './context/settings/SettingsContext';
+import { useSettings } from './context/settings';
+import { useSharedHistoryContext } from './context/shared-history';
 import { ActionsPlugin } from './plugins/ActionsPlugin';
 import { AutoEmbedPlugin } from './plugins/AutoEmbedPlugin';
 import { AutoLinkPlugin } from './plugins/AutoLinkPlugin';
@@ -45,7 +45,7 @@ import { ExcalidrawPlugin } from './plugins/ExcalidrawPlugin';
 import { FigmaPlugin } from './plugins/FigmaPlugin/FigmaPlugin';
 import { FloatingLinkEditorPlugin } from './plugins/FloatingLinkEditorPlugin';
 import { FloatingTextFormatToolbarPlugin } from './plugins/FloatingTextFormatToolbarPlugin';
-import { ImagesPlugin } from './plugins/ImagesPlugin';
+import { ExternalImagePluginProps, ImagesPlugin } from './plugins/ImagesPlugin';
 import { InlineImagePlugin } from './plugins/InlineImagePlugin/InlineImagePlugin';
 import { KeywordsPlugin } from './plugins/KeywordsPlugin';
 import { LayoutPlugin } from './plugins/LayoutPlugin/LayoutPlugin';
@@ -53,7 +53,7 @@ import { LinkPlugin } from './plugins/LinkPlugin';
 import { ListMaxIndentLevelPlugin } from './plugins/ListMaxIndentLevelPlugin';
 import { MarkdownShortcutPlugin } from './plugins/MarkdownShortcutPlugin';
 import { MaxLengthPlugin } from './plugins/MaxLengthPlugin';
-import { MentionPlugin, MentionPluginProps } from './plugins/MentionPlugin';
+import { ExternalMentionPluginProps, MentionPlugin } from './plugins/MentionPlugin';
 import { PageBreakPlugin } from './plugins/PageBreakPlugin';
 import { ParagraphPlaceholderPlugin } from './plugins/ParagraphPlaceholderPlugin';
 import { PollPlugin } from './plugins/PollPlugin';
@@ -65,7 +65,6 @@ import { ToolbarPlugin } from './plugins/ToolbarPlugin';
 import { TreeViewPlugin } from './plugins/TreeViewPlugin';
 import { TwitterPlugin } from './plugins/TwitterPlugin/TwitterPlugin';
 import { YouTubePlugin } from './plugins/YouTubePlugin';
-import { ContentEditable } from './ui/ContentEditable';
 
 export interface EditorProps {
   /**
@@ -73,22 +72,19 @@ export interface EditorProps {
    */
   maxLength?: number;
   /**
-   * Placeholder text to show when the editor is empty.
-   */
-  placeholder?: EditorPlaceholderRenderer;
-  /**
    * Plugins to use in the editor.
    */
   plugins?: EditorPluginProps;
 }
 
 export interface EditorPluginProps {
-  mention: MentionPluginProps;
+  image: ExternalImagePluginProps;
+  mention: ExternalMentionPluginProps;
 }
 
-export function Editor({ maxLength, placeholder, plugins }: EditorProps) {
+export function Editor({ maxLength, plugins }: EditorProps) {
   const skipCollaborationInitRef = React.useRef<boolean>();
-  const { t } = useI18n();
+  const { t } = useTranslation();
   const { historyState } = useSharedHistoryContext();
   const { settings } = useSettings();
   const {

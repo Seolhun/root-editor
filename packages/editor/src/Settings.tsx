@@ -1,11 +1,11 @@
 import { CAN_USE_BEFORE_INPUT } from '@lexical/utils';
 import clsx from 'clsx';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import * as React from 'react';
 
 import { INITIAL_SETTINGS } from './Editor.settings';
 import { EditorClasses } from './Editor.theme';
 import { Opener } from './context/floating';
-import { useSettings } from './context/settings/SettingsContext';
+import { useSettings } from './context/settings';
 import Switch from './ui/Switch';
 
 export function Settings(): JSX.Element {
@@ -26,26 +26,31 @@ export function Settings(): JSX.Element {
     showTreeView,
   } = settings;
 
-  const settingButtonRef = useRef<HTMLButtonElement>(null);
+  const settingButtonRef = React.useRef<HTMLButtonElement>(null);
 
   /**
-   * TODO: We should support SSR/CSR. so, we should use `window` object in a proper way.
+   * Check if window object is available (to support SSR/CSR)
    */
-  const windowLocation = window.location;
+  const isClient = typeof window !== 'undefined';
 
-  useEffect(() => {
+  const windowLocation = React.useMemo(() => {
+    return isClient ? window.location : { pathname: '', search: '' };
+  }, [isClient]);
+
+  React.useEffect(() => {
     if (INITIAL_SETTINGS.disableBeforeInput && CAN_USE_BEFORE_INPUT) {
       console.error(`Legacy events are enabled (disableBeforeInput) but CAN_USE_BEFORE_INPUT is true`);
     }
   }, []);
 
-  const [showSettings, setShowSettings] = useState(false);
-  const [isSplitScreen, search] = useMemo(() => {
-    const parentWindow = window.parent;
+  const [showSettings, setShowSettings] = React.useState(false);
+
+  const [isSplitScreen, search] = React.useMemo(() => {
+    const parentWindow = isClient ? window.parent : null;
     const _search = windowLocation.search;
     const _isSplitScreen = parentWindow && parentWindow.location.pathname === '/split/';
     return [_isSplitScreen, _search];
-  }, [windowLocation]);
+  }, [isClient, windowLocation.search]);
 
   return (
     <Opener root={settingButtonRef.current}>
@@ -61,13 +66,15 @@ export function Settings(): JSX.Element {
             <Switch
               onClick={() => {
                 setOption('isCollaborative', !isCollaborative);
-                window.location.reload();
+                if (isClient) {
+                  window.location.reload();
+                }
               }}
               checked={isCollaborative}
               text="Collaboration"
             />
           )}
-          {debug && (
+          {debug && isClient && (
             <Switch
               onClick={() => {
                 if (isSplitScreen) {
@@ -76,7 +83,7 @@ export function Settings(): JSX.Element {
                   window.location.href = `/split/${search}`;
                 }
               }}
-              checked={isSplitScreen}
+              checked={Boolean(isSplitScreen)}
               text="Split Screen"
             />
           )}
@@ -113,7 +120,11 @@ export function Settings(): JSX.Element {
           <Switch
             onClick={() => {
               setOption('disableBeforeInput', !disableBeforeInput);
-              setTimeout(() => window.location.reload(), 500);
+              setTimeout(() => {
+                if (isClient) {
+                  window.location.reload();
+                }
+              }, 500);
             }}
             checked={disableBeforeInput}
             text="Legacy Events"

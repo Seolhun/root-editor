@@ -1,30 +1,13 @@
-/*eslint-disable */
-import '@seolhun/root-ui/modern/index.css';
-import './RootEditor.scss';
-import './assets/tailwind.scss';
-/*eslint-enable */
-
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { Editor, EditorProps } from './Editor';
+import { BaseRootEditor, BaseRootEditorProps } from './BaseRootEditor';
 import { theme } from './Editor.theme';
 import { EditorInitialConfigType, EditorInitialSettings, EditorOnChangeFn } from './Editor.types';
 import { RootEditorNodes } from './RootEditor.Nodes';
-import { Settings } from './Settings';
-import { FlashMessageContext } from './context/FlashMessageContext';
-import { SharedAutocompleteContext } from './context/SharedAutocompleteContext';
-import { SharedHistoryContext } from './context/SharedHistoryContext';
-import { FloatingAreaProvider } from './context/floating';
-import { I18nProvider, i18nProviderProps } from './context/i18n';
-import { SettingsProvider, useSettings } from './context/settings/SettingsContext';
-import { DocsPlugin } from './plugins/DocsPlugin';
-import { PasteLogPlugin } from './plugins/PasteLogPlugin';
-import { TableContext } from './plugins/TablesPlugin';
-import { TestRecorderPlugin } from './plugins/TestRecorderPlugin';
-import { TypingPerfPlugin } from './plugins/TypingPerfPlugin';
+import { SettingsProvider } from './context/settings';
 import { RootEditorTemplate, TEMPLATES } from './templates';
 
 type ElementType = HTMLElement;
@@ -43,37 +26,17 @@ export interface RootEditorProps extends BaseRootEditorProps {
    */
   initialSettings?: EditorInitialSettings;
   /**
-   * @default 'en'
-   */
-  language?: i18nProviderProps['language'];
-  /**
    * Callback that is called when the editor state changes.
    */
   onChangeEditorState?: EditorOnChangeFn;
   /**
-   * Resources for the i18n messages.
-   */
-  resources?: i18nProviderProps['resources'];
-  /**
-   *
+   * Template for the root editor.
    */
   template?: RootEditorTemplate;
 }
 
 export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
-  (
-    {
-      className,
-      initialConfigType,
-      initialSettings,
-      language = 'en',
-      onChangeEditorState,
-      resources,
-      template,
-      ...others
-    },
-    ref,
-  ) => {
+  ({ className, initialConfigType, initialSettings, onChangeEditorState, template, ...others }, ref) => {
     const editorState = React.useMemo(() => {
       if (initialConfigType?.editorState) {
         return initialConfigType.editorState;
@@ -85,56 +48,28 @@ export const RootEditor = React.forwardRef<ElementType, RootEditorProps>(
       return JSON.stringify(templateEditorState);
     }, [initialConfigType?.editorState, template]);
 
-    const initialConfig: InitialConfigType = {
-      ...initialConfigType,
-      editorState,
-      namespace: 'RootEditor',
-      nodes: [...RootEditorNodes],
-      onError: (error: Error) => {
-        throw error;
-      },
-      theme,
-    };
+    const initialConfig = React.useMemo<InitialConfigType>(() => {
+      return {
+        editorState,
+        namespace: 'RootEditor',
+        nodes: [...RootEditorNodes],
+        onError: (error: Error) => {
+          throw error;
+        },
+        theme,
+        ...initialConfigType,
+      };
+    }, [editorState, initialConfigType]);
 
     return (
       <section className={clsx('__RootEditor__', className)} ref={ref}>
         <LexicalComposer initialConfig={initialConfig}>
-          <I18nProvider language={language} resources={resources}>
-            <SettingsProvider initialSettings={initialSettings}>
-              <BaseRootEditor {...others} />
-              {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
-            </SettingsProvider>
-          </I18nProvider>
+          <SettingsProvider initialSettings={initialSettings}>
+            <BaseRootEditor {...others} />
+            {onChangeEditorState && <OnChangePlugin onChange={onChangeEditorState} />}
+          </SettingsProvider>
         </LexicalComposer>
       </section>
     );
   },
 );
-
-export interface BaseRootEditorProps extends EditorProps {}
-
-export const BaseRootEditor = ({ ...others }: BaseRootEditorProps) => {
-  const { settings } = useSettings();
-  const { debug, measureTypingPerf } = settings;
-
-  return (
-    <FloatingAreaProvider>
-      <FlashMessageContext>
-        <SharedHistoryContext>
-          <TableContext>
-            <SharedAutocompleteContext>
-              <div className="RootEditorShell">
-                <Editor {...others} />
-              </div>
-              <Settings />
-              {debug ? <DocsPlugin /> : null}
-              {debug ? <PasteLogPlugin /> : null}
-              {debug ? <TestRecorderPlugin /> : null}
-              {measureTypingPerf ? <TypingPerfPlugin /> : null}
-            </SharedAutocompleteContext>
-          </TableContext>
-        </SharedHistoryContext>
-      </FlashMessageContext>
-    </FloatingAreaProvider>
-  );
-};
