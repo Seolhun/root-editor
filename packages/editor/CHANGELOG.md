@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.9
+
+### Patch Changes
+
+- feat: update image-plugin and i18n, function context
+
 ## 0.1.7-alpha.8
 
 ### Patch Changes

@@ -4,13 +4,15 @@
   "initialVersions": {
     "@seolhun/root-eslint": "0.0.1",
     "@seolhun/root-tsconfig": "0.0.1",
-    "@seolhun/root-editor": "0.1.6"
+    "@seolhun/root-editor": "0.1.6",
+    "@seolhun/root-editor-react-apps": "0.1.0"
   },
   "changesets": [
     "fifty-years-clean",
     "fresh-donuts-boil",
     "hungry-seahorses-smell",
     "khaki-shrimps-tickle",
+    "neat-grapes-remember",
     "plenty-laws-fix",
     "sharp-stingrays-sniff",
     "swift-donkeys-marry",
