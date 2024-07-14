@@ -10,7 +10,6 @@ type ElementProps = React.ButtonHTMLAttributes<ElementType>;
 export const OpenerTrigger = React.forwardRef<ElementType, ElementProps>(({ className, children, ...props }, ref) => {
   const contextValues = useOpenerContext();
   const childrenRef = (children as any)?.ref;
-
   const mergedRef = useMergeRefs([contextValues?.refs.setReference, ref, childrenRef]);
 
   return (

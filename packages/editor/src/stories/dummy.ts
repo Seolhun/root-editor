@@ -87,7 +87,7 @@ export const dummyContent = {
             format: 0,
             mode: 'normal',
             style: '',
-            text: 'FirstSTageLogo',
+            text: 'FirstStageLogo',
             version: 1,
           },
         ],

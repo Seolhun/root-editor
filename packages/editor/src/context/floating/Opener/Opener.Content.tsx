@@ -12,35 +12,36 @@ export interface OpenerContentProps extends ElementProps {}
 
 export const OpenerContent = React.forwardRef<ElementType, OpenerContentProps>(
   ({ className, children, ...others }, ref) => {
-    const contextValues = useOpenerContext();
     const tooltipId = useId();
-
+    const contextValues = useOpenerContext();
     const mergedRef = useMergeRefs([contextValues?.refs.setFloating || null, ref]);
+
+    const { root, zIndex } = contextValues;
 
     useDelayGroup(contextValues.context, {
       id: tooltipId,
     });
 
-    const { root, zIndex } = contextValues;
+    if (!contextValues?.open) {
+      return null;
+    }
     return (
       <FloatingPortal root={root}>
-        {contextValues?.open && (
-          <div
-            style={{
-              ...others.style,
-              left: contextValues?.x ?? 0,
-              position: contextValues?.strategy,
-              top: contextValues?.y ?? 0,
-              visibility: contextValues?.x == null ? 'hidden' : 'visible',
-              zIndex: zIndex ?? 1e7,
-            }}
-            className={clsx(className, 'Opener__Panel')}
-            ref={mergedRef}
-            {...contextValues?.getFloatingProps(others)}
-          >
-            {children}
-          </div>
-        )}
+        <div
+          style={{
+            ...others.style,
+            left: contextValues?.x ?? 0,
+            position: contextValues?.strategy,
+            top: contextValues?.y ?? 0,
+            visibility: contextValues?.x == null ? 'hidden' : 'visible',
+            zIndex: zIndex ?? 1e7,
+          }}
+          className={clsx(className, 'Opener__Panel')}
+          ref={mergedRef}
+          {...contextValues?.getFloatingProps(others)}
+        >
+          {children}
+        </div>
       </FloatingPortal>
     );
   },

@@ -21,8 +21,8 @@ export const OpenerRoot = ({ children, delay, ...options }: OpenerProps) => {
   const tooltipValues = useOpener(options);
 
   return (
-    <FloatingDelayGroup delay={delay || DEFAULT_DELAY}>
-      <OpenerContext.Provider value={tooltipValues}>{children}</OpenerContext.Provider>
-    </FloatingDelayGroup>
+    <OpenerContext.Provider value={tooltipValues}>
+      <FloatingDelayGroup delay={delay || DEFAULT_DELAY}>{children}</FloatingDelayGroup>
+    </OpenerContext.Provider>
   );
 };
