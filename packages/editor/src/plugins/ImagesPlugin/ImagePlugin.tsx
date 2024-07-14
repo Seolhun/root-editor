@@ -22,8 +22,6 @@ import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
-import landscapeImage from '~/assets/landscape.jpg';
-import yellowFlowerImage from '~/assets/yellow-flower.jpg';
 import { $createImageNode, $isImageNode, ImageNode, ImagePayload } from '~/nodes/ImageNodes/ImageNode';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 import { Button } from '~/ui/Button';
@@ -141,24 +139,6 @@ export function InsertImageDialog({
     <>
       {!mode && (
         <DialogButtonsList>
-          <Button
-            onClick={() =>
-              onClick(
-                hasModifier.current
-                  ? {
-                      altText: 'Daylight fir trees forest glacier green high ice landscape',
-                      src: landscapeImage,
-                    }
-                  : {
-                      altText: 'Yellow flower in tilt shift lens',
-                      src: yellowFlowerImage,
-                    },
-              )
-            }
-            data-test-id="image-modal-option-sample"
-          >
-            Sample
-          </Button>
           <Button data-test-id="image-modal-option-url" onClick={() => setMode('url')}>
             URL
           </Button>

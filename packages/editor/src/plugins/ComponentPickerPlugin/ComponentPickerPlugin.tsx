@@ -25,14 +25,13 @@ import { useCallback, useMemo, useState } from 'react';
 import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
-import catTypingGif from '~/assets/cat-typing.gif';
 import { useFloatingAreaContext } from '~/context/floating';
 import { useModal } from '~/hooks/useModal';
 import { EmbedConfigs } from '~/plugins/AutoEmbedPlugin';
 import { INSERT_COLLAPSIBLE_COMMAND } from '~/plugins/CollapsiblePlugin';
 import { InsertEquationDialog } from '~/plugins/EquationsPlugin';
 import { INSERT_EXCALIDRAW_COMMAND } from '~/plugins/ExcalidrawPlugin';
-import { INSERT_IMAGE_COMMAND, InsertImageDialog } from '~/plugins/ImagesPlugin';
+import { InsertImageDialog } from '~/plugins/ImagesPlugin';
 import { InsertLayoutDialog } from '~/plugins/LayoutPlugin';
 import { INSERT_PAGE_BREAK } from '~/plugins/PageBreakPlugin';
 import { InsertPollDialog } from '~/plugins/PollPlugin';
@@ -246,15 +245,6 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
       keywords: ['equation', 'latex', 'math'],
       onSelect: () =>
         showModal('Insert Equation', (onClose) => <InsertEquationDialog activeEditor={editor} onClose={onClose} />),
-    }),
-    new ComponentPickerOption('GIF', {
-      icon: <i className="icon gif" />,
-      keywords: ['gif', 'animate', 'image', 'file'],
-      onSelect: () =>
-        editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
-          altText: 'Cat typing on a laptop',
-          src: catTypingGif,
-        }),
     }),
     new ComponentPickerOption('Image', {
       icon: <i className="icon image" />,

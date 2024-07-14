@@ -76,8 +76,7 @@
     padding-left: 16px;
 
     @apply text-neutral dark:text-neutral;
-    @apply border-l-4;
-    @apply border-neutral dark:border-neutral;
+    @apply border-l-4 border-neutral dark:border-neutral;
   }
 
   .RootEditor__indent {
@@ -129,8 +128,10 @@
   }
 
   .RootEditor__hashtag {
-    background-color: rgba(88, 144, 255, 0.15);
-    border-bottom: 1px solid rgba(88, 144, 255, 0.3);
+    @apply bg-primary-1 dark:bg-primary-1;
+    @apply text-space-1 dark:text-cream-1;
+    @apply p-2;
+    @apply rounded-lg;
   }
 
   .RootEditor__link {

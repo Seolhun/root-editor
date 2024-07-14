@@ -59,7 +59,6 @@ import {
 import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 
-import catTypingGif from '~/assets/cat-typing.gif';
 import { Dropdown } from '~/components';
 import { useI18n } from '~/context/i18n';
 import { useSettings } from '~/context/settings';
@@ -964,18 +963,6 @@ export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.El
               >
                 <i className="icon image" />
                 <span className="text">{t('toolbar.inline_image')}</span>
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() =>
-                  insertGifOnClick({
-                    altText: 'Cat typing on a laptop',
-                    src: catTypingGif,
-                  })
-                }
-                className="item"
-              >
-                <i className="icon gif" />
-                <span className="text">{t('toolbar.gif')}</span>
               </Dropdown.Item>
 
               {enabledExcalidrawFeature && (
