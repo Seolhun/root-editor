@@ -117,15 +117,15 @@ function CodeActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement }): J
 
   return (
     <>
-      {isShown ? (
+      {isShown && (
         <div className="code-action-menu-container" style={{ ...position }}>
           <div className="code-highlight-language">{codeFriendlyName}</div>
           <CopyButton editor={editor} getCodeDOMNode={getCodeDOMNode} />
-          {canBePrettier(normalizedLang) ? (
+          {canBePrettier(normalizedLang) && (
             <PrettierButton editor={editor} getCodeDOMNode={getCodeDOMNode} lang={normalizedLang} />
-          ) : null}
+          )}
         </div>
-      ) : null}
+      )}
     </>
   );
 }

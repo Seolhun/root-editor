@@ -94,6 +94,7 @@
     "katex": "^0.16.0",
     "lexical": "^0.16.0",
     "lodash-es": "^4.17.21",
+    "prettier": "^2.3.2",
     "react-error-boundary": "^4.0.13",
     "tailwindcss": "^3.4.4",
     "y-websocket": "^2.0.3",

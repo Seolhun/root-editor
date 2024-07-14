@@ -82,7 +82,6 @@ export function PrettierButton({ editor, getCodeDOMNode, lang }: Props) {
 
         if ($isCodeNode(codeNode)) {
           const content = codeNode.getTextContent();
-
           let parsed: string = '';
 
           try {
@@ -91,11 +90,13 @@ export function PrettierButton({ editor, getCodeDOMNode, lang }: Props) {
             setError(error);
           }
 
-          if (parsed !== '') {
-            const selection = codeNode.select(0);
-            selection.insertText(parsed);
-            setSyntaxError('');
-            setTipsVisible(false);
+          if (parsed !== null) {
+            editor.update(() => {
+              const selection = codeNode.select(0);
+              selection.insertText(parsed);
+              setSyntaxError('');
+              setTipsVisible(false);
+            });
           }
         }
       });
