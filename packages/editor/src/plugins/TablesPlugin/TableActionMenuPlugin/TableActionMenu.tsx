@@ -30,11 +30,11 @@ import {
   $isRangeSelection,
   $isTextNode,
 } from 'lexical';
-import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
+import { ColorPicker } from '~/components/ColorPicker';
 import invariant from '~/shared/invariant';
-import { ColorPicker } from '~/ui/ColorPicker';
 
 function computeSelectionCount(selection: TableSelection): {
   columns: number;

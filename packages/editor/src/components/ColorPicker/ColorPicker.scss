@@ -1,8 +1,4 @@
 .__RootEditor__ {
-  .color-picker-wrapper {
-    padding: 20px;
-  }
-
   .color-picker-basic-color {
     display: flex;
     flex-wrap: wrap;
@@ -12,7 +8,6 @@
   }
 
   .color-picker-basic-color button {
-    border: 1px solid #ccc;
     border-radius: 4px;
     height: 16px;
     width: 16px;
@@ -27,12 +22,12 @@
   .color-picker-saturation {
     width: 100%;
     position: relative;
-    margin-top: 15px;
+    margin-top: 12px;
     height: 150px;
-    background-image: linear-gradient(transparent, black),
-      linear-gradient(to right, white, transparent);
+    background-image: linear-gradient(transparent, black), linear-gradient(to right, white, transparent);
     user-select: none;
   }
+
   .color-picker-saturation_cursor {
     position: absolute;
     width: 20px;
@@ -43,10 +38,11 @@
     box-sizing: border-box;
     transform: translate(-10px, -10px);
   }
+
   .color-picker-hue {
     width: 100%;
     position: relative;
-    margin-top: 15px;
+    margin-top: 12px;
     height: 12px;
     background-image: linear-gradient(
       to right,

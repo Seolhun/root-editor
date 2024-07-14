@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Dropdown } from '~/components/Dropdown';
 
-import { ColorPicker } from './ColorPicker';
+import { ColorPicker } from '../components/ColorPicker/ColorPicker';
 
 export type ColorPickerDropdownProps = {
   buttonAriaLabel?: string;
