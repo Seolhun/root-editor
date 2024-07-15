@@ -69,7 +69,6 @@ export const DEFAULT_I18N_RESOURCES: i18nResource = {
       'toolbar.quote': 'Quote',
       'toolbar.right_align': 'Right Align',
       'toolbar.start_align': 'Start Align',
-      'toolbar.sticky_note': 'Sticky Note',
       'toolbar.strike': 'Strike',
       'toolbar.strikethrough': 'Strikethrough',
       'toolbar.subscript': 'Subscript',

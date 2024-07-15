@@ -25,10 +25,6 @@ export interface EditorSettings {
    */
   enabledFigmaDocumentFeature: boolean;
   /**
-   * @default false
-   */
-  enabledStickyNote: boolean;
-  /**
    * @default true
    */
   enabledTweeterFeature: boolean;
@@ -79,7 +75,6 @@ export const DEFAULT_SETTINGS: EditorSettings = {
   enabledEquationFeature: false,
   enabledExcalidrawFeature: true,
   enabledFigmaDocumentFeature: true,
-  enabledStickyNote: false,
   enabledTweeterFeature: true,
   enabledYoutubeFeature: true,
   /**

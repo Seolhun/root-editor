@@ -23,7 +23,6 @@ import { LayoutItemNode } from './nodes/LayoutItemNode';
 import { MentionNode } from './nodes/MentionNode';
 import { PageBreakNode } from './nodes/PageBreakNode';
 import { PollNode } from './nodes/PollNode';
-import { StickyNode } from './nodes/StickyNode';
 import { TweetNode } from './nodes/TweetNode';
 import { YouTubeNode } from './nodes/YouTubeNode';
 import { CollapsibleContainerNode } from './plugins/CollapsiblePlugin/CollapsibleContainerNode';
@@ -45,7 +44,6 @@ export const RootEditorNodes: Array<Klass<LexicalNode>> = [
   LinkNode,
   OverflowNode,
   PollNode,
-  StickyNode,
   ImageNode,
   InlineImageNode,
   MentionNode,

@@ -34,7 +34,6 @@ import clsx from 'clsx';
 import {
   $createParagraphNode,
   $getNodeByKey,
-  $getRoot,
   $getSelection,
   $isElementNode,
   $isRangeSelection,
@@ -63,7 +62,6 @@ import { useTranslation } from 'react-i18next';
 import { Dropdown } from '~/components';
 import { useSettings } from '~/context/settings';
 import { useModal } from '~/hooks/useModal';
-import { $createStickyNode } from '~/nodes/StickyNode';
 import { INSERT_COLLAPSIBLE_COMMAND } from '~/plugins/CollapsiblePlugin';
 import { InsertEquationDialog } from '~/plugins/EquationsPlugin';
 import { INSERT_EXCALIDRAW_COMMAND } from '~/plugins/ExcalidrawPlugin';
@@ -413,7 +411,7 @@ export interface ToolbarPluginProps {
 export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.Element {
   const { t } = useTranslation();
   const { settings } = useSettings();
-  const { enabledEquationFeature, enabledExcalidrawFeature, enabledStickyNote } = settings;
+  const { enabledEquationFeature, enabledExcalidrawFeature } = settings;
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph');
@@ -1019,22 +1017,6 @@ export function ToolbarPlugin({ setIsLinkEditMode }: ToolbarPluginProps): JSX.El
                 >
                   <i className="icon equation" />
                   <span className="text">{t('toolbar.equation')}</span>
-                </Dropdown.Item>
-              )}
-
-              {enabledStickyNote && (
-                <Dropdown.Item
-                  onClick={() => {
-                    editor.update(() => {
-                      const root = $getRoot();
-                      const stickyNode = $createStickyNode(0, 0);
-                      root.append(stickyNode);
-                    });
-                  }}
-                  className="item"
-                >
-                  <i className="icon sticky" />
-                  <span className="text">{t('toolbar.sticky_note')}</span>
                 </Dropdown.Item>
               )}
 
