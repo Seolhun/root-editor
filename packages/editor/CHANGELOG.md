@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.13
+
+### Patch Changes
+
+- fix: update floatinganchor
+
 ## 0.1.7-alpha.12
 
 ### Patch Changes
