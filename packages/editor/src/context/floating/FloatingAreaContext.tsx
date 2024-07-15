@@ -21,7 +21,7 @@ export const FloatingAreaProvider = ({ className, children, ...others }: Element
 
   return (
     <FloatingAreaContext.Provider value={contextValues}>
-      <div {...others} className={clsx(className, 'relative')} ref={setFloatingElement}>
+      <div {...others} className={clsx('RootEditor__FloatingArea', className, 'relative')} ref={setFloatingElement}>
         {children}
       </div>
     </FloatingAreaContext.Provider>

@@ -85,7 +85,7 @@ export function EmojiPickerPlugin() {
   const { floatingElement } = useFloatingAreaContext();
 
   useEffect(() => {
-    import('../../utils/emoji-list').then((file) => setEmojis(file.default));
+    import('~/utils/emoji-list').then((file) => setEmojis(file.default));
   }, []);
 
   const emojiOptions = useMemo(
