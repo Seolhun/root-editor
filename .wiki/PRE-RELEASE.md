@@ -14,7 +14,7 @@ Pre-release version은 `changeset`을 이용하여 관리합니다.
 pre-release는 일반적으로 `alpha`, `beta`, `rc` 등을 사용하여 버전을 관리합니다.
 
 ```sh
-pnpm run changeset pre enter alpha # run only once
+pnpm changeset pre enter alpha # run only once
 ```
 
 ### 2. Develop feature and commit
