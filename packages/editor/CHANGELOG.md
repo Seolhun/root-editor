@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.11
+
+### Patch Changes
+
+- refactor: remove floating delay group
+
 ## 0.1.7-alpha.10
 
 ### Patch Changes
