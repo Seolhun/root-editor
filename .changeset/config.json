@@ -6,7 +6,8 @@
   "ignore": [
     "@seolhun/root-eslint",
     "@seolhun/root-tsconfig",
-    "@seolhun/root-editor-react-apps"
+    "react-app-tester",
+    "nextjs-app-router-tester"
   ],
   "access": "restricted",
   "baseBranch": "main",
