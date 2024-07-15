@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.12
+
+### Patch Changes
+
+- fix: refactor support app router csr
+
 ## 0.1.7-alpha.11
 
 ### Patch Changes
