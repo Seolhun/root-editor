@@ -5,13 +5,16 @@
     "@seolhun/root-eslint": "0.0.1",
     "@seolhun/root-tsconfig": "0.0.1",
     "@seolhun/root-editor": "0.1.6",
-    "@seolhun/root-editor-react-apps": "0.1.0"
+    "@seolhun/root-editor-react-apps": "0.1.0",
+    "nextjs-app-router-tester": "0.5.6",
+    "react-app-tester": "0.1.0"
   },
   "changesets": [
     "fifty-years-clean",
     "fresh-donuts-boil",
     "hungry-seahorses-smell",
     "khaki-shrimps-tickle",
+    "nasty-dolphins-tie",
     "neat-grapes-remember",
     "plenty-laws-fix",
     "sharp-stingrays-sniff",

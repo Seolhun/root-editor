@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.7-alpha.10
+
+### Patch Changes
+
+- refactor: remove comment and collaborative features
+
 ## 0.1.7-alpha.9
 
 ### Patch Changes
