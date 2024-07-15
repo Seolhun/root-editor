@@ -14,17 +14,14 @@ import {
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
 import { useFloatingAreaContext } from '~/context/floating';
-import { useSettings } from '~/context/settings';
 import { getDOMRangeRect } from '~/utils/getDOMRangeRect';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { setFloatingElemPosition } from '~/utils/setFloatingElemPosition';
-
-import { INSERT_INLINE_COMMAND } from '../CommentPlugin';
 
 import './FloatingTextFormatToolbarPlugin.scss';
 
@@ -55,8 +52,6 @@ function TextFormatFloatingToolbar({
   isUnderline,
   setIsLinkEditMode,
 }: TextFormatFloatingToolbarProps): JSX.Element {
-  const { settings } = useSettings();
-  const { enabledCommentFeature } = settings;
   const popupCharStylesEditorRef = useRef<HTMLDivElement | null>(null);
 
   const insertLink = useCallback(() => {
@@ -69,9 +64,9 @@ function TextFormatFloatingToolbar({
     }
   }, [editor, isLink, setIsLinkEditMode]);
 
-  const insertComment = () => {
-    editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
-  };
+  // const insertComment = () => {
+  //   editor.dispatchCommand(INSERT_INLINE_COMMAND, undefined);
+  // };
 
   function mouseMoveListener(e: MouseEvent) {
     if (popupCharStylesEditorRef?.current && (e.buttons === 1 || e.buttons === 3)) {
@@ -262,7 +257,7 @@ function TextFormatFloatingToolbar({
           </button>
         </>
       )}
-      {enabledCommentFeature && (
+      {/* {enabledCommentFeature && (
         <button
           aria-label="Insert comment"
           className={'popup-item spaced insert-comment'}
@@ -271,7 +266,7 @@ function TextFormatFloatingToolbar({
         >
           <i className="format add-comment" />
         </button>
-      )}
+      )} */}
     </div>
   );
 }

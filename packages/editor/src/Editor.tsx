@@ -3,7 +3,6 @@ import { CharacterLimitPlugin } from '@lexical/react/LexicalCharacterLimitPlugin
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import { ClickableLinkPlugin } from '@lexical/react/LexicalClickableLinkPlugin';
-import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HashtagPlugin } from '@lexical/react/LexicalHashtagPlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
@@ -19,7 +18,6 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { createWebsocketProvider } from '~/collaboration';
 import { CAN_USE_DOM } from '~/shared/canUseDOM';
 import { ContentEditable } from '~/ui/ContentEditable';
 
@@ -33,7 +31,6 @@ import { AutocompletePlugin } from './plugins/AutocompletePlugin';
 import { CodeActionMenuPlugin } from './plugins/CodeActionMenuPlugin';
 import { CodeHighlightPlugin } from './plugins/CodeHighlightPlugin';
 import { CollapsiblePlugin } from './plugins/CollapsiblePlugin';
-import { CommentPlugin } from './plugins/CommentPlugin';
 import { ComponentPickerPlugin } from './plugins/ComponentPickerPlugin';
 import { ContextMenuPlugin } from './plugins/ContextMenuPlugin';
 import { DragDropPastePlugin } from './plugins/DragDropPastePlugin';
@@ -88,7 +85,6 @@ export function Editor({ maxLength, plugins }: EditorProps) {
   const { historyState } = useSharedHistoryContext();
   const { settings } = useSettings();
   const {
-    enabledCommentFeature,
     enabledEmbedFeature,
     enabledEquationFeature,
     enabledExcalidrawFeature,
@@ -98,7 +94,6 @@ export function Editor({ maxLength, plugins }: EditorProps) {
     isAutocomplete,
     isCharLimit,
     isCharLimitUtf8,
-    isCollaborative,
     isMaxLength,
     isRichText,
     shouldUseLexicalContextMenu,
@@ -156,12 +151,12 @@ export function Editor({ maxLength, plugins }: EditorProps) {
       <ParagraphPlaceholderPlugin hideOnEmptyEditor placeholder={`Press "/" for commands`} />
       <TitlePlaceholderPlugin placeholder={t('editor.title.placeholder') as string} />
 
-      {enabledCommentFeature && (
+      {/* {enabledCommentFeature && (
         <CommentPlugin providerFactory={isCollaborative ? createWebsocketProvider : undefined} />
-      )}
+      )} */}
       {isRichText ? (
         <>
-          {isCollaborative ? (
+          {/* {isCollaborative ? (
             <CollaborationPlugin
               id="main"
               providerFactory={createWebsocketProvider}
@@ -169,7 +164,8 @@ export function Editor({ maxLength, plugins }: EditorProps) {
             />
           ) : (
             <HistoryPlugin externalHistoryState={historyState} />
-          )}
+          )} */}
+          <HistoryPlugin externalHistoryState={historyState} />
           <RichTextPlugin
             contentEditable={
               <div className="EditorScroller">

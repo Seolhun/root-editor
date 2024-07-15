@@ -4,7 +4,6 @@ import { XCircleIcon } from '@heroicons/react/24/solid';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
 import { useCollaborationContext } from '@lexical/react/LexicalCollaborationContext';
-import { CollaborationPlugin } from '@lexical/react/LexicalCollaborationPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { LexicalNestedComposer } from '@lexical/react/LexicalNestedComposer';
@@ -16,7 +15,6 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { EditorClasses } from '~/Editor.theme';
-import { createWebsocketProvider } from '~/collaboration';
 import { useSettings } from '~/context/settings';
 import { useSharedHistoryContext } from '~/context/shared-history';
 import { EmojisPlugin } from '~/plugins/EmojisPlugin';
@@ -67,11 +65,12 @@ export function ImageCaption({ caption }: ImageCaptionProps): JSX.Element {
         <LinkPlugin />
         <EmojisPlugin />
         <ClearEditorPlugin />
-        {isCollabActive ? (
+        {/* {isCollabActive ? (
           <CollaborationPlugin id={caption.getKey()} providerFactory={createWebsocketProvider} shouldBootstrap={true} />
         ) : (
           <HistoryPlugin externalHistoryState={historyState} />
-        )}
+        )} */}
+        <HistoryPlugin externalHistoryState={historyState} />
         <div className={clsx('flex items-start justify-between', 'p-2')}>
           <PlainTextPlugin
             contentEditable={<ContentEditable className="ContentEditable" />}

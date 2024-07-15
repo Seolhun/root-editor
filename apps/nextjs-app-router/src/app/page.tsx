@@ -1,8 +1,13 @@
 'use client';
 
-import { EditorOnChangeFn, RootEditor } from '@seolhun/root-editor';
+import { EditorOnChangeFn } from '@seolhun/root-editor';
 import { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import * as React from 'react';
+
+const Editor = dynamic(() => import('@seolhun/root-editor').then((mod) => mod.RootEditor), {
+  ssr: false,
+});
 
 const HomePage: NextPage = () => {
   const [editorState, setEditorState] = React.useState<string>('');
@@ -13,7 +18,7 @@ const HomePage: NextPage = () => {
   };
 
   return (
-    <RootEditor
+    <Editor
       initialConfigType={{
         editorState: editorState ? JSON.stringify(editorState) : undefined,
       }}
