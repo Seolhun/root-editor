@@ -1,5 +1,4 @@
-import { FloatingPortal, useDelayGroup, useMergeRefs } from '@floating-ui/react';
-import { useId } from '@seolhun/root-ui';
+import { FloatingPortal, useMergeRefs } from '@floating-ui/react';
 import clsx from 'clsx';
 import * as React from 'react';
 
@@ -12,15 +11,10 @@ export interface OpenerContentProps extends ElementProps {}
 
 export const OpenerContent = React.forwardRef<ElementType, OpenerContentProps>(
   ({ className, children, ...others }, ref) => {
-    const tooltipId = useId();
     const contextValues = useOpenerContext();
     const mergedRef = useMergeRefs([contextValues?.refs.setFloating || null, ref]);
 
     const { root, zIndex } = contextValues;
-
-    useDelayGroup(contextValues.context, {
-      id: tooltipId,
-    });
 
     if (!contextValues?.open) {
       return null;

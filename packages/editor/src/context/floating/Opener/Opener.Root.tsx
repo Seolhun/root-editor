@@ -1,28 +1,14 @@
-import { FloatingDelayGroup } from '@floating-ui/react';
 import * as React from 'react';
 
-import { OpenerDelay, OpenerOptions } from './Opener.types';
+import { OpenerOptions } from './Opener.types';
 import { OpenerContext, useOpener } from './useOpenerContext';
 
 export interface OpenerProps extends OpenerOptions {
   children: React.ReactNode;
-  /**
-   * Open/Close delay
-   */
-  delay?: OpenerDelay;
 }
 
-const DEFAULT_DELAY: OpenerDelay = {
-  close: 100,
-  open: 300,
-};
-
-export const OpenerRoot = ({ children, delay, ...options }: OpenerProps) => {
+export const OpenerRoot = ({ children, ...options }: OpenerProps) => {
   const tooltipValues = useOpener(options);
 
-  return (
-    <OpenerContext.Provider value={tooltipValues}>
-      <FloatingDelayGroup delay={delay || DEFAULT_DELAY}>{children}</FloatingDelayGroup>
-    </OpenerContext.Provider>
-  );
+  return <OpenerContext.Provider value={tooltipValues}>{children}</OpenerContext.Provider>;
 };
