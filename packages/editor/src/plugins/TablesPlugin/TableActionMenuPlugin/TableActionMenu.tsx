@@ -30,8 +30,8 @@ import {
   $isRangeSelection,
   $isTextNode,
 } from 'lexical';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ColorPicker } from '~/components/ColorPicker';
 import invariant from '~/shared/invariant';
@@ -135,29 +135,34 @@ function currentCellBackgroundColor(editor: LexicalEditor): null | string {
 
 export type TableActionMenuProps = Readonly<{
   cellMerge: boolean;
+  contextRef: { current: HTMLElement | null };
   onClose: () => void;
+  setIsMenuOpen: (isOpen: boolean) => void;
   showColorPickerModal: (title: string, showModal: (onClose: () => void) => JSX.Element) => void;
   tableCellNode: TableCellNode;
 }>;
 
 export function TableActionMenu({
   cellMerge,
+  contextRef,
   onClose,
+  setIsMenuOpen,
   showColorPickerModal,
   tableCellNode: _tableCellNode,
 }: TableActionMenuProps) {
+  const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
-  const dropDownRef = useRef<HTMLDivElement | null>(null);
-  const [tableCellNode, updateTableCellNode] = useState(_tableCellNode);
-  const [selectionCounts, updateSelectionCounts] = useState({
+  const dropDownRef = React.useRef<HTMLDivElement | null>(null);
+  const [tableCellNode, updateTableCellNode] = React.useState(_tableCellNode);
+  const [selectionCounts, updateSelectionCounts] = React.useState({
     columns: 1,
     rows: 1,
   });
-  const [canMergeCells, setCanMergeCells] = useState(false);
-  const [canUnmergeCell, setCanUnmergeCell] = useState(false);
-  const [backgroundColor, setBackgroundColor] = useState(() => currentCellBackgroundColor(editor) || '');
+  const [canMergeCells, setCanMergeCells] = React.useState(false);
+  const [canUnmergeCell, setCanUnmergeCell] = React.useState(false);
+  const [backgroundColor, setBackgroundColor] = React.useState(() => currentCellBackgroundColor(editor) || '');
 
-  useEffect(() => {
+  React.useEffect(() => {
     return editor.registerMutationListener(TableCellNode, (nodeMutations) => {
       const nodeUpdated = nodeMutations.get(tableCellNode.getKey()) === 'updated';
       if (nodeUpdated) {
@@ -169,7 +174,7 @@ export function TableActionMenu({
     });
   }, [editor, tableCellNode]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     editor.getEditorState().read(() => {
       const selection = $getSelection();
       // Merge cells
@@ -186,7 +191,53 @@ export function TableActionMenu({
     });
   }, [editor]);
 
-  const clearTableSelection = useCallback(() => {
+  React.useEffect(() => {
+    const menuButtonElement = contextRef.current;
+    const dropDownElement = dropDownRef.current;
+    const rootElement = editor.getRootElement();
+
+    if (menuButtonElement != null && dropDownElement != null && rootElement != null) {
+      const rootEleRect = rootElement.getBoundingClientRect();
+      const menuButtonRect = menuButtonElement.getBoundingClientRect();
+      dropDownElement.style.opacity = '1';
+      const dropDownElementRect = dropDownElement.getBoundingClientRect();
+      const margin = 5;
+      let leftPosition = menuButtonRect.right + margin;
+      if (
+        leftPosition + dropDownElementRect.width > window.innerWidth ||
+        leftPosition + dropDownElementRect.width > rootEleRect.right
+      ) {
+        const position = menuButtonRect.left - dropDownElementRect.width - margin;
+        leftPosition = (position < 0 ? margin : position) + window.pageXOffset;
+      }
+      dropDownElement.style.left = `${leftPosition + window.pageXOffset}px`;
+
+      let topPosition = menuButtonRect.top;
+      if (topPosition + dropDownElementRect.height > window.innerHeight) {
+        const position = menuButtonRect.bottom - dropDownElementRect.height;
+        topPosition = (position < 0 ? margin : position) + window.pageYOffset;
+      }
+      dropDownElement.style.top = `${topPosition + +window.pageYOffset}px`;
+    }
+  }, [contextRef, dropDownRef, editor]);
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropDownRef.current != null &&
+        contextRef.current != null &&
+        !dropDownRef.current.contains(event.target as Node) &&
+        !contextRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    }
+
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, [setIsMenuOpen, contextRef]);
+
+  const clearTableSelection = React.useCallback(() => {
     editor.update(() => {
       if (tableCellNode.isAttached()) {
         const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode);
@@ -204,7 +255,6 @@ export function TableActionMenu({
         tableNode.markDirty();
         updateTableCellNode(tableCellNode.getLatest());
       }
-
       const rootNode = $getRoot();
       rootNode.selectStart();
     });
@@ -254,7 +304,7 @@ export function TableActionMenu({
     });
   };
 
-  const insertTableRowAtSelection = useCallback(
+  const insertTableRowAtSelection = React.useCallback(
     (shouldInsertAfter: boolean) => {
       editor.update(() => {
         $insertTableRow__EXPERIMENTAL(shouldInsertAfter);
@@ -264,7 +314,7 @@ export function TableActionMenu({
     [editor, onClose],
   );
 
-  const insertTableColumnAtSelection = useCallback(
+  const insertTableColumnAtSelection = React.useCallback(
     (shouldInsertAfter: boolean) => {
       editor.update(() => {
         for (let i = 0; i < selectionCounts.columns; i++) {
@@ -276,14 +326,14 @@ export function TableActionMenu({
     [editor, onClose, selectionCounts.columns],
   );
 
-  const deleteTableRowAtSelection = useCallback(() => {
+  const deleteTableRowAtSelection = React.useCallback(() => {
     editor.update(() => {
       $deleteTableRow__EXPERIMENTAL();
       onClose();
     });
   }, [editor, onClose]);
 
-  const deleteTableAtSelection = useCallback(() => {
+  const deleteTableAtSelection = React.useCallback(() => {
     editor.update(() => {
       const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode);
       tableNode.remove();
@@ -293,14 +343,14 @@ export function TableActionMenu({
     });
   }, [editor, tableCellNode, clearTableSelection, onClose]);
 
-  const deleteTableColumnAtSelection = useCallback(() => {
+  const deleteTableColumnAtSelection = React.useCallback(() => {
     editor.update(() => {
       $deleteTableColumn__EXPERIMENTAL();
       onClose();
     });
   }, [editor, onClose]);
 
-  const toggleTableRowIsHeader = useCallback(() => {
+  const toggleTableRowIsHeader = React.useCallback(() => {
     editor.update(() => {
       const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode);
       const tableRowIndex = $getTableRowIndexFromTableCellNode(tableCellNode);
@@ -327,7 +377,7 @@ export function TableActionMenu({
     });
   }, [editor, tableCellNode, clearTableSelection, onClose]);
 
-  const toggleTableColumnIsHeader = useCallback(() => {
+  const toggleTableColumnIsHeader = React.useCallback(() => {
     editor.update(() => {
       const tableNode = $getTableNodeFromLexicalNodeOrThrow(tableCellNode);
       const tableColumnIndex = $getTableColumnIndexFromTableCellNode(tableCellNode);
@@ -362,7 +412,7 @@ export function TableActionMenu({
     });
   }, [editor, tableCellNode, clearTableSelection, onClose]);
 
-  const handleCellBackgroundColor = useCallback(
+  const handleCellBackgroundColor = React.useCallback(
     (value: string) => {
       editor.update(() => {
         const selection = $getSelection();
@@ -398,7 +448,7 @@ export function TableActionMenu({
           onClick={() => mergeTableCellsAtSelection()}
           type="button"
         >
-          Merge cells
+          {t('plugins.table.mergeCells')}
         </button>
       );
     } else if (canUnmergeCell) {
@@ -409,7 +459,7 @@ export function TableActionMenu({
           onClick={() => unmergeTableCellsAtSelection()}
           type="button"
         >
-          Unmerge cells
+          {t('plugins.table.unmergeCells')}
         </button>
       );
     }
@@ -434,7 +484,7 @@ export function TableActionMenu({
         data-test-id="table-background-color"
         type="button"
       >
-        <span className="text">Background color</span>
+        <span className="text">{t('plugins.table.backgroundColor')}</span>
       </button>
       <hr />
       <button
@@ -443,7 +493,14 @@ export function TableActionMenu({
         onClick={() => insertTableRowAtSelection(false)}
         type="button"
       >
-        <span className="text">Insert {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`} above</span>
+        <span className="text">
+          {t('plugins.table.insertAboveBy', {
+            value:
+              selectionCounts.rows === 1
+                ? t('plugins.table.row')
+                : t('plugins.table.rowsBy', { value: selectionCounts.rows }),
+          })}
+        </span>
       </button>
       <button
         className="item"
@@ -451,7 +508,14 @@ export function TableActionMenu({
         onClick={() => insertTableRowAtSelection(true)}
         type="button"
       >
-        <span className="text">Insert {selectionCounts.rows === 1 ? 'row' : `${selectionCounts.rows} rows`} below</span>
+        <span className="text">
+          {t('plugins.table.insertBelowBy', {
+            value:
+              selectionCounts.rows === 1
+                ? t('plugins.table.row')
+                : t('plugins.table.rowsBy', { value: selectionCounts.rows }),
+          })}
+        </span>
       </button>
       <hr />
       <button
@@ -461,7 +525,12 @@ export function TableActionMenu({
         type="button"
       >
         <span className="text">
-          Insert {selectionCounts.columns === 1 ? 'column' : `${selectionCounts.columns} columns`} left
+          {t('plugins.table.insertLeftBy', {
+            value:
+              selectionCounts.columns === 1
+                ? t('plugins.table.row')
+                : t('plugins.table.columnsBy', { value: selectionCounts.columns }),
+          })}
         </span>
       </button>
       <button
@@ -471,7 +540,12 @@ export function TableActionMenu({
         type="button"
       >
         <span className="text">
-          Insert {selectionCounts.columns === 1 ? 'column' : `${selectionCounts.columns} columns`} right
+          {t('plugins.table.insertRightBy', {
+            value:
+              selectionCounts.columns === 1
+                ? t('plugins.table.row')
+                : t('plugins.table.columnsBy', { value: selectionCounts.columns }),
+          })}
         </span>
       </button>
       <hr />
@@ -481,7 +555,7 @@ export function TableActionMenu({
         onClick={() => deleteTableColumnAtSelection()}
         type="button"
       >
-        <span className="text">Delete column</span>
+        <span className="text">{t('plugins.table.deleteColumn')}</span>
       </button>
       <button
         className="item"
@@ -489,16 +563,18 @@ export function TableActionMenu({
         onClick={() => deleteTableRowAtSelection()}
         type="button"
       >
-        <span className="text">Delete row</span>
+        <span className="text">{t('plugins.table.deleteRow')}</span>
       </button>
       <button className="item" data-test-id="table-delete" onClick={() => deleteTableAtSelection()} type="button">
-        <span className="text">Delete table</span>
+        <span className="text">{t('plugins.table.deleteTable')}</span>
       </button>
       <hr />
       <button className="item" onClick={() => toggleTableRowIsHeader()} type="button">
         <span className="text">
-          {(tableCellNode.__headerState & TableCellHeaderStates.ROW) === TableCellHeaderStates.ROW ? 'Remove' : 'Add'}{' '}
-          row header
+          {(tableCellNode.__headerState & TableCellHeaderStates.ROW) === TableCellHeaderStates.ROW
+            ? t('remove')
+            : t('add')}{' '}
+          {t('plugins.table.rowHeader')}
         </span>
       </button>
       <button
@@ -509,9 +585,9 @@ export function TableActionMenu({
       >
         <span className="text">
           {(tableCellNode.__headerState & TableCellHeaderStates.COLUMN) === TableCellHeaderStates.COLUMN
-            ? 'Remove'
-            : 'Add'}{' '}
-          column header
+            ? t('remove')
+            : t('add')}{' '}
+          {t('plugins.table.columnHeader')}
         </span>
       </button>
     </div>

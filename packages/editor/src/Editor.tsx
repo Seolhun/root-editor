@@ -104,8 +104,15 @@ export function Editor({ maxLength, plugins }: EditorProps) {
   } = settings;
 
   const isEditable = useLexicalEditable();
+  const [floatingAnchor, setFloatingAnchor] = useState<HTMLDivElement | null>(null);
   const [isSmallWidthViewport, setIsSmallWidthViewport] = useState<boolean>(false);
   const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
+
+  const onFloatingAnchorRef = (element: HTMLDivElement) => {
+    if (element !== null) {
+      setFloatingAnchor(element);
+    }
+  };
 
   useEffect(() => {
     const updateViewPortWidth = () => {
@@ -128,7 +135,7 @@ export function Editor({ maxLength, plugins }: EditorProps) {
   }, []);
 
   const hasMaxLength = maxLength != null && maxLength > 0;
-  const canUseFloatingAnchor = !isSmallWidthViewport;
+  const canUseFloatingAnchor = floatingAnchor && !isSmallWidthViewport;
   return (
     <div
       className={clsx('EditorContainer', isRichText ? EditorClasses.richText : EditorClasses.plainText, {
@@ -140,9 +147,6 @@ export function Editor({ maxLength, plugins }: EditorProps) {
       <DragDropPastePlugin />
       <AutoFocusPlugin />
       <ClearEditorPlugin />
-      <ComponentPickerPlugin />
-      <EmojiPickerPlugin />
-      <MentionPlugin {...plugins?.mention} />
       <EmojisPlugin />
       <HashtagPlugin />
       <KeywordsPlugin />
@@ -168,7 +172,7 @@ export function Editor({ maxLength, plugins }: EditorProps) {
           <HistoryPlugin externalHistoryState={historyState} />
           <RichTextPlugin
             contentEditable={
-              <div className="EditorScroller">
+              <div className="EditorScroller" ref={onFloatingAnchorRef}>
                 <div className="Editor">
                   <ContentEditable />
                 </div>
@@ -183,7 +187,6 @@ export function Editor({ maxLength, plugins }: EditorProps) {
           <CheckListPlugin />
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <TablePlugin hasCellBackgroundColor={tableCellBackgroundColor} hasCellMerge={tableCellMerge} />
-          <TableCellResizerPlugin />
           <ImagesPlugin />
           <InlineImagePlugin />
           <LinkPlugin />
@@ -203,13 +206,23 @@ export function Editor({ maxLength, plugins }: EditorProps) {
           <CollapsiblePlugin />
           <PageBreakPlugin />
           <LayoutPlugin />
+          {/* floatingAnchor is used to position floating components */}
           {canUseFloatingAnchor && (
             <>
-              <DraggableBlockPlugin />
-              <CodeActionMenuPlugin />
-              <FloatingLinkEditorPlugin isLinkEditMode={isLinkEditMode} setIsLinkEditMode={setIsLinkEditMode} />
-              <TableActionMenuPlugin cellMerge={true} />
-              <FloatingTextFormatToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />
+              <DraggableBlockPlugin floatingAnchor={floatingAnchor} />
+              <CodeActionMenuPlugin floatingAnchor={floatingAnchor} />
+              <FloatingLinkEditorPlugin
+                floatingAnchor={floatingAnchor}
+                isLinkEditMode={isLinkEditMode}
+                setIsLinkEditMode={setIsLinkEditMode}
+              />
+              <TableActionMenuPlugin cellMerge={true} floatingAnchor={floatingAnchor} />
+              <FloatingTextFormatToolbarPlugin floatingAnchor={floatingAnchor} setIsLinkEditMode={setIsLinkEditMode} />
+              <ComponentPickerPlugin floatingAnchor={floatingAnchor} />
+              <EmojiPickerPlugin floatingAnchor={floatingAnchor} />
+              <TableCellResizerPlugin floatingAnchor={floatingAnchor} />
+              <MentionPlugin {...plugins?.mention} floatingAnchor={floatingAnchor} />
+              {shouldUseLexicalContextMenu && <ContextMenuPlugin floatingAnchor={floatingAnchor} />}
             </>
           )}
         </>
@@ -228,7 +241,6 @@ export function Editor({ maxLength, plugins }: EditorProps) {
       )}
       {isAutocomplete && <AutocompletePlugin />}
       <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
-      {shouldUseLexicalContextMenu && <ContextMenuPlugin />}
       <ActionsPlugin />
       {showTreeView && <TreeViewPlugin />}
     </div>

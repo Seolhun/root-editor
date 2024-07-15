@@ -1,4 +1,5 @@
-import { FloatingPortal, useMergeRefs } from '@floating-ui/react';
+import { FloatingPortal } from '@floating-ui/react';
+import { useMergeRefs } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import * as React from 'react';
 

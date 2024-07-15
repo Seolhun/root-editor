@@ -1,4 +1,3 @@
-import { FloatingPortal } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { eventFiles } from '@lexical/rich-text';
 import { calculateZoomLevel, mergeRegister } from '@lexical/utils';
@@ -14,9 +13,9 @@ import {
 } from 'lexical';
 import { DragEvent as ReactDragEvent, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/context/floating';
 import { getBlockElement } from '~/helpers';
 import { isHTMLElement } from '~/utils/guard';
 
@@ -114,9 +113,7 @@ function hideTargetLine(targetLineElement: HTMLElement | null) {
   }
 }
 
-function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
-  const { floatingElement } = useFloatingAreaContext();
-
+function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean, floatingAnchor: HTMLElement) {
   const draggableMenuRef = useRef<HTMLDivElement>(null);
   const targetLineRef = useRef<HTMLDivElement>(null);
   const isDraggingBlockRef = useRef<boolean>(false);
@@ -134,7 +131,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
         return;
       }
 
-      const draggableBlockElement = getBlockElement(editor, event, floatingElement);
+      const draggableBlockElement = getBlockElement(editor, event, floatingAnchor);
       setActiveDraggableBlockElem(draggableBlockElement);
     }
 
@@ -143,20 +140,20 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
       draggableMenuRef.current?.classList.remove(EditorClasses.draggableBlockSelected);
     }
 
-    const scrollerElement = floatingElement?.parentElement;
+    const scrollerElement = floatingAnchor.parentElement;
     scrollerElement?.addEventListener('mouseover', onMouseOver);
     scrollerElement?.addEventListener('mouseleave', onMouseLeave);
     return () => {
       scrollerElement?.removeEventListener('mousemove', onMouseOver);
       scrollerElement?.removeEventListener('mouseleave', onMouseLeave);
     };
-  }, [floatingElement, editor]);
+  }, [floatingAnchor, editor]);
 
   useEffect(() => {
     if (draggableMenuRef.current) {
-      setMenuPosition(activeDraggableBlockElem, draggableMenuRef.current, floatingElement);
+      setMenuPosition(activeDraggableBlockElem, draggableMenuRef.current, floatingAnchor);
     }
-  }, [floatingElement, activeDraggableBlockElem]);
+  }, [floatingAnchor, activeDraggableBlockElem]);
 
   useEffect(() => {
     function onDragover(event: DragEvent): boolean {
@@ -174,14 +171,14 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
         return false;
       }
 
-      const targetBlockElement = getBlockElement(editor, event, floatingElement, true);
+      const targetBlockElement = getBlockElement(editor, event, floatingAnchor, true);
       const targetLineElement = targetLineRef.current;
       if (targetBlockElement === null || targetLineElement === null) {
         return false;
       }
 
       const mouseY = pageY / calculateZoomLevel(target);
-      setTargetLine(targetLineElement, targetBlockElement, mouseY, floatingElement);
+      setTargetLine(targetLineElement, targetBlockElement, mouseY, floatingAnchor);
       // Prevent default event to be able to trigger onDrop events
       event.preventDefault();
       return true;
@@ -208,7 +205,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
         return false;
       }
 
-      const targetBlockElement = getBlockElement(editor, event, floatingElement, true);
+      const targetBlockElement = getBlockElement(editor, event, floatingAnchor, true);
       if (!targetBlockElement) {
         return false;
       }
@@ -249,7 +246,7 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
         COMMAND_PRIORITY_HIGH,
       ),
     );
-  }, [editor, floatingElement]);
+  }, [editor, floatingAnchor]);
 
   function onDragStart(event: ReactDragEvent<HTMLDivElement>): void {
     const dataTransfer = event.dataTransfer;
@@ -273,12 +270,8 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
     hideTargetLine(targetLineRef.current);
   }
 
-  if (!floatingElement) {
-    return null;
-  }
-
-  return (
-    <FloatingPortal root={floatingElement}>
+  return ReactDOM.createPortal(
+    <>
       <div
         className={clsx(EditorClasses.draggableBlock)}
         draggable={true}
@@ -289,12 +282,17 @@ function useDraggableBlockMenu(editor: LexicalEditor, isEditable: boolean) {
         <div className={isEditable ? 'icon' : ''} />
       </div>
       <div className={EditorClasses.draggableBlockTargetLine} ref={targetLineRef} />
-    </FloatingPortal>
+    </>,
+    floatingAnchor,
   );
 }
 
-export function DraggableBlockPlugin() {
+export interface DraggableBlockPluginProps {
+  floatingAnchor: HTMLElement;
+}
+
+export function DraggableBlockPlugin({ floatingAnchor }: DraggableBlockPluginProps) {
   const [editor] = useLexicalComposerContext();
 
-  return useDraggableBlockMenu(editor, editor._editable);
+  return useDraggableBlockMenu(editor, editor._editable, floatingAnchor);
 }

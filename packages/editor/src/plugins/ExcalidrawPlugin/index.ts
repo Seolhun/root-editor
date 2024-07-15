@@ -8,15 +8,16 @@ import {
   createCommand,
   LexicalCommand,
 } from 'lexical';
-import { useEffect } from 'react';
+import * as React from 'react';
 
-import { $createExcalidrawNode, ExcalidrawNode } from '../../nodes/ExcalidrawNode';
+import { $createExcalidrawNode, ExcalidrawNode } from '~/nodes/ExcalidrawNode';
 
 export const INSERT_EXCALIDRAW_COMMAND: LexicalCommand<void> = createCommand('INSERT_EXCALIDRAW_COMMAND');
 
 export function ExcalidrawPlugin(): null {
   const [editor] = useLexicalComposerContext();
-  useEffect(() => {
+
+  React.useEffect(() => {
     if (!editor.hasNodes([ExcalidrawNode])) {
       throw new Error('ExcalidrawPlugin: ExcalidrawNode not registered on editor');
     }

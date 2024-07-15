@@ -20,8 +20,8 @@ import { ImageResizer } from '~/ui/ImageResizer';
 
 import type { ExcalidrawInitialElements } from './ExcalidrawModal';
 
-import ExcalidrawImage from './ExcalidrawImage';
-import ExcalidrawModal from './ExcalidrawModal';
+import { ExcalidrawImage } from './ExcalidrawImage';
+import { ExcalidrawModal } from './ExcalidrawModal';
 import { $isExcalidrawNode } from './index';
 
 export default function ExcalidrawComponent({ data, nodeKey }: { data: string; nodeKey: NodeKey }) {

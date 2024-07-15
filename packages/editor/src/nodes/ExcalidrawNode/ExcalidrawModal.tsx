@@ -5,9 +5,9 @@ import {
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
 } from '@excalidraw/excalidraw/types/types';
-import { FloatingPortal } from '@floating-ui/react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
 import { useFloatingAreaContext } from '~/context/floating';
@@ -61,7 +61,7 @@ export const useCallbackRefState = () => {
  * A component which renders a modal with Excalidraw (a painting app)
  * which can be used to export an editable image
  */
-export default function ExcalidrawModal({
+export function ExcalidrawModal({
   closeOnClickOutside = false,
   initialAppState,
   initialElements,
@@ -211,32 +211,31 @@ export default function ExcalidrawModal({
     return null;
   }
 
-  return (
-    <FloatingPortal root={floatingElement}>
-      <div className="ExcalidrawModal__overlay" role="dialog">
-        <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
-          <div className="ExcalidrawModal__row">
-            {discardModalOpen && <ShowDiscardDialog />}
-            <Excalidraw
-              initialData={{
-                appState: initialAppState || { isLoading: false },
-                elements: initialElements,
-                files: initialFiles,
-              }}
-              excalidrawAPI={excalidrawAPIRefCallback}
-              onChange={onChange}
-            />
-            <div className="ExcalidrawModal__actions">
-              <button className="action-button" onClick={discard}>
-                {t('discard')}
-              </button>
-              <button className="action-button" onClick={save}>
-                {t('save')}
-              </button>
-            </div>
+  return ReactDOM.createPortal(
+    <div className="ExcalidrawModal__overlay" role="dialog">
+      <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
+        <div className="ExcalidrawModal__row">
+          {discardModalOpen && <ShowDiscardDialog />}
+          <Excalidraw
+            initialData={{
+              appState: initialAppState || { isLoading: false },
+              elements: initialElements,
+              files: initialFiles,
+            }}
+            excalidrawAPI={excalidrawAPIRefCallback}
+            onChange={onChange}
+          />
+          <div className="ExcalidrawModal__actions">
+            <button className="action-button" onClick={discard}>
+              {t('discard')}
+            </button>
+            <button className="action-button" onClick={save}>
+              {t('save')}
+            </button>
           </div>
         </div>
       </div>
-    </FloatingPortal>
+    </div>,
+    floatingElement,
   );
 }

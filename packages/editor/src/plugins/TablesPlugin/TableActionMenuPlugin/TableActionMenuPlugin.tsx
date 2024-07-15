@@ -1,4 +1,3 @@
-import { FloatingPortal } from '@floating-ui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
@@ -6,31 +5,29 @@ import { $getTableCellNodeFromLexicalNode, TableCellNode } from '@lexical/table'
 import clsx from 'clsx';
 import { $getSelection, $isRangeSelection } from 'lexical';
 import * as React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import * as ReactDOM from 'react-dom';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/context/floating';
 import { useModal } from '~/hooks/useModal';
 
 import { TableActionMenu } from './TableActionMenu';
 
 interface TableCellActionMenuContainerProps {
   cellMerge: boolean;
+  floatingAnchor: HTMLElement;
 }
 
-function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContainerProps) {
-  const { floatingElement } = useFloatingAreaContext();
+function TableCellActionMenuContainer({ cellMerge, floatingAnchor }: TableCellActionMenuContainerProps) {
   const [editor] = useLexicalComposerContext();
 
-  const tableActionContainerRef = useRef<HTMLDivElement>(null);
-  const tableActionButtonRef = useRef<HTMLButtonElement>(null);
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [tableCellNode, setTableMenuCellNode] = useState<null | TableCellNode>(null);
+  const menuButtonRef = React.useRef(null);
+  const menuRootRef = React.useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [tableCellNode, setTableMenuCellNode] = React.useState<null | TableCellNode>(null);
   const [ColorPickerModal, showColorPickerModal] = useModal();
 
-  const $moveMenu = useCallback(() => {
-    const menu = tableActionContainerRef.current;
+  const $moveMenu = React.useCallback(() => {
+    const menu = menuButtonRef.current;
     const selection = $getSelection();
     const nativeSelection = window.getSelection();
     const activeElement = document.activeElement;
@@ -66,7 +63,7 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
     }
   }, [editor]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     return editor.registerUpdateListener(() => {
       editor.getEditorState().read(() => {
         $moveMenu();
@@ -77,14 +74,14 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
   /**
    * @todo Why is this function we need to use?
    */
-  useEffect(() => {
-    const menuButtonDOM = tableActionContainerRef.current as HTMLButtonElement | null;
+  React.useEffect(() => {
+    const menuButtonDOM = menuButtonRef.current as HTMLButtonElement | null;
     if (menuButtonDOM != null && tableCellNode != null) {
       const tableCellNodeDOM = editor.getElementByKey(tableCellNode.getKey());
-      if (tableCellNodeDOM != null && floatingElement != null) {
+      if (tableCellNodeDOM != null) {
         const tableCellRect = tableCellNodeDOM.getBoundingClientRect();
         const menuRect = menuButtonDOM.getBoundingClientRect();
-        const anchorRect = floatingElement.getBoundingClientRect();
+        const anchorRect = floatingAnchor.getBoundingClientRect();
         const top = tableCellRect.top - anchorRect.top + 4;
         const left = tableCellRect.right - menuRect.width - 10 - anchorRect.left;
         menuButtonDOM.style.opacity = '1';
@@ -94,11 +91,11 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
         menuButtonDOM.style.transform = 'translate(-10000px, -10000px)';
       }
     }
-  }, [tableActionContainerRef, tableCellNode, editor, floatingElement]);
+  }, [menuButtonRef, tableCellNode, editor, floatingAnchor]);
 
-  const prevTableCellDOM = useRef(tableCellNode);
+  const prevTableCellDOM = React.useRef(tableCellNode);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (prevTableCellDOM.current !== tableCellNode) {
       setIsMenuOpen(false);
     }
@@ -106,12 +103,8 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
     prevTableCellDOM.current = tableCellNode;
   }, [prevTableCellDOM, tableCellNode]);
 
-  if (!floatingElement) {
-    return null;
-  }
-
   return (
-    <div className={clsx(EditorClasses.tableCellActionButtonContainer)} ref={tableActionContainerRef}>
+    <div className={clsx(EditorClasses.tableCellActionButtonContainer)} ref={menuButtonRef}>
       {tableCellNode != null && (
         <>
           <button
@@ -120,21 +113,21 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
               setIsMenuOpen(!isMenuOpen);
             }}
             className={clsx(EditorClasses.tableCellActionButton, 'text-neutral-3 dark:text-neutral-7')}
-            ref={tableActionButtonRef}
+            ref={menuRootRef}
             type="button"
           >
             <ChevronDownIcon className={clsx('size-10')} />
           </button>
 
           {isMenuOpen && (
-            <FloatingPortal root={tableActionContainerRef}>
-              <TableActionMenu
-                cellMerge={cellMerge}
-                onClose={() => setIsMenuOpen(false)}
-                showColorPickerModal={showColorPickerModal}
-                tableCellNode={tableCellNode}
-              />
-            </FloatingPortal>
+            <TableActionMenu
+              cellMerge={cellMerge}
+              contextRef={menuRootRef}
+              onClose={() => setIsMenuOpen(false)}
+              setIsMenuOpen={setIsMenuOpen}
+              showColorPickerModal={showColorPickerModal}
+              tableCellNode={tableCellNode}
+            />
           )}
 
           {ColorPickerModal}
@@ -146,21 +139,17 @@ function TableCellActionMenuContainer({ cellMerge }: TableCellActionMenuContaine
 
 export interface TableActionMenuPluginProps {
   cellMerge?: boolean;
+  floatingAnchor: HTMLElement;
 }
 
-export function TableActionMenuPlugin({ cellMerge = false }: TableActionMenuPluginProps) {
-  const { floatingElement } = useFloatingAreaContext();
+export function TableActionMenuPlugin({ cellMerge = false, floatingAnchor }: TableActionMenuPluginProps) {
   const isEditable = useLexicalEditable();
 
   if (!isEditable) {
     return null;
   }
-  if (!floatingElement) {
-    return null;
-  }
-  return (
-    <FloatingPortal root={floatingElement}>
-      <TableCellActionMenuContainer cellMerge={cellMerge} />
-    </FloatingPortal>
+  return ReactDOM.createPortal(
+    <TableCellActionMenuContainer cellMerge={cellMerge} floatingAnchor={floatingAnchor} />,
+    floatingAnchor,
   );
 }

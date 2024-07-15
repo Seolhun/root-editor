@@ -1,4 +1,3 @@
-import { FloatingPortal } from '@floating-ui/react';
 import { $createCodeNode } from '@lexical/code';
 import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
 import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
@@ -18,10 +17,9 @@ import {
   TextNode,
 } from 'lexical';
 import * as React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import * as ReactDOM from 'react-dom';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/context/floating';
 import { useModal } from '~/hooks/useModal';
 import { EmbedConfigs } from '~/plugins/AutoEmbedPlugin';
 import { INSERT_COLLAPSIBLE_COMMAND } from '~/plugins/CollapsiblePlugin';
@@ -34,6 +32,99 @@ import { InsertPollDialog } from '~/plugins/PollPlugin';
 import { InsertTableDialog } from '~/plugins/TablesPlugin';
 
 import { ComponentPickerOption } from './ComponentPickerOption';
+
+interface ComponentPickerPluginProps {
+  floatingAnchor: HTMLElement;
+}
+
+export function ComponentPickerPlugin({ floatingAnchor }: ComponentPickerPluginProps): JSX.Element | null {
+  const [editor] = useLexicalComposerContext();
+  const [ModalNode, showModal] = useModal();
+  const [queryString, setQueryString] = React.useState<null | string>(null);
+
+  const checkForTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
+    minLength: 0,
+  });
+
+  const options = React.useMemo(() => {
+    const baseOptions = getBaseOptions(editor, showModal);
+
+    if (!queryString) {
+      return baseOptions;
+    }
+
+    const regex = new RegExp(queryString, 'i');
+
+    return [
+      ...getDynamicOptions(editor, queryString),
+      ...baseOptions.filter(
+        (option) => regex.test(option.title) || option.keywords.some((keyword) => regex.test(keyword)),
+      ),
+    ];
+  }, [editor, queryString, showModal]);
+
+  const onSelectOption = React.useCallback(
+    (
+      selectedOption: ComponentPickerOption,
+      nodeToRemove: null | TextNode,
+      closeMenu: () => void,
+      matchingString: string,
+    ) => {
+      editor.update(() => {
+        nodeToRemove?.remove();
+        selectedOption.onSelect(matchingString);
+        closeMenu();
+      });
+    },
+    [editor],
+  );
+
+  return (
+    <>
+      <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
+        menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
+          const isEmpty = !options.length;
+          if (isEmpty) {
+            return null;
+          }
+          if (!anchorElementRef.current) {
+            return null;
+          }
+
+          return ReactDOM.createPortal(
+            <div className={clsx(EditorClasses.componentPicker, 'typeahead-popover component-picker-menu')}>
+              <ul>
+                {options.map((option, i: number) => (
+                  <ComponentPickerMenuItem
+                    onClick={() => {
+                      setHighlightedIndex(i);
+                      selectOptionAndCleanUp(option);
+                    }}
+                    onMouseEnter={() => {
+                      setHighlightedIndex(i);
+                    }}
+                    index={i}
+                    isSelected={selectedIndex === i}
+                    key={option.key}
+                    option={option}
+                  />
+                ))}
+              </ul>
+            </div>,
+            anchorElementRef.current,
+          );
+        }}
+        onQueryChange={setQueryString}
+        onSelectOption={onSelectOption}
+        options={options}
+        parent={floatingAnchor}
+        triggerFn={checkForTriggerMatch}
+      />
+
+      {ModalNode}
+    </>
+  );
+}
 
 function ComponentPickerMenuItem({
   index,
@@ -247,96 +338,4 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         }),
     ),
   ];
-}
-
-export function ComponentPickerPlugin() {
-  const { floatingElement } = useFloatingAreaContext();
-  const [editor] = useLexicalComposerContext();
-  const [ModalNode, showModal] = useModal();
-  const [queryString, setQueryString] = useState<null | string>(null);
-
-  const checkForTriggerMatch = useBasicTypeaheadTriggerMatch('/', {
-    minLength: 0,
-  });
-
-  const options = useMemo(() => {
-    const baseOptions = getBaseOptions(editor, showModal);
-
-    if (!queryString) {
-      return baseOptions;
-    }
-
-    const regex = new RegExp(queryString, 'i');
-
-    return [
-      ...getDynamicOptions(editor, queryString),
-      ...baseOptions.filter(
-        (option) => regex.test(option.title) || option.keywords.some((keyword) => regex.test(keyword)),
-      ),
-    ];
-  }, [editor, queryString, showModal]);
-
-  const onSelectOption = useCallback(
-    (
-      selectedOption: ComponentPickerOption,
-      nodeToRemove: null | TextNode,
-      closeMenu: () => void,
-      matchingString: string,
-    ) => {
-      editor.update(() => {
-        nodeToRemove?.remove();
-        selectedOption.onSelect(matchingString);
-        closeMenu();
-      });
-    },
-    [editor],
-  );
-
-  if (!floatingElement) {
-    return null;
-  }
-
-  return (
-    <>
-      <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
-        menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
-          const isEmpty = !options.length;
-          if (isEmpty) {
-            return null;
-          }
-
-          return (
-            <FloatingPortal root={anchorElementRef}>
-              <div className={clsx(EditorClasses.componentPicker, 'typeahead-popover component-picker-menu')}>
-                <ul>
-                  {options.map((option, i: number) => (
-                    <ComponentPickerMenuItem
-                      onClick={() => {
-                        setHighlightedIndex(i);
-                        selectOptionAndCleanUp(option);
-                      }}
-                      onMouseEnter={() => {
-                        setHighlightedIndex(i);
-                      }}
-                      index={i}
-                      isSelected={selectedIndex === i}
-                      key={option.key}
-                      option={option}
-                    />
-                  ))}
-                </ul>
-              </div>
-            </FloatingPortal>
-          );
-        }}
-        onQueryChange={setQueryString}
-        onSelectOption={onSelectOption}
-        options={options}
-        parent={floatingElement}
-        triggerFn={checkForTriggerMatch}
-      />
-
-      {ModalNode}
-    </>
-  );
 }

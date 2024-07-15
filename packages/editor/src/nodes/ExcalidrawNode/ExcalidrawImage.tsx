@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 type ImageType = 'canvas' | 'svg';
 
-type Props = {
+interface ExcalidrawImageProps {
   /**
    * Configures the export setting for SVG/Canvas
    */
@@ -43,38 +43,19 @@ type Props = {
    * The width of the image to be rendered
    */
   width?: null | number;
-};
-
-// exportToSvg has fonts from excalidraw.com
-// We don't want them to be used in open source
-const removeStyleFromSvg_HACK = (svg: SVGElement) => {
-  const styleTag = svg?.firstElementChild?.firstElementChild;
-
-  // Generated SVG is getting double-sized by height and width attributes
-  // We want to match the real size of the SVG element
-  const viewBox = svg.getAttribute('viewBox');
-  if (viewBox != null) {
-    const viewBoxDimensions = viewBox.split(' ');
-    svg.setAttribute('width', viewBoxDimensions[2]);
-    svg.setAttribute('height', viewBoxDimensions[3]);
-  }
-
-  if (styleTag && styleTag.tagName === 'style') {
-    styleTag.remove();
-  }
-};
+}
 
 /**
  * @explorer-desc
  * A component for rendering Excalidraw elements as a static image
  */
-export default function ExcalidrawImage({
+export function ExcalidrawImage({
   appState,
   elements,
   files,
   imageContainerRef,
   rootClassName = null,
-}: Props): JSX.Element {
+}: ExcalidrawImageProps): JSX.Element {
   const [Svg, setSvg] = useState<null | SVGElement>(null);
 
   useEffect(() => {
@@ -103,3 +84,22 @@ export default function ExcalidrawImage({
     />
   );
 }
+
+// exportToSvg has fonts from excalidraw.com
+// We don't want them to be used in open source
+const removeStyleFromSvg_HACK = (svg: SVGElement) => {
+  const styleTag = svg?.firstElementChild?.firstElementChild;
+
+  // Generated SVG is getting double-sized by height and width attributes
+  // We want to match the real size of the SVG element
+  const viewBox = svg.getAttribute('viewBox');
+  if (viewBox != null) {
+    const viewBoxDimensions = viewBox.split(' ');
+    svg.setAttribute('width', viewBoxDimensions[2]);
+    svg.setAttribute('height', viewBoxDimensions[3]);
+  }
+
+  if (styleTag && styleTag.tagName === 'style') {
+    styleTag.remove();
+  }
+};

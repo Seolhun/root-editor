@@ -1,11 +1,9 @@
-import { FloatingPortal } from '@floating-ui/react';
 import { $isCodeNode, CodeNode, getLanguageFriendlyName, normalizeCodeLang } from '@lexical/code';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getNearestNodeFromDOMNode } from 'lexical';
 import { useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-
-import { useFloatingAreaContext } from '~/context/floating';
+import * as ReactDOM from 'react-dom';
 
 import { CopyButton } from './components/CopyButton';
 import { canBePrettier, PrettierButton } from './components/PrettierButton';
@@ -20,7 +18,11 @@ interface Position {
   top: string;
 }
 
-function CodeActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement }): JSX.Element {
+interface CodeActionMenuContainerProps {
+  floatingAnchor: HTMLElement;
+}
+
+function CodeActionMenuContainer({ floatingAnchor }: CodeActionMenuContainerProps): JSX.Element {
   const [editor] = useLexicalComposerContext();
 
   const [lang, setLang] = useState('');
@@ -64,7 +66,7 @@ function CodeActionMenuContainer({ anchorElem }: { anchorElem: HTMLElement }): J
       });
 
       if (codeNode) {
-        const { right: editorElemRight, y: editorElemY } = anchorElem.getBoundingClientRect();
+        const { right: editorElemRight, y: editorElemY } = floatingAnchor.getBoundingClientRect();
         const { right, y } = codeDOMNode.getBoundingClientRect();
         setLang(_lang);
         setShown(true);
@@ -146,15 +148,10 @@ function getMouseInfo(event: MouseEvent): {
   }
 }
 
-export function CodeActionMenuPlugin() {
-  const { floatingElement } = useFloatingAreaContext();
-  if (!floatingElement) {
-    return null;
-  }
+interface CodeActionMenuProps {
+  floatingAnchor: HTMLElement;
+}
 
-  return (
-    <FloatingPortal root={floatingElement}>
-      <CodeActionMenuContainer anchorElem={floatingElement} />
-    </FloatingPortal>
-  );
+export function CodeActionMenuPlugin({ floatingAnchor }: CodeActionMenuProps) {
+  return ReactDOM.createPortal(<CodeActionMenuContainer floatingAnchor={floatingAnchor} />, floatingAnchor);
 }

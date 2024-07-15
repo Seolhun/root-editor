@@ -19,10 +19,9 @@ import {
 } from 'lexical';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-import { createPortal } from 'react-dom';
+import * as ReactDOM from 'react-dom';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/context/floating';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { setFloatingElemPositionForLinkEditor } from '~/utils/setFloatingElemPositionForLinkEditor';
 import { sanitizeUrl } from '~/utils/url';
@@ -31,6 +30,7 @@ import './FloatingLinkEditorPlugin.scss';
 
 export interface FloatingLinkEditorProps {
   editor: LexicalEditor;
+  floatingAnchor: HTMLElement;
   isLink: boolean;
   isLinkEditMode: boolean;
   setIsLink: Dispatch<boolean>;
@@ -39,8 +39,14 @@ export interface FloatingLinkEditorProps {
 
 const linkIcon = clsx('size-12', 'text-neutral dark:text-neutral', 'cursor-pointer');
 
-function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLinkEditMode }: FloatingLinkEditorProps) {
-  const { floatingElement } = useFloatingAreaContext();
+function FloatingLinkEditor({
+  editor,
+  floatingAnchor,
+  isLink,
+  isLinkEditMode,
+  setIsLink,
+  setIsLinkEditMode,
+}: FloatingLinkEditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [linkUrl, setLinkUrl] = useState('');
@@ -68,7 +74,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
     const nativeSelection = window.getSelection();
     const activeElement = document.activeElement;
 
-    if (editorElem === null || !floatingElement) {
+    if (editorElem === null) {
       return;
     }
 
@@ -84,12 +90,12 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
       const domRect: DOMRect | undefined = nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
       if (domRect) {
         domRect.y += 40;
-        setFloatingElemPositionForLinkEditor(domRect, editorElem, floatingElement);
+        setFloatingElemPositionForLinkEditor(domRect, editorElem, floatingAnchor);
       }
       setLastSelection(selection);
     } else if (!activeElement || activeElement.className !== 'link-input') {
       if (rootElement !== null) {
-        setFloatingElemPositionForLinkEditor(null, editorElem, floatingElement);
+        setFloatingElemPositionForLinkEditor(null, editorElem, floatingAnchor);
       }
       setLastSelection(null);
       setIsLinkEditMode(false);
@@ -97,7 +103,7 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
     }
 
     return true;
-  }, [floatingElement, editor, setIsLinkEditMode, isLinkEditMode, linkUrl]);
+  }, [floatingAnchor, editor, setIsLinkEditMode, isLinkEditMode, linkUrl]);
 
   const $revertLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -111,23 +117,19 @@ function FloatingLinkEditor({ editor, isLink, isLinkEditMode, setIsLink, setIsLi
   }, [editor]);
 
   useEffect(() => {
-    const scrollerElem = floatingElement?.parentElement;
+    const scrollerElement = floatingAnchor.parentElement;
     const update = () => {
       editor.getEditorState().read(() => {
         $updateLinkEditor();
       });
     };
     window.addEventListener('resize', update);
-    if (scrollerElem) {
-      scrollerElem.addEventListener('scroll', update);
-    }
+    scrollerElement?.addEventListener('scroll', update);
     return () => {
       window.removeEventListener('resize', update);
-      if (scrollerElem) {
-        scrollerElem.removeEventListener('scroll', update);
-      }
+      scrollerElement?.removeEventListener('scroll', update);
     };
-  }, [floatingElement, editor, $updateLinkEditor]);
+  }, [floatingAnchor, editor, $updateLinkEditor]);
 
   useEffect(() => {
     return mergeRegister(
@@ -285,8 +287,8 @@ function useFloatingLinkEditorToolbar(
   editor: LexicalEditor,
   isLinkEditMode: boolean,
   setIsLinkEditMode: Dispatch<boolean>,
+  floatingAnchor: HTMLElement,
 ): JSX.Element | null {
-  const { floatingElement } = useFloatingAreaContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
 
@@ -356,32 +358,31 @@ function useFloatingLinkEditorToolbar(
     );
   }, [editor]);
 
-  if (!floatingElement) {
-    return null;
-  }
-
-  return createPortal(
+  return ReactDOM.createPortal(
     <FloatingLinkEditor
       editor={activeEditor}
+      floatingAnchor={floatingAnchor}
       isLink={isLink}
       isLinkEditMode={isLinkEditMode}
       setIsLink={setIsLink}
       setIsLinkEditMode={setIsLinkEditMode}
     />,
-    floatingElement,
+    floatingAnchor,
   );
 }
 
 export interface FloatingLinkEditorToolbarProps {
+  floatingAnchor: HTMLElement;
   isLinkEditMode: boolean;
   setIsLinkEditMode: Dispatch<boolean>;
 }
 
 export function FloatingLinkEditorPlugin({
+  floatingAnchor,
   isLinkEditMode,
   setIsLinkEditMode,
 }: FloatingLinkEditorToolbarProps): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
 
-  return useFloatingLinkEditorToolbar(editor, isLinkEditMode, setIsLinkEditMode);
+  return useFloatingLinkEditorToolbar(editor, isLinkEditMode, setIsLinkEditMode, floatingAnchor);
 }

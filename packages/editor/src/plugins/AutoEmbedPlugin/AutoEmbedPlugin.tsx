@@ -1,4 +1,3 @@
-import { FloatingPortal } from '@floating-ui/react';
 import {
   AutoEmbedOption,
   EmbedMatchResult,
@@ -8,16 +7,79 @@ import {
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import clsx from 'clsx';
 import * as React from 'react';
-import { useMemo, useState } from 'react';
+import * as ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
-import { useFloatingAreaContext } from '~/context/floating';
 import { useModal } from '~/hooks/useModal';
 import { Button } from '~/ui/Button';
 import { DialogActions } from '~/ui/Dialog';
 
 import { EmbedConfigs } from './AutoEmbed.const';
 import { RootEditorEmbedConfig } from './AutoEmbed.types';
+
+export function AutoEmbedPlugin() {
+  const [ModalNode, showModal] = useModal();
+
+  const openEmbedModal = (embedConfig: RootEditorEmbedConfig) => {
+    showModal(`Embed ${embedConfig.contentName}`, (onClose) => (
+      <AutoEmbedDialog embedConfig={embedConfig} onClose={onClose} />
+    ));
+  };
+
+  const getMenuOptions = (activeEmbedConfig: RootEditorEmbedConfig, embedFn: () => void, dismissFn: () => void) => {
+    return [
+      new AutoEmbedOption('Dismiss', {
+        onSelect: dismissFn,
+      }),
+      new AutoEmbedOption(`Embed ${activeEmbedConfig.contentName}`, {
+        onSelect: embedFn,
+      }),
+    ];
+  };
+
+  return (
+    <>
+      <LexicalAutoEmbedPlugin<RootEditorEmbedConfig>
+        menuRenderFn={(anchorElementRef, { options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
+          const isEmpty = !options.length;
+          if (isEmpty) {
+            return null;
+          }
+          if (!anchorElementRef.current) {
+            return null;
+          }
+
+          return ReactDOM.createPortal(
+            <div
+              style={{
+                marginLeft: `${Math.max(parseFloat(anchorElementRef.current.style.width) - 200, 0)}px`,
+                width: 200,
+              }}
+              className="typeahead-popover auto-embed-menu"
+            >
+              <AutoEmbedMenu
+                onOptionClick={(option: AutoEmbedOption, index: number) => {
+                  setHighlightedIndex(index);
+                  selectOptionAndCleanUp(option);
+                }}
+                onOptionMouseEnter={(index: number) => {
+                  setHighlightedIndex(index);
+                }}
+                options={options}
+                selectedItemIndex={selectedIndex}
+              />
+            </div>,
+            anchorElementRef.current,
+          );
+        }}
+        embedConfigs={EmbedConfigs}
+        getMenuOptions={getMenuOptions}
+        onOpenEmbedModalForConfig={openEmbedModal}
+      />
+      {ModalNode}
+    </>
+  );
+}
 
 interface AutoEmbedMenuItemProps {
   index: number;
@@ -92,11 +154,11 @@ interface AutoEmbedDialogProps {
 
 export function AutoEmbedDialog({ embedConfig, onClose }: AutoEmbedDialogProps): JSX.Element {
   const { t } = useTranslation();
-  const [text, setText] = useState('');
   const [editor] = useLexicalComposerContext();
-  const [embedResult, setEmbedResult] = useState<EmbedMatchResult | null>(null);
+  const [text, setText] = React.useState('');
+  const [embedResult, setEmbedResult] = React.useState<EmbedMatchResult | null>(null);
 
-  const validateText = useMemo(() => {
+  const validateText = React.useMemo(() => {
     return debounce((inputText: string) => {
       const urlMatch = URL_MATCHER.exec(inputText);
       if (embedConfig != null && inputText != null && urlMatch != null) {
@@ -138,73 +200,5 @@ export function AutoEmbedDialog({ embedConfig, onClose }: AutoEmbedDialogProps):
         </Button>
       </DialogActions>
     </div>
-  );
-}
-
-export function AutoEmbedPlugin() {
-  const { floatingElement } = useFloatingAreaContext();
-  const [ModalNode, showModal] = useModal();
-
-  const openEmbedModal = (embedConfig: RootEditorEmbedConfig) => {
-    showModal(`Embed ${embedConfig.contentName}`, (onClose) => (
-      <AutoEmbedDialog embedConfig={embedConfig} onClose={onClose} />
-    ));
-  };
-
-  const getMenuOptions = (activeEmbedConfig: RootEditorEmbedConfig, embedFn: () => void, dismissFn: () => void) => {
-    return [
-      new AutoEmbedOption('Dismiss', {
-        onSelect: dismissFn,
-      }),
-      new AutoEmbedOption(`Embed ${activeEmbedConfig.contentName}`, {
-        onSelect: embedFn,
-      }),
-    ];
-  };
-
-  return (
-    <>
-      <LexicalAutoEmbedPlugin<RootEditorEmbedConfig>
-        menuRenderFn={(anchorElementRef, { options, selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
-          const anchorElement = anchorElementRef.current;
-          const isEmpty = !anchorElement?.style.width || !options.length;
-
-          if (isEmpty) {
-            return null;
-          }
-          if (!floatingElement) {
-            return null;
-          }
-
-          return (
-            <FloatingPortal root={floatingElement}>
-              <div
-                style={{
-                  marginLeft: `${Math.max(parseFloat(anchorElement.style.width) - 200, 0)}px`,
-                  width: 200,
-                }}
-                className="typeahead-popover auto-embed-menu"
-              >
-                <AutoEmbedMenu
-                  onOptionClick={(option: AutoEmbedOption, index: number) => {
-                    setHighlightedIndex(index);
-                    selectOptionAndCleanUp(option);
-                  }}
-                  onOptionMouseEnter={(index: number) => {
-                    setHighlightedIndex(index);
-                  }}
-                  options={options}
-                  selectedItemIndex={selectedIndex}
-                />
-              </div>
-            </FloatingPortal>
-          );
-        }}
-        embedConfigs={EmbedConfigs}
-        getMenuOptions={getMenuOptions}
-        onOpenEmbedModalForConfig={openEmbedModal}
-      />
-      {ModalNode}
-    </>
   );
 }

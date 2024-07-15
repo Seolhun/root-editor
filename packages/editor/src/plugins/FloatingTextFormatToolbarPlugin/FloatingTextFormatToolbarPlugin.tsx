@@ -18,7 +18,6 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
-import { useFloatingAreaContext } from '~/context/floating';
 import { getDOMRangeRect } from '~/utils/getDOMRangeRect';
 import { getSelectedNode } from '~/utils/getSelectedNode';
 import { setFloatingElemPosition } from '~/utils/setFloatingElemPosition';
@@ -26,8 +25,8 @@ import { setFloatingElemPosition } from '~/utils/setFloatingElemPosition';
 import './FloatingTextFormatToolbarPlugin.scss';
 
 export interface TextFormatFloatingToolbarProps {
-  anchorElem: HTMLElement;
   editor: LexicalEditor;
+  floatingAnchor: HTMLElement;
   isBold: boolean;
   isCode: boolean;
   isItalic: boolean;
@@ -40,8 +39,8 @@ export interface TextFormatFloatingToolbarProps {
 }
 
 function TextFormatFloatingToolbar({
-  anchorElem,
   editor,
+  floatingAnchor,
   isBold,
   isCode,
   isItalic,
@@ -123,12 +122,12 @@ function TextFormatFloatingToolbar({
     ) {
       const rangeRect = getDOMRangeRect(nativeSelection, rootElement);
 
-      setFloatingElemPosition(rangeRect, popupCharStylesEditorElem, anchorElem, isLink);
+      setFloatingElemPosition(rangeRect, popupCharStylesEditorElem, floatingAnchor, isLink);
     }
-  }, [editor, anchorElem, isLink]);
+  }, [editor, floatingAnchor, isLink]);
 
   useEffect(() => {
-    const scrollerElem = anchorElem.parentElement;
+    const scrollerElem = floatingAnchor.parentElement;
 
     const update = () => {
       editor.getEditorState().read(() => {
@@ -147,7 +146,7 @@ function TextFormatFloatingToolbar({
         scrollerElem.removeEventListener('scroll', update);
       }
     };
-  }, [editor, $updateTextFormatFloatingToolbar, anchorElem]);
+  }, [editor, $updateTextFormatFloatingToolbar, floatingAnchor]);
 
   useEffect(() => {
     editor.getEditorState().read(() => {
@@ -271,8 +270,11 @@ function TextFormatFloatingToolbar({
   );
 }
 
-function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: Dispatch<boolean>) {
-  const { floatingElement } = useFloatingAreaContext();
+function useFloatingTextFormatToolbar(
+  editor: LexicalEditor,
+  setIsLinkEditMode: Dispatch<boolean>,
+  floatingAnchor?: HTMLElement,
+) {
   const [isText, setIsText] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -350,8 +352,8 @@ function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: 
       editor.registerUpdateListener(() => {
         updatePopup();
       }),
-      editor.registerRootListener((rootElement) => {
-        if (rootElement === null) {
+      editor.registerRootListener(() => {
+        if (editor.getRootElement() === null) {
           setIsText(false);
         }
       }),
@@ -362,15 +364,15 @@ function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: 
     return null;
   }
 
-  if (!floatingElement) {
+  if (!floatingAnchor) {
     return null;
   }
 
   return (
-    <FloatingPortal root={floatingElement}>
+    <FloatingPortal root={floatingAnchor}>
       <TextFormatFloatingToolbar
-        anchorElem={floatingElement}
         editor={editor}
+        floatingAnchor={floatingAnchor}
         isBold={isBold}
         isCode={isCode}
         isItalic={isItalic}
@@ -386,11 +388,15 @@ function useFloatingTextFormatToolbar(editor: LexicalEditor, setIsLinkEditMode: 
 }
 
 export interface FloatingTextFormatToolbarPluginProps {
+  floatingAnchor: HTMLElement;
   setIsLinkEditMode: Dispatch<boolean>;
 }
 
-export function FloatingTextFormatToolbarPlugin({ setIsLinkEditMode }: FloatingTextFormatToolbarPluginProps) {
+export function FloatingTextFormatToolbarPlugin({
+  floatingAnchor,
+  setIsLinkEditMode,
+}: FloatingTextFormatToolbarPluginProps) {
   const [editor] = useLexicalComposerContext();
 
-  return useFloatingTextFormatToolbar(editor, setIsLinkEditMode);
+  return useFloatingTextFormatToolbar(editor, setIsLinkEditMode, floatingAnchor);
 }

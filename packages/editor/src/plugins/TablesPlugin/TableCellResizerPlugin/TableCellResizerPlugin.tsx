@@ -1,7 +1,6 @@
 import type { TableDOMCell } from '@lexical/table';
 import type { LexicalEditor } from 'lexical';
 
-import { FloatingPortal } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable';
 import {
@@ -17,8 +16,7 @@ import { calculateZoomLevel } from '@lexical/utils';
 import { $getNearestNodeFromDOMNode } from 'lexical';
 import { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
-
-import { useFloatingAreaContext } from '~/context/floating';
+import * as ReactDOM from 'react-dom';
 
 import './TableCellResizerPlugin.scss';
 
@@ -32,7 +30,11 @@ type MouseDraggingDirection = 'bottom' | 'right';
 const MIN_ROW_HEIGHT = 33;
 const MIN_COLUMN_WIDTH = 50;
 
-function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
+interface TableCellResizerProps {
+  editor: LexicalEditor;
+}
+
+function TableCellResizer({ editor }: TableCellResizerProps): JSX.Element {
   const targetRef = useRef<HTMLElement | null>(null);
   const resizerRef = useRef<HTMLDivElement | null>(null);
   const tableRectRef = useRef<ClientRect | null>(null);
@@ -367,21 +369,17 @@ function TableCellResizer({ editor }: { editor: LexicalEditor }): JSX.Element {
   );
 }
 
-export function TableCellResizerPlugin() {
-  const { floatingElement } = useFloatingAreaContext();
+interface TableCellResizerPluginProps {
+  floatingAnchor: HTMLElement;
+}
+
+export function TableCellResizerPlugin({ floatingAnchor }: TableCellResizerPluginProps) {
   const [editor] = useLexicalComposerContext();
   const isEditable = useLexicalEditable();
 
   if (!isEditable) {
     return null;
   }
-  if (!floatingElement) {
-    return null;
-  }
 
-  return (
-    <FloatingPortal root={floatingElement}>
-      <TableCellResizer editor={editor} />
-    </FloatingPortal>
-  );
+  return ReactDOM.createPortal(<TableCellResizer editor={editor} />, floatingAnchor);
 }

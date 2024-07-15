@@ -1,4 +1,3 @@
-import { FloatingPortal } from '@floating-ui/react';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { LexicalContextMenuPlugin, MenuOption } from '@lexical/react/LexicalContextMenuPlugin';
@@ -12,93 +11,16 @@ import {
   PASTE_COMMAND,
 } from 'lexical';
 import * as React from 'react';
-import { useCallback, useMemo } from 'react';
+import * as ReactDOM from 'react-dom';
 
-import { useFloatingAreaContext } from '~/context/floating';
-
-function ContextMenuItem({
-  index,
-  isSelected,
-  onClick,
-  onMouseEnter,
-  option,
-}: {
-  index: number;
-  isSelected: boolean;
-  onClick: () => void;
-  onMouseEnter: () => void;
-  option: ContextMenuOption;
-}) {
-  let className = 'item';
-  if (isSelected) {
-    className += ' selected';
-  }
-  return (
-    <li
-      aria-selected={isSelected}
-      className={className}
-      id={'typeahead-item-' + index}
-      key={option.key}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      ref={option.setRefElement}
-      role="option"
-      tabIndex={-1}
-    >
-      <span className="text">{option.title}</span>
-    </li>
-  );
+interface ContextMenuPluginProps {
+  floatingAnchor: HTMLElement;
 }
 
-function ContextMenu({
-  onOptionClick,
-  onOptionMouseEnter,
-  options,
-  selectedItemIndex,
-}: {
-  onOptionClick: (option: ContextMenuOption, index: number) => void;
-  onOptionMouseEnter: (index: number) => void;
-  options: Array<ContextMenuOption>;
-  selectedItemIndex: null | number;
-}) {
-  return (
-    <div className="typeahead-popover">
-      <ul>
-        {options.map((option: ContextMenuOption, i: number) => (
-          <ContextMenuItem
-            index={i}
-            isSelected={selectedItemIndex === i}
-            key={option.key}
-            onClick={() => onOptionClick(option, i)}
-            onMouseEnter={() => onOptionMouseEnter(i)}
-            option={option}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export class ContextMenuOption extends MenuOption {
-  onSelect: (targetNode: LexicalNode | null) => void;
-  title: string;
-  constructor(
-    title: string,
-    options: {
-      onSelect: (targetNode: LexicalNode | null) => void;
-    },
-  ) {
-    super(title);
-    this.title = title;
-    this.onSelect = options.onSelect.bind(this);
-  }
-}
-
-export function ContextMenuPlugin(): JSX.Element {
+export function ContextMenuPlugin({ floatingAnchor }: ContextMenuPluginProps): JSX.Element {
   const [editor] = useLexicalComposerContext();
-  const { floatingElement } = useFloatingAreaContext();
 
-  const defaultOptions = useMemo(() => {
+  const defaultOptions = React.useMemo(() => {
     return [
       new ContextMenuOption(`Copy`, {
         onSelect: (_node) => {
@@ -180,7 +102,7 @@ export function ContextMenuPlugin(): JSX.Element {
 
   const [options, setOptions] = React.useState(defaultOptions);
 
-  const onSelectOption = useCallback(
+  const onSelectOption = React.useCallback(
     (selectedOption: ContextMenuOption, targetNode: LexicalNode | null, closeMenu: () => void) => {
       editor.update(() => {
         selectedOption.onSelect(targetNode);
@@ -218,44 +140,121 @@ export function ContextMenuPlugin(): JSX.Element {
         { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex },
         { setMenuRef },
       ) => {
-        const anchorElement = anchorElementRef.current;
-        const isEmpty = !anchorElement?.style.width || !options.length;
+        const isEmpty = !options.length;
         if (isEmpty) {
           return null;
         }
-        if (!floatingElement) {
+        if (!anchorElementRef.current) {
           return null;
         }
 
-        return (
-          <FloatingPortal root={floatingElement}>
-            <div
-              style={{
-                marginLeft: anchorElement.style.width,
-                userSelect: 'none',
-                width: 200,
+        return ReactDOM.createPortal(
+          <div
+            style={{
+              marginLeft: anchorElementRef.current.style.width,
+              userSelect: 'none',
+              width: 200,
+            }}
+            className="typeahead-popover auto-embed-menu"
+            ref={setMenuRef}
+          >
+            <ContextMenu
+              onOptionClick={(option: ContextMenuOption, index: number) => {
+                setHighlightedIndex(index);
+                selectOptionAndCleanUp(option);
               }}
-              className="typeahead-popover auto-embed-menu"
-              ref={setMenuRef}
-            >
-              <ContextMenu
-                onOptionClick={(option: ContextMenuOption, index: number) => {
-                  setHighlightedIndex(index);
-                  selectOptionAndCleanUp(option);
-                }}
-                onOptionMouseEnter={(index: number) => {
-                  setHighlightedIndex(index);
-                }}
-                options={options}
-                selectedItemIndex={selectedIndex}
-              />
-            </div>
-          </FloatingPortal>
+              onOptionMouseEnter={(index: number) => {
+                setHighlightedIndex(index);
+              }}
+              options={options}
+              selectedItemIndex={selectedIndex}
+            />
+          </div>,
+          anchorElementRef.current,
         );
       }}
       onSelectOption={onSelectOption}
       onWillOpen={onWillOpen}
       options={options}
+      parent={floatingAnchor}
     />
   );
+}
+
+function ContextMenuItem({
+  index,
+  isSelected,
+  onClick,
+  onMouseEnter,
+  option,
+}: {
+  index: number;
+  isSelected: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+  option: ContextMenuOption;
+}) {
+  let className = 'item';
+  if (isSelected) {
+    className += ' selected';
+  }
+  return (
+    <li
+      aria-selected={isSelected}
+      className={className}
+      id={'typeahead-item-' + index}
+      key={option.key}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      ref={option.setRefElement}
+      role="option"
+      tabIndex={-1}
+    >
+      <span className="text">{option.title}</span>
+    </li>
+  );
+}
+
+function ContextMenu({
+  onOptionClick,
+  onOptionMouseEnter,
+  options,
+  selectedItemIndex,
+}: {
+  onOptionClick: (option: ContextMenuOption, index: number) => void;
+  onOptionMouseEnter: (index: number) => void;
+  options: Array<ContextMenuOption>;
+  selectedItemIndex: null | number;
+}) {
+  return (
+    <div className="typeahead-popover">
+      <ul>
+        {options.map((option: ContextMenuOption, i: number) => (
+          <ContextMenuItem
+            index={i}
+            isSelected={selectedItemIndex === i}
+            key={option.key}
+            onClick={() => onOptionClick(option, i)}
+            onMouseEnter={() => onOptionMouseEnter(i)}
+            option={option}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export class ContextMenuOption extends MenuOption {
+  onSelect: (targetNode: LexicalNode | null) => void;
+  title: string;
+  constructor(
+    title: string,
+    options: {
+      onSelect: (targetNode: LexicalNode | null) => void;
+    },
+  ) {
+    super(title);
+    this.title = title;
+    this.onSelect = options.onSelect.bind(this);
+  }
 }
