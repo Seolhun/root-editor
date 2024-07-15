@@ -2,34 +2,18 @@ import type { LexicalEditor } from 'lexical';
 
 import { $createCodeNode, $isCodeNode } from '@lexical/code';
 import { $convertFromMarkdownString, $convertToMarkdownString } from '@lexical/markdown';
-import { useCollaborationContext } from '@lexical/react/LexicalCollaborationContext';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { mergeRegister } from '@lexical/utils';
-import { CONNECTED_COMMAND, TOGGLE_CONNECT_COMMAND } from '@lexical/yjs';
-import {
-  $createTextNode,
-  $getRoot,
-  $isParagraphNode,
-  CLEAR_EDITOR_COMMAND,
-  CLEAR_HISTORY_COMMAND,
-  COMMAND_PRIORITY_EDITOR,
-} from 'lexical';
+import { $createTextNode, $getRoot, $isParagraphNode, CLEAR_EDITOR_COMMAND, CLEAR_HISTORY_COMMAND } from 'lexical';
 import { useCallback, useEffect, useState } from 'react';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useSettings } from '~/context/settings';
-import useFlashMessage from '~/hooks/useFlashMessage';
 import { useModal } from '~/hooks/useModal';
 import { Button } from '~/ui/Button';
-import { docFromHash, docToHash } from '~/utils/docSerialization';
+import { docFromHash } from '~/utils/docSerialization';
 
-import {
-  editorStateFromSerializedDocument,
-  exportFile,
-  importFile,
-  SerializedDocument,
-  serializedDocumentFromEditorState,
-} from '../FilePlugin';
+import { editorStateFromSerializedDocument, exportFile, importFile } from '../FilePlugin';
 import { ROOT_EDITOR_TRANSFORMERS } from '../MarkdownTransformers';
 import { SPEECH_TO_TEXT_COMMAND, SUPPORT_SPEECH_RECOGNITION } from '../SpeechToTextPlugin';
 
@@ -69,23 +53,12 @@ async function validateEditorState(editor: LexicalEditor): Promise<void> {
   }
 }
 
-async function shareDoc(doc: SerializedDocument): Promise<void> {
-  const url = new URL(window.location.toString());
-  url.hash = await docToHash(doc);
-  const newUrl = url.toString();
-  window.history.replaceState({}, '', newUrl);
-  await window.navigator.clipboard.writeText(newUrl);
-}
-
 export function ActionsPlugin(): JSX.Element {
   const [editor] = useLexicalComposerContext();
-  const [isEditable, setIsEditable] = useState(() => editor.isEditable());
+  const isEditable = editor.isEditable();
   const [isSpeechToText, setIsSpeechToText] = useState(false);
-  const [connected, setConnected] = useState(false);
   const [isEditorEmpty, setIsEditorEmpty] = useState(true);
   const [modal, showModal] = useModal();
-  const showFlashMessage = useFlashMessage();
-  const { isCollabActive } = useCollaborationContext();
   const { settings } = useSettings();
   const { isCollaborative } = settings;
 
@@ -100,23 +73,6 @@ export function ActionsPlugin(): JSX.Element {
       }
     });
   }, [editor, isCollaborative]);
-
-  useEffect(() => {
-    return mergeRegister(
-      editor.registerEditableListener((editable) => {
-        setIsEditable(editable);
-      }),
-      editor.registerCommand<boolean>(
-        CONNECTED_COMMAND,
-        (payload) => {
-          const isConnected = payload;
-          setConnected(isConnected);
-          return false;
-        },
-        COMMAND_PRIORITY_EDITOR,
-      ),
-    );
-  }, [editor]);
 
   useEffect(() => {
     return editor.registerUpdateListener(({ dirtyElements, prevEditorState, tags }) => {
@@ -200,25 +156,6 @@ export function ActionsPlugin(): JSX.Element {
         <i className="export" />
       </button>
       <button
-        onClick={() =>
-          shareDoc(
-            serializedDocumentFromEditorState(editor.getEditorState(), {
-              source: 'RootEditor',
-            }),
-          ).then(
-            () => showFlashMessage('URL copied to clipboard'),
-            () => showFlashMessage('URL could not be copied to clipboard'),
-          )
-        }
-        aria-label="Share RootEditor link to current editor state"
-        className="action-button share"
-        disabled={isCollabActive || isCollaborative}
-        title="Share"
-        type="button"
-      >
-        <i className="share" />
-      </button>
-      <button
         onClick={() => {
           showModal('Clear editor', (onClose) => <ShowClearDialog editor={editor} onClose={onClose} />);
         }}
@@ -254,28 +191,17 @@ export function ActionsPlugin(): JSX.Element {
       >
         <i className="markdown" />
       </button>
-      {isCollabActive && (
-        <button
-          onClick={() => {
-            editor.dispatchCommand(TOGGLE_CONNECT_COMMAND, !connected);
-          }}
-          aria-label={`${connected ? 'Disconnect from' : 'Connect to'} a collaborative editing server`}
-          className="action-button connect"
-          title={`${connected ? 'Disconnect' : 'Connect'} Collaborative Editing`}
-          type="button"
-        >
-          <i className={connected ? 'disconnect' : 'connect'} />
-        </button>
-      )}
+
       {modal}
     </div>
   );
 }
 
 function ShowClearDialog({ editor, onClose }: { editor: LexicalEditor; onClose: () => void }): JSX.Element {
+  const { t } = useTranslation();
   return (
     <>
-      Are you sure you want to clear the editor?
+      {t('confirm.clear')}
       <div className="Modal__content">
         <Button
           onClick={() => {
@@ -284,15 +210,15 @@ function ShowClearDialog({ editor, onClose }: { editor: LexicalEditor; onClose: 
             onClose();
           }}
         >
-          Clear
-        </Button>{' '}
+          {t('clear')}
+        </Button>
         <Button
           onClick={() => {
             editor.focus();
             onClose();
           }}
         >
-          Cancel
+          {t('cancel')}
         </Button>
       </div>
     </>

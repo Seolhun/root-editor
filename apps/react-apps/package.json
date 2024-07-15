@@ -1,4 +1,10 @@
 {
+  "license": "CC0-1.0",
+  "author": {
+    "name": "Seolhun",
+    "email": "shun10116@gmail.com",
+    "url": "https://github.com/Seolhun"
+  },
   "name": "react-app-tester",
   "version": "0.1.0",
   "private": true,

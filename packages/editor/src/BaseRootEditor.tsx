@@ -9,7 +9,6 @@ import { I18nextProvider } from 'react-i18next';
 
 import { Editor, EditorProps } from './Editor';
 import { Settings } from './Settings';
-import { FlashMessageContext } from './context/flash-message';
 import { FloatingAreaProvider } from './context/floating';
 import { createI18n, i18nLanguage, i18nResource } from './context/i18n';
 import {
@@ -52,26 +51,24 @@ export const BaseRootEditor = ({
 
   return (
     <I18nextProvider i18n={i18n}>
-      <FloatingAreaProvider>
-        <EditorPluginFunctionsContextProvider initialPluginFunctions={initialPluginFunctions}>
-          <FlashMessageContext>
-            <SharedHistoryContext>
-              <TableContext>
-                <SharedAutocompleteContext>
-                  <div className="RootEditorShell">
-                    <Editor {...others} />
-                  </div>
-                  <Settings />
-                  {debug ? <DocsPlugin /> : null}
-                  {debug ? <PasteLogPlugin /> : null}
-                  {debug ? <TestRecorderPlugin /> : null}
-                  {measureTypingPerf ? <TypingPerfPlugin /> : null}
-                </SharedAutocompleteContext>
-              </TableContext>
-            </SharedHistoryContext>
-          </FlashMessageContext>
-        </EditorPluginFunctionsContextProvider>
-      </FloatingAreaProvider>
+      <EditorPluginFunctionsContextProvider initialPluginFunctions={initialPluginFunctions}>
+        <FloatingAreaProvider>
+          <SharedHistoryContext>
+            <TableContext>
+              <SharedAutocompleteContext>
+                <div className="RootEditorShell">
+                  <Editor {...others} />
+                </div>
+                <Settings />
+                {debug ? <DocsPlugin /> : null}
+                {debug ? <PasteLogPlugin /> : null}
+                {debug ? <TestRecorderPlugin /> : null}
+                {measureTypingPerf ? <TypingPerfPlugin /> : null}
+              </SharedAutocompleteContext>
+            </TableContext>
+          </SharedHistoryContext>
+        </FloatingAreaProvider>
+      </EditorPluginFunctionsContextProvider>
     </I18nextProvider>
   );
 };

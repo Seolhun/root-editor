@@ -4,7 +4,9 @@ export const DEFAULT_I18N_RESOURCES: i18nResource = {
   en: {
     translation: {
       cancel: 'Cancel',
+      clear: 'Clear',
       confirm: 'Confirm',
+      'confirm.clear': 'Are you sure you want to clear the editor contents?',
       'confirm.delete': 'Are you sure you want to delete this?',
       'confirm.discard': 'Are you sure you want to discard your changes?',
       delete: 'Delete',

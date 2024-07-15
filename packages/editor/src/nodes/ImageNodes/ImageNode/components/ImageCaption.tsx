@@ -3,7 +3,6 @@ import type { LexicalCommand, LexicalEditor } from 'lexical';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { ClearEditorPlugin } from '@lexical/react/LexicalClearEditorPlugin';
-import { useCollaborationContext } from '@lexical/react/LexicalCollaborationContext';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { LexicalNestedComposer } from '@lexical/react/LexicalNestedComposer';
@@ -33,7 +32,6 @@ export interface ImageCaptionProps {
 
 export function ImageCaption({ caption }: ImageCaptionProps): JSX.Element {
   const [captionTextSize, setCaptionTextSize] = React.useState(0);
-  const { isCollabActive } = useCollaborationContext();
   const { historyState } = useSharedHistoryContext();
   const {
     settings: { showNestedEditorTreeView },

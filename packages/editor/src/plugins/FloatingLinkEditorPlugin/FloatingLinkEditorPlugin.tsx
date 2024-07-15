@@ -1,4 +1,3 @@
-import { FloatingPortal } from '@floating-ui/react';
 import { filter, find, pipe } from '@fxts/core';
 import { CheckCircleIcon, PencilIcon, TrashIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { $createLinkNode, $isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
@@ -20,6 +19,7 @@ import {
 } from 'lexical';
 import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 
 import { EditorClasses } from '~/Editor.theme';
 import { useFloatingAreaContext } from '~/context/floating';
@@ -360,16 +360,15 @@ function useFloatingLinkEditorToolbar(
     return null;
   }
 
-  return (
-    <FloatingPortal root={floatingElement}>
-      <FloatingLinkEditor
-        editor={activeEditor}
-        isLink={isLink}
-        isLinkEditMode={isLinkEditMode}
-        setIsLink={setIsLink}
-        setIsLinkEditMode={setIsLinkEditMode}
-      />
-    </FloatingPortal>
+  return createPortal(
+    <FloatingLinkEditor
+      editor={activeEditor}
+      isLink={isLink}
+      isLinkEditMode={isLinkEditMode}
+      setIsLink={setIsLink}
+      setIsLinkEditMode={setIsLinkEditMode}
+    />,
+    floatingElement,
   );
 }
 
@@ -383,5 +382,6 @@ export function FloatingLinkEditorPlugin({
   setIsLinkEditMode,
 }: FloatingLinkEditorToolbarProps): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
+
   return useFloatingLinkEditorToolbar(editor, isLinkEditMode, setIsLinkEditMode);
 }
