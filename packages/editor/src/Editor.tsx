@@ -85,6 +85,7 @@ export function Editor({ maxLength, plugins }: EditorProps) {
   const { historyState } = useSharedHistoryContext();
   const { settings } = useSettings();
   const {
+    enabledActionFeature,
     enabledEmbedFeature,
     enabledEquationFeature,
     enabledExcalidrawFeature,
@@ -241,7 +242,7 @@ export function Editor({ maxLength, plugins }: EditorProps) {
       )}
       {isAutocomplete && <AutocompletePlugin />}
       <div>{showTableOfContents && <TableOfContentsPlugin />}</div>
-      <ActionsPlugin />
+      {enabledActionFeature && <ActionsPlugin />}
       {showTreeView && <TreeViewPlugin />}
     </div>
   );

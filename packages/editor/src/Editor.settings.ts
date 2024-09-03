@@ -7,6 +7,10 @@ export interface EditorSettings {
   /**
    * @default false
    */
+  enabledActionFeature: boolean;
+  /**
+   * @default false
+   */
   enabledCommentFeature: boolean;
   /**
    * @default false
@@ -50,7 +54,15 @@ export interface EditorSettings {
    * @see isCharLimit
    */
   isMaxLength: boolean;
+  /**
+   * Whether to use rich text or markdown
+   * @default true
+   */
   isRichText: boolean;
+  /**
+   * Measure typing performance
+   * @default false
+   */
   measureTypingPerf: boolean;
   shouldPreserveNewLinesInMarkdown: boolean;
   shouldUseLexicalContextMenu: boolean;
@@ -70,6 +82,7 @@ export const DEFAULT_SETTINGS: EditorSettings = {
   /**
    * Features Enables
    */
+  enabledActionFeature: false,
   enabledCommentFeature: false,
   enabledEmbedFeature: true,
   enabledEquationFeature: false,
