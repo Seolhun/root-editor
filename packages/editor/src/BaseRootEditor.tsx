@@ -1,7 +1,6 @@
 /*eslint-disable */
 import './assets/tailwind.scss';
 import './RootEditor.scss';
-import '@seolhun/root-ui/modern/index.css';
 /*eslint-enable */
 
 import * as React from 'react';
@@ -59,7 +58,7 @@ export const BaseRootEditor = ({
                 <div className="RootEditorShell">
                   <Editor {...others} />
                 </div>
-                <Settings />
+                {debug ? <Settings /> : null}
                 {debug ? <DocsPlugin /> : null}
                 {debug ? <PasteLogPlugin /> : null}
                 {debug ? <TestRecorderPlugin /> : null}

@@ -11,8 +11,8 @@
   "main": "dist/legacy/index.cjs",
   "module": "dist/legacy/index.js",
   "publishConfig": {
-    "access": "restricted",
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "files": [
     "dist",
