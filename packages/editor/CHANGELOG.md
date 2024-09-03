@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.3
+
+### Patch Changes
+
+- chore: change lexical version 0.16.1 to 0.17.1
+
 ## 0.1.9-alpha.2
 
 ### Patch Changes
