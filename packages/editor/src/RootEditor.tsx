@@ -1,6 +1,7 @@
 import { InitialConfigType, LexicalComposer } from '@lexical/react/LexicalComposer';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import clsx from 'clsx';
+import { LexicalEditor } from 'lexical';
 import * as React from 'react';
 
 import { BaseRootEditor, BaseRootEditorProps } from './BaseRootEditor';
@@ -29,6 +30,10 @@ export interface RootEditorProps extends BaseRootEditorProps {
    * Callback that is called when the editor state changes.
    */
   onChangeEditorState?: EditorOnChangeFn;
+  /**
+   * Callback that is called when an error occurs.
+   */
+  onError?: (error: Error, editor: LexicalEditor) => void;
   /**
    * Template for the root editor.
    */
