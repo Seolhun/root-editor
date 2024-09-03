@@ -1,6 +1,5 @@
+import { useOpenerContext } from '@seolhun/root-ui';
 import React from 'react';
-
-import { useOpenerContext } from '~/context/floating';
 
 import { useDropdownContext } from './Dropdown.Context';
 

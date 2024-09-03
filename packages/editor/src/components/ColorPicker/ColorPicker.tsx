@@ -159,7 +159,7 @@ interface MoveWrapperProps {
 const MoveWrapper = React.forwardRef<HTMLDivElement, MoveWrapperProps>(
   ({ className, children, onChange, style }, ref) => {
     const divRef = useRef<HTMLDivElement>(null);
-    const mergedRef = useMergeRefs([ref, divRef]);
+    const mergedRef = useMergeRefs(ref, divRef);
     const draggedRef = useRef(false);
 
     const move = (e: MouseEvent | React.MouseEvent): void => {
