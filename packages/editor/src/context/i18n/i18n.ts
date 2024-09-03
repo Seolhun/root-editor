@@ -9,7 +9,7 @@ export function createI18n(language: string, resources?: i18nResource) {
   i18n.use(initReactI18next).init({
     debug: false,
     defaultNS: 'common',
-    fallbackLng: language,
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },
