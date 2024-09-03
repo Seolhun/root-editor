@@ -1,0 +1,14 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "nextjs-app-router-tester": "0.1.0",
+    "react-app-tester": "0.1.0",
+    "@seolhun/root-eslint": "0.0.1",
+    "@seolhun/root-tsconfig": "0.0.1",
+    "@seolhun/root-editor": "0.1.8"
+  },
+  "changesets": [
+    "modern-paws-jog"
+  ]
+}

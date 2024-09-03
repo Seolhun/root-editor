@@ -6,7 +6,7 @@
     "url": "https://github.com/Seolhun"
   },
   "name": "@seolhun/root-editor",
-  "version": "0.1.8",
+  "version": "0.1.9-alpha.0",
   "types": "dist/legacy/index.d.ts",
   "main": "dist/legacy/index.js",
   "module": "dist/legacy/index.mjs",

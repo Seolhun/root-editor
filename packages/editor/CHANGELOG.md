@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.0
+
+### Patch Changes
+
+- fix: i18n instance creation to protect global i18n instance side-effect
+
 ## 0.1.8
 
 ### Patch Changes
