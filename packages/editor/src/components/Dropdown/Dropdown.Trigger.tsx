@@ -11,7 +11,7 @@ export interface DropdownTriggerProps {
 }
 
 export const DropdownTrigger = React.forwardRef<ElementType, ElementProps & DropdownTriggerProps>(
-  ({ buttonIconClassName, children, ...others }, ref) => {
+  ({ children, buttonIconClassName, ...others }, ref) => {
     return (
       <Opener.Trigger {...others} ref={ref} type="button">
         {buttonIconClassName && <span className={buttonIconClassName} />}

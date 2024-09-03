@@ -133,8 +133,8 @@ export function InsertTableDialog({
 }
 
 export function TablePlugin({
-  cellEditorConfig,
   children,
+  cellEditorConfig,
 }: {
   cellEditorConfig: CellEditorConfig;
   children: Array<JSX.Element> | JSX.Element;

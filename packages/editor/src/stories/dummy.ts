@@ -212,7 +212,6 @@ export const dummyContent = {
             children: [
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -234,6 +233,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -244,7 +244,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -266,6 +265,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -276,7 +276,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -298,6 +297,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -308,7 +308,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -330,6 +329,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -340,7 +340,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -362,6 +361,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -381,7 +381,6 @@ export const dummyContent = {
             children: [
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -393,6 +392,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -403,7 +403,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -415,6 +414,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -425,7 +425,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -437,6 +436,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -447,7 +447,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -459,6 +458,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -469,7 +469,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -481,6 +480,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -500,7 +500,6 @@ export const dummyContent = {
             children: [
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -512,6 +511,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -522,7 +522,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -534,6 +533,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -544,7 +544,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -556,6 +555,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -566,7 +566,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -578,6 +577,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -588,7 +588,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -600,6 +599,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -619,7 +619,6 @@ export const dummyContent = {
             children: [
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -631,6 +630,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -641,7 +641,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -653,6 +652,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -663,7 +663,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -675,6 +674,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -685,7 +685,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -697,6 +696,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -707,7 +707,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -719,6 +718,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -738,7 +738,6 @@ export const dummyContent = {
             children: [
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -750,6 +749,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -760,7 +760,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -772,6 +771,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -782,7 +782,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -794,6 +793,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -804,7 +804,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -816,6 +815,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
@@ -826,7 +826,6 @@ export const dummyContent = {
               },
               {
                 type: 'tablecell',
-                backgroundColor: null,
                 children: [
                   {
                     type: 'paragraph',
@@ -838,6 +837,7 @@ export const dummyContent = {
                     version: 1,
                   },
                 ],
+                backgroundColor: null,
                 colSpan: 1,
                 direction: null,
                 format: '',
