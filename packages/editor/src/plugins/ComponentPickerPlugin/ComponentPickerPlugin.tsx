@@ -1,3 +1,4 @@
+import { autoPlacement, FloatingPortal, offset, shift, useFloating } from '@floating-ui/react';
 import { $createCodeNode } from '@lexical/code';
 import { INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND } from '@lexical/list';
 import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
@@ -17,7 +18,6 @@ import {
   TextNode,
 } from 'lexical';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 import { EditorClasses } from '~/Editor.theme';
 import { useModal } from '~/hooks/useModal';
@@ -79,40 +79,52 @@ export function ComponentPickerPlugin({ floatingAnchor }: ComponentPickerPluginP
     [editor],
   );
 
+  const { refs, strategy, x, y } = useFloating({
+    middleware: [offset(15), autoPlacement(), shift()],
+    placement: 'bottom',
+  });
+
   return (
     <>
       <LexicalTypeaheadMenuPlugin<ComponentPickerOption>
         menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
-          const isEmpty = !options.length;
-          if (isEmpty) {
-            return null;
-          }
-          if (!anchorElementRef.current) {
-            return null;
-          }
-
-          return ReactDOM.createPortal(
-            <div className={clsx(EditorClasses.componentPicker, 'typeahead-popover component-picker-menu')}>
-              <ul>
-                {options.map((option, i: number) => (
-                  <ComponentPickerMenuItem
-                    onClick={() => {
-                      setHighlightedIndex(i);
-                      selectOptionAndCleanUp(option);
-                    }}
-                    onMouseEnter={() => {
-                      setHighlightedIndex(i);
-                    }}
-                    index={i}
-                    isSelected={selectedIndex === i}
-                    key={option.key}
-                    option={option}
-                  />
-                ))}
-              </ul>
-            </div>,
-            anchorElementRef.current,
+          return (
+            <FloatingPortal root={anchorElementRef}>
+              <div
+                style={{
+                  left: x ?? 0,
+                  position: strategy,
+                  top: y ?? 0,
+                  width: 'max-content',
+                }}
+                className={clsx(EditorClasses.componentPicker, 'typeahead-popover component-picker-menu')}
+                ref={refs.setFloating}
+              >
+                <ul className="min-h-96">
+                  {options.map((option, i: number) => (
+                    <ComponentPickerMenuItem
+                      onClick={() => {
+                        setHighlightedIndex(i);
+                        selectOptionAndCleanUp(option);
+                      }}
+                      onMouseEnter={() => {
+                        setHighlightedIndex(i);
+                      }}
+                      index={i}
+                      isSelected={selectedIndex === i}
+                      key={option.key}
+                      option={option}
+                    />
+                  ))}
+                </ul>
+              </div>
+            </FloatingPortal>
           );
+        }}
+        onOpen={(r) => {
+          refs.setReference({
+            getBoundingClientRect: r.getRect,
+          });
         }}
         onQueryChange={setQueryString}
         onSelectOption={onSelectOption}

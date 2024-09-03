@@ -1,3 +1,4 @@
+import { autoPlacement, FloatingPortal, offset, shift, useFloating } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   LexicalTypeaheadMenuPlugin,
@@ -6,9 +7,8 @@ import {
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import clsx from 'clsx';
 import { TextNode } from 'lexical';
-import { useCallback, useState } from 'react';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { useCallback, useState } from 'react';
 
 import { EditorClasses } from '~/Editor.theme';
 import { $createMentionNode } from '~/nodes/MentionNode';
@@ -83,6 +83,11 @@ export function MentionPlugin({
     [checkForSlashTriggerMatch, editor],
   );
 
+  const { refs, strategy, x, y } = useFloating({
+    middleware: [offset(15), autoPlacement(), shift()],
+    placement: 'bottom',
+  });
+
   return (
     <LexicalTypeaheadMenuPlugin<MentionOption>
       menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
@@ -90,37 +95,50 @@ export function MentionPlugin({
         if (isEmpty) {
           return null;
         }
-        if (!anchorElementRef.current) {
-          return null;
-        }
 
-        return ReactDOM.createPortal(
-          <div className={clsx('typeahead-popover', EditorClasses.mention)}>
-            <ul className={EditorClasses.mentionList}>
-              {mentionOptions.map((option, i: number) => {
-                if (renderMentionOption) {
-                  return renderMentionOption(option, i);
-                }
-                return (
-                  <MentionsTypeaheadMenuItem
-                    onClick={() => {
-                      setHighlightedIndex(i);
-                      selectOptionAndCleanUp(option);
-                    }}
-                    onMouseEnter={() => {
-                      setHighlightedIndex(i);
-                    }}
-                    index={i}
-                    isSelected={selectedIndex === i}
-                    key={option.key}
-                    option={option}
-                  />
-                );
-              })}
-            </ul>
-          </div>,
-          anchorElementRef.current,
+        return (
+          <FloatingPortal root={anchorElementRef}>
+            <div
+              style={{
+                left: x ?? 0,
+                position: strategy,
+                top: y ?? 0,
+                width: 'max-content',
+              }}
+              ref={refs.setFloating}
+            >
+              <div className={clsx('typeahead-popover', EditorClasses.mention)}>
+                <ul className={EditorClasses.mentionList}>
+                  {mentionOptions.map((option, i: number) => {
+                    if (renderMentionOption) {
+                      return renderMentionOption(option, i);
+                    }
+                    return (
+                      <MentionsTypeaheadMenuItem
+                        onClick={() => {
+                          setHighlightedIndex(i);
+                          selectOptionAndCleanUp(option);
+                        }}
+                        onMouseEnter={() => {
+                          setHighlightedIndex(i);
+                        }}
+                        index={i}
+                        isSelected={selectedIndex === i}
+                        key={option.key}
+                        option={option}
+                      />
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </FloatingPortal>
         );
+      }}
+      onOpen={(r) => {
+        refs.setReference({
+          getBoundingClientRect: r.getRect,
+        });
       }}
       onQueryChange={setQueryString}
       onSelectOption={onSelectOption}

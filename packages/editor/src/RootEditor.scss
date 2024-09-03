@@ -15,6 +15,7 @@
       display: block;
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
+      @apply border border-neutral-3 rounded-lg min-h-200;
 
       &.TreeView {
         border-radius: 0;
@@ -28,8 +29,10 @@
       @apply bg-cream-1 dark:bg-space-1;
     }
 
+
     .EditorScroller {
-      min-height: 150px;
+      @apply min-h-200;
+      height: 100%;
       border: 0;
       display: flex;
       position: relative;
@@ -40,10 +43,26 @@
     }
 
     .Editor {
+      height: 100%;
       flex: auto;
       position: relative;
       resize: vertical;
       z-index: -1;
+    }
+
+    .RootEditor__ContentEditable {
+      @apply min-h-200;
+      border: 0;
+      font-size: 15px;
+      display: block;
+      position: relative;
+      outline: 0;
+      padding: 8px 28px 40px;
+
+      @media (max-width: 1025px) {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
     }
   }
 

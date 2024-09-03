@@ -1,13 +1,14 @@
+import { autoPlacement, FloatingPortal, offset, shift, useFloating } from '@floating-ui/react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   LexicalTypeaheadMenuPlugin,
   MenuOption,
   useBasicTypeaheadTriggerMatch,
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
+import clsx from 'clsx';
 import { $createTextNode, $getSelection, $isRangeSelection, TextNode } from 'lexical';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 class EmojiOption extends MenuOption {
   emoji: string;
@@ -139,6 +140,11 @@ export function EmojiPickerPlugin({ floatingAnchor }: EmojiPickerPluginProps) {
     [editor],
   );
 
+  const { refs, strategy, x, y } = useFloating({
+    middleware: [offset(15), autoPlacement(), shift()],
+    placement: 'bottom',
+  });
+
   return (
     <LexicalTypeaheadMenuPlugin
       menuRenderFn={(anchorElementRef, { selectOptionAndCleanUp, selectedIndex, setHighlightedIndex }) => {
@@ -146,32 +152,45 @@ export function EmojiPickerPlugin({ floatingAnchor }: EmojiPickerPluginProps) {
         if (isEmpty) {
           return null;
         }
-        if (!anchorElementRef.current) {
-          return null;
-        }
 
-        return ReactDOM.createPortal(
-          <div className="typeahead-popover emoji-menu">
-            <ul>
-              {options.map((option: EmojiOption, index) => (
-                <EmojiMenuItem
-                  onClick={() => {
-                    setHighlightedIndex(index);
-                    selectOptionAndCleanUp(option);
-                  }}
-                  onMouseEnter={() => {
-                    setHighlightedIndex(index);
-                  }}
-                  index={index}
-                  isSelected={selectedIndex === index}
-                  key={option.key}
-                  option={option}
-                />
-              ))}
-            </ul>
-          </div>,
-          anchorElementRef.current,
+        return (
+          <FloatingPortal root={anchorElementRef}>
+            <div
+              style={{
+                left: x ?? 0,
+                position: strategy,
+                top: y ?? 0,
+                width: 'max-content',
+              }}
+              ref={refs.setFloating}
+            >
+              <div className={clsx('typeahead-popover emoji-menu')}>
+                <ul>
+                  {options.map((option: EmojiOption, index) => (
+                    <EmojiMenuItem
+                      onClick={() => {
+                        setHighlightedIndex(index);
+                        selectOptionAndCleanUp(option);
+                      }}
+                      onMouseEnter={() => {
+                        setHighlightedIndex(index);
+                      }}
+                      index={index}
+                      isSelected={selectedIndex === index}
+                      key={option.key}
+                      option={option}
+                    />
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </FloatingPortal>
         );
+      }}
+      onOpen={(r) => {
+        refs.setReference({
+          getBoundingClientRect: r.getRect,
+        });
       }}
       onQueryChange={setQueryString}
       onSelectOption={onSelectOption}
