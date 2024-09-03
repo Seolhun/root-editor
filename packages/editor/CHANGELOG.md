@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.4
+
+### Patch Changes
+
+- feat: add onError handler
+
 ## 0.1.9-alpha.3
 
 ### Patch Changes
