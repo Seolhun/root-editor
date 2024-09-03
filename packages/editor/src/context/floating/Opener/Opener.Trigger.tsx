@@ -14,9 +14,11 @@ export const OpenerTrigger = React.forwardRef<ElementType, ElementProps>(({ clas
 
   return (
     <button
+      {...props}
       className={clsx(className, 'Opener__Trigger')}
       data-state={contextValues?.open ? 'open' : 'closed'}
       ref={mergedRef}
+      type="button"
       {...contextValues?.getReferenceProps(props)}
     >
       {children}

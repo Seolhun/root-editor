@@ -14,12 +14,10 @@ export interface DropdownTriggerProps {
 export const DropdownTrigger = React.forwardRef<ElementType, ElementProps & DropdownTriggerProps>(
   ({ buttonIconClassName, children, ...others }, ref) => {
     return (
-      <Opener.Trigger>
-        <button {...others} ref={ref} type="button">
-          {buttonIconClassName && <span className={buttonIconClassName} />}
-          {children && <span className="text dropdown-button-text">{children}</span>}
-          <ChevronDownIcon className={clsx('size-8')} />
-        </button>
+      <Opener.Trigger {...others} ref={ref} type="button">
+        {buttonIconClassName && <span className={buttonIconClassName} />}
+        {children && <span className="text dropdown-button-text">{children}</span>}
+        <ChevronDownIcon className={clsx('size-8')} />
       </Opener.Trigger>
     );
   },
