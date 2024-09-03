@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.8
+
+### Patch Changes
+
+- chore: change private to public
+
 ## 0.1.7
 
 ### Patch Changes
