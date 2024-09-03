@@ -7,12 +7,13 @@ import { i18nResource } from './i18n.types';
 export function createI18n(language: string, resources?: i18nResource) {
   const i18n = i18next.createInstance();
   i18n.use(initReactI18next).init({
+    debug: false,
+    defaultNS: 'common',
     fallbackLng: language,
     interpolation: {
       escapeValue: false,
     },
     lng: language,
-    ns: 'translation',
     resources: {
       ...resources,
       ...DEFAULT_I18N_RESOURCES,

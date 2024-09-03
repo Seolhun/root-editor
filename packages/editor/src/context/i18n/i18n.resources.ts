@@ -2,7 +2,7 @@ import { i18nResource } from './i18n.types';
 
 export const DEFAULT_I18N_RESOURCES: i18nResource = {
   en: {
-    translation: {
+    common: {
       add: 'Add',
       cancel: 'Cancel',
       clear: 'Clear',
