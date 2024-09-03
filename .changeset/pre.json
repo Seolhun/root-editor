@@ -9,6 +9,7 @@
     "@seolhun/root-editor": "0.1.8"
   },
   "changesets": [
+    "curvy-balloons-switch",
     "modern-paws-jog",
     "silly-lions-try"
   ]

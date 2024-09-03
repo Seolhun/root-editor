@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.2
+
+### Patch Changes
+
+- feat: add enables about ActionPlugin
+
 ## 0.1.9-alpha.1
 
 ### Patch Changes
