@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.1
+
+### Patch Changes
+
+- fix: button in button html warning and button submit type on the trigger components
+
 ## 0.1.9-alpha.0
 
 ### Patch Changes
