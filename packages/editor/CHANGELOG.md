@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.6
+
+### Patch Changes
+
+- refactor: update typehead plugin using floating-ui
+
 ## 0.1.9-alpha.5
 
 ### Patch Changes
