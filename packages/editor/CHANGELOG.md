@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.5
+
+### Patch Changes
+
+- chore: update @seolhun packages to fix floating issues using root-ui
+
 ## 0.1.9-alpha.4
 
 ### Patch Changes
