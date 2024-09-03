@@ -394,11 +394,11 @@ importers:
         specifier: 0.17.1
         version: 0.17.1
       '@seolhun/root-ui':
-        specifier: ^0.8.8-alpha.8
-        version: 0.8.8-alpha.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
+        specifier: 0.8.9-alpha.8
+        version: 0.8.9-alpha.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
       '@seolhun/root-ui-tailwind':
-        specifier: ^0.8.8-alpha.8
-        version: 0.8.8-alpha.8(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
+        specifier: 0.8.9-alpha.0
+        version: 0.8.9-alpha.0(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -2603,8 +2603,21 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0'
 
+  '@seolhun/root-ui-tailwind@0.8.9-alpha.0':
+    resolution: {integrity: sha512-UrtwjcptDOLYpzKUOHUt7j6xqmUm72YqVNPYPlv0+KldZu5TUtRsWTa6uihyUCpC8sgTsr1oVmMFO5MiINlHMQ==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0'
+
   '@seolhun/root-ui@0.8.8-alpha.8':
     resolution: {integrity: sha512-hn5yyBKoqb6QsK12Ej4nCov0bmAtOrpSYfcNutj/iJaoSfVNlS+pOldyBRndkLtg1ZMDu9nd62ADfqs7AvXiDQ==, tarball: https://npm.pkg.github.com/download/@seolhun/root-ui/0.8.8-alpha.8/e51283375b8a0bbe84dc361045aaabc372a0a61c}
+    engines: {node: '>= 16.0.0', npm: '>= 6.0.0'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+      tailwindcss: '>=3.0.0'
+
+  '@seolhun/root-ui@0.8.9-alpha.8':
+    resolution: {integrity: sha512-U3Wt9CEHjUFzcuO6h1SntikLbCnIWcoQn4KG/F6S2KUaOBvhXIUsmWBgi0Te8s6osVYbVstL7Nq/qB5Bpj7Vtg==}
     engines: {node: '>= 16.0.0', npm: '>= 6.0.0'}
     peerDependencies:
       react: '>=18.0.0'
@@ -9252,6 +9265,15 @@ packages:
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
+  tailwind-merge@2.5.2:
+    resolution: {integrity: sha512-kjEBm+pvD+6eAwzJL2Bi+02/9LFLal1Gs61+QB7HvTfQQ0aXwC5LGT8PEt1gS0CWKktKe6ysPTAy3cBC5MeiIg==}
+
+  tailwind-variants@0.2.1:
+    resolution: {integrity: sha512-2xmhAf4UIc3PijOUcJPA1LP4AbxhpcHuHM2C26xM0k81r0maAO6uoUSHl3APmvHZcY5cZCY/bYuJdfFa4eGoaw==}
+    engines: {node: '>=16.x', pnpm: '>=7.x'}
+    peerDependencies:
+      tailwindcss: '*'
+
   tailwindcss@3.4.4:
     resolution: {integrity: sha512-ZoyXOdJjISB7/BcLTR6SEsLgKtDStYyYZVLsUtWChO4Ps20CBad7lfJKVDiejocV4ME1hLmyY0WJE3hSDcmQ2A==}
     engines: {node: '>=14.0.0'}
@@ -12829,6 +12851,13 @@ snapshots:
       lodash-es: 4.17.21
       tailwindcss: 3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3))
 
+  '@seolhun/root-ui-tailwind@0.8.9-alpha.0(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))':
+    dependencies:
+      '@fxts/core': 1.0.0
+      color: 4.2.3
+      lodash-es: 4.17.21
+      tailwindcss: 3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3))
+
   '@seolhun/root-ui@0.8.8-alpha.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@16.18.101)(typescript@5.3.3)))':
     dependencies:
       '@floating-ui/react': 0.26.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -12859,6 +12888,24 @@ snapshots:
       lodash-es: 4.17.21
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+      tailwindcss: 3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3))
+    transitivePeerDependencies:
+      - '@emotion/is-prop-valid'
+
+  '@seolhun/root-ui@0.8.9-alpha.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))':
+    dependencies:
+      '@floating-ui/react': 0.26.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@fxts/core': 1.0.0
+      '@headlessui/react': 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@seolhun/root-ui-tailwind': 0.8.9-alpha.0(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
+      '@tanstack/react-virtual': 3.8.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      clsx: 1.2.1
+      color: 4.2.3
+      framer-motion: 11.2.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      lodash-es: 4.17.21
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tailwind-variants: 0.2.1(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3)))
       tailwindcss: 3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3))
     transitivePeerDependencies:
       - '@emotion/is-prop-valid'
@@ -21417,6 +21464,13 @@ snapshots:
       tslib: 2.6.3
 
   tabbable@6.2.0: {}
+
+  tailwind-merge@2.5.2: {}
+
+  tailwind-variants@0.2.1(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3))):
+    dependencies:
+      tailwind-merge: 2.5.2
+      tailwindcss: 3.4.4(ts-node@10.9.2(@types/node@20.12.5)(typescript@5.3.3))
 
   tailwindcss@3.4.4(ts-node@10.9.2(@types/node@16.18.101)(typescript@5.3.3)):
     dependencies:

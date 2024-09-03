@@ -1,8 +1,7 @@
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { Opener } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import React from 'react';
-
-import { Opener } from '~/context/floating';
 
 type ElementType = HTMLButtonElement;
 type ElementProps = React.ButtonHTMLAttributes<ElementType>;

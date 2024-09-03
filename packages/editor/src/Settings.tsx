@@ -1,10 +1,10 @@
 import { CAN_USE_BEFORE_INPUT } from '@lexical/utils';
+import { Opener } from '@seolhun/root-ui';
 import clsx from 'clsx';
 import * as React from 'react';
 
 import { INITIAL_SETTINGS } from './Editor.settings';
 import { EditorClasses } from './Editor.theme';
-import { Opener } from './context/floating';
 import { useSettings } from './context/settings';
 import Switch from './ui/Switch';
 

@@ -1,6 +1,7 @@
+import { Opener, OpenerOptions } from '@seolhun/root-ui';
 import React from 'react';
 
-import { Opener, OpenerOptions, useFloatingAreaContext } from '~/context/floating';
+import { useFloatingAreaContext } from '~/context/floating';
 import { ElementRef } from '~/types';
 
 import { DropdownContextProvider } from './Dropdown.Context';
