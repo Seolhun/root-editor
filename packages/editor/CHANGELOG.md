@@ -1,5 +1,11 @@
 # @seolhun/root-editor
 
+## 0.1.9-alpha.7
+
+### Patch Changes
+
+- chore: update packages dependencies to make the lexical external
+
 ## 0.1.9-alpha.6
 
 ### Patch Changes

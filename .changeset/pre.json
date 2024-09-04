@@ -9,6 +9,7 @@
     "@seolhun/root-editor": "0.1.8"
   },
   "changesets": [
+    "angry-berries-turn",
     "curvy-balloons-switch",
     "heavy-melons-serve",
     "lazy-sheep-sparkle",
