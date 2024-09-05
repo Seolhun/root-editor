@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
+      PUBLIC_NPM_TOKEN: ${{secrets.PUBLIC_NPM_TOKEN}}
 
     steps:
       - name: Checkout
