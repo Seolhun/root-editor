@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "name": "@seolhun/root-eslint",
   "version": "0.0.1",
   "main": "index.js",
