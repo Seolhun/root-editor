@@ -1,5 +1,20 @@
 # @seolhun/root-editor
 
+## 0.1.9
+
+### Patch Changes
+
+- 86c4195: chore: update packages dependencies to make the lexical external
+- b9f6b76: feat: add enables about ActionPlugin
+- 80e17da: chore: update react version 18.3.1
+- 300bc24: chore: update @seolhun packages to fix floating issues using root-ui
+- 8a1c777: refactor: update typehead plugin using floating-ui
+- 7397c57: chore: update react version
+- 8511e59: fix: i18n instance creation to protect global i18n instance side-effect
+- 90f6260: feat: add onError handler
+- b910800: fix: button in button html warning and button submit type on the trigger components
+- 29749fe: chore: change lexical version 0.16.1 to 0.17.1
+
 ## 0.1.9-alpha.7
 
 ### Patch Changes
