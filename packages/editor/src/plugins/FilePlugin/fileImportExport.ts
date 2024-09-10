@@ -2,7 +2,7 @@ import type { EditorState, LexicalEditor, SerializedEditorState } from 'lexical'
 
 import { CLEAR_HISTORY_COMMAND } from 'lexical';
 
-import { version } from '../../../../../package.json';
+import { version } from '../../../package.json';
 
 export interface SerializedDocument {
   /** The serialized editorState produced by editorState.toJSON() */
